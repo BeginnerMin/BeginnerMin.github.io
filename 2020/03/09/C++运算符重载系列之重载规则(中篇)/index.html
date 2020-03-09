@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="linux 分区与目录, SkilledBeginner">
+    <meta name="keywords" content="C++运算符重载系列之重载规则(中篇), SkilledBeginner">
     <meta name="description" content="努力做一个很厉害的人">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>linux 分区与目录 | SkilledBeginner</title>
+    <title>C++运算符重载系列之重载规则(中篇) | SkilledBeginner</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -306,12 +306,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/19.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/15.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">linux 分区与目录</h1>
+                    <h1 class="description center-align post-title">C++运算符重载系列之重载规则(中篇)</h1>
                 </div>
             </div>
         </div>
@@ -428,8 +428,8 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/linux-%E5%9F%BA%E7%A1%80/">
-                                <span class="chip bg-color">linux 基础</span>
+                            <a href="/tags/%E8%BF%90%E7%AE%97%E7%AC%A6%E9%87%8D%E8%BD%BD/">
+                                <span class="chip bg-color">运算符重载</span>
                             </a>
                         
                     </div>
@@ -440,8 +440,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/Linux/" class="post-category">
-                                Linux
+                            <a href="/categories/C/" class="post-category">
+                                C++
                             </a>
                         
                     </div>
@@ -467,14 +467,14 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    1k
+                    2.3k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    3 分
+                    10 分
                 </div>
                 
 
@@ -490,92 +490,411 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="分区与目录"><a href="#分区与目录" class="headerlink" title="分区与目录"></a>分区与目录</h2><h3 id="分区"><a href="#分区" class="headerlink" title="分区"></a>分区</h3><ul>
-<li><p>Linux硬盘的分区主要分为<strong>主分区</strong>（primary partion）和<strong>扩展分区</strong>(extension partion)两种，<strong>主分区和扩展分区的 数目之和不能大于四个</strong>。</p>
-</li>
-<li><p><strong>主分区可以马上被使用但不能再分区</strong>。</p>
-</li>
-<li><p><strong>扩展分区必须再进行二次分区后才能使用</strong>，扩展分区进行二次分区后， 叫做逻辑分区（logical partion）， <strong>逻辑分区没有数量上限制</strong>。</p>
-<h3 id="磁盘文件"><a href="#磁盘文件" class="headerlink" title="磁盘文件"></a>磁盘文件</h3><p>Linux中一个硬盘就是一个文件，存放/dev目录下面，IDE硬盘命名为hdx（x为从a—d， 一般电脑的IDE硬盘 最多四个）。 SCSI，SATA，USB硬盘等，在/dev/目录下被命名为sdx（x为a—z）</p>
-<p>比如SCSI硬盘，主分区从sda1开始到sda4，逻辑分区从sda5开始，（逻辑分区永远从sda5开始…） </p>
-</li>
-</ul>
-<p>设备名可以使用fdisk –l查看<br>命令：:<code>sudo fdisk ‐l</code></p>
-<p>交换分区的作用就是当内存不够实用的时候，把一些不常用的进程交换到分区磁盘分区，节省出内存空间。</p>
-<p><img src="https://img-blog.csdnimg.cn/20200226235346727.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="磁盘分区"></p>
-<p>可以看到这个硬盘文件/dev/sda大小为42.9G, 并且它被分成一个主分区/dev/sda1, 一个扩展分区/dev/sda2, 扩展分区又分成一个逻辑分区 /dev/sda5。</p>
-<h3 id="目录结构"><a href="#目录结构" class="headerlink" title="目录结构"></a>目录结构</h3><p>Linux中采用的是树形结构目录。<br> <img src="https://img-blog.csdnimg.cn/20200226235424797.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="目录结构"></p>
-<ul>
-<li><code>/</code> 根目录</li>
-<li></li>
-<li><code>/bin</code>  binary   二进制可执行文件基础系统所需要的命令位于此目录，是最小系统所需要的命令，如：ls， cp， cd等等。这个目录中的文 件都是可执行的，一般的用户都可以使用。</li>
-<li><ul>
-<li><code>/dev</code> 设备文件，比如声卡、磁盘、鼠标、键盘等。</li>
-<li></li>
-</ul>
-</li>
-<li><code>/etc</code> 系统管理和配置文件，vim的配置就放在etc目录下面</li>
-<li><ul>
-<li><code>/etc/init.d</code> 启动配置文件和脚本,可在这里添加启动脚本。</li>
-<li></li>
-<li><code>/etc/rc.local</code> 用户添加启动项</li>
-<li></li>
-<li><code>/home</code> 用户主目录，比如用户user的主目录就是/home/user，可用~user表示</li>
-<li><ul>
-<li><code>/lib</code> 标准程序设计库存放路径，又叫动态链接共享库，作用类似windows里的.dll文件，Linux动态库以so结尾</li>
-<li></li>
-</ul>
-</li>
-<li><code>/sbin</code> 超级管理命令，这里存放的是系统管理员使用的管理程序。</li>
-<li></li>
-<li><code>/tmp</code> 临时文件目录，有时用户运行程序的时候，会产生临时文件。</li>
-<li><code>/tmp</code>就用来存放临时文件的。tmp目录里面的数据不会进行保存，一旦开机重启就会丢失。</li>
-<li><ul>
-<li><code>/root</code> 系统管理员的主目录</li>
-<li></li>
-<li><code>/mnt</code> 用来临时挂载其他的文件系统 </li>
-<li></li>
-<li><code>/lost+found</code> 这个目录平时是空的，系统意外崩溃或机器意外关机，而产生一些文件碎片放在这里。当系统启 动的过程中fsck工具会检查这里，并修复已经损坏的文件系统。</li>
-<li></li>
-</ul>
-</li>
-<li><code>/media</code> 即插即用型存储设备的挂载点自动在这个目录下创建，比如USB盘系统自动挂载后，会在 这个目 录下产生一个目录 </li>
-<li></li>
-</ul>
-</li>
-<li><code>/proc</code> 虚拟文件目录，可直接访问这个目录来获取系统信息。 </li>
-<li><ul>
-<li><code>/var</code> 有服务的登录文件或错误讯息档案（log files）都在 /var/log 里面 </li>
-<li></li>
-<li><code>/boot</code> 包含Linux内核及系统引导程序所需要的文件，比如 vmlinuz initrd.img 文件都位于这个目录中。在一 般情况下，GRUB或LILO系统引导管理器也位于这个目录；</li>
-<li><em>所启动的Linux内核为：*</em><br><img src="https://img-blog.csdnimg.cn/20200227000705890.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="内核文件查看"></li>
-</ul>
-</li>
-</ul>
-<ul>
-<li><code>/usr</code>最庞大的目录，要用到的应用程序和文件几乎都在这个目录，其中包含：<ul>
-<li><code>/usr/bin</code> 众多的应用程序</li>
-<li><code>/usr/sbin</code> 超级用户的一些管理程序</li>
-</ul>
-</li>
-<li><code>/usr/include</code> Linux下开发和编译应用程序所需要的头文件<ul>
-<li><code>/usr/lib</code> 常用的动态链接库</li>
-</ul>
-</li>
-<li><code>/usr/share/man</code> 帮助文档 <ul>
-<li><code>/usr/src</code> 源代码，Linux内核的源代码就放在/usr/src/Linux里 </li>
-<li><code>/usr/local/bin</code> 本地增加的命令</li>
-<li><code>/usr/local/lib</code> 本地增加的库根文件系统</li>
-<li></li>
-<li><code>.</code> 代表当前路径。</li>
-</ul>
-</li>
-</ul>
-<ul>
-<li><code>..</code> 代表上一级目录。 ~ 代表用户目录路径。</li>
-<li><code>~</code> 代表用户目录路径。</li>
-</ul>
+                <h2 id="重载规则"><a href="#重载规则" class="headerlink" title="重载规则"></a>重载规则</h2><h3 id="可被重载的操作符"><a href="#可被重载的操作符" class="headerlink" title="可被重载的操作符"></a>可被重载的操作符</h3><p><img src="https://img-blog.csdnimg.cn/20200309132155879.png" alt="可被重载的操作符"></p>
+<h3 id="不能新增运算符"><a href="#不能新增运算符" class="headerlink" title="不能新增运算符"></a>不能新增运算符</h3><p>只能对已有的 C++运算符进行重载。例如，有人觉得 BASIC 中用” * * “作为幂运算符很方便，也想在 C++中将” * * “定义为幂运算符，用”3 * * 5”表示 35，这是不行的。也就是说只能重载现成的运算符不能创造运算符。</p>
+<h3 id="不能改变操作数的个数"><a href="#不能改变操作数的个数" class="headerlink" title="不能改变操作数的个数"></a>不能改变操作数的个数</h3><p>关系运算符”&gt;”和”&lt;”等是双目运算符，重载后仍为双目运算符，需要两个参数。运算符”+”，”-“，”*”，”&amp;”等既可以作为单目运算符，也可以作为双目运算符，可以分别将它们重载为单目运算符或双目运算符。</p>
+<h3 id="不改变语义"><a href="#不改变语义" class="headerlink" title="不改变语义"></a>不改变语义</h3><p>应当使重载运算符的功能类似于该运算符作用于标准类型数据时候时所实现的功能。<br>例如，我们会去重载”+”以实现对象的相加，而不会去重载”+”以实现对象相减的功能，因为这样不符合我们对”+”原来的认知。</p>
+<h3 id="至少有一个操作数是自定义类"><a href="#至少有一个操作数是自定义类" class="headerlink" title="至少有一个操作数是自定义类"></a>至少有一个操作数是自定义类</h3><p>重载的运算符必须和用户定义的自定义类型的对象一起使用，其参数至少应有一个是类对象(或类对象的引用)。<br>也就是说，参数不能全部是 C++的标准类型，以防止用户修改用于标准类型数据成员的运算符的性质，如下面这样是不对的：<br>代码如下：</p>
+<pre><code>int operator + (int a,int b)
+{
+return(a-b);
+}</code></pre><p>上面的参数没有自定义类型，那么就是对于原有的+运算规则进行修改，这是不允许的。原来运算符+的作用是对两个数相加，现在企图通过重载使它的作用改为两个数相减。<br>如果允许这样重载的话，如果有表达式 4+3，它的结果是 7 还是 1 呢？显然，这是绝对要禁止的。</p>
+<h3 id="不能改变运算符的优先级"><a href="#不能改变运算符的优先级" class="headerlink" title="不能改变运算符的优先级"></a>不能改变运算符的优先级</h3><p>例如”*”和”/“优先级高于”+”和”-“，不论怎样进行重载，各运算符之间的优先级不会改变。有时在程序中希望改变某运算符的优先级，也只能使用加括号的方法强制改变重载运算符的运算顺序。</p>
+<h3 id="重载不能改变运算符的结合性。"><a href="#重载不能改变运算符的结合性。" class="headerlink" title="重载不能改变运算符的结合性。"></a>重载不能改变运算符的结合性。</h3><p>如，复制运算符”=”是右结合性(自右至左)，重载后仍为右结合性。</p>
+<h3 id="重载运算符的函数-不能有默认的参数"><a href="#重载运算符的函数-不能有默认的参数" class="headerlink" title="重载运算符的函数 不能有默认的参数"></a>重载运算符的函数 不能有默认的参数</h3><p>否则就改变了运算符参数的个数，重载是不允许改变运算符参数的个数的。</p>
+<h3 id="某些运算定律未必支持"><a href="#某些运算定律未必支持" class="headerlink" title="某些运算定律未必支持"></a>某些运算定律未必支持</h3><p>比如例如：不支持加法交换律</p>
+<h2 id="重载范例"><a href="#重载范例" class="headerlink" title="重载范例"></a>重载范例</h2><p>构造类型的重载所参考的基本就是基本类型。<br>所以我们在下面只是给出步骤和方法基本，其他的运算符重载读者可以根据方法自行推出。</p>
+<h3 id="双目例举"><a href="#双目例举" class="headerlink" title="双目例举"></a>双目例举</h3><h4 id="格式"><a href="#格式" class="headerlink" title="格式"></a>格式</h4><p><img src="https://img-blog.csdnimg.cn/2020030913242643.png" alt="格式"></p>
+<h4 id="operator"><a href="#operator" class="headerlink" title="operator+="></a>operator+=</h4><p><img src="https://img-blog.csdnimg.cn/20200309132446743.png" alt="operator+="></p>
+<h5 id="a-b-b-c"><a href="#a-b-b-c" class="headerlink" title="a += b; b += c;"></a>a += b; b += c;</h5><p>代码演示：</p>
+<pre><code>#include &lt;iostream&gt;
 
+/*
+
+a += b; b += c; a += b += c; (a += b) += c;
+*/
+using namespace std;
+
+
+class Complex
+{
+public:
+    Complex(double x = 0, double y = 0):real_(x), image_(y) {}
+    void dis()
+    {
+        cout &lt;&lt; &quot;(&quot; &lt;&lt; this-&gt;real_ &lt;&lt; &quot;,&quot; &lt;&lt; this-&gt;image_ &lt;&lt; &quot;)&quot; &lt;&lt; endl;
+    }
+
+    void operator+=(Complex&amp; another)
+    {
+        this-&gt;real_ += another.real_;
+        this-&gt;image_ += another.image_;
+    }
+private:
+    double real_;
+    float image_;
+};
+
+int main()
+{
+    int a = 10;
+    int b = 20;
+    int c = 30;
+    a += b;
+    b += c;
+    cout &lt;&lt; &quot;a:&quot; &lt;&lt; a &lt;&lt; endl;
+    cout &lt;&lt; &quot;b:&quot; &lt;&lt; b &lt;&lt; endl;
+    cout &lt;&lt; &quot;c:&quot; &lt;&lt; c &lt;&lt; endl;
+
+    Complex ca(10.0, 0), cb(20.0, 0), cc(30.0, 0);
+    ca += cb;
+    cb += ca;
+    ca.dis();
+    cb.dis();
+    cc.dis();
+return 0;
+}</code></pre><p>执行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200309132527177.png" alt="执行结果"></p>
+<h5 id="a-b-c"><a href="#a-b-c" class="headerlink" title="a += b += c;"></a>a += b += c;</h5><pre><code>#include &lt;iostream&gt;
+
+/*
+
+a += b; b += c; a += b += c; (a += b) += c;
+*/
+using namespace std;
+
+
+class Complex
+{
+public:
+    Complex(double x = 0, double y = 0):real_(x), image_(y) {}
+    void dis()
+    {
+        cout &lt;&lt; &quot;(&quot; &lt;&lt; this-&gt;real_ &lt;&lt; &quot;,&quot; &lt;&lt; this-&gt;image_ &lt;&lt; &quot;)&quot; &lt;&lt; endl;
+    }
+
+    Complex operator+=(const Complex &amp; another)
+    {
+        this-&gt;real_ += another.real_;
+        this-&gt;image_ += another.image_;
+        return *this;
+    }
+private:
+    double real_;
+    float image_;
+};
+
+int main()
+{
+    int a = 10;
+    int b = 20;
+    int c = 30;
+    a += b += c;
+
+    cout &lt;&lt; &quot;a:&quot; &lt;&lt; a &lt;&lt; endl;
+    cout &lt;&lt; &quot;b:&quot; &lt;&lt; b &lt;&lt; endl;
+    cout &lt;&lt; &quot;c:&quot; &lt;&lt; c &lt;&lt; endl;
+
+    Complex ca(10.0, 0), cb(20.0, 0), cc(30.0, 0);
+    ca += cb += cc;//等价于：ca.operator+=(cb.operator+=(cc));
+    ca.dis();
+    cb.dis();
+    cc.dis();
+return 0;
+}</code></pre><p>执行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200309132554280.png" alt="执行结果"></p>
+<h5 id="a-b-c-1"><a href="#a-b-c-1" class="headerlink" title="(a += b) += c"></a>(a += b) += c</h5><p>代码演示：</p>
+<pre><code>#include &lt;iostream&gt;
+
+/*
+
+a += b; b += c; a += b += c; (a += b) += c;
+*/
+using namespace std;
+
+
+class Complex
+{
+public:
+    Complex(double x = 0, double y = 0):real_(x), image_(y) {}
+    void dis()
+    {
+        cout &lt;&lt; &quot;(&quot; &lt;&lt; this-&gt;real_ &lt;&lt; &quot;,&quot; &lt;&lt; this-&gt;image_ &lt;&lt; &quot;)&quot; &lt;&lt; endl;
+    }
+
+    Complex &amp; operator+=(const Complex &amp; another)
+    {
+        this-&gt;real_ += another.real_;
+        this-&gt;image_ += another.image_;
+        return *this;
+    }
+private:
+    double real_;
+    float image_;
+};
+
+int main()
+{
+    int a = 10;
+    int b = 20;
+    int c = 30;
+    (a += b) += c;
+
+    cout &lt;&lt; &quot;a:&quot; &lt;&lt; a &lt;&lt; endl;
+    cout &lt;&lt; &quot;b:&quot; &lt;&lt; b &lt;&lt; endl;
+    cout &lt;&lt; &quot;c:&quot; &lt;&lt; c &lt;&lt; endl;
+
+    Complex ca(10.0, 0), cb(20.0, 0), cc(30.0, 0);
+    (ca += cb) += cc;
+    ca.dis();
+    cb.dis();
+    cc.dis();
+return 0;
+}</code></pre><p>执行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200309132620739.png" alt="执行结果"></p>
+<p>那么我们要测试最终代码是否符合所有的情况，如果全部都符合则没有问题。</p>
+<h3 id="单目运算符举例"><a href="#单目运算符举例" class="headerlink" title="单目运算符举例"></a>单目运算符举例</h3><h4 id="格式-1"><a href="#格式-1" class="headerlink" title="格式"></a>格式</h4><p><img src="https://img-blog.csdnimg.cn/20200309132727525.png" alt="格式"></p>
+<h4 id="operator-minus-负号"><a href="#operator-minus-负号" class="headerlink" title="operator- (minus)负号"></a>operator- (minus)负号</h4><p><img src="https://img-blog.csdnimg.cn/20200309132743153.png" alt="operator- (minus)负号"></p>
+<h5 id="n"><a href="#n" class="headerlink" title="-n"></a>-n</h5><p>代码演示：</p>
+<pre><code>#include &lt;iostream&gt;
+
+/*
+-n 
+-n = 10 
+- ( -n);
+*/
+using namespace std;
+
+
+class Complex
+{
+public:
+    Complex(double x = 0, double y = 0):real_(x), image_(y) {}
+    void dis()
+    {
+        cout &lt;&lt; &quot;(&quot; &lt;&lt; this-&gt;real_ &lt;&lt; &quot;,&quot; &lt;&lt; this-&gt;image_ &lt;&lt; &quot;)&quot; &lt;&lt; endl;
+    }
+    Complex operator-()
+    {
+
+        return Complex(-this-&gt;real_,-this-&gt;image_);
+    }
+
+private:
+    double real_;
+    double image_;
+};
+
+int main()
+{
+    int n = 5;
+    cout &lt;&lt; -n &lt;&lt; endl;
+    cout &lt;&lt; n &lt;&lt; endl;
+
+    Complex c(5, 0);
+    Complex cc = -c;
+    cc.dis();
+    c.dis();
+return 0;
+}</code></pre><p>执行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200309132855564.png" alt="执行结果"></p>
+<h5 id="n-1"><a href="#n-1" class="headerlink" title="-n"></a>-n</h5><pre><code>-n = 10;</code></pre><p>在普通类型里面是不允许的，那么在构造类型里面也不能存在。</p>
+<pre><code>#include &lt;iostream&gt;
+
+/*
+-n 
+- n = 10 
+- ( -n);
+*/
+using namespace std;
+
+
+class Complex
+{
+public:
+    Complex(double x = 0, double y = 0):real_(x), image_(y) {}
+    void dis()
+    {
+        cout &lt;&lt; &quot;(&quot; &lt;&lt; this-&gt;real_ &lt;&lt; &quot;,&quot; &lt;&lt; this-&gt;image_ &lt;&lt; &quot;)&quot; &lt;&lt; endl;
+    }
+    const Complex operator-()
+    {
+
+        return Complex(-this-&gt;real_,-this-&gt;image_);
+    }
+
+private:
+    double real_;
+    float image_;
+};
+
+int main()
+{
+    int n = 5;
+    cout &lt;&lt; -n &lt;&lt; endl;
+    cout &lt;&lt; n &lt;&lt; endl;
+
+    Complex c(5, 0);
+    Complex cc = -c;
+    -cc = Complex(10, 2);   //我们要让左边的表达式不成立，所以-函数的返回值为const类型
+    cc.dis();
+    c.dis();
+return 0;
+}</code></pre><h5 id="n-2"><a href="#n-2" class="headerlink" title="- ( -n);"></a>- ( -n);</h5><p>代码演示：</p>
+<pre><code>#include &lt;iostream&gt;
+
+/*
+-n;
+-n = 10;
+- ( -n);
+*/
+using namespace std;
+
+
+class Complex
+{
+public:
+    Complex(double x = 0, double y = 0):real_(x), image_(y) {}
+    void dis()
+    {
+        cout &lt;&lt; &quot;(&quot; &lt;&lt; this-&gt;real_ &lt;&lt; &quot;,&quot; &lt;&lt; this-&gt;image_ &lt;&lt; &quot;)&quot; &lt;&lt; endl;
+    }
+    const Complex operator-() const
+    {
+
+        return Complex(-this-&gt;real_,-this-&gt;image_);
+    }
+
+private:
+    double real_;
+    float image_;
+};
+
+int main()
+{
+    int n = 5;
+    cout &lt;&lt; -(-n) &lt;&lt; endl;
+    cout &lt;&lt; n &lt;&lt; endl;
+
+    Complex c(5, 0);
+    -(-c);
+    (c.operator-()).operator-();
+    c.dis();
+return 0;
+}</code></pre><p>运行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200309133004926.png" alt="执行结果"></p>
+<p>我们给出单目运算符和双目运算符的举例，读者可以根据上面方法研究其他运算符。</p>
+<p>那么我们对于上面的研究方法进行总结：</p>
+<p>①    研究主要逻辑，在普通类型定义好的运算符操作拓展到构造类型。</p>
+<p>②    研究入参参考和返回参考和函数类型。</p>
+<p>③    也就是说先实现功能，然后根据具体逻辑修改入参，返回以及函数类型使得其在功能上符合普通类型的运算。</p>
+<p>那么有两个是比较特殊的就是++操作和—操作：</p>
+<h3 id="前置"><a href="#前置" class="headerlink" title="前置++"></a>前置++</h3><h4 id="operator-1"><a href="#operator-1" class="headerlink" title="operator++()"></a>operator++()</h4><p><img src="https://img-blog.csdnimg.cn/20200309133038428.png" alt="operator++()"></p>
+<p>执行结果为：<br><img src="https://img-blog.csdnimg.cn/20200309133114935.png" alt="执行结果"></p>
+<p><strong>那么这里会涉及匿名对象：非const匿名可以被赋值，匿名对象也可以发起成员调用。</strong></p>
+<h3 id="后置"><a href="#后置" class="headerlink" title="后置++"></a>后置++</h3><p>为了区别前加加和后加加，引入了哑元的概念，引入哑元(增加了入参的方式，在调用<br>时并不要传任何的参数)，仅仅为了区分，并无其它意义。</p>
+<h4 id="operator-int"><a href="#operator-int" class="headerlink" title="operator++(int)"></a>operator++(int)</h4><p><img src="https://img-blog.csdnimg.cn/20200309133141173.png" alt="operator++(int)"></p>
+<h5 id="a"><a href="#a" class="headerlink" title="a++"></a>a++</h5><pre><code>#include &lt;iostream&gt;
+
+/*
+cout&lt;&lt; ++a; cout&lt;&lt;a; 
+++a =10 
+++++a;
+*/
+using namespace std;
+
+
+class Complex
+{
+public:
+    Complex(double x = 0, double y = 0):real_(x), image_(y) {}
+    void dis()
+    {
+        cout &lt;&lt; &quot;(&quot; &lt;&lt; this-&gt;real_ &lt;&lt; &quot;,&quot; &lt;&lt; this-&gt;image_ &lt;&lt; &quot;)&quot; &lt;&lt; endl;
+    }
+
+    Complex  operator++(int)
+    {
+        Complex r(*this);
+        cout &lt;&lt; &quot;a++&quot; &lt;&lt; endl;
+        this-&gt;real_++;
+        this-&gt;image_++;
+        return r;
+    }
+private:
+    double real_;
+    float image_;
+};
+
+int main()
+{
+    int n = 5;
+    cout &lt;&lt; n++ &lt;&lt; endl;
+    cout &lt;&lt; n &lt;&lt; endl;
+
+
+
+    Complex c(10, 0);
+    (c++).dis();
+    c.dis();
+
+return 0;
+}</code></pre><p>执行结果为：<br><img src="https://img-blog.csdnimg.cn/20200309133251116.png" alt="执行结果"></p>
+<h5 id="a-1"><a href="#a-1" class="headerlink" title="a++++;"></a>a++++;</h5><pre><code>int main()
+{
+    int n = 5;
+    cout &lt;&lt; n++++ &lt;&lt; endl;
+    cout &lt;&lt; n &lt;&lt; endl;  
+ return 0;
+}
+
+cout &lt;&lt; n++++ &lt;&lt; endl;</code></pre><p>  会直接报错。<br>所以我们也不允许在构造类型里面使用n++++</p>
+<pre><code>#include &lt;iostream&gt;
+
+/*
+cout&lt;&lt; ++a; cout&lt;&lt;a; 
+++a =10 
+++++a;
+*/
+using namespace std;
+
+
+class Complex
+{
+public:
+    Complex(double x = 0, double y = 0):real_(x), image_(y) {}
+    void dis()
+    {
+        cout &lt;&lt; &quot;(&quot; &lt;&lt; this-&gt;real_ &lt;&lt; &quot;,&quot; &lt;&lt; this-&gt;image_ &lt;&lt; &quot;)&quot; &lt;&lt; endl;
+    }
+
+    const Complex  operator++(int)
+    {
+        Complex r(*this);
+        cout &lt;&lt; &quot;a++&quot; &lt;&lt; endl;
+        this-&gt;real_++;
+        this-&gt;image_++;
+        return r;
+    }
+private:
+    double real_;
+    float image_;
+};
+
+int main()
+{
+    int n = 5;
+    cout &lt;&lt; n++ &lt;&lt; endl;
+    cout &lt;&lt; n &lt;&lt; endl;
+
+
+
+    Complex c(10, 0);
+    (c++++).dis(); //这种情况下是不允许的，系统报错
+    c.dis();
+
+return 0;
+}</code></pre>
             </div>
             <hr/>
 
@@ -600,7 +919,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://www.teachermin.com/2020/03/09/%E5%88%86%E5%8C%BA%E4%B8%8E%E7%9B%AE%E5%BD%95/">http://www.teachermin.com/2020/03/09/%E5%88%86%E5%8C%BA%E4%B8%8E%E7%9B%AE%E5%BD%95/</a>
+                    <a href="http://www.teachermin.com/2020/03/09/C++%E8%BF%90%E7%AE%97%E7%AC%A6%E9%87%8D%E8%BD%BD%E7%B3%BB%E5%88%97%E4%B9%8B%E9%87%8D%E8%BD%BD%E8%A7%84%E5%88%99(%E4%B8%AD%E7%AF%87)/">http://www.teachermin.com/2020/03/09/C++%E8%BF%90%E7%AE%97%E7%AC%A6%E9%87%8D%E8%BD%BD%E7%B3%BB%E5%88%97%E4%B9%8B%E9%87%8D%E8%BD%BD%E8%A7%84%E5%88%99(%E4%B8%AD%E7%AF%87)/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -638,8 +957,8 @@
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/linux-%E5%9F%BA%E7%A1%80/">
-                                    <span class="chip bg-color">linux 基础</span>
+                                <a href="/tags/%E8%BF%90%E7%AE%97%E7%AC%A6%E9%87%8D%E8%BD%BD/">
+                                    <span class="chip bg-color">运算符重载</span>
                                 </a>
                             
                         </div>
@@ -809,20 +1128,24 @@
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2020/03/09/%E4%B8%80%E7%AF%87%E4%BD%A0%E6%84%9F%E5%85%B4%E8%B6%A3%E7%9A%84linux%E5%8F%91%E5%B1%95%E5%8F%B2/">
+                <a href="/2020/03/09/%E5%88%86%E5%8C%BA%E4%B8%8E%E7%9B%AE%E5%BD%95/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/17.jpg" class="responsive-img" alt="一篇你感兴趣的linux发展史">
+                        <img src="/medias/featureimages/19.jpg" class="responsive-img" alt="linux 分区与目录">
                         
-                        <span class="card-title">一篇你感兴趣的linux发展史</span>
+                        <span class="card-title">linux 分区与目录</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            你绝对能够看下去的linux发展史Linux是一套免费使用和自由传播的类Unix操作系统，那什么是Unix以及类Unix操作系统。
- UNIX操作系统（尤尼斯），是一个强大的多用户、多任务操作系统，支持多种处理器架构，按照操作系统的分类，属
+                            分区与目录分区
+Linux硬盘的分区主要分为主分区（primary partion）和扩展分区(extension partion)两种，主分区和扩展分区的 数目之和不能大于四个。
+
+主分区可以马上被使用但不能再分区。
+
+扩展分区必须再进行
                         
                     </div>
                     <div class="publish-info">
@@ -859,20 +1182,19 @@
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/03/09/C++%E8%BF%90%E7%AE%97%E7%AC%A6%E9%87%8D%E8%BD%BD%E7%B3%BB%E5%88%97%E4%B9%8B%E9%87%8D%E8%BD%BD%E8%A7%84%E5%88%99(%E4%B8%AD%E7%AF%87)/">
+                <a href="/2020/03/09/C++%E8%BF%90%E7%AE%97%E7%AC%A6%E9%87%8D%E8%BD%BD%E7%B3%BB%E5%88%97(%E4%B8%8B%E7%AF%87)/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/15.jpg" class="responsive-img" alt="C++运算符重载系列之重载规则(中篇)">
+                        <img src="/medias/featureimages/5.jpg" class="responsive-img" alt="C++运算符重载系列(下篇)">
                         
-                        <span class="card-title">C++运算符重载系列之重载规则(中篇)</span>
+                        <span class="card-title">C++运算符重载系列(下篇)</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            重载规则可被重载的操作符
-不能新增运算符只能对已有的 C++运算符进行重载。例如，有人觉得 BASIC 中用” * * “作为幂运算符很方便，也想在 C++中将” * * “定义为幂运算符，用”3 * * 5”表示 35，这是不行的。也就是
+                            成员函数作谁的成员？友元？引例：邮件发送假设，我们有类 Sender 类和 Mail 类，实现发送邮件的功能。Sender sender; Mail mail;sender &lt;&lt; mail;sender左操作数，决定了opera
                         
                     </div>
                     <div class="publish-info">

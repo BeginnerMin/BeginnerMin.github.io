@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="Hello World, SkilledBeginner">
+    <meta name="keywords" content="C++运算符重载系列之重载引入(上篇), SkilledBeginner">
     <meta name="description" content="努力做一个很厉害的人">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>Hello World | SkilledBeginner</title>
+    <title>C++运算符重载系列之重载引入(上篇) | SkilledBeginner</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -306,12 +306,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/12.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/7.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">Hello World</h1>
+                    <h1 class="description center-align post-title">C++运算符重载系列之重载引入(上篇)</h1>
                 </div>
             </div>
         </div>
@@ -426,12 +426,25 @@
             <div class="row tag-cate">
                 <div class="col s7">
                     
-                          <div class="article-tag">
-                            <span class="chip bg-color">无标签</span>
-                          </div>
+                    <div class="article-tag">
+                        
+                            <a href="/tags/%E8%BF%90%E7%AE%97%E7%AC%A6%E9%87%8D%E8%BD%BD/">
+                                <span class="chip bg-color">运算符重载</span>
+                            </a>
+                        
+                    </div>
                     
                 </div>
                 <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/C/" class="post-category">
+                                C++
+                            </a>
+                        
+                    </div>
                     
                 </div>
             </div>
@@ -440,28 +453,28 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-03-06
+                    2020-03-09
                 </div>
                 
 
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2020-03-06
+                    2020-03-09
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    73
+                    1.4k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    1 分
+                    6 分
                 </div>
                 
 
@@ -477,19 +490,215 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
+                <h2 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h2><p>从这篇博客开始，我会用连续的几篇博客对于C++运算符重载进行详细说明。</p>
+<p>对于基本数据类型，比如 int 类型，我们对其进行加、减、乘、除运算，是语言层面<br>己经设置好的。</p>
+<p>但是对于结构类型，比如 struct Complex 类型的对象是否也可以直接进行加、减、乘、<br>除运算呢，答案是否定的。</p>
+<p>要想实现自定义类型加、减、乘、除运算，怎么操作呢，对加、减、乘、除运算符进<br>行重载，也就是本博客要说明的内容，运算符重载的本质是函数重载。</p>
+<p><strong>函数名为operator  x（后面的x表示运算符）</strong></p>
+<h2 id="重载引入"><a href="#重载引入" class="headerlink" title="重载引入"></a>重载引入</h2><h3 id="语法格式"><a href="#语法格式" class="headerlink" title="语法格式"></a>语法格式</h3><p>重载函数的一般格式如下，operator 是关键字 ，后面跟的是运算符，operator+运算<br>符构成了新的函数名，此时我们说该运算符被重载了。</p>
+<pre><code>返值类型 r operator 运算符名称(形参列表)
+{
+重载实体;
+}</code></pre><h3 id="友元重载"><a href="#友元重载" class="headerlink" title="友元重载"></a>友元重载</h3><p>我们在说明友元的时候已经说明过友元重载，那么在这里我们直接使用。</p>
+<pre><code>#include &lt;iostream&gt;
 
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+using namespace std;
 
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+class Comlpex
+{
+    friend Comlpex operator+(Comlpex&amp; c1, Comlpex&amp; c2);
+public:
+    Comlpex(double r = 0, double i = 0) :real(r), image(i) {}
 
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+    void dumpFormat()
+    {
+        cout &lt;&lt; &quot;(&quot; &lt;&lt; this-&gt;real &lt;&lt; &quot;,&quot; &lt;&lt; this-&gt;image &lt;&lt; &quot;)&quot;&lt;&lt;endl;
+    }
 
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+private:
+    double real;
+    double image;
+};
+
+
+Comlpex operator+(Comlpex&amp; c1, Comlpex&amp; c2)
+{
+    Comlpex c;
+    c.real = c1.real + c2.real;
+    c.image = c1.image + c2.image;
+    return c;
+}
+
+int main()
+{
+    Comlpex c1(3, 4);
+    c1.dumpFormat();
+    Comlpex c2(5, 6);
+    c2.dumpFormat();
+    Comlpex sum = c1 + c2;
+    sum.dumpFormat();
+    return 0;
+}</code></pre><p>运行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200308004202158.png" alt="运行结果"></p>
+<p><strong>及就是通过友元的方式实现了Comlpex对象相加。</strong><br><strong>但凡涉及到自定义类型想要跟普通数据类型一样的操作体验，就需要重载。</strong><br><strong>简单理解友元重载就是一个全局函数实现重载。</strong></p>
+<h3 id="成员重载"><a href="#成员重载" class="headerlink" title="成员重载"></a>成员重载</h3><p>友元重载到成员重载，少了一个参数。少的参数，即左操作数，也就是成员函数中默认的<br>this 指针。</p>
+<pre><code>#include &lt;iostream&gt;
+
+using namespace std;
+
+class Comlpex
+{
+public:
+    Comlpex(double r = 0, double i = 0) :real(r), image(i) {}
+
+    void dumpFormat()
+    {
+        cout &lt;&lt; &quot;(&quot; &lt;&lt; this-&gt;real &lt;&lt; &quot;,&quot; &lt;&lt; this-&gt;image &lt;&lt; &quot;)&quot;&lt;&lt;endl;
+    }
+
+    Comlpex operator+(Comlpex &amp; another)
+    {
+        Comlpex c;
+        c.real = this-&gt;real + another.real;
+        c.image = +this-&gt;image + another.image;
+        return c;
+    }
+
+private:
+    double real;
+    double image;
+};
+
+
+
+int main()
+{
+    Comlpex c1(3, 4);
+    c1.dumpFormat();
+    Comlpex c2(5, 6);
+    c2.dumpFormat();
+    Comlpex s = c1 + c2;
+    Comlpex s1 = c1.operator+(c2);
+    s.dumpFormat();
+    s1.dumpFormat();
+
+    return 0;
+}</code></pre><p>运行结果为;<br><img src="https://img-blog.csdnimg.cn/20200308004256828.png" alt="运行结果"></p>
+<p>我们在计算的时候并不会改变对象的内容，所以在对于对象进行应用的时候也需要加上const</p>
+<p>局部变量不能返回引用。</p>
+<p>栈上的对象可以返回，栈上的引用不可以返回。</p>
+<h3 id="对比赋值运算符重载"><a href="#对比赋值运算符重载" class="headerlink" title="对比赋值运算符重载"></a>对比赋值运算符重载</h3><p>我们来对比我们之前赋值运算符重载的实现：</p>
+<pre><code>#include &lt;iostream&gt;
+
+using namespace std;
+
+class Comlpex
+{
+public:
+    Comlpex(double r = 0, double i = 0) :real(r), image(i) {}
+
+    void dumpFormat()
+    {
+        cout &lt;&lt; &quot;(&quot; &lt;&lt; this-&gt;real &lt;&lt; &quot;,&quot; &lt;&lt; this-&gt;image &lt;&lt; &quot;)&quot;&lt;&lt;endl;
+    }
+
+    Comlpex &amp; operator=(const Comlpex &amp; another)
+    {
+
+        this-&gt;real  = another.real;
+        this-&gt;image =  another.image;
+        return  *this;
+    }
+
+private:
+    double real;
+    double image;
+};
+
+
+
+int main()
+{
+    Comlpex c1(3, 4);
+    Comlpex c2(5, 6);
+    c2 = c1;
+    c1.dumpFormat();
+    c2.dumpFormat();
+
+
+
+    return 0;
+}</code></pre><p>运算结果为：<br><img src="https://img-blog.csdnimg.cn/20200308004344587.png" alt="运算结果"></p>
+<p>在我们的基本类型中可以有以下写法：</p>
+<pre><code>int x,y,z;
+x = y = z;
+(x = y) = z;</code></pre><p><strong>对于+</strong></p>
+<pre><code>x+y+z;
+x+(y+z);
+(x+y)+z;</code></pre><p>上面都没有问题<br>但是</p>
+<pre><code>(x+y) = z;</code></pre><p>就会出现问题。<br>那么对于我们上面创建的对象</p>
+<pre><code>(x+y) = z;</code></pre><p>是可以实现的：</p>
+<pre><code>Comlpex operator+(Comlpex &amp; another)
+    {
+        Comlpex c;
+        c.real = this-&gt;real + another.real;
+        c.image = +this-&gt;image + another.image;
+        return c;
+    }</code></pre><p>返回c的时候并没有主函数去进行接受，那么就会返回在main函数的匿名对象，那么对象x+y就是一个匿名对象，匿名对象被复制为s。我们知道给匿名对象进行复制之后匿名对象最终会消失。那么就没有甚名实际的意义了，所以为了结局这个问题我们在前面加上const为：</p>
+<pre><code>const Comlpex operator+(Comlpex &amp; another)
+    {
+        Comlpex c;
+        c.real = this-&gt;real + another.real;
+        c.image = +this-&gt;image + another.image;
+        return c;
+    }</code></pre><p>这个时候</p>
+<pre><code>(x+y) = z;</code></pre><p>就会直接报错。</p>
+<p>通过上面理解那么我们对于代码整体进行修改后为：</p>
+<pre><code>#include &lt;iostream&gt;
+using namespace std;
+class Complex
+{
+public:
+Complex(float x=0, float y=0)
+:_x(x),_y(y){}
+void dis()
+{
+cout&lt;&lt;&quot;(&quot;&lt;&lt;_x&lt;&lt;&quot;,&quot;&lt;&lt;_y&lt;&lt;&quot;)&quot;&lt;&lt;endl;
+}
+friend const Compl ex operator+(const Complex &amp;c1,const Complex &amp;c2);
+Complex const operator+(const Complex &amp;another);
+private:
+float _x;
+float _y;
+};
+const Complex operator+(const Complex &amp;c1,const Complex &amp;c2)
+{cout&lt;&lt;&quot;friend overload&quot;&lt;&lt;endl;
+return Complex(c1._x + c2._x,c1._y + c2._y);
+}
+const Complex Complex::operator+(const Complex &amp; another)
+{
+cout&lt;&lt;&quot;func member overload&quot;&lt;&lt;endl;
+return Complex(this-&gt;_x + another._x,this-&gt;_y + another._y);
+}
+int main()
+{
+Complex c1(2,3);
+Complex c2(3,4);
+c1.dis();
+c2.dis();
+// Complex c3 = c1+c2;
+// Complex c3 = operator+(c1,c2);
+Complex c3 = c1+c2; 
+c3.dis();
+return 0;
+}</code></pre><p>运行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200309220135436.png" alt="运行结果"></p>
+<p>所以我们之后就要主要在代码编写完成之后考虑是否需要加上const</p>
+<h3 id="const-修饰返值"><a href="#const-修饰返值" class="headerlink" title="const 修饰返值"></a>const 修饰返值</h3><p>C++引入引用的概念后，表达式可以被赋值的现象就出现了，有的表达式可以被赋值，<br>有的表达式则不可以。</p>
+<p>比如，int a; int b; int c; (a=b)= c; 是可以的。而，(a+b) =c ;则是不允许的。</p>
+<p><strong>重载的运算符是否会导致表达式可以被赋值应该以基础类型为准。</strong></p>
+<p><strong>返回类型通过加 const 加以限定来实现。</strong></p>
+<p><strong>并不是所有的表达式均可被赋值。</strong></p>
 
             </div>
             <hr/>
@@ -515,7 +724,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://www.teachermin.com/2020/03/06/hello-world/">http://www.teachermin.com/2020/03/06/hello-world/</a>
+                    <a href="http://www.teachermin.com/2020/03/09/C++%E8%BF%90%E7%AE%97%E7%AC%A6%E9%87%8D%E8%BD%BD%E7%B3%BB%E5%88%97%E4%B9%8B%E9%87%8D%E8%BD%BD%E5%BC%95%E5%85%A5(%E4%B8%8A%E7%AF%87)/">http://www.teachermin.com/2020/03/09/C++%E8%BF%90%E7%AE%97%E7%AC%A6%E9%87%8D%E8%BD%BD%E7%B3%BB%E5%88%97%E4%B9%8B%E9%87%8D%E8%BD%BD%E5%BC%95%E5%85%A5(%E4%B8%8A%E7%AF%87)/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -552,7 +761,11 @@
                 <div class="post-meta__tag-list" style="display: inline-block;">
                     
                         <div class="article-tag">
-                            <span class="chip bg-color">无标签</span>
+                            
+                                <a href="/tags/%E8%BF%90%E7%AE%97%E7%AC%A6%E9%87%8D%E8%BD%BD/">
+                                    <span class="chip bg-color">运算符重载</span>
+                                </a>
+                            
                         </div>
                     
                 </div>
@@ -716,46 +929,50 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2020/03/08/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/">
+                <a href="/2020/03/09/C++%E8%BF%90%E7%AE%97%E7%AC%A6%E9%87%8D%E8%BD%BD%E7%B3%BB%E5%88%97%E4%B9%8B%E9%87%8D%E8%BD%BD%E5%BC%95%E5%85%A5(%E4%B8%8A%E7%AF%87)/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/8.jpg" class="responsive-img" alt="我的第一篇个人博客">
+                        <img src="/medias/featureimages/7.jpg" class="responsive-img" alt="C++运算符重载系列之重载引入(上篇)">
                         
-                        <span class="card-title">我的第一篇个人博客</span>
+                        <span class="card-title">C++运算符重载系列之重载引入(上篇)</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            我的第一篇个人博客现在的时间是2019-03-09 08:41:00，在准备春招实习的过程中，我开始使用了自己的第一篇博客，首先说明为什么要搭建属于自己的个人博客，其实我个人比较喜欢社区博客例如：csdn，简书，掘金等等。里面有很多很多优秀
+                            说明从这篇博客开始，我会用连续的几篇博客对于C++运算符重载进行详细说明。
+对于基本数据类型，比如 int 类型，我们对其进行加、减、乘、除运算，是语言层面己经设置好的。
+但是对于结构类型，比如 struct Complex 类型的对象是否
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-03-08
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-03-09
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/life/" class="post-category">
-                                    life
+                            <a href="/categories/C/" class="post-category">
+                                    C++
                                 </a>
                             
                             
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/life/">
-                        <span class="chip bg-color">life</span>
+                    <a href="/tags/%E8%BF%90%E7%AE%97%E7%AC%A6%E9%87%8D%E8%BD%BD/">
+                        <span class="chip bg-color">运算符重载</span>
                     </a>
                     
                 </div>
@@ -766,37 +983,48 @@
         
         <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge right-badge text-color">
-                本篇&nbsp;<i class="far fa-dot-circle"></i>
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/03/06/hello-world/">
+                <a href="/2020/03/09/Linux%E5%8F%91%E8%A1%8C%E7%89%88%E6%9C%ACshell%E8%AF%B4%E6%98%8EBash%E8%AF%B4%E6%98%8E/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="Hello World">
+                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="Linux发行版本/shell说明/Bash说明">
                         
-                        <span class="card-title">Hello World</span>
+                        <span class="card-title">Linux发行版本/shell说明/Bash说明</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hex
+                            Linux发行版本Linux存在着许多不同的Linux发行版本，比如Ubuntu、CentOS、Redhat、Debian、Fedora、Android等等。 但它们都使用了Linux内核。Linux可安装在各种计算机硬件设备中，比如手机、
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-03-06
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-03-09
                             </span>
                         <span class="publish-author">
                             
-                            <i class="fas fa-user fa-fw"></i>
-                            MinWengang
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/Linux/" class="post-category">
+                                    Linux
+                                </a>
+                            
                             
                         </span>
                     </div>
                 </div>
-
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/linux-%E5%9F%BA%E7%A1%80/">
+                        <span class="chip bg-color">linux 基础</span>
+                    </a>
+                    
+                </div>
                 
             </div>
         </div>
@@ -992,7 +1220,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">8.5k</span>&nbsp;字
+                class="white-color">10.5k</span>&nbsp;字
             
             
             
