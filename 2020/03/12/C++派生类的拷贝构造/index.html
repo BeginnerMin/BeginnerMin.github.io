@@ -467,14 +467,14 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    3k
+                    3.3k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    14 分
+                    15 分
                 </div>
                 
 
@@ -491,7 +491,7 @@
         <div class="card-content article-card-content">
             <div id="articleContent">
                 <h2 id="派生类的拷贝构造"><a href="#派生类的拷贝构造" class="headerlink" title="派生类的拷贝构造"></a>派生类的拷贝构造</h2><p>拷贝构造，也是一种构造函数（不要拿拷贝构造不当构造，是己有对象构造新对象），也没有被继承下来。</p>
-<h3 id="引例"><a href="#引例" class="headerlink" title="引例"></a>引例</h3><h4 id="完全默认的情况"><a href="#完全默认的情况" class="headerlink" title="完全默认的情况"></a>完全默认的情况</h4><pre><code>#include &lt;iostream&gt;
+<h3 id="引例"><a href="#引例" class="headerlink" title="引例"></a>引例</h3><h4 id="父类和子类的拷贝构造都是默认的情况"><a href="#父类和子类的拷贝构造都是默认的情况" class="headerlink" title="父类和子类的拷贝构造都是默认的情况"></a>父类和子类的拷贝构造都是默认的情况</h4><pre><code>#include &lt;iostream&gt;
 using namespace std;
 
 
@@ -523,8 +523,8 @@ int main()
     return 0;
 }</code></pre><p>运行结果为：</p>
 <p><img src="https://img-blog.csdnimg.cn/20200312122612892.png" alt="运行结果"></p>
-<p><strong>都是默认的情况下子类的默认拷贝拷贝就会调用父类的默认拷贝构造</strong></p>
-<h3 id="父类和子类都自实现的情况"><a href="#父类和子类都自实现的情况" class="headerlink" title="父类和子类都自实现的情况"></a>父类和子类都自实现的情况</h3><pre><code>#include &lt;iostream&gt;
+<p><strong>父类和子类的拷贝构造都是默认的情况下子类就会先调用父类的默认拷贝构造，然后调用子类的拷贝构造</strong></p>
+<h4 id="父类和子类的拷贝构造都自实现的情况"><a href="#父类和子类的拷贝构造都自实现的情况" class="headerlink" title="父类和子类的拷贝构造都自实现的情况"></a>父类和子类的拷贝构造都自实现的情况</h4><pre><code>#include &lt;iostream&gt;
 using namespace std;
 
 
@@ -564,9 +564,9 @@ int main()
     return 0;
 }</code></pre><p>运行结果为：</p>
 <p><img src="https://img-blog.csdnimg.cn/20200312121745153.png" alt="运行结果"></p>
-<p>当两个类中都自实现拷贝构造的时候，在类A和类B完成构造之后，会继续调用A的构造，然后调用B的拷贝构造，整个过程没有调用A的拷贝构造。</p>
+<p>当两个类中都自实现拷贝构造的时候，<br>在类A和类B完成构造之后，会继续调用A的构造，然后调用B的拷贝构造，整个过程没有调用A的拷贝构造。</p>
 <p>那么为什么不涉及A的拷贝构造呢？  我们在下面进行说明。</p>
-<h4 id="在父类自实现，子类使用默认的拷贝构造"><a href="#在父类自实现，子类使用默认的拷贝构造" class="headerlink" title="在父类自实现，子类使用默认的拷贝构造"></a>在父类自实现，子类使用默认的拷贝构造</h4><pre><code>#include &lt;iostream&gt;
+<h4 id="在父类自实现拷贝构造，子类使用默认的拷贝构造"><a href="#在父类自实现拷贝构造，子类使用默认的拷贝构造" class="headerlink" title="在父类自实现拷贝构造，子类使用默认的拷贝构造"></a>在父类自实现拷贝构造，子类使用默认的拷贝构造</h4><pre><code>#include &lt;iostream&gt;
 using namespace std;
 
 
@@ -601,15 +601,51 @@ int main()
     B b;
     B bb(b);
     return 0;
-}</code></pre><p>我们去掉B类的拷贝构造。<br>运行结果为：</p>
+}</code></pre><p>运行结果为：</p>
 <p><img src="https://img-blog.csdnimg.cn/20200312122000833.png" alt="运行结果"></p>
-<p><strong>上面运行结果也会有子类自身的拷贝构造，只不过子类中是默认拷贝构造（下面会有代码进行说明）</strong></p>
-<p>当子类没有自实现拷贝构造的时候，会调用父类的拷贝构造，而不会去调用父类的构造器。<br>我们的目的就是要去调用父类的拷贝构造。</p>
-<p>对于上面引例的总结：</p>
-<p><strong>当子类不自实现拷贝构造的时候会默认调用父类的拷贝构造。</strong></p>
+<p>在父类自实现拷贝构造，子类使用默认的拷贝构造的情况下，子类没有自实现拷贝构造的时候，会调用父类的拷贝构造，而不会去调用父类的构造器，然后默认调用子类的拷贝构造。</p>
+<p>我们的目的就是要去调用父类的拷贝构造。</p>
+<h4 id="在父类使用默认的拷贝构造，子类使用自实现的拷贝构造"><a href="#在父类使用默认的拷贝构造，子类使用自实现的拷贝构造" class="headerlink" title="在父类使用默认的拷贝构造，子类使用自实现的拷贝构造"></a>在父类使用默认的拷贝构造，子类使用自实现的拷贝构造</h4><pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+
+class A
+{
+public:
+    A()
+    {
+        cout &lt;&lt; &quot;A()&quot; &lt;&lt; endl;
+    }
+
+
+};
+
+class B : public A
+{
+public:
+    B()
+    {
+        cout &lt;&lt; &quot;B()&quot; &lt;&lt; endl;
+    }
+    B(const B&amp; another)
+    {
+        cout &lt;&lt; &quot;B(const B &amp; another)&quot; &lt;&lt; endl;
+    }
+
+
+};
+
+
+int main()
+{
+    B b;
+    B bb(b);
+    return 0;
+}</code></pre><p>运行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200312172929260.png" alt="运行结果"></p>
+<h3 id="引例总结"><a href="#引例总结" class="headerlink" title="引例总结"></a>引例总结</h3><p><strong>当子类不自实现拷贝构造的时候会默认调用父类的拷贝构造。</strong></p>
 <p><strong>如果子类自实现拷贝构造不作特殊处理此时只会调用父类的构造器。不会调用父类的拷贝构造器，这种情况就失去了拷贝的意义。</strong></p>
-<p>我们给出一个直观的例子：</p>
-<pre><code>#include &lt;iostream&gt;
+<h3 id="直观的说明"><a href="#直观的说明" class="headerlink" title="直观的说明"></a>直观的说明</h3><pre><code>#include &lt;iostream&gt;
 using namespace std;
 
 
@@ -622,7 +658,7 @@ public:
         cout &lt;&lt; &quot;A()&quot; &lt;&lt; endl;
     }
 
-    A(const A &amp; another)
+    A(const A&amp; another)
     {
         this-&gt;a = another.a;
         cout &lt;&lt; &quot;A(const A &amp; another)&quot; &lt;&lt; endl;
@@ -630,17 +666,17 @@ public:
     int a;
 };
 
-class B: public A
+class B : public A
 {
 public:
-    B(int x,int y)
-        :A(x)
+    B(int z , int y)
+        :A(z)
     {
         b = y;
         cout &lt;&lt; &quot;B()&quot; &lt;&lt; endl;
     }
 
-    B(const B &amp; another)
+    B(const B&amp; another)
     {
         this-&gt;b = another.b;
         cout &lt;&lt; &quot;B(const B &amp; another)&quot; &lt;&lt; endl;
@@ -651,14 +687,48 @@ public:
 
 int main()
 {
-    B b(666,100);
+    B b(666, 100);
     B bb(b);
     cout &lt;&lt; bb.a &lt;&lt; endl;
     cout &lt;&lt; bb.b &lt;&lt; endl;
     return 0;
 }</code></pre><p>运行结果为：</p>
 <p><img src="https://img-blog.csdnimg.cn/20200312123352141.png" alt="运行结果"></p>
-<p>我们可以看到，我们给b对象传递的参数是666和100但是经过拷贝构造之后到bb对象的时候就直接变成了22和100，我们通过代码进行分析就可以看出来，在进行完A和B的构造之后，再次执行到A的构造器，并没有进入到A的拷贝构造，然后执行B类的拷贝构造，所以最终的结果并没有实现父类的拷贝构造。那么这个时候的拷贝构造就是没有意义的，因为拷贝出来的对象和被拷贝的对象不一样。</p>
+<p>我们可以看到，我们给b对象传递的参数是666和100但是经过拷贝构造之后到bb对象的时候就直接变成了22和100，我们通过代码进行分析就可以看出来，在进行完父类A和子类B的构造之后，子类B调用父类A的构造器，并没有调用父类A的拷贝构造，然后执行B类的拷贝构造，所以最终的结果并没有实现父类的拷贝构造。那么这个时候的拷贝构造就是没有意义的，因为拷贝出来的对象和被拷贝的对象不一样。</p>
+<p>我们先使用父类的拷贝构造器和子类的拷贝构造器都是默认情况下进行实现：<br>    #include <iostream><br>    using namespace std;</p>
+<pre><code>class A
+{
+public:
+    A(int x = 22)
+    {
+        a = x;
+        cout &lt;&lt; &quot;A()&quot; &lt;&lt; endl;
+    }
+    int a;
+};
+
+class B : public A
+{
+public:
+    B(int z, int y)
+        :A(z)
+    {
+        b = y;
+        cout &lt;&lt; &quot;B()&quot; &lt;&lt; endl;
+    }
+    int b;
+};
+
+
+int main()
+{
+    B b(666, 100);
+    B bb(b);
+    cout &lt;&lt; bb.a &lt;&lt; endl;
+    cout &lt;&lt; bb.b &lt;&lt; endl;
+    return 0;
+}</code></pre><p>运行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200312174613154.png" alt="运行结果"><br>但是上面的方法系统默认提供的拷贝构造只能用于浅拷贝。那么如果涉及深拷贝的时候父类和子类都是默认的拷贝构造将不能实现派生类的拷贝构造。</p>
 <p>那么接下来我们进行特殊处理来解决：<br>我们在这里显式的调用父类拷贝构造器。</p>
 <pre><code>#include &lt;iostream&gt;
 using namespace std;
@@ -711,12 +781,11 @@ int main()
 }</code></pre><p>运行结果为：</p>
 <p><img src="https://img-blog.csdnimg.cn/2020031212573952.png" alt="运行结果"></p>
 <p>通过显式的调用父类的拷贝构造器，那么我们就实现了派生类的拷贝构造。</p>
-<h3 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h3><p>派生类::派生类(const 派生类&amp; another)</p>
-<p>:基类(another),派生类新成员(another.新成员)</p>
-<p>{</p>
-<p>//派生类新成员(another.新成员)</p>
-<p>}</p>
-<h3 id="赋值兼容"><a href="#赋值兼容" class="headerlink" title="赋值兼容"></a>赋值兼容</h3><pre><code>class B: public A
+<h3 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h3><pre><code>派生类::派生类(const 派生类&amp; another)
+:基类(another),派生类新成员(another.新成员)
+{
+//派生类新成员(another.新成员)
+}</code></pre><h3 id="赋值兼容"><a href="#赋值兼容" class="headerlink" title="赋值兼容"></a>赋值兼容</h3><pre><code>class B: public A
 {
 public:
     B(int x,int y)
@@ -783,7 +852,7 @@ return 0;
 }</code></pre><p>上面代码中我们要实现g对象和gg对象实现的功能是一样的。<br>运行结果为：</p>
 <p><img src="https://img-blog.csdnimg.cn/20200312130044747.png" alt="运行结果"></p>
 <p>在上面代码中我们已经实现了<br>当父类和子类都没有拷贝构造的时候会直接实现拷贝构造，<br><strong>因为浅拷贝会默认实现。</strong></p>
-<p>但是如果我们使用到深拷贝的时候如何实现？</p>
+<p>但是如果我们使用到深拷贝的时候如何实现，就需要我们显式调用父类的拷贝构造自实现。</p>
 <p>那么接下来我们自己实现上面的拷贝构造过程：</p>
 <pre><code>#include &lt;iostream&gt;
 
@@ -909,7 +978,7 @@ gg.dump();
 return 0;
 }</code></pre><p>运行结果为：</p>
 <p><img src="https://img-blog.csdnimg.cn/20200312130244962.png" alt="运行结果"></p>
-<h1 id="拷贝构造顺序"><a href="#拷贝构造顺序" class="headerlink" title="拷贝构造顺序"></a>拷贝构造顺序</h1><h2 id="图示"><a href="#图示" class="headerlink" title="图示"></a>图示</h2><p><img src="https://img-blog.csdnimg.cn/20200312130311886.png" alt="拷贝构造顺序"></p>
+<h2 id="拷贝构造顺序"><a href="#拷贝构造顺序" class="headerlink" title="拷贝构造顺序"></a>拷贝构造顺序</h2><h3 id="图示"><a href="#图示" class="headerlink" title="图示"></a>图示</h3><p><img src="https://img-blog.csdnimg.cn/20200312130311886.png" alt="拷贝构造顺序"></p>
 <pre><code>#include &lt;iostream&gt;
 using namespace std;
 
@@ -972,8 +1041,8 @@ int main()
     return 0;
 }</code></pre><p>运行结果为：</p>
 <p><img src="https://img-blog.csdnimg.cn/20200312130336165.png" alt="运行结果"></p>
-<p>那么上面的结果我们就可以看出来：<br>在构造的过程中先实现父类的构造，再实现内嵌子对象的构造，在实现子类构造。<br>那么在拷贝构造的过程中先实现父类的拷贝构造，再实现内嵌子对象的拷贝构造，但是由于子类的拷贝构造自实现，显示调用只调用了父类的拷贝构造没有调用内嵌子对象的拷贝构造，所以会直接调用内嵌子对象的构造器，之后再调用子类的拷贝构造。</p>
-<p>我们接下来演示子类显示调用内嵌子类的构造器的情况：</p>
+<p>那么上面的结果我们就可以看出来：<br>在构造的过程中先实现父类的构造，再实现内嵌子对象的构造，在实现子类构造。<br>那么在拷贝构造的过程中先实现父类的拷贝构造，再实现内嵌子对象的拷贝构造，但是由于子类的拷贝构造自实现，显式调用只调用了父类的拷贝构造没有显式调用内嵌子对象的拷贝构造，所以会直接调用内嵌子对象的构造器，之后再调用子类的拷贝构造。</p>
+<p>我们接下来演示子类显式调用内嵌子类的构造器的情况：</p>
 <pre><code>#include &lt;iostream&gt;
 using namespace std;
 
@@ -1128,8 +1197,8 @@ int main()
 <h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p><strong>存在内嵌子对象的时候，如果子类的拷贝构造没有自实现是默认拷贝构造，那么在调用内嵌子对象类的时候默认调用内嵌类的拷贝构造器。</strong></p>
 <p><strong>如果子对象自实现了拷贝构造器但是没有显示的调用内嵌子类的拷贝构造器，那么会直接调用内嵌子类的构造器。</strong></p>
 <p><strong>如果子类的拷贝构造器自实现，那么如果显示的调用内嵌子类的拷贝构造器，那就直接调用内嵌子类的拷贝构造器。</strong></p>
-<p><strong>父类中，一部分成员需要拷贝构造来完成，子类中，也有一部成员需要拷贝构造来完成。子类中的内嵌子对象也需要拷贝构造来完成。</strong></p>
-<p><img src="https://img-blog.csdnimg.cn/20200312130551933.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="拷贝构造顺序"></p>
+<p>父类中，一部分成员需要拷贝构造来完成，子类中，也有一部成员需要拷贝构造<br>来完成。子类中的内嵌子对象也需要拷贝构造来完成。</p>
+<p><img src="https://img-blog.csdnimg.cn/20200312180408914.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="拷贝构造顺序"></p>
 
             </div>
             <hr/>
@@ -1650,7 +1719,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">23.9k</span>&nbsp;字
+                class="white-color">24.2k</span>&nbsp;字
             
             
             
