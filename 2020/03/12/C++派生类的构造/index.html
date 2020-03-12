@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="本机IPC之消息队列详解, SkilledBeginner">
+    <meta name="keywords" content="C++派生类的构造, SkilledBeginner">
     <meta name="description" content="努力做一个很厉害的人">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>本机IPC之消息队列详解 | SkilledBeginner</title>
+    <title>C++派生类的构造 | SkilledBeginner</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -306,12 +306,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/7.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/9.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">本机IPC之消息队列详解</h1>
+                    <h1 class="description center-align post-title">C++派生类的构造</h1>
                 </div>
             </div>
         </div>
@@ -428,8 +428,8 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/linux-%E6%9C%AC%E6%9C%BAIPC/">
-                                <span class="chip bg-color">linux 本机IPC</span>
+                            <a href="/tags/C-%E7%BB%A7%E6%89%BF/">
+                                <span class="chip bg-color">C++继承</span>
                             </a>
                         
                     </div>
@@ -440,8 +440,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/Linux/" class="post-category">
-                                Linux
+                            <a href="/categories/C/" class="post-category">
+                                C++
                             </a>
                         
                     </div>
@@ -453,7 +453,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-03-11
+                    2020-03-12
                 </div>
                 
 
@@ -467,14 +467,14 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    4.8k
+                    2.9k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    19 分
+                    13 分
                 </div>
                 
 
@@ -490,408 +490,546 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="消息队列的原理"><a href="#消息队列的原理" class="headerlink" title="消息队列的原理"></a>消息队列的原理</h2><p>消息队列的本质就是由内核创建的用于存放消息的<strong>双向链表</strong>，由于是存放消息的，所以我们就把这个链表称为了消息队列。</p>
-<p>通信的进程通过共享操作同一个消息队列，就能实现进程间通信。</p>
-<h2 id="消息是如何存放在消息队列中的呢？"><a href="#消息是如何存放在消息队列中的呢？" class="headerlink" title="消息是如何存放在消息队列中的呢？"></a>消息是如何存放在消息队列中的呢？</h2><p>消息队列这个链表有很多的节点，链表上的每一个节点就是一个消息。<br>    图示说明：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200311155130158.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="消息队列存储示意图"></p>
-<p>从图中可以看出，每个消息由两部分组成，分别是消息编号（消息类型）和消息正文。</p>
-<p><strong>1）消息编号：识别消息用</strong></p>
-<p><strong>2）消息正文：真正的信息内容</strong></p>
-<h1 id="收发数据的过程"><a href="#收发数据的过程" class="headerlink" title="收发数据的过程"></a>收发数据的过程</h1><h2 id="发送消息"><a href="#发送消息" class="headerlink" title="发送消息"></a>发送消息</h2><p><strong>1，进程先封装一个消息包</strong><br>这个消息包其实就是如下类型的一个结构体变量，封包时将消息编号和消息正文<br>写到结构体的成员中。</p>
-<pre><code>struct msgbuf
-{
-        long mtype; /* 放消息编号，必须&gt; 0 */
-        char mtext[msgsz];  /* 消息内容（消息正文） */
-};    </code></pre><p><strong>2，调用相应的API发送消息</strong></p>
-<p>调用API时通过“消息队列的标识符”找到对应的消息队列，然后将消息包发送给消息队列，消息包（存放消息的结构体变量）会被作为一个链表节点插入链表。</p>
-<h2 id="接收消息"><a href="#接收消息" class="headerlink" title="接收消息"></a>接收消息</h2><p>调用API接收消息时，必须传递两个重要的信息，</p>
-<p><strong>1，消息队列标识符</strong></p>
-<p><strong>2，你要接收消息的编号</strong></p>
-<p>有了这两个信息，API就可以找到对应的消息队列，然后从消息队列中取出你所要编号的消息，如此就收到了别人所发送的信息。</p>
-<p>“消息队列”有点像信息公告牌，发送信息的人把某编号的消息挂到公告牌上，接收消息的人自己到公告牌上去取对应编号的消息，如此，发送者和接受者之间就实现了通信。</p>
-<h2 id="使用消息队列实现网状交叉通信"><a href="#使用消息队列实现网状交叉通信" class="headerlink" title="使用消息队列实现网状交叉通信"></a>使用消息队列实现网状交叉通信</h2><p>对于前面讲的管道来说，很难实现网状交叉通信，但是使用消息队列确非常容易实现。<br>交叉网状通信：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200311155358955.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="网状交叉通信示意图"></p>
-<p>使用消息队列实现交叉网状通信：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200311155420962.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="实现交叉网状通信"></p>
-<p>其他进程通信过程类似。</p>
-<h1 id="消息队列的使用步骤"><a href="#消息队列的使用步骤" class="headerlink" title="消息队列的使用步骤"></a>消息队列的使用步骤</h1><p>（1）使用msgget函数创建新的消息队列、或者获取已存在的某个消息队列，并返回唯一标识消息队列的标识符（msqID），后续收发消息就是使用这个标识符来实现的。</p>
-<p>（2）收发消息<br>    发送消息：使用msgsnd函数，利用消息队列标识符发送某编号的消息<br>    接收消息：使用msgrcv函数，利用消息队列标识符接收某编号的消息</p>
-<p>(3) 使用msgctl函数，利用消息队列标识符删除消息队列。</p>
-<p>对于使用消息队列来通信的多个进程来说，只需要一个进程来创建消息队列就可以了，对于其它要参与通信的进程来说，直接使用这个创建好的消息队列即可。</p>
-<p>为了保证消息队列的创建，最好是让每一个进程都包含创建消息队列的代码，谁先运行就由谁创建，后运行的进程如果发现它想用的那个消息队列已经创建好了，就直接使用，当众多进程共享操作同一个消息队列时，即可实现进程间的通信。</p>
-<h1 id="消息队列API"><a href="#消息队列API" class="headerlink" title="消息队列API"></a>消息队列API</h1><h2 id="msgget函数"><a href="#msgget函数" class="headerlink" title="msgget函数"></a>msgget函数</h2><h3 id="函数原型"><a href="#函数原型" class="headerlink" title="函数原型"></a>函数原型</h3><pre><code>#include &lt;sys/types.h&gt;
-#include &lt;sys/ipc.h&gt;
-#include &lt;sys/msg.h&gt;
-int msgget(key_t key, int msgflg);</code></pre><h3 id="功能"><a href="#功能" class="headerlink" title="功能"></a>功能</h3><p>利用key值创建、或者获取一个消息队列。<br>如果key没有对应任何消息队列，那就创建一个新的消息队列，让key值与消息队列对应。<br>如果key已经对应了某个消息队列，说明你要的消息队列已经存在了，那就获取这个消息队列来使用。</p>
-<p><strong>key值也能够唯一的标识消息队列。</strong></p>
-<h3 id="返回值"><a href="#返回值" class="headerlink" title="返回值"></a>返回值</h3><p>成功：返回消息队列标识符（消息队列的ID）对于每一个创建好的消息队列来说，ID是固定的。<br>失败：失败返回-1，并设置errno。    </p>
-<h3 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h3><pre><code>int msgget(key_t key, int msgflg);</code></pre><h4 id="key值"><a href="#key值" class="headerlink" title="key值"></a>key值</h4><p>用于为消息队列生成（计算出）唯一的消息队列ID。</p>
-<p>我们可以指定三种形式的key值：</p>
-<p>第一种：<br>指定为IPC_PRIVATE宏，指定这个宏后，每次调用msgget时都会创建一个新的消息队列。如果你每次使用的必须是新消息队列的话，就可以指定这个，不过这个用的很少。<br>因为一般来说，只要有一个消息队列可以用来通信就可以了，并不需要每次都创建一个全新<br>的消息队列。</p>
-<p>第二种：<br>可以自己指定一个整形数，但是容易重复指定，本来我想创建一个新的消息队列，结果我所指定的这个整形数，之前就已经被用于创建某个消息队列了，当我的指定重复时，msgget就不会创建新消息队列，而是使用的是别人之前就创建好的消息队列。所以我们也不会使用。</p>
-<p>第三种：<br>使用ftok函数来生成key</p>
-<pre><code>#include &lt;sys/types.h&gt;
-#include &lt;sys/ipc.h&gt;
-key_t ftok(const char *pathname, int proj_id);</code></pre><p>ftok通过指定路径名和一个整形数，就可以计算并返回一个唯一对应的key值，<br>只要路径名和整形数不变，所对应的key值就唯一不变的。<br>路径名必须是真实有效的。</p>
-<p>由于ftok只会使用整形数（proj_id）的低8位，因此我们往往会指定为一个ASCII码值，因为ASCII码值刚好是8位的整形数。</p>
-<h4 id="msgflg"><a href="#msgflg" class="headerlink" title="msgflg"></a>msgflg</h4><pre><code>int msgget(key_t key, int msgflg);</code></pre><p><strong>msgflg</strong><br><strong>指定创建时的原始权限，比如0664</strong><br>原始权限至少要包括读和写，如果没有读和写那么就没有办法进行数据的收发。<br>创建一个新的消息队列时，除了原始权限，还需要指定IPC_CREAT选项。</p>
-<p>例如：</p>
-<pre><code>msgid = msgget(key, 0664|IPC_CREAT);</code></pre><p>如果key值没有对应任何消息队列，就会创建一个新的消息队列，此时就会用到msgflg参数，但是如果key已经对应了某个早已存在消息队列，就直接返回这个已存在消息队列的ID（标识符），此时不会用到msgflg参数。</p>
-<h1 id="多个进程是如何共享到同一个消息队列"><a href="#多个进程是如何共享到同一个消息队列" class="headerlink" title="多个进程是如何共享到同一个消息队列"></a>多个进程是如何共享到同一个消息队列</h1><h2 id="创建进程"><a href="#创建进程" class="headerlink" title="创建进程"></a>创建进程</h2><p>如果创建者使用”./file”, ‘a’生成一个key值，然后调用msgget创建了一个消息队列，比如：</p>
-<pre><code>key = ftok(&quot;./file&quot;, &apos;a&apos;);
-msgid = msgget(key, 0664|IPC_CREAT);</code></pre><p>当创建者得到msgid后，即可操作消息队列。</p>
-<h2 id="其它共享操作消息队列的进程"><a href="#其它共享操作消息队列的进程" class="headerlink" title="其它共享操作消息队列的进程"></a>其它共享操作消息队列的进程</h2><p>共享的方法很简单，只要你能拿到别人创建好的消息队列的ID，即可共享操作同一个消息队列<br>获取别人创建好的消息队列的ID，有两个方法：<br><strong>1,创建者把ID保存到某文件，共享进程读出ID即可这种情况下，共享进程根本不需要调用msgget函数来返回ID。</strong></p>
-<p><strong>2,调用msgget获取已在消息队列的ID</strong><br>使用ftok函数，利用与创建者相同的“路径名”和8位整形数，生成相同的key值<br>调用msgget函数，利用key找到别人创建好的消息队列，返回ID</p>
-<pre><code>key = ftok(&quot;./file&quot;, &apos;a&apos;);
-msgid = msgget(key, 0664|IPC_CREAT);</code></pre><p>拿到了消息队列的ID后就能共享操作了。<br>这种方法是最常用的方法，因为ftok所用到的“路径名”和“8位的整形数”比较好记忆，<br>所以，你只要记住别人生成key值时所用的“路径名”和“8位的整形数”，你就一定能共享操作别人创建好的消息队列。    </p>
-<h3 id="创建消息队列"><a href="#创建消息队列" class="headerlink" title="创建消息队列"></a>创建消息队列</h3><p>使用消息队列，编写一个多进程网状交叉通信的示例程序，我们先来成功创建一个消息队列。<br>代码演示：</p>
-<pre><code>#include &lt;stdio.h&gt;
-#include &lt;unistd.h&gt;
-#include &lt;stdlib.h&gt;
-#include &lt;sys/types.h&gt;
-#include &lt;sys/ipc.h&gt;
-#include &lt;sys/msg.h&gt;
-#include &lt;sys/stat.h&gt;
-#include &lt;fcntl.h&gt;
-#define MSG_FILE &quot;./msgfile&quot;
+                <h2 id="派生类的构造"><a href="#派生类的构造" class="headerlink" title="派生类的构造"></a>派生类的构造</h2><p>派生的过程不管子类有没有需要，都是把基类的所有成员全部继承。全部继承就会出现问题。<br>基类的部分成员在派生类中是不可见的，不可见就没有办法在派生类里面进行初始化，那么在派生类中不可见的继承部分就需要在基类的构造器中进行初始化，但是派生类在继承基类的时候会继承除了构造器和析构器之外的其他所有成员，所以我们在这里不能直接调用父类的构造器进行初始化，那么基类的构造器没有被派生类继承，派生类就无法直接调用基类的构造器对于派生类继承基类之后不可访问的成员进行初始化。</p>
+<p><strong>派生类中，从基类继承而来的成员的初始化工作还是由基类的构造器完成，然后派生类中原有的成员在派生类的构造函数中初始化。所以实际上并非是直接调用基类的构造器。</strong></p>
+<h2 id="子类的构造器调用父类的构造器的情况分析"><a href="#子类的构造器调用父类的构造器的情况分析" class="headerlink" title="子类的构造器调用父类的构造器的情况分析"></a>子类的构造器调用父类的构造器的情况分析</h2><h3 id="父类和子类都是默认无参构造器"><a href="#父类和子类都是默认无参构造器" class="headerlink" title="父类和子类都是默认无参构造器"></a>父类和子类都是默认无参构造器</h3><p>代码演示:</p>
+<pre><code>#include &lt;iostream&gt;
+using namespace std;
 
-void print_err(char *estr)
+class A
 {
-perror(estr);
-exit(-1);
-}
-
-int creat_or_get_msggque(void)
-{
-int msgid = -1;
-key_t key = -1;
-int fd = 0;
-//创建一个消息队列的专用文件，ftok函数会使用到文件路径名
-fd = open(MSG_FILE,O_RDWR|O_CREAT,0664);
-if(-1 == fd) print_err(&quot;open fail&quot;);
-//利用存在的文件路径名和8位的整型数计算出key的值
-key = ftok(MSG_FILE,&apos;c&apos;);
-if(-1 == key) print_err(&quot;ftok fail&quot;);
-//利用key创建或者获取消息队列
-msgid = msgget(key,0664|IPC_CREAT);
-if(-1 == msgid) print_err(&quot;msgget fail&quot;);
-return msgid;
-}
-
-int main(void)
-{
-int msgid = -1;
-int ret = -1;
-msgid =  creat_or_get_msggque();
-ret = fork();
-if(ret &gt; 0)//发送消息
-{
-
-}
-else if(0 == ret)//接收消息
-{
-
-}
-return 0;
-}</code></pre><p>运行结果通过验证进行查看。</p>
-<h3 id="如何验证消息队列是否被创建成功？"><a href="#如何验证消息队列是否被创建成功？" class="headerlink" title="如何验证消息队列是否被创建成功？"></a>如何验证消息队列是否被创建成功？</h3><p>使用ipcs命令即可查看，可跟接的选项有：</p>
-<ul>
-<li>a 或者 什么都不跟：消息队列、共享内存、信号量的信息都会显示出来</li>
-<li>m：只显示共享内存的信息    </li>
-<li>q：只显示消息队列的信息</li>
-<li>s：只显示信号量的信息<br>我们先来查看程序没有运行之前消息队列的情况：</li>
-</ul>
-<p><img src="https://img-blog.csdnimg.cn/2020031116015849.png" alt="查看消息队列"></p>
-<p>接下来我们查看创建消息队列之后的情况:</p>
-<p><img src="https://img-blog.csdnimg.cn/20200311160231962.png" alt="运行过程"><br><img src="https://img-blog.csdnimg.cn/20200311160244149.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="运行后创建新的消息队列"></p>
-<h3 id="消息队列数据的发送与接收"><a href="#消息队列数据的发送与接收" class="headerlink" title="消息队列数据的发送与接收"></a>消息队列数据的发送与接收</h3><p>消息队列已经创建成功了，接下来我们就开始进行消息的发送与接受。</p>
-<h4 id="发送函数：msgsnd"><a href="#发送函数：msgsnd" class="headerlink" title="发送函数：msgsnd"></a>发送函数：msgsnd</h4><h5 id="函数原型-1"><a href="#函数原型-1" class="headerlink" title="函数原型"></a>函数原型</h5><pre><code>#include &lt;sys/types.h&gt;
-#include &lt;sys/ipc.h&gt;
-#include &lt;sys/msg.h&gt;
-
-int msgsnd(int msqid, const void *msgp, size_t msgsz, int msgflg);</code></pre><h5 id="功能："><a href="#功能：" class="headerlink" title="功能："></a>功能：</h5><p>发送消息到消息队列上。就是将消息挂到消息队列上。</p>
-<h5 id="返回值-1"><a href="#返回值-1" class="headerlink" title="返回值"></a>返回值</h5><p>成功：返回0,<br>失败：返回-1，errno被设置</p>
-<h5 id="参数-1"><a href="#参数-1" class="headerlink" title="参数"></a>参数</h5><p><strong>msqid</strong>：<br>消息队列的标识符。</p>
-<p><strong>msgp</strong>：<br>存放消息的缓存的地址，类型struct msgbuf类型<br>这个缓存就是一个消息包（存放消息的结构体变量）。</p>
-<pre><code>struct msgbuf
-            {
-                long mtype; /* 放消息编号，必须 &gt; 0 */
-                char mtext[msgsz];  /* 消息内容（消息正文） */
-};        </code></pre><p><strong>msgsz</strong>：<br>消息正文大大小。</p>
-<p><strong>msgflg</strong>：<br>    - 0：阻塞发送消息<br>也就是说，如果没有发送成功的话，该函数会一直阻塞等，直到发送成功为止。</p>
-<p> IPC_NOWAIT：非阻塞方式发送消息，不管发送成功与否，函数都将返回<br>也就是说，发送不成功的的话，函数不会阻塞。</p>
-<h4 id="接收函数msgrcv"><a href="#接收函数msgrcv" class="headerlink" title="接收函数msgrcv"></a>接收函数msgrcv</h4><h5 id="函数原型-2"><a href="#函数原型-2" class="headerlink" title="函数原型"></a>函数原型</h5><pre><code>    #include &lt;sys/types.h&gt;
-    #include &lt;sys/ipc.h&gt;
-    #include &lt;sys/msg.h&gt;
-ssize_t msgrcv(int msqid, void *msgp, size_t msgsz, long msgtyp, int msgflg);            </code></pre><h5 id="功能-1"><a href="#功能-1" class="headerlink" title="功能"></a>功能</h5><p>接收消息，就是从消息队列中取出别人所放的某个编号的消息。</p>
-<h5 id="返回值-2"><a href="#返回值-2" class="headerlink" title="返回值"></a>返回值</h5><p>成功：返回消息正文的字节数<br>失败：返回-1，errno被设置</p>
-<h5 id="参数-2"><a href="#参数-2" class="headerlink" title="参数"></a>参数</h5><p> msqid：消息队列的标识符。<br>msgp：缓存地址，缓存用于存放所接收的消息</p>
-<p>类型还是struct msgbuf：</p>
-<pre><code>struct msgbuf
+public:
+    A()
     {
-    long mtype; /* 存放消息编号*/
-    char mtext[msgsz];  /*存放 消息正文内容 */
-    };                    </code></pre><p>· msgsz：消息正文的大小<br>· msgtyp：你要接收消息的编号<br>· int msgflg：<br>    - 0：阻塞接收消息<br>    也就是说如果没有消息时，接收回阻塞（休眠）。<br>     IPC_NOWAIT：非阻塞接收消息也就是说没有消息时，该函数不阻塞</p>
-<p>代码演示：</p>
-<pre><code>#include &lt;stdio.h&gt;
-#include &lt;unistd.h&gt;
-#include &lt;stdlib.h&gt;
-#include &lt;sys/types.h&gt;
-#include &lt;sys/ipc.h&gt;
-#include &lt;sys/msg.h&gt;
-#include &lt;sys/stat.h&gt;
-#include &lt;fcntl.h&gt;
-#include &lt;string.h&gt;
-#define MSG_FILE &quot;./msgfile&quot;
-#define MSGSIZE 1024
-struct msgbuf
+        cout &lt;&lt; &quot;A()&quot; &lt;&lt; endl;
+    }
+private:
+
+};
+
+class B : public A
 {
-long mtype; /* 放消息编号，必须 &gt; 0 */
-char mtext[MSGSIZE];  /* 消息内容（消息正文） */
+public:
+    B()
+    {
+        cout &lt;&lt; &quot;B()&quot; &lt;&lt; endl;
+    }
 };
 
 
-void print_err(char *estr)
+int main()
 {
-perror(estr);
-exit(-1);
+    B b;
+    return 0;
+}</code></pre><p>运行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200310233337669.png" alt="运行结果"></p>
+<p>由结果我们得到<strong>父类和子类都是无参构造器时生成对象会先默认调用A的构造器再默认调用B的构造器。</strong></p>
+<h3 id="子类为无参默认构造器，父类为带参数的构造器且有默认值"><a href="#子类为无参默认构造器，父类为带参数的构造器且有默认值" class="headerlink" title="子类为无参默认构造器，父类为带参数的构造器且有默认值"></a>子类为无参默认构造器，父类为带参数的构造器且有默认值</h3><pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+class A
+{
+public:
+    A(int  i = 10)
+    {
+        a = i;
+        cout &lt;&lt; &quot;A()&quot; &lt;&lt; endl;
+        cout &lt;&lt; &quot;a = &quot; &lt;&lt; a &lt;&lt; endl;
+    }
+    int a;
+private:
+
+};
+
+class B : public A
+{
+public:
+    B()
+    {
+        b = 5;
+        cout &lt;&lt; &quot;B()&quot; &lt;&lt; endl;
+        cout &lt;&lt; &quot;b = &quot;&lt;&lt; b &lt;&lt; endl;
+    }
+    int b;
+};
+
+
+int main()
+{
+    B c;
+    return 0;
+}</code></pre><p>运行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/2020031215562165.png" alt="运行结果"></p>
+<p>当子类使用的是无参构造器的时候，会调用父类的默认无参构造器，如果父类构造器自实现，父类的构造器有参数并且有默认值，则父类的成员通过父类的构造器进行初始化。</p>
+<h3 id="子类为无参默认构造器，父类为带参数的构造器没有默认值"><a href="#子类为无参默认构造器，父类为带参数的构造器没有默认值" class="headerlink" title="子类为无参默认构造器，父类为带参数的构造器没有默认值"></a>子类为无参默认构造器，父类为带参数的构造器没有默认值</h3><pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+class A
+{
+public:
+    A(int  i)
+    {
+        a = i;
+        cout &lt;&lt; &quot;A()&quot; &lt;&lt; endl;
+        cout &lt;&lt; &quot;a = &quot; &lt;&lt; a &lt;&lt; endl;
+    }
+    int a;
+private:
+
+};
+
+class B : public A
+{
+public:
+    B()
+    {
+        b = 5;
+        cout &lt;&lt; &quot;B()&quot; &lt;&lt; endl;
+        cout &lt;&lt; &quot;b = &quot;&lt;&lt; b &lt;&lt; endl;
+    }
+    int b;
+};
+
+
+int main()
+{
+    B c;
+    return 0;
+}</code></pre><p>这个时候就会报错：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200312155750952.png" alt="编译器报错"></p>
+<p>当子类使用的是无参构造器的时候，会调用父类的默认无参构造器，如果父类构造器自实现，父类的构造器有参数但是没有默认值，编译器会报错。</p>
+<h3 id="如果子类的构造器是自实现，父类的构造器是默认无参构造器"><a href="#如果子类的构造器是自实现，父类的构造器是默认无参构造器" class="headerlink" title="如果子类的构造器是自实现，父类的构造器是默认无参构造器"></a>如果子类的构造器是自实现，父类的构造器是默认无参构造器</h3><p>#include <iostream><br>    using namespace std;</p>
+<pre><code>class A
+{
+public:
+    A()
+    {
+        a = 5;
+        cout &lt;&lt; &quot;A()&quot; &lt;&lt; endl;
+        cout &lt;&lt; &quot;a = &quot; &lt;&lt; a &lt;&lt; endl;
+
+
+    }
+    int a;
+private:
+
+};
+
+class B : public A
+{
+public:
+    B(int x)
+    {
+        b = x;
+        cout &lt;&lt; &quot;B()&quot; &lt;&lt; endl;
+        cout &lt;&lt; &quot;b = &quot; &lt;&lt; b &lt;&lt; endl;
+    }
+    int b;
+};
+
+
+int main()
+{
+    B c(3);
+    return 0;
+}</code></pre><p>运行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200312160559670.png" alt="运行结果"></p>
+<p>如果子类通过自实现传递参数，父类的构造器是默认无参构造器，那么子类通过参数传递进行初始化，父类通过父类的默认构造器进行初始化。</p>
+<h3 id="如果子类的构造器是自实现，父类的构造器自实现有参数但是没有默认值"><a href="#如果子类的构造器是自实现，父类的构造器自实现有参数但是没有默认值" class="headerlink" title="如果子类的构造器是自实现，父类的构造器自实现有参数但是没有默认值"></a>如果子类的构造器是自实现，父类的构造器自实现有参数但是没有默认值</h3><pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+class A
+{
+public:
+    A(int y)
+    {
+        a = y;
+        cout &lt;&lt; &quot;A()&quot; &lt;&lt; endl;
+        cout &lt;&lt; &quot;a = &quot; &lt;&lt; a &lt;&lt; endl;
+
+
+    }
+    int a;
+private:
+
+};
+
+class B : public A
+{
+public:
+    B(int x,int y)
+    {
+        b = x;
+        cout &lt;&lt; &quot;B()&quot; &lt;&lt; endl;
+        cout &lt;&lt; &quot;b = &quot; &lt;&lt; b &lt;&lt; endl;
+    }
+    int b;
+};
+
+
+int main()
+{
+    B c(3.5);
+    return 0;
+}</code></pre><p>上面代码机会编译错误：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200312160901140.png" alt="编译器报错"></p>
+<p>当子类的构造器是自实现，子类会调用父类的默认无参构造器，如果父类的构造器自实现，子类调用父类自实现构造器的时候，父类的构造器自实现有参数但是没有默认值，会出现错误。</p>
+<h3 id="如果子类的构造器是自实现，父类的构造器自实现有参数并且没有默认值"><a href="#如果子类的构造器是自实现，父类的构造器自实现有参数并且没有默认值" class="headerlink" title="如果子类的构造器是自实现，父类的构造器自实现有参数并且没有默认值"></a>如果子类的构造器是自实现，父类的构造器自实现有参数并且没有默认值</h3><pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+class A
+{
+public:
+    A(int y = 10)
+    {
+        a = y;
+        cout &lt;&lt; &quot;A()&quot; &lt;&lt; endl;
+        cout &lt;&lt; &quot;a = &quot; &lt;&lt; a &lt;&lt; endl;
+
+
+    }
+    int a;
+private:
+
+};
+
+class B : public A
+{
+public:
+    B(int x,int y)
+    {
+        b = x;
+        cout &lt;&lt; &quot;B()&quot; &lt;&lt; endl;
+        cout &lt;&lt; &quot;b = &quot; &lt;&lt; b &lt;&lt; endl;
+    }
+    int b;
+};
+
+
+int main()
+{
+    B c(3,5);
+    return 0;
+}</code></pre><p>运行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200312161203216.png" alt="运行结果"></p>
+<p>当子类的构造器是自实现，子类会调用父类的默认无参构造器，如果父类的构造器自实现，子类调用父类自实现构造器的时候，父类的构造器自实现有参数并且默认值，则父类的成员通过父类的构造器进行初始化。</p>
+<h2 id="显式调用父类构造"><a href="#显式调用父类构造" class="headerlink" title="显式调用父类构造"></a>显式调用父类构造</h2><p><strong>上面子类对于父类的调用，无论哪一种情况都无法把通过子类创建对象的默认参数传递给父类进行初始化。</strong></p>
+<h3 id="语法格式"><a href="#语法格式" class="headerlink" title="语法格式"></a>语法格式</h3><pre><code>派生类名::派生类名(总参列表)
+:基类名(参数表),内嵌子对象(参数表)
+{
+派生类新增成员的初始化语句; //也可出现地参数列表中
+}</code></pre><p>如果不是上面的标配情况就必须显式调用。</p>
+<p><strong>显式调用不管有没有标配都是适用的。</strong></p>
+<h3 id="显式调用代码演示"><a href="#显式调用代码演示" class="headerlink" title="显式调用代码演示"></a>显式调用代码演示</h3><pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+class A
+{
+public:
+    A(int y)
+    {
+        a = y;
+        cout &lt;&lt; &quot;A()&quot; &lt;&lt; endl;
+        cout &lt;&lt; &quot;a = &quot; &lt;&lt; a &lt;&lt; endl;
+
+
+    }
+    int a;
+private:
+
+};
+
+class B : public A
+{
+public:
+    B(int x, int y)
+        :A(y)//显式调用
+    {
+        b = x;
+        cout &lt;&lt; &quot;B()&quot; &lt;&lt; endl;
+        cout &lt;&lt; &quot;b = &quot; &lt;&lt; b &lt;&lt; endl;
+    }
+    int b;
+};
+
+
+int main()
+{
+    B c(10, 20);
+    cout &lt;&lt; &quot;c.a = &quot; &lt;&lt; c.a &lt;&lt; endl;
+    cout &lt;&lt; &quot;c.b = &quot; &lt;&lt; c.b &lt;&lt; endl;
+    return 0;
+}</code></pre><p>运行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200312162936528.png" alt="运行结果"></p>
+<p><strong>那么在调用的时候符合标配情况进行隐式调用也可以直接使用显式调用。</strong></p>
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>子类中包含两个部分，一部分来自于父类，一部分是子类自己有的。父类的通过父类构造器进行初始化，子类的通过子类构造器进行初始化。在初始化的过程中由于父类的构造器没有被子类继承，所以不能像调用函数一样调用父类的构造器，只能把父类的构造器通过上面语法格式中：</p>
+<pre><code>基类名（参数列表）</code></pre><p>通过传参的方式进行初始化。</p>
+<p>子类当中直接使用子类的构造器进行初始化。</p>
+<h2 id="构造顺序"><a href="#构造顺序" class="headerlink" title="构造顺序"></a>构造顺序</h2><h3 id="图示"><a href="#图示" class="headerlink" title="图示"></a>图示</h3><p><img src="https://img-blog.csdnimg.cn/20200310233911584.png" alt="图示"></p>
+<h1 id="内嵌子对象"><a href="#内嵌子对象" class="headerlink" title="内嵌子对象"></a>内嵌子对象</h1><pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+
+class C
+{
+public:
+    C()
+    {
+        cout &lt;&lt; &quot;C()&quot; &lt;&lt; endl;
+
+    }
+    int c;
+private:
+};
+
+
+class A
+{
+public:
+    A(int i)
+    {
+        cout &lt;&lt; &quot;A()&quot; &lt;&lt; endl;
+        a = i;
+    }
+    int a;
+private:
+
+};
+
+class B : public A
+{
+public:
+    B(int i,int j)
+        :A(i)
+    {
+        cout &lt;&lt; &quot;B()&quot; &lt;&lt; endl;
+        b = j;
+    }
+    int b;
+    C c;  //内嵌子对象
+};
+
+
+int main()
+{
+    B c(3,5);
+    cout &lt;&lt; c.a &lt;&lt; endl;
+    cout &lt;&lt; c.b &lt;&lt; endl;
+    return 0;
+}</code></pre><p>运行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200310233940700.png" alt="运行结果"></p>
+<p>通过运行结果我们也可以看到，先默认调用父类构造器初始化父类，再默认调用内嵌类构造器初始化内嵌子类，最后默认调用子类构造器初始化子类。</p>
+<p>上面的过程类似于我们在家招待亲戚，例如倒酒的时候，先给父亲倒上，再给亲戚倒上，最后给自己倒上。</p>
+<p><strong>调用内嵌子对象的构造器，标配会被调用，没有标配，必须显式调用。所以在调用的时候如果隐士的调用，就必须有标配，如果显示的构造，是否标配都不会影响。</strong></p>
+<p><strong>那么内嵌子对象标配的情况和我们上面子类构造器中调用父类的构造器三种情况相同。</strong></p>
+<p>如果是非标配，则需要使用显示调用。<br>代码演示：</p>
+<pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+
+class C
+{
+public:
+    C(int j)
+    {
+        cout &lt;&lt; &quot;C()&quot; &lt;&lt; endl;
+        c = j;
+    }
+    int c;
+private:
+};
+
+
+class A
+{
+public:
+    A(int i)
+    {
+        cout &lt;&lt; &quot;A()&quot; &lt;&lt; endl;
+        a = i;
+    }
+    int a;
+private:
+
+};
+
+class B : public A
+{
+public:
+    B(int i, int j, int k)
+        :A(i), c(k)
+    {
+        cout &lt;&lt; &quot;B()&quot; &lt;&lt; endl;
+        b = j;
+    }
+    int b;
+    C c;  //内嵌子对象
+};
+
+
+int main()
+{
+    B c(3,5,10);
+    cout &lt;&lt; c.a &lt;&lt; endl;
+    cout &lt;&lt; c.b &lt;&lt; endl;
+    cout &lt;&lt; c.c.c &lt;&lt; endl;
+    return 0;
+}</code></pre><p>运行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200310234029308.png" alt="运行结果"></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>由于子类中，包含了两部分内容，一部分来自父类，一部分来自子类。父类的部分，要由调用父类的构造器来完成，子类的部分，在子类的构造器中来完成始化。子类中有内嵌的子对象也需要构造。</p>
+<p><img src="https://img-blog.csdnimg.cn/20200312163158793.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="构造顺序"></p>
+<h2 id="简单应用"><a href="#简单应用" class="headerlink" title="简单应用"></a>简单应用</h2><pre><code>#include &lt;iostream&gt;
+
+using namespace std;
+
+
+class Brithday
+{
+public:
+Brithday(int y, int m, int d)
+:year_(y), month_(m), day_(d) {}
+void disBirth()
+{
+        cout &lt;&lt; &quot;year_:&quot; &lt;&lt; year_ &lt;&lt; endl;
+        cout &lt;&lt; &quot;month_:&quot; &lt;&lt; month_ &lt;&lt; endl;
+        cout &lt;&lt; &quot;day_:&quot; &lt;&lt; day_ &lt;&lt; endl;
+}
+private:
+int year_;
+int month_;
+int day_;
+};
+
+class Student
+{
+
+public:
+Student(string sn, char cs, float fs) :name_(sn), sex_(cs), score_(fs) {}
+void dis()
+{
+cout &lt;&lt; &quot;name:&quot; &lt;&lt; name_&lt;&lt;endl;
+cout &lt;&lt; &quot;sex:&quot; &lt;&lt; sex_ &lt;&lt; endl;
+cout &lt;&lt; &quot;score:&quot; &lt;&lt; score_ &lt;&lt; endl;
+}
+private:
+string name_;
+char sex_;
+float score_;
+};
+
+class Graduate:public Student
+{
+
+public:
+Graduate(string sn, char cs, float fs,float fda,int y,int m,int d)
+:Student(sn,cs,fs), birth(y,m,d)
+{
+salary_ = fda;
 }
 
-int creat_or_get_msggque(void)
+void dump()   //上面对象使用了dis这里就不再使用dis
 {
-int msgid = -1;
-key_t key = -1;
-int fd = 0;
-//创建一个消息队列的专用文件，ftok函数会使用到文件路径名
-fd = open(MSG_FILE,O_RDWR|O_CREAT,0664);
-if(-1 == fd) print_err(&quot;open fail&quot;);
-//利用存在的文件路径名和8位的整型数计算出key的值
-key = ftok(MSG_FILE,&apos;c&apos;);
-if(-1 == key) print_err(&quot;ftok fail&quot;);
-//利用key创建或者获取消息队列
-msgid = msgget(key,0664|IPC_CREAT);
-if(-1 == msgid) print_err(&quot;msgget fail&quot;);
-return msgid;
+dis();
+birth.disBirth();
+cout &lt;&lt; &quot;salary&quot; &lt;&lt; salary_ &lt;&lt; endl;
 }
+private:
+float salary_;
+Brithday birth;
+};
 
-int main(int argc,char **argv)
-{
-long recv_msgtype = 0;
-if(argc != 2)
-{
-printf(&quot;./a.out recv_msgtype\n&quot;);
-exit(-1);
-}
-recv_msgtype = atol(argv[1]);
-int msgid = -1;
-int ret = -1;
-msgid =  creat_or_get_msggque();
-ret = fork();
-if(ret &gt; 0)//发送消息
-{
-struct msgbuf msg_buf = {0};
-while(1)
-{
-bzero(&amp;msg_buf,sizeof(msg_buf));
-//封装消息包
-scanf(&quot;%s&quot;, msg_buf.mtext);
-printf(&quot;input snd_msgtype:\n&quot;);
-scanf(&quot;%ld&quot;, &amp;msg_buf.mtype);
-//发送消息
- msgsnd(msgid,&amp;msg_buf,MSGSIZE,0);
-}
-}
-else if(0 == ret)//接收消息
-{
-int ret = 0;
-struct msgbuf msg_buf = {0};
-while(1)
-{
-bzero(&amp;msg_buf,sizeof(msg_buf));
-ret = msgrcv(msgid,&amp;msg_buf,MSGSIZE,recv_msgtype,0);
-if(ret&gt;0)
-printf(&quot;%s\n&quot;,msg_buf.mtext);
-else if(ret == -1)
-{
-print_err(&quot;recv fail&quot;);
-}
 
-}
-}
+int main()
+{
+Graduate g(&quot;zhangsan&quot;,&apos;s&apos;,99,1000,1999,9,9);
+g.dump();
 return 0;
 }</code></pre><p>运行结果为：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200311160833557.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="消息队列交换数据的实现"><br><img src="https://img-blog.csdnimg.cn/20200311160836768.png" alt="消息队列交换数据的实现"></p>
-<h1 id="system-v-ipc的缺点"><a href="#system-v-ipc的缺点" class="headerlink" title="system v ipc的缺点"></a>system v ipc的缺点</h1><p>进程结束时，system v ipc不会自动删除，进程结束后，使用ipcs依然能够查看到。</p>
-<p>如何删除？<br>方法1：重启OS，很麻烦<br>方法2：进程结束时，调用相应的API来删除<br>方法3：使用ipcrm命令删除<br>删除共享内存</p>
-<ul>
-<li><p>M：按照key值删除<br>ipcrm -M key</p>
-</li>
-<li><p>m：按照标识符删除<br>ipcrm -m msgid</p>
-</li>
-</ul>
-<ul>
-<li>删除消息队列</li>
-</ul>
-<ul>
-<li>Q：按照key值删除</li>
-<li>q：按照标识符删除</li>
-</ul>
-<ul>
-<li>删除信号量</li>
-</ul>
-<ul>
-<li>S：按照key值删除</li>
-<li>s：按照标识符删除</li>
-</ul>
-<h1 id="进程结束时，自动删除消息队列"><a href="#进程结束时，自动删除消息队列" class="headerlink" title="进程结束时，自动删除消息队列"></a>进程结束时，自动删除消息队列</h1><p>我们需要调用msgctl函数来实现。</p>
-<h2 id="函数原型-3"><a href="#函数原型-3" class="headerlink" title="函数原型"></a>函数原型</h2><pre><code>    #include &lt;sys/types.h&gt;
-    #include &lt;sys/ipc.h&gt;
-    #include &lt;sys/msg.h&gt;
-int msgctl(int msqid, int cmd, struct msqid_ds *buf);</code></pre><h2 id="功能-2"><a href="#功能-2" class="headerlink" title="功能"></a>功能</h2><p>ctl就是控制contrl的意思，从这个名字我们就能猜出，这个函数的功能是根据cmd指定的要求，去控制消息队列，比如进行哪些控制呢？</p>
-<p>· 获取消息队列的属性信息<br>· 修改消息队列的属性信息<br>· 删除消息队列<br>· 等等</p>
-<p>我们调用msgctl函数的最常见目的就是删除消息队列，事实上，删除消息队列只是各种消息队列控制中的一种。</p>
-<h2 id="参数-3"><a href="#参数-3" class="headerlink" title="参数"></a>参数</h2><pre><code>int msgctl(int msqid, int cmd, struct msqid_ds *buf);</code></pre><p><strong>msqid</strong>：<br>消息队列标识符</p>
-<p><strong>cmd</strong>：<br>控制选项，其实cmd有很多选项，我这里只简单说明三个</p>
-<p><strong>IPC_STAT</strong>：<br>将msqid消息队列的属性信息，读到第三个参数所指定的缓存。</p>
-<p> <strong>IPC_SET</strong>：<br> 使用第三个参数中的新设置去修改消息队列的属性</p>
-<ul>
-<li>定义一个struct msqid_ds buf。</li>
-<li>将新的属性信息设置到buf中</li>
-<li>cmd指定为IPC_SET后，msgctl函数就会使用buf中的新属性去修改消息队列原有的属性。</li>
-</ul>
-<p> <strong>IPC_RMID</strong>：<br> 删除消息队列<br>删除消息队列时，用不到第三个参数，用不到时设置为NULL。</p>
-<p><strong>buf</strong>：<br>存放消息队列属性信息</p>
-<p>有的时候需要给第三个参数，有时不需要，取决于cmd的设置。</p>
-<p>buf的类型为struct msqid_ds，有关这个结构体类型，我们这里只进行简单了解。<br>结构体中的成员都是用来存放消息队列的属性信息的。</p>
-<pre><code>struct msqid_ds 
+<p><img src="https://img-blog.csdnimg.cn/20200311003147607.png" alt="运行结果"></p>
+<h2 id="层次设计感悟"><a href="#层次设计感悟" class="headerlink" title="层次设计感悟"></a>层次设计感悟</h2><p><strong>继承层次化的设计，本层次初始化，仅需要考虑上次层，而不是考虑上上层次或是更上层次。</strong></p>
+<pre><code>#include &lt;iostream&gt;
+
+using namespace std;
+
+
+class Brithday
 {
-            struct ipc_perm  msg_perm; /* 消息队列的读写权限和所有者 */
-            time_t  msg_stime;/* 最后一次向队列发送消息的时间*/
-            time_t  msg_rtime;/* 最后一次从消息队列接收消息的时间 */
-            time_t  msg_ctime;/* 消息队列属性最后一次被修改的时间 */
-            unsigned  long __msg_cbytes; /* 队列中当前所有消息总的字节数 */
-            msgqnum_t  msg_qnum; /* 队列中当前消息的条数*/
-            msglen_t msg_qbytes;  /* 队列中允许的最大的总的字节数 */
-            pid_t  msg_lspid; /* 最后一次向队列发送消息的进程PID */
-            pid_t  msg_lrpid; /* 最后一次从队列接受消息的进程PID */
+public:
+Brithday(int y, int m, int d)
+:year_(y), month_(m), day_(d) {}
+void disBirth()
+{
+        cout &lt;&lt; &quot;year_:&quot; &lt;&lt; year_ &lt;&lt; endl;
+        cout &lt;&lt; &quot;month_:&quot; &lt;&lt; month_ &lt;&lt; endl;
+        cout &lt;&lt; &quot;day_:&quot; &lt;&lt; day_ &lt;&lt; endl;
+}
+private:
+int year_;
+int month_;
+int day_;
 };
 
-
-struct ipc_perm 
+class Student
 {
-key_t __key;   /* Key supplied to msgget(2)：消息队列的key值 */
-uid_t  uid; /* UID of owner ：当前这一刻正在使用消息队列的用户 */
-gid_t  gid; /* GID of owner ：正在使用的用户所在用户组 */
-uid_t  cuid;/* UID of creator ：创建消息队列的用户 */
-gid_t  cgid;/* GID of creator ：创建消息队列的用户所在用户组*/
-unsigned short mode;/* Permissions：读写权限（比如0664） */
-unsigned short __seq;   /* Sequence number ：序列号，保障消息队列ID不被立即
-};</code></pre><h2 id="代码演示"><a href="#代码演示" class="headerlink" title="代码演示"></a>代码演示</h2><h3 id="控制1：获取消息队列属性"><a href="#控制1：获取消息队列属性" class="headerlink" title="控制1：获取消息队列属性"></a>控制1：获取消息队列属性</h3><pre><code>int msgctl(int msqid, int cmd, struct msqid_ds *buf);</code></pre><p>当cmd被设置为IPC_STAT时，msgctl将获取消息队列的属性信息，并保存到buf中。<br>使用下面方法：</p>
-<pre><code>struct msqid_ds buf;
-msgctl(msgid, IPC_STAT, &amp;buf);</code></pre><p>读者可以自行演示查看。    </p>
-<h3 id="控制2：删除消息队列"><a href="#控制2：删除消息队列" class="headerlink" title="控制2：删除消息队列"></a>控制2：删除消息队列</h3><p><strong>msgctl(msgid, IPC_RMID, NULL);</strong>        </p>
-<pre><code>#include &lt;stdio.h&gt;
-#include &lt;unistd.h&gt;
-#include &lt;stdlib.h&gt;
-#include &lt;sys/types.h&gt;
-#include &lt;sys/ipc.h&gt;
-#include &lt;sys/msg.h&gt;
-#include &lt;sys/stat.h&gt;
-#include &lt;fcntl.h&gt;
-#include &lt;string.h&gt;
-#include &lt;signal.h&gt;
-#define MSG_FILE &quot;./msgfile&quot;
-#define MSGSIZE 1024
 
-int msgid = -1;
-
-struct msgbuf
+public:
+Student(string sn, char cs, float fs) :name_(sn), sex_(cs), score_(fs) {}
+void dis()
 {
-long mtype; /* 放消息编号，必须 &gt; 0 */
-char mtext[MSGSIZE];  /* 消息内容（消息正文） */
+cout &lt;&lt; &quot;name:&quot; &lt;&lt; name_&lt;&lt;endl;
+cout &lt;&lt; &quot;sex:&quot; &lt;&lt; sex_ &lt;&lt; endl;
+cout &lt;&lt; &quot;score:&quot; &lt;&lt; score_ &lt;&lt; endl;
+}
+private:
+string name_;
+char sex_;
+float score_;
 };
 
-
-void print_err(char *estr)
+class Graduate:public Student
 {
-perror(estr);
-exit(-1);
-}
 
-int creat_or_get_msggque(void)
+public:
+Graduate(string sn, char cs, float fs,float fsa,int y,int m,int d)
+:Student(sn,cs,fs), birth(y,m,d)
 {
-key_t key = -1;
-int fd = 0;
-//创建一个消息队列的专用文件，ftok函数会使用到文件路径名
-fd = open(MSG_FILE,O_RDWR|O_CREAT,0664);
-if(-1 == fd) print_err(&quot;open fail&quot;);
-//利用存在的文件路径名和8位的整型数计算出key的值
-key = ftok(MSG_FILE,&apos;c&apos;);
-if(-1 == key) print_err(&quot;ftok fail&quot;);
-//利用key创建或者获取消息队列
-msgid = msgget(key,0664|IPC_CREAT);
-if(-1 == msgid) print_err(&quot;msgget fail&quot;);
-return msgid;
+salary_ = fsa;
 }
 
-void signal_fun(int signo)
+void dump()   //上面对象使用了dis这里就不再使用dis
 {
-msgctl(msgid, IPC_RMID, NULL);
-exit(-1);
+dis();
+birth.disBirth();
+cout &lt;&lt; &quot;salary&quot; &lt;&lt; salary_ &lt;&lt; endl;
 }
+private:
+float salary_;
+Brithday birth;
+};
 
-int main(int argc,char **argv)
+class Doctor :public Graduate
 {
-long recv_msgtype = 0;
-if(argc != 2)
-{
-printf(&quot;./a.out recv_msgtype\n&quot;);
-exit(-1);
+public:
+    Doctor(string sn, char cs, float fs, float fsa, int y, int m, int d, string t)
+        :Graduate(sn, cs, fs, fsa, y, m, d)
+    {
+title_ = t;
 }
-recv_msgtype = atol(argv[1]);
-int msgid = -1;
-int ret = -1;
-msgid =  creat_or_get_msggque();
-ret = fork();
-if(ret &gt; 0)//发送消息
+void disDoctor()
 {
-signal(SIGINT,signal_fun);
-struct msgbuf msg_buf = {0};
-while(1)
+dump();
+cout &lt;&lt; &quot;title:&quot; &lt;&lt; title_ &lt;&lt; endl;
+}
+private:
+    string title_;
+};
+int main()
 {
-bzero(&amp;msg_buf,sizeof(msg_buf));
-//封装消息包
-scanf(&quot;%s&quot;, msg_buf.mtext);
-printf(&quot;input snd_msgtype:\n&quot;);
-scanf(&quot;%ld&quot;, &amp;msg_buf.mtype);
-//发送消息
- msgsnd(msgid,&amp;msg_buf,MSGSIZE,0);
-}
-}
-else if(0 == ret)//接收消息
-{
-int ret = 0;
-struct msgbuf msg_buf = {0};
-while(1)
-{
-bzero(&amp;msg_buf,sizeof(msg_buf));
-ret = msgrcv(msgid,&amp;msg_buf,MSGSIZE,recv_msgtype,0);
-if(ret&gt;0)
-printf(&quot;%s\n&quot;,msg_buf.mtext);
-else if(ret == -1)
-{
-print_err(&quot;recv fail&quot;);
-}
-
-}
-}
+Doctor g(&quot;zhaosi&quot;,&apos;s&apos;,99,3000,1999,9,9,&quot;doctor zhao&quot;);
+g.disDoctor();
 return 0;
 }</code></pre><p>运行结果为：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200311161447969.png" alt="进程退出之后删除消息队列"></p>
-<p>我们可以看到当程序退出的时候默认删除消息队列。</p>
-<p>我们上面只是在父进程里面设置了消息队列的删除设置，所以在ctrl+c之后父子进程都会收到SINGINT信号，父进程删除消息队列退出，子进程直接退出。</p>
-<h2 id="什么时候合适使用消息队列"><a href="#什么时候合适使用消息队列" class="headerlink" title="什么时候合适使用消息队列"></a>什么时候合适使用消息队列</h2><p>实际上消息队列这种通信方式，使用起来还是蛮方便的，因为不管是两个进程之间的通信，还是n多个进程的网状交叉通信，消息队列都能搞定，完全可以替代前面讲的管道，<br>特别是当你的程序必须涉及到多进程网状交叉通信时，消息队列是上上之选。</p>
-<h2 id="消息队列的缺点"><a href="#消息队列的缺点" class="headerlink" title="消息队列的缺点"></a>消息队列的缺点</h2><p>与管道一样，不能实现大规模数据的通信，大规模数据的通信，必须使用“共享内存”来实现。</p>
+<p><img src="https://img-blog.csdnimg.cn/20200311003226491.png" alt="运行结果"></p>
 
             </div>
             <hr/>
@@ -917,7 +1055,7 @@ return 0;
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://www.teachermin.com/2020/03/11/%E6%9C%AC%E6%9C%BAIPC%E4%B9%8B%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E8%AF%A6%E8%A7%A3/">http://www.teachermin.com/2020/03/11/%E6%9C%AC%E6%9C%BAIPC%E4%B9%8B%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E8%AF%A6%E8%A7%A3/</a>
+                    <a href="http://www.teachermin.com/2020/03/12/C++%E6%B4%BE%E7%94%9F%E7%B1%BB%E7%9A%84%E6%9E%84%E9%80%A0/">http://www.teachermin.com/2020/03/12/C++%E6%B4%BE%E7%94%9F%E7%B1%BB%E7%9A%84%E6%9E%84%E9%80%A0/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -955,8 +1093,8 @@ return 0;
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/linux-%E6%9C%AC%E6%9C%BAIPC/">
-                                    <span class="chip bg-color">linux 本机IPC</span>
+                                <a href="/tags/C-%E7%BB%A7%E6%89%BF/">
+                                    <span class="chip bg-color">C++继承</span>
                                 </a>
                             
                         </div>
@@ -1122,34 +1260,30 @@ return 0;
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2020/03/12/C++%E6%B4%BE%E7%94%9F%E7%B1%BB%E7%9A%84%E6%8B%B7%E8%B4%9D%E6%9E%84%E9%80%A0/">
+                <a href="/2020/03/12/C++%E6%B4%BE%E7%94%9F%E7%B1%BB%E7%9A%84%E6%9E%84%E9%80%A0/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="C++派生类的拷贝构造">
+                        <img src="/medias/featureimages/9.jpg" class="responsive-img" alt="C++派生类的构造">
                         
-                        <span class="card-title">C++派生类的拷贝构造</span>
+                        <span class="card-title">C++派生类的构造</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            派生类的拷贝构造拷贝构造，也是一种构造函数（不要拿拷贝构造不当构造，是己有对象构造新对象），也没有被继承下来。
-引例完全默认的情况#include &lt;iostream&gt;
-using namespace std;
-
-
-class 
+                            派生类的构造派生的过程不管子类有没有需要，都是把基类的所有成员全部继承。全部继承就会出现问题。基类的部分成员在派生类中是不可见的，不可见就没有办法在派生类里面进行初始化，那么在派生类中不可见的继承部分就需要在基类的构造器中进行初始化，但是派
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-03-12
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-03-12
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
@@ -1162,6 +1296,7 @@ class
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
@@ -1180,26 +1315,25 @@ class
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/03/09/C++%E8%BF%90%E7%AE%97%E7%AC%A6%E9%87%8D%E8%BD%BD%E7%B3%BB%E5%88%97%E4%B9%8B%E9%87%8D%E8%BD%BD%E5%BC%95%E5%85%A5(%E4%B8%8A%E7%AF%87)/">
+                <a href="/2020/03/12/C++%E7%BB%A7%E6%89%BF%E7%9A%84%E5%BC%95%E5%85%A5/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/7.jpg" class="responsive-img" alt="C++运算符重载系列之重载引入(上篇)">
+                        <img src="/medias/featureimages/15.jpg" class="responsive-img" alt="C++继承的引入">
                         
-                        <span class="card-title">C++运算符重载系列之重载引入(上篇)</span>
+                        <span class="card-title">C++继承的引入</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            说明从这篇博客开始，我会用连续的几篇博客对于C++运算符重载进行详细说明。
-对于基本数据类型，比如 int 类型，我们对其进行加、减、乘、除运算，是语言层面己经设置好的。
-但是对于结构类型，比如 struct Complex 类型的对象是否
+                            为什么引入继承？在C++中为了引入代码的可重用(software,reusability) 是通过继承这一机制来实现的。继承是类与对象的精华.
+引例：通过简单的继承实现代码重用在下面的设计中，我们发现讲师和学生，有些方法是相同的。进行引发我
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-03-09
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-03-12
                             </span>
                         <span class="publish-author">
                             
@@ -1216,8 +1350,8 @@ class
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/%E8%BF%90%E7%AE%97%E7%AC%A6%E9%87%8D%E8%BD%BD/">
-                        <span class="chip bg-color">运算符重载</span>
+                    <a href="/tags/C-%E7%BB%A7%E6%89%BF/">
+                        <span class="chip bg-color">C++继承</span>
                     </a>
                     
                 </div>
