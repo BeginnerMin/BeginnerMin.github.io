@@ -503,7 +503,8 @@
         long mtype; /* 放消息编号，必须&gt; 0 */
         char mtext[msgsz];  /* 消息内容（消息正文） */
 };    </code></pre><p><strong>2，调用相应的API发送消息</strong></p>
-<pre><code>调用API时通过“消息队列的标识符”找到对应的消息队列，然后将消息包发送给消息队列，消息包（存放消息的结构体变量）会被作为一个链表节点插入链表。</code></pre><h2 id="接收消息"><a href="#接收消息" class="headerlink" title="接收消息"></a>接收消息</h2><p>调用API接收消息时，必须传递两个重要的信息，</p>
+<p>调用API时通过“消息队列的标识符”找到对应的消息队列，然后将消息包发送给消息队列，消息包（存放消息的结构体变量）会被作为一个链表节点插入链表。</p>
+<h2 id="接收消息"><a href="#接收消息" class="headerlink" title="接收消息"></a>接收消息</h2><p>调用API接收消息时，必须传递两个重要的信息，</p>
 <p><strong>1，消息队列标识符</strong></p>
 <p><strong>2，你要接收消息的编号</strong></p>
 <p>有了这两个信息，API就可以找到对应的消息队列，然后从消息队列中取出你所要编号的消息，如此就收到了别人所发送的信息。</p>
@@ -1121,50 +1122,51 @@ return 0;
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="far fa-dot-circle"></i>&nbsp;本篇
-            </div>
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2020/03/11/%E6%9C%AC%E6%9C%BAIPC%E4%B9%8B%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E8%AF%A6%E8%A7%A3/">
+                <a href="/2020/03/12/C++%E6%B4%BE%E7%94%9F%E7%B1%BB%E7%9A%84%E6%8B%B7%E8%B4%9D%E6%9E%84%E9%80%A0/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/7.jpg" class="responsive-img" alt="本机IPC之消息队列详解">
+                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="C++派生类的拷贝构造">
                         
-                        <span class="card-title">本机IPC之消息队列详解</span>
+                        <span class="card-title">C++派生类的拷贝构造</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            消息队列的原理消息队列的本质就是由内核创建的用于存放消息的双向链表，由于是存放消息的，所以我们就把这个链表称为了消息队列。
-通信的进程通过共享操作同一个消息队列，就能实现进程间通信。
-消息是如何存放在消息队列中的呢？消息队列这个链表有很多的
+                            派生类的拷贝构造拷贝构造，也是一种构造函数（不要拿拷贝构造不当构造，是己有对象构造新对象），也没有被继承下来。
+引例完全默认的情况#include &lt;iostream&gt;
+using namespace std;
+
+
+class 
                         
                     </div>
                     <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-03-11
-                            </span>
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2020-03-12
+                        </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/Linux/" class="post-category">
-                                    Linux
+                            <a href="/categories/C/" class="post-category">
+                                    C++
                                 </a>
                             
                             
                         </span>
                     </div>
                 </div>
-
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/linux-%E5%9F%BA%E7%A1%80/">
-                        <span class="chip bg-color">linux 基础</span>
+                    <a href="/tags/%E7%BB%A7%E6%89%BF/">
+                        <span class="chip bg-color">继承</span>
                     </a>
                     
                 </div>
@@ -1414,7 +1416,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">15.4k</span>&nbsp;字
+                class="white-color">18.4k</span>&nbsp;字
             
             
             
