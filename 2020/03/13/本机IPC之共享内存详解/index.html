@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="C++派生类的构造, SkilledBeginner">
+    <meta name="keywords" content="本机IPC之共享内存详解, SkilledBeginner">
     <meta name="description" content="努力做一个很厉害的人">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>C++派生类的构造 | SkilledBeginner</title>
+    <title>本机IPC之共享内存详解 | SkilledBeginner</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -306,12 +306,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/9.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/1.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">C++派生类的构造</h1>
+                    <h1 class="description center-align post-title">本机IPC之共享内存详解</h1>
                 </div>
             </div>
         </div>
@@ -428,8 +428,8 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/C-%E7%BB%A7%E6%89%BF/">
-                                <span class="chip bg-color">C++继承</span>
+                            <a href="/tags/linux-%E6%9C%AC%E6%9C%BAIPC/">
+                                <span class="chip bg-color">linux 本机IPC</span>
                             </a>
                         
                     </div>
@@ -440,8 +440,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/C/" class="post-category">
-                                C++
+                            <a href="/categories/Linux/" class="post-category">
+                                Linux
                             </a>
                         
                     </div>
@@ -453,28 +453,28 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-03-12
+                    2020-03-13
                 </div>
                 
 
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2020-03-12
+                    2020-03-13
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    2.9k
+                    5.8k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    13 分
+                    24 分
                 </div>
                 
 
@@ -490,546 +490,712 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="派生类的构造"><a href="#派生类的构造" class="headerlink" title="派生类的构造"></a>派生类的构造</h2><p>派生的过程不管子类有没有需要，都是把基类的所有成员全部继承。全部继承就会出现问题。<br>基类的部分成员在派生类中是不可见的，不可见就没有办法在派生类里面进行初始化，那么在派生类中不可见的继承部分就需要在基类的构造器中进行初始化，但是派生类在继承基类的时候会继承除了构造器和析构器之外的其他所有成员，所以我们在这里不能直接调用父类的构造器进行初始化，那么基类的构造器没有被派生类继承，派生类就无法直接调用基类的构造器对于派生类继承基类之后不可访问的成员进行初始化。</p>
-<p><strong>派生类中，从基类继承而来的成员的初始化工作还是由基类的构造器完成，然后派生类中原有的成员在派生类的构造函数中初始化。所以实际上并非是直接调用基类的构造器。</strong></p>
-<h2 id="子类的构造器调用父类的构造器的情况分析"><a href="#子类的构造器调用父类的构造器的情况分析" class="headerlink" title="子类的构造器调用父类的构造器的情况分析"></a>子类的构造器调用父类的构造器的情况分析</h2><h3 id="父类和子类都是默认无参构造器"><a href="#父类和子类都是默认无参构造器" class="headerlink" title="父类和子类都是默认无参构造器"></a>父类和子类都是默认无参构造器</h3><p>代码演示:</p>
-<pre><code>#include &lt;iostream&gt;
-using namespace std;
-
-class A
+                <h2 id="共享内存"><a href="#共享内存" class="headerlink" title="共享内存"></a>共享内存</h2><h3 id="简单说明"><a href="#简单说明" class="headerlink" title="简单说明"></a>简单说明</h3><p>共享内存就是OS在物理内存中开辟一段缓存空间，不过与管道、消息队列调用read、write、msgsnd、msgrcv等API来读写所不同的是，<strong>使用共享内存通信时，进程是直接使用地址来共享读写的。</strong></p>
+<p>当然不管使用那种方式，只要能够共享操作同一段缓存，就都可以实现进程间的通信。</p>
+<p>直接使用地址来读写缓存时，效率会更高，但是如果是调用API来读写的话，中间必须经过重重的OS函数调用之后，直到调用到最后一个函数时，该函数才会通过地址去读写共享的缓存，中间的调用过程会降低效率。</p>
+<p>对于小数据量的通信来说，使用管道和消息队列这种使用API读写的通信方式很合适，但是如果进程涉及到超大量的数据通信时，必须使用“共享内存”这种直接使用地址操作的通信方式，如果使用API来读写的话，效率会非常的低。</p>
+<h2 id="共享内存的原理"><a href="#共享内存的原理" class="headerlink" title="共享内存的原理"></a>共享内存的原理</h2><p>每个进程的虚拟内存只严格对应自己的那片物理内存空间，也就是说虚拟空间的虚拟地址，只和自己的那片物理内存空间的物理地址建立映射关系，和其它进程的物理内存空间没有任何的交集，因此进程空间之间是完全独立的。</p>
+<p><img src="https://img-blog.csdnimg.cn/20200313104851727.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="独立进程空间"></p>
+<p>共享内存的实现原理很简单，进程空间不是没有交集吗，让他们的空间有交集不就行了吗。<br>以两个进程使用共享内存来通信为例，实现的方法就是：</p>
+<p><strong>（1）调用API，让OS在物理内存上开辟出一大段缓存空间。</strong></p>
+<p><strong>（2）让各自进程空间与开辟出的缓存空间建立映射关系</strong></p>
+<p><img src="https://img-blog.csdnimg.cn/20200313104938630.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="进程实现共享内存"></p>
+<p>映射就是让虚拟地址和物理内存的实际物理地址建立一对一的对应关系，使用虚拟地址读写缓存时，虚拟地址最终是要转为物理地址的，转换时就必须参考这个映射关系。但是了两个进程空间的虚拟内存可能使用相同的虚拟地址，也可能使用不同的虚拟地址，但是在不同的内存空间，所以不会互相。</p>
+<p>建立映射关系后，每个进程都可以通过映射后的虚拟地址来共享操作实现通信了。</p>
+<p>A进程使用映射的虚拟地址操作的时候会直接操作共享的内存空间，B进程使用映射的虚拟地址操作的时候也会操作共享的内存空间。那么，通过对同一块共享的物理内存空间进行操作就实现了进程间的通信。</p>
+<p>多个进程能映射到同一片空间，然后数据共享。</p>
+<p>不过当多个进程映射并共享同一个空间时，在写数据的时候可能会出现相互干扰。</p>
+<p>我们知道进程的运行时时间片切换运行的，比如A进程的数据写入的数据比较大，需要多个时间片才能写完，刚写了一部分，结果切换到B进程后，B进程又开始写，A的数据就被中间B的数据干扰到。这时往往需要加保护措施，让每个进程在没有操作时不要被别人干扰，等操作完以后，别的进程才能写数据。例如我们会使用到信号量和文件锁都能够加入保护措施。</p>
+<h2 id="共享内存的使用步骤"><a href="#共享内存的使用步骤" class="headerlink" title="共享内存的使用步骤"></a>共享内存的使用步骤</h2><p><strong>（1）    进程调用shmget函数创建新的或获取已有共享内存</strong></p>
+<p><strong>（2）进程调用shmat函数，将物理内存映射到自己的进程空间，说白了就是让虚拟地址和真实物理地址建议一一对应的映射关系。</strong></p>
+<p><strong>（3）    shmdt函数，取消映射</strong></p>
+<p><strong>（4）    调用shmctl函数释放开辟的那片物理内存空间和消息队列的msgctl的功能是一样的，</strong><br><strong>只不过这个是共享内存的。</strong></p>
+<p>多个进程使用共享内存通信时，创建者只需要一个，同样的，一般都是谁先运行谁创建，其它后运行的进程发现已经被创建好了，就直接获取共享使用，大家共享操作同一个内存，即可实现通信。</p>
+<h2 id="共享内存的函数"><a href="#共享内存的函数" class="headerlink" title="共享内存的函数"></a>共享内存的函数</h2><h3 id="shmget函数"><a href="#shmget函数" class="headerlink" title="shmget函数"></a>shmget函数</h3><h4 id="函数原型"><a href="#函数原型" class="headerlink" title="函数原型"></a>函数原型</h4><pre><code>#include &lt;sys/ipc.h&gt;
+#include &lt;sys/shm.h&gt;
+int shmget(key_t key, size_t size, int shmflg);</code></pre><h4 id="功能"><a href="#功能" class="headerlink" title="功能"></a>功能</h4><p>创建新的，或者获取已有的共享内存。<br>如果key值没有对应任何共享内存创建一个新的共享内存，创建的过程其实就是os在物理内存上划出（开辟出）一段物理内存空间出来。</p>
+<p>如果key值有对应某一个共享内存说明之前有进程调用msgget函数，使用该key去创建了某个共享内存，既然别人之前就创建好了，那就直接获取key所对应的共享内存。</p>
+<h4 id="返回值"><a href="#返回值" class="headerlink" title="返回值"></a>返回值</h4><p>（a）成功：返回共享内存的标识符，用以后续操作<br>（b）失败：返回-1，并且errno被设置。</p>
+<pre><code>int shmget(key_t key, size_t size, int shmflg);</code></pre><h4 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h4><h5 id="key"><a href="#key" class="headerlink" title="key"></a>key</h5><p>用于生成共享内存的标识符</p>
+<h6 id="可以有三种设置"><a href="#可以有三种设置" class="headerlink" title="可以有三种设置"></a>可以有三种设置</h6><p>· IPC_PRIVATE：指定这个后，每次调用shmget时都会创建一个新共享内存。<br>· 自己指定一个长整型数<br>· 使用ftok函数，通过路径名和一个8位的整形数来生成key值</p>
+<h5 id="size"><a href="#size" class="headerlink" title="size"></a>size</h5><p>指定共享内存的大小，我们一般要求size是虚拟页大小的整数倍<br>一般来说虚拟页大小是4k（4096字节），如果你指定的大小不是虚拟页的整数倍，也会自动帮你补成整数倍。</p>
+<h5 id="semflg"><a href="#semflg" class="headerlink" title="semflg"></a>semflg</h5><p>与消息队列一样指定原始权限和IPC_CREAT，比如0664|IPC_CREAT。只有在创建一个新的共享内存时才会用到，否者不会用到。</p>
+<h3 id="使用ipcs命令即可查看创建的共享内存："><a href="#使用ipcs命令即可查看创建的共享内存：" class="headerlink" title="使用ipcs命令即可查看创建的共享内存："></a>使用ipcs命令即可查看创建的共享内存：</h3><ul>
+<li>a 或者 什么都不跟：消息队列、共享内存、信号量的信息都会显示出来</li>
+<li>m：只显示共享内存的信息    </li>
+<li>q：只显示消息队列的信息</li>
+<li>s：只显示信号量的信息</li>
+</ul>
+<h4 id="共享内存的删除"><a href="#共享内存的删除" class="headerlink" title="共享内存的删除"></a>共享内存的删除</h4><p>进程结束时，system v ipc不会自动删除，进程结束后，使用ipcs依然能够查看到。</p>
+<p>如何删除？<br>方法1：重启OS，很麻烦，服务器也不是随随便便就让你去重启的。<br>方法2：进程结束时，调用相应的API来删除<br>方法3：使用ipcrm命令删除</p>
+<ul>
+<li>删除共享内存</li>
+</ul>
+<p>+M：按照key值删除<br>ipcrm -M key<br>+m：按照标识符删除<br>ipcrm -m msgid</p>
+<ul>
+<li>删除消息队列</li>
+</ul>
+<p>+Q：按照key值删除<br>+q：按照标识符删除</p>
+<ul>
+<li>删除信号量</li>
+</ul>
+<p>+S：按照key值删除<br>+s：按照标识符删除</p>
+<h3 id="shmat函数"><a href="#shmat函数" class="headerlink" title="shmat函数"></a>shmat函数</h3><h4 id="函数原型-1"><a href="#函数原型-1" class="headerlink" title="函数原型"></a>函数原型</h4><pre><code>#include &lt;sys/types.h&gt;
+#include &lt;sys/shm.h&gt;
+void *shmat(int shmid, const void *shmaddr, int shmflg);</code></pre><h4 id="功能-1"><a href="#功能-1" class="headerlink" title="功能"></a>功能</h4><p>将shmid所指向的共享内存空间映射到进程空间（虚拟内存空间），并返回影射后的起始地址（虚拟地址）。<br>有了这个地址后，就可以通过这个地址对共享内存进行读写操作。</p>
+<h4 id="参数-1"><a href="#参数-1" class="headerlink" title="参数"></a>参数</h4><pre><code>void *shmat(int shmid, const void *shmaddr, int shmflg);</code></pre><h5 id="shmid"><a href="#shmid" class="headerlink" title="shmid"></a>shmid</h5><p>共享内存标识符。</p>
+<h5 id="shmaddr"><a href="#shmaddr" class="headerlink" title="shmaddr"></a>shmaddr</h5><p>指定映射的起始地址。<br>        有两种设置方式<br>        · <strong>自己指定映射的起始地址（虚拟地址）。我们一般不会这么做，因为我们自己都搞不清哪些虚拟地址被用了，哪些没被用。</strong></p>
+<p>· <strong>NULL：表示由内核自己来选择映射的起始地址（虚拟地址）。这是最常见的方式，也是最合理的方式，因为只有内核自己才知道哪些虚拟地址可用，哪些不可用。</strong></p>
+<h5 id="shmflg"><a href="#shmflg" class="headerlink" title="shmflg"></a>shmflg</h5><p>指定映射条件。</p>
+<p>· 0：<strong>以可读可写的方式映射共享内存，也就是说映射后，可以读、也可以写共享内存。</strong></p>
+<p>· <strong>SHM_RDONLY：以只读方式映射共享内存，也就是说映射后，只能读共享内存，不能写。</strong></p>
+<p>· 1： <strong>以只写方式映射共享内存，也就是说映射后，只能写共享内存，不能读。</strong></p>
+<h4 id="返回值-1"><a href="#返回值-1" class="headerlink" title="返回值"></a>返回值</h4><p>a）成功：则返回映射地址</p>
+<p>b）失败：返回（void *）-1，并且errno被设置。</p>
+<h3 id="shmdt函数"><a href="#shmdt函数" class="headerlink" title="shmdt函数"></a>shmdt函数</h3><h4 id="函数原型-2"><a href="#函数原型-2" class="headerlink" title="函数原型"></a>函数原型</h4><pre><code>#include &lt;sys/types.h&gt;
+#include &lt;sys/shm.h&gt;
+int shmdt(const void *shmaddr);    </code></pre><h4 id="功能-2"><a href="#功能-2" class="headerlink" title="功能"></a>功能</h4><p>取消建立的映射。</p>
+<h4 id="返回值-2"><a href="#返回值-2" class="headerlink" title="返回值"></a>返回值</h4><p>调用成功返回0，失败返回-1，且errno被设置。</p>
+<h4 id="参数-2"><a href="#参数-2" class="headerlink" title="参数"></a>参数</h4><p>shmaddr：映射的起始地址（虚拟地址）。</p>
+<h3 id="shmctl函数"><a href="#shmctl函数" class="headerlink" title="shmctl函数"></a>shmctl函数</h3><h4 id="函数原型-3"><a href="#函数原型-3" class="headerlink" title="函数原型"></a>函数原型</h4><pre><code>#include &lt;sys/ipc.h&gt;
+#include &lt;sys/shm.h&gt;
+int shmctl(int shmid, int cmd, struct shmid_ds *buf);</code></pre><h4 id="功能-3"><a href="#功能-3" class="headerlink" title="功能"></a>功能</h4><p>根据cmd的要求，对共享内存进行相应控制。<br>比如：</p>
+<p>· 获取共享内存的属性信息</p>
+<p>· 修改共享内存的属性信息</p>
+<p>· 删除共享内存</p>
+<p>· 等等</p>
+<p>删除共享内存是最常见的控制。</p>
+<h4 id="参数-3"><a href="#参数-3" class="headerlink" title="参数"></a>参数</h4><p>· <strong>shmid</strong>：标识符。</p>
+<p>· <strong>cmd</strong>：控制选项</p>
+<ul>
+<li><p>IPC_STAT：从内核获取共享内存属性信息到第三个参数（应用缓存）。</p>
+</li>
+<li><p>IPC_SET：修改共享内存的属性。<br>  修改方法与消息队列相同。</p>
+</li>
+<li><p>IPC_RMID：删除共享内存，不过前提是只有当所有的映射取消后，才能删除共享内存。<br>  删除时，用不着第三个参数，所以设置为NULL</p>
+</li>
+</ul>
+<p>· <strong>buf</strong>: buf的类型为struct shmid_ds。</p>
+<ul>
+<li><p>cmd为IPC_STAT时<br>buf用于存储原有的共享内存属性，以供查看。</p>
+</li>
+<li><p>cmd为IPC_SET时<br>buf中放的是新的属性设置，用于修改共享内存的属性。</p>
+</li>
+</ul>
+<p><strong>struct shmid_ds结构体</strong></p>
+<pre><code>struct shmid_ds 
 {
-public:
-    A()
-    {
-        cout &lt;&lt; &quot;A()&quot; &lt;&lt; endl;
-    }
-private:
 
-};
-
-class B : public A
-{
-public:
-    B()
-    {
-        cout &lt;&lt; &quot;B()&quot; &lt;&lt; endl;
-    }
-};
-
-
-int main()
-{
-    B b;
-    return 0;
-}</code></pre><p>运行结果为：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200310233337669.png" alt="运行结果"></p>
-<p>由结果我们得到<strong>父类和子类都是无参构造器时生成对象会先默认调用A的构造器再默认调用B的构造器。</strong></p>
-<h3 id="子类为无参默认构造器，父类为带参数的构造器且有默认值"><a href="#子类为无参默认构造器，父类为带参数的构造器且有默认值" class="headerlink" title="子类为无参默认构造器，父类为带参数的构造器且有默认值"></a>子类为无参默认构造器，父类为带参数的构造器且有默认值</h3><pre><code>#include &lt;iostream&gt;
-using namespace std;
-
-class A
-{
-public:
-    A(int  i = 10)
-    {
-        a = i;
-        cout &lt;&lt; &quot;A()&quot; &lt;&lt; endl;
-        cout &lt;&lt; &quot;a = &quot; &lt;&lt; a &lt;&lt; endl;
-    }
-    int a;
-private:
-
-};
-
-class B : public A
-{
-public:
-    B()
-    {
-        b = 5;
-        cout &lt;&lt; &quot;B()&quot; &lt;&lt; endl;
-        cout &lt;&lt; &quot;b = &quot;&lt;&lt; b &lt;&lt; endl;
-    }
-    int b;
-};
-
-
-int main()
-{
-    B c;
-    return 0;
-}</code></pre><p>运行结果为：</p>
-<p><img src="https://img-blog.csdnimg.cn/2020031215562165.png" alt="运行结果"></p>
-<p>当子类使用的是无参构造器的时候，会调用父类的默认无参构造器，如果父类构造器自实现，父类的构造器有参数并且有默认值，则父类的成员通过父类的构造器进行初始化。</p>
-<h3 id="子类为无参默认构造器，父类为带参数的构造器没有默认值"><a href="#子类为无参默认构造器，父类为带参数的构造器没有默认值" class="headerlink" title="子类为无参默认构造器，父类为带参数的构造器没有默认值"></a>子类为无参默认构造器，父类为带参数的构造器没有默认值</h3><pre><code>#include &lt;iostream&gt;
-using namespace std;
-
-class A
-{
-public:
-    A(int  i)
-    {
-        a = i;
-        cout &lt;&lt; &quot;A()&quot; &lt;&lt; endl;
-        cout &lt;&lt; &quot;a = &quot; &lt;&lt; a &lt;&lt; endl;
-    }
-    int a;
-private:
-
-};
-
-class B : public A
-{
-public:
-    B()
-    {
-        b = 5;
-        cout &lt;&lt; &quot;B()&quot; &lt;&lt; endl;
-        cout &lt;&lt; &quot;b = &quot;&lt;&lt; b &lt;&lt; endl;
-    }
-    int b;
-};
-
-
-int main()
-{
-    B c;
-    return 0;
-}</code></pre><p>这个时候就会报错：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200312155750952.png" alt="编译器报错"></p>
-<p>当子类使用的是无参构造器的时候，会调用父类的默认无参构造器，如果父类构造器自实现，父类的构造器有参数但是没有默认值，编译器会报错。</p>
-<h3 id="如果子类的构造器是自实现，父类的构造器是默认无参构造器"><a href="#如果子类的构造器是自实现，父类的构造器是默认无参构造器" class="headerlink" title="如果子类的构造器是自实现，父类的构造器是默认无参构造器"></a>如果子类的构造器是自实现，父类的构造器是默认无参构造器</h3><p>#include <iostream><br>    using namespace std;</p>
-<pre><code>class A
-{
-public:
-    A()
-    {
-        a = 5;
-        cout &lt;&lt; &quot;A()&quot; &lt;&lt; endl;
-        cout &lt;&lt; &quot;a = &quot; &lt;&lt; a &lt;&lt; endl;
-
-
-    }
-    int a;
-private:
-
-};
-
-class B : public A
-{
-public:
-    B(int x)
-    {
-        b = x;
-        cout &lt;&lt; &quot;B()&quot; &lt;&lt; endl;
-        cout &lt;&lt; &quot;b = &quot; &lt;&lt; b &lt;&lt; endl;
-    }
-    int b;
+struct ipc_perm shm_perm;/* Ownership and permissions：/*权限 */
+size_t shm_segsz;   /* Size of segment (bytes)：/*共享内存大小 */
+time_t shm_atime;   /* Last attach time：/*最后一次映射的时间 */
+time_t shm_dtime;   /* Last detach time：/*最后一次取消映射的时间 */
+time_t shm_ctime;   /* Last change time：/*最后一次修改属性信息的时间 */
+pid_t shm_cpid;/* PID of creator：/*创建进程的PID */
+pid_t shm_lpid;/* PID of last shmat(2)/shmdt(2) ：/*当前正在使用进程的PID*/
+shmatt_t shm_nattch;  /* No. of current attaches：/*映射数量，标记有多少个进程空间映射到了共享内存*/                                        
+/* 每增加一个映射就+1，每取消一个映射就-1 */
 };
 
 
-int main()
+    struct ipc_perm 
 {
-    B c(3);
-    return 0;
-}</code></pre><p>运行结果为：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200312160559670.png" alt="运行结果"></p>
-<p>如果子类通过自实现传递参数，父类的构造器是默认无参构造器，那么子类通过参数传递进行初始化，父类通过父类的默认构造器进行初始化。</p>
-<h3 id="如果子类的构造器是自实现，父类的构造器自实现有参数但是没有默认值"><a href="#如果子类的构造器是自实现，父类的构造器自实现有参数但是没有默认值" class="headerlink" title="如果子类的构造器是自实现，父类的构造器自实现有参数但是没有默认值"></a>如果子类的构造器是自实现，父类的构造器自实现有参数但是没有默认值</h3><pre><code>#include &lt;iostream&gt;
-using namespace std;
-
-class A
+key_t  __key; /* Key supplied to shmget(2) */
+uid_t  uid;   /* UID of owner */
+gid_t  gid;   /* GID of owner */
+uid_t  cuid;  /* UID of creator */
+gid_t  cgid;  /* GID of creator */
+unsigned short mode;  /* Permissions + SHM_DEST andSHM_LOCKED flags */
+unsigned short __seq; /* Sequence number */
+};                                                </code></pre><h4 id="返回值-3"><a href="#返回值-3" class="headerlink" title="返回值"></a>返回值</h4><p>调用成功0，失败则返回-1，并且errno被设置。</p>
+<h2 id="代码演示"><a href="#代码演示" class="headerlink" title="代码演示"></a>代码演示</h2><p>使用共享内存实现将A进程数据发送给B进程。<br>我这里只实现单向的通信，至于双向通信，读者可以自行实现。</p>
+<p>向共享内存写入数据的程序：</p>
+<pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;sys/ipc.h&gt;
+#include &lt;sys/shm.h&gt;
+#include &lt;sys/types.h&gt;
+#include &lt;sys/types.h&gt;
+#include &lt;sys/stat.h&gt;
+#include &lt;fcntl.h&gt;
+#include &lt;string.h&gt;
+#include &lt;strings.h&gt;
+#include &lt;signal.h&gt;
+#define SHM_FILE &quot;./shmfile&quot;
+#define SHM_SIZE 4096
+int shmid = -1;
+void * shmaddr = NULL;
+void signal_fun(int shgno)  //捕获SIGINT信号取消映射
 {
-public:
-    A(int y)
-    {
-        a = y;
-        cout &lt;&lt; &quot;A()&quot; &lt;&lt; endl;
-        cout &lt;&lt; &quot;a = &quot; &lt;&lt; a &lt;&lt; endl;
-
-
-    }
-    int a;
-private:
-
-};
-
-class B : public A
-{
-public:
-    B(int x,int y)
-    {
-        b = x;
-        cout &lt;&lt; &quot;B()&quot; &lt;&lt; endl;
-        cout &lt;&lt; &quot;b = &quot; &lt;&lt; b &lt;&lt; endl;
-    }
-    int b;
-};
-
-
-int main()
-{
-    B c(3.5);
-    return 0;
-}</code></pre><p>上面代码机会编译错误：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200312160901140.png" alt="编译器报错"></p>
-<p>当子类的构造器是自实现，子类会调用父类的默认无参构造器，如果父类的构造器自实现，子类调用父类自实现构造器的时候，父类的构造器自实现有参数但是没有默认值，会出现错误。</p>
-<h3 id="如果子类的构造器是自实现，父类的构造器自实现有参数并且没有默认值"><a href="#如果子类的构造器是自实现，父类的构造器自实现有参数并且没有默认值" class="headerlink" title="如果子类的构造器是自实现，父类的构造器自实现有参数并且没有默认值"></a>如果子类的构造器是自实现，父类的构造器自实现有参数并且没有默认值</h3><pre><code>#include &lt;iostream&gt;
-using namespace std;
-
-class A
-{
-public:
-    A(int y = 10)
-    {
-        a = y;
-        cout &lt;&lt; &quot;A()&quot; &lt;&lt; endl;
-        cout &lt;&lt; &quot;a = &quot; &lt;&lt; a &lt;&lt; endl;
-
-
-    }
-    int a;
-private:
-
-};
-
-class B : public A
-{
-public:
-    B(int x,int y)
-    {
-        b = x;
-        cout &lt;&lt; &quot;B()&quot; &lt;&lt; endl;
-        cout &lt;&lt; &quot;b = &quot; &lt;&lt; b &lt;&lt; endl;
-    }
-    int b;
-};
-
-
-int main()
-{
-    B c(3,5);
-    return 0;
-}</code></pre><p>运行结果为：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200312161203216.png" alt="运行结果"></p>
-<p>当子类的构造器是自实现，子类会调用父类的默认无参构造器，如果父类的构造器自实现，子类调用父类自实现构造器的时候，父类的构造器自实现有参数并且默认值，则父类的成员通过父类的构造器进行初始化。</p>
-<h2 id="显式调用父类构造"><a href="#显式调用父类构造" class="headerlink" title="显式调用父类构造"></a>显式调用父类构造</h2><p><strong>上面子类对于父类的调用，无论哪一种情况都无法把通过子类创建对象的默认参数传递给父类进行初始化。</strong></p>
-<h3 id="语法格式"><a href="#语法格式" class="headerlink" title="语法格式"></a>语法格式</h3><pre><code>派生类名::派生类名(总参列表)
-:基类名(参数表),内嵌子对象(参数表)
-{
-派生类新增成员的初始化语句; //也可出现地参数列表中
-}</code></pre><p>如果不是上面的标配情况就必须显式调用。</p>
-<p><strong>显式调用不管有没有标配都是适用的。</strong></p>
-<h3 id="显式调用代码演示"><a href="#显式调用代码演示" class="headerlink" title="显式调用代码演示"></a>显式调用代码演示</h3><pre><code>#include &lt;iostream&gt;
-using namespace std;
-
-class A
-{
-public:
-    A(int y)
-    {
-        a = y;
-        cout &lt;&lt; &quot;A()&quot; &lt;&lt; endl;
-        cout &lt;&lt; &quot;a = &quot; &lt;&lt; a &lt;&lt; endl;
-
-
-    }
-    int a;
-private:
-
-};
-
-class B : public A
-{
-public:
-    B(int x, int y)
-        :A(y)//显式调用
-    {
-        b = x;
-        cout &lt;&lt; &quot;B()&quot; &lt;&lt; endl;
-        cout &lt;&lt; &quot;b = &quot; &lt;&lt; b &lt;&lt; endl;
-    }
-    int b;
-};
-
-
-int main()
-{
-    B c(10, 20);
-    cout &lt;&lt; &quot;c.a = &quot; &lt;&lt; c.a &lt;&lt; endl;
-    cout &lt;&lt; &quot;c.b = &quot; &lt;&lt; c.b &lt;&lt; endl;
-    return 0;
-}</code></pre><p>运行结果为：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200312162936528.png" alt="运行结果"></p>
-<p><strong>那么在调用的时候符合标配情况进行隐式调用也可以直接使用显式调用。</strong></p>
-<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>子类中包含两个部分，一部分来自于父类，一部分是子类自己有的。父类的通过父类构造器进行初始化，子类的通过子类构造器进行初始化。在初始化的过程中由于父类的构造器没有被子类继承，所以不能像调用函数一样调用父类的构造器，只能把父类的构造器通过上面语法格式中：</p>
-<pre><code>基类名（参数列表）</code></pre><p>通过传参的方式进行初始化。</p>
-<p>子类当中直接使用子类的构造器进行初始化。</p>
-<h2 id="构造顺序"><a href="#构造顺序" class="headerlink" title="构造顺序"></a>构造顺序</h2><h3 id="图示"><a href="#图示" class="headerlink" title="图示"></a>图示</h3><p><img src="https://img-blog.csdnimg.cn/20200310233911584.png" alt="图示"></p>
-<h1 id="内嵌子对象"><a href="#内嵌子对象" class="headerlink" title="内嵌子对象"></a>内嵌子对象</h1><pre><code>#include &lt;iostream&gt;
-using namespace std;
-
-
-class C
-{
-public:
-    C()
-    {
-        cout &lt;&lt; &quot;C()&quot; &lt;&lt; endl;
-
-    }
-    int c;
-private:
-};
-
-
-class A
-{
-public:
-    A(int i)
-    {
-        cout &lt;&lt; &quot;A()&quot; &lt;&lt; endl;
-        a = i;
-    }
-    int a;
-private:
-
-};
-
-class B : public A
-{
-public:
-    B(int i,int j)
-        :A(i)
-    {
-        cout &lt;&lt; &quot;B()&quot; &lt;&lt; endl;
-        b = j;
-    }
-    int b;
-    C c;  //内嵌子对象
-};
-
-
-int main()
-{
-    B c(3,5);
-    cout &lt;&lt; c.a &lt;&lt; endl;
-    cout &lt;&lt; c.b &lt;&lt; endl;
-    return 0;
-}</code></pre><p>运行结果为：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200310233940700.png" alt="运行结果"></p>
-<p>通过运行结果我们也可以看到，先默认调用父类构造器初始化父类，再默认调用内嵌类构造器初始化内嵌子类，最后默认调用子类构造器初始化子类。</p>
-<p>上面的过程类似于我们在家招待亲戚，例如倒酒的时候，先给父亲倒上，再给亲戚倒上，最后给自己倒上。</p>
-<p><strong>调用内嵌子对象的构造器，标配会被调用，没有标配，必须显式调用。所以在调用的时候如果隐士的调用，就必须有标配，如果显示的构造，是否标配都不会影响。</strong></p>
-<p><strong>那么内嵌子对象标配的情况和我们上面子类构造器中调用父类的构造器三种情况相同。</strong></p>
-<p>如果是非标配，则需要使用显示调用。<br>代码演示：</p>
-<pre><code>#include &lt;iostream&gt;
-using namespace std;
-
-
-class C
-{
-public:
-    C(int j)
-    {
-        cout &lt;&lt; &quot;C()&quot; &lt;&lt; endl;
-        c = j;
-    }
-    int c;
-private:
-};
-
-
-class A
-{
-public:
-    A(int i)
-    {
-        cout &lt;&lt; &quot;A()&quot; &lt;&lt; endl;
-        a = i;
-    }
-    int a;
-private:
-
-};
-
-class B : public A
-{
-public:
-    B(int i, int j, int k)
-        :A(i), c(k)
-    {
-        cout &lt;&lt; &quot;B()&quot; &lt;&lt; endl;
-        b = j;
-    }
-    int b;
-    C c;  //内嵌子对象
-};
-
-
-int main()
-{
-    B c(3,5,10);
-    cout &lt;&lt; c.a &lt;&lt; endl;
-    cout &lt;&lt; c.b &lt;&lt; endl;
-    cout &lt;&lt; c.c.c &lt;&lt; endl;
-    return 0;
-}</code></pre><p>运行结果为：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200310234029308.png" alt="运行结果"></p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>由于子类中，包含了两部分内容，一部分来自父类，一部分来自子类。父类的部分，要由调用父类的构造器来完成，子类的部分，在子类的构造器中来完成始化。子类中有内嵌的子对象也需要构造。</p>
-<p><img src="https://img-blog.csdnimg.cn/20200312163158793.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="构造顺序"></p>
-<h2 id="简单应用"><a href="#简单应用" class="headerlink" title="简单应用"></a>简单应用</h2><pre><code>#include &lt;iostream&gt;
-
-using namespace std;
-
-
-class Brithday
-{
-public:
-Brithday(int y, int m, int d)
-:year_(y), month_(m), day_(d) {}
-void disBirth()
-{
-        cout &lt;&lt; &quot;year_:&quot; &lt;&lt; year_ &lt;&lt; endl;
-        cout &lt;&lt; &quot;month_:&quot; &lt;&lt; month_ &lt;&lt; endl;
-        cout &lt;&lt; &quot;day_:&quot; &lt;&lt; day_ &lt;&lt; endl;
-}
-private:
-int year_;
-int month_;
-int day_;
-};
-
-class Student
-{
-
-public:
-Student(string sn, char cs, float fs) :name_(sn), sex_(cs), score_(fs) {}
-void dis()
-{
-cout &lt;&lt; &quot;name:&quot; &lt;&lt; name_&lt;&lt;endl;
-cout &lt;&lt; &quot;sex:&quot; &lt;&lt; sex_ &lt;&lt; endl;
-cout &lt;&lt; &quot;score:&quot; &lt;&lt; score_ &lt;&lt; endl;
-}
-private:
-string name_;
-char sex_;
-float score_;
-};
-
-class Graduate:public Student
-{
-
-public:
-Graduate(string sn, char cs, float fs,float fda,int y,int m,int d)
-:Student(sn,cs,fs), birth(y,m,d)
-{
-salary_ = fda;
+shmdt(shmaddr);  //取消映射
+//当所有的映射都取消之后才会删除共享内存
+//即使我们不手动取消映射，也会在进程结束的时候取消映射
+shmctl(shmid,IPC_RMID,NULL); //删除共享内存
+//删除内存不会在进程结束之后自动完成
+exit(-1);
 }
 
-void dump()   //上面对象使用了dis这里就不再使用dis
+void print_err(char *estr)  //错误处理函数
 {
-dis();
-birth.disBirth();
-cout &lt;&lt; &quot;salary&quot; &lt;&lt; salary_ &lt;&lt; endl;
+perror(estr);
+exit(-1);
 }
-private:
-float salary_;
-Brithday birth;
-};
 
-
-int main()
+void creat_or_get_shm(void) //创建共享内存
 {
-Graduate g(&quot;zhangsan&quot;,&apos;s&apos;,99,1000,1999,9,9);
-g.dump();
+int fd = 0;
+key_t key = -1;
+fd = open(SHM_FILE,O_RDWR|O_CREAT,0664);
+if(-1 == fd) print_err(&quot;open fail&quot;);
+key = ftok(SHM_FILE,&apos;b&apos;);
+if(-1 == key) print_err(&quot;ftok fail&quot;);
+shmid =  shmget(key,SHM_SIZE, 0664|IPC_CREAT);
+if(-1 == shmid) print_err(&quot;shmget fail&quot;);
+}
+
+char buf[300] = {&quot;abcdefghijklmnopqrstuvwxyz123456789abcdefghijklmnopqrstuvwxyz&quot;};
+
+int main(void)
+{
+signal(SIGINT,signal_fun);
+void * shmaddr = NULL;
+creat_or_get_shm(); //创建或者获取共享内存
+ shmaddr = shmat(shmid,NULL,0);//建立映射
+ if(shmaddr == (void *)-1)print_err(&quot;shmat fail&quot;);
+ while(1)
+ {
+ memcpy(shmaddr, buf, sizeof(buf));
+ sleep(1);
+ }
+
+return 0;
+}</code></pre><p>从共享文件读取数据的程序：</p>
+<pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;sys/ipc.h&gt;
+#include &lt;sys/shm.h&gt;
+#include &lt;sys/types.h&gt;
+#include &lt;sys/types.h&gt;
+#include &lt;sys/stat.h&gt;
+#include &lt;fcntl.h&gt;
+#include &lt;string.h&gt;
+#include &lt;strings.h&gt;
+#include &lt;signal.h&gt;
+#define SHM_FILE &quot;./shmfile&quot;
+#define SHM_SIZE 4096
+int shmid = -1;
+void * shmaddr = NULL;
+void signal_fun(int shgno)  //捕获SIGINT信号取消映射
+{
+shmdt(shmaddr);  //取消映射
+//当所有的映射都取消之后才会删除共享内存
+//即使我们不手动取消映射，也会在进程结束的时候取消映射
+shmctl(shmid,IPC_RMID,NULL); //删除共享内存
+//删除内存不会在进程结束之后自动完成
+exit(-1);
+}
+
+void print_err(char *estr)  //错误处理函数
+{
+perror(estr);
+exit(-1);
+}
+
+void creat_or_get_shm(void) //创建共享内存
+{
+int fd = 0;
+key_t key = -1;
+fd = open(SHM_FILE,O_RDWR|O_CREAT,0664);
+if(-1 == fd) print_err(&quot;open fail&quot;);
+key = ftok(SHM_FILE,&apos;b&apos;);
+if(-1 == key) print_err(&quot;ftok fail&quot;);
+shmid =  shmget(key,SHM_SIZE, 0664|IPC_CREAT);
+if(-1 == shmid) print_err(&quot;shmget fail&quot;);
+}
+
+
+int main(void)
+{
+signal(SIGINT,signal_fun);
+void * shmaddr = NULL;
+creat_or_get_shm(); //创建或者获取共享内存
+ shmaddr = shmat(shmid,NULL,0);//建立映射
+ if(shmaddr == (void *)-1)print_err(&quot;shmat fail&quot;);
+ while(1)
+ {
+ if(strlen((char *)shmaddr)!=0)
+ {
+ printf(&quot;%s\n&quot;,(char *)shmaddr); //打印共享内存数据
+ bzero(shmaddr,SHM_SIZE);
+ }
+
+ }
+
 return 0;
 }</code></pre><p>运行结果为：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200311003147607.png" alt="运行结果"></p>
-<h2 id="层次设计感悟"><a href="#层次设计感悟" class="headerlink" title="层次设计感悟"></a>层次设计感悟</h2><p><strong>继承层次化的设计，本层次初始化，仅需要考虑上次层，而不是考虑上上层次或是更上层次。</strong></p>
-<pre><code>#include &lt;iostream&gt;
+<p><img src="https://img-blog.csdnimg.cn/20200313110129624.png" alt="运行结果"></p>
+<p><img src="https://img-blog.csdnimg.cn/20200313110140385.png" alt="运行结果"></p>
+<p>如果只是实现使用共享内存进行进程间的通信，那么上面的代码已经完成。如果你开始理解共享内存的机制那么上面代码看明白理解是没有问题的，接下来我们进行一些分析。</p>
+<h2 id="缺陷改进"><a href="#缺陷改进" class="headerlink" title="缺陷改进"></a>缺陷改进</h2><p>我们上面的代码有缺陷的：<br>缺陷1：strlen函数只能用于判断字符串<br>    如果对方通过共享内存发送不是字符串，而是结构体、整形、浮点型数据， strlen将无法正确判断。<br>    这个缺陷如果C语言没问题，这个缺陷就很容易解决。</p>
+<p>缺陷2：没有数据时，cpu会一直循环的判断，这样会让cpu一直做好无意义的事情，非常浪费cpu资源。</p>
+<p>所有我们需要对于代码进行改进，我们需要保证写完后再读数据，当共享内存没有数据时，读进程休眠，当写进程把数据写完后，将读进程唤醒。<br>说白了就是多个进程在操作时，涉及到一个谁先谁后的问题，其实就是同步问题，所谓同步就是保持一个谁先谁后的统一步调。</p>
+<p>这就好比我踩一个脚步你跟着踩一个脚步，统一踩脚步的步调，这就是同步，否者我踩我的，你踩你的，各自的步调不一致，这就是异步。</p>
+<p>那么通过信号量实现进程同步的方法读者可以在本机ICP信号量博客进行阅读。<br>接下来我们使用的一种方式是使用信号方式来实现读写共享内存的进程之间同步操作。</p>
+<p>方式1：<br>给共享内存写入数据代码：</p>
+<pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;sys/ipc.h&gt;
+#include &lt;sys/types.h&gt;
+#include &lt;sys/shm.h&gt;
+#include &lt;sys/types.h&gt;
+#include &lt;sys/stat.h&gt;
+#include &lt;fcntl.h&gt;
+#include &lt;strings.h&gt;
+#include &lt;string.h&gt;
+#include &lt;signal.h&gt;
+#include &lt;errno.h&gt;
 
-using namespace std;
 
 
-class Brithday
+#define SHM_FILE &quot;./shmfile&quot;
+
+#define SHM_SIZE 4096
+
+int shmid = -1;
+void *shmaddr = NULL;    
+
+
+
+void print_err(char *estr)
 {
-public:
-Brithday(int y, int m, int d)
-:year_(y), month_(m), day_(d) {}
-void disBirth()
-{
-        cout &lt;&lt; &quot;year_:&quot; &lt;&lt; year_ &lt;&lt; endl;
-        cout &lt;&lt; &quot;month_:&quot; &lt;&lt; month_ &lt;&lt; endl;
-        cout &lt;&lt; &quot;day_:&quot; &lt;&lt; day_ &lt;&lt; endl;
-}
-private:
-int year_;
-int month_;
-int day_;
-};
-
-class Student
-{
-
-public:
-Student(string sn, char cs, float fs) :name_(sn), sex_(cs), score_(fs) {}
-void dis()
-{
-cout &lt;&lt; &quot;name:&quot; &lt;&lt; name_&lt;&lt;endl;
-cout &lt;&lt; &quot;sex:&quot; &lt;&lt; sex_ &lt;&lt; endl;
-cout &lt;&lt; &quot;score:&quot; &lt;&lt; score_ &lt;&lt; endl;
-}
-private:
-string name_;
-char sex_;
-float score_;
-};
-
-class Graduate:public Student
-{
-
-public:
-Graduate(string sn, char cs, float fs,float fsa,int y,int m,int d)
-:Student(sn,cs,fs), birth(y,m,d)
-{
-salary_ = fsa;
+    perror(estr);    
+    exit(-1);
 }
 
-void dump()   //上面对象使用了dis这里就不再使用dis
+void create_or_get_shm(void) //创建共享内存
 {
-dis();
-birth.disBirth();
-cout &lt;&lt; &quot;salary&quot; &lt;&lt; salary_ &lt;&lt; endl;
-}
-private:
-float salary_;
-Brithday birth;
-};
+    int fd = 0;
+    key_t key = -1;    
 
-class Doctor :public Graduate
+    fd = open(SHM_FILE, O_RDWR|O_CREAT, 0664);
+    if(fd == -1) print_err(&quot;open fail&quot;);
+
+    key = ftok(SHM_FILE, &apos;b&apos;);
+    if(key == -1) print_err(&quot;ftok fail&quot;);
+
+    shmid = shmget(key, SHM_SIZE, 0664|IPC_CREAT);
+    if(shmid == -1) print_err(&quot;shmget fail&quot;);
+
+
+}
+
+char buf[300] = {&quot;aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\
+222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222\
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff2222222222&quot;};
+
+void signal_fun(int signo)
 {
-public:
-    Doctor(string sn, char cs, float fs, float fsa, int y, int m, int d, string t)
-        :Graduate(sn, cs, fs, fsa, y, m, d)
+    shmdt(shmaddr);  //取消映射
+    shmctl(shmid, IPC_RMID, NULL);  //删除共享内存
+    remove(&quot;./fifo&quot;);   //删除用于创建同名管道的文件
+    remove(SHM_FILE);   //删除用于创建共享内存的文件
+
+    exit(-1);    
+}
+
+int get_peer_PID(void)
+{
+    int ret = -1;
+    int fifofd = -1;
+
+    /* 创建有名管道文件 */
+ret = mkfifo(&quot;./fifo&quot;, 0664); 
+if(ret == -1 &amp;&amp; errno != EEXIST) print_err(&quot;mkfifo fail&quot;);
+
+    /* 以只读方式打开管道 */
+    fifofd = open(&quot;./fifo&quot;, O_RDONLY);
+if(fifofd == -1) print_err(&quot;open fifo fail&quot;);
+
+    /* 读管道，获取“读共享内存进程”的PID */
+int peer_pid;
+ret = read(fifofd, &amp;peer_pid, sizeof(peer_pid));
+if(ret == -1) print_err(&quot;read fifo fail&quot;);
+
+    return peer_pid; 
+}
+
+int main(void)
+{
+    int peer_pid = -1;
+
+    /* 给SIGINT信号注册捕获函数，用于删除共享内存、管道、文件等 */
+    signal(SIGINT, signal_fun);
+
+
+    /* 使用有名管道获取读共享内存进程的PID */
+    peer_pid = get_peer_PID();
+
+
+    /* 创建、或者获取共享内存 */
+    create_or_get_shm();
+
+    //建立映射
+    shmaddr = shmat(shmid, NULL, 0);
+    if(shmaddr == (void *)-1) print_err(&quot;shmat fail&quot;);    
+
+    while(1)   //给共享内存写入数据
     {
-title_ = t;
-}
-void disDoctor()
+        memcpy(shmaddr, buf, sizeof(buf));
+        kill(peer_pid, SIGUSR1);
+        sleep(1);
+
+    }
+
+    return 0;
+}</code></pre><p>从共享内存读取数据的代码：</p>
+<pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;sys/ipc.h&gt;
+#include &lt;sys/types.h&gt;
+#include &lt;sys/shm.h&gt;
+#include &lt;sys/types.h&gt;
+#include &lt;sys/stat.h&gt;
+#include &lt;fcntl.h&gt;
+#include &lt;strings.h&gt;
+#include &lt;string.h&gt;
+#include &lt;signal.h&gt;
+#include &lt;errno.h&gt;
+
+
+#define SHM_FILE &quot;./shmfile&quot;
+
+#define SHM_SIZE 4096
+
+int shmid = -1;
+void *shmaddr = NULL;    
+
+
+
+void print_err(char *estr)
 {
-dump();
-cout &lt;&lt; &quot;title:&quot; &lt;&lt; title_ &lt;&lt; endl;
+    perror(estr);    
+    exit(-1);
 }
-private:
-    string title_;
-};
-int main()
+
+void create_or_get_shm(void)  //创建共享内存
 {
-Doctor g(&quot;zhaosi&quot;,&apos;s&apos;,99,3000,1999,9,9,&quot;doctor zhao&quot;);
-g.disDoctor();
+    int fd = 0;
+    key_t key = -1;    
+
+    fd = open(SHM_FILE, O_RDWR|O_CREAT, 0664);
+    if(fd == -1) print_err(&quot;open fail&quot;);
+
+    key = ftok(SHM_FILE, &apos;b&apos;);
+    if(key == -1) print_err(&quot;ftok fail&quot;);
+
+    shmid = shmget(key, SHM_SIZE, 0664|IPC_CREAT);
+    if(shmid == -1) print_err(&quot;shmget fail&quot;);
+
+
+}
+
+void signal_fun(int signo) //信号处理函数
+{
+    if(SIGINT == signo)
+    {
+        shmdt(shmaddr);//取消映射
+        shmctl(shmid, IPC_RMID, NULL);  //删除共享内存
+        remove(&quot;./fifo&quot;);  //删除用于创建有名管道的文件
+        remove(SHM_FILE);  //删除用于创建共享内存的文件
+
+        exit(-1);
+    }
+    else if(SIGUSR1 == signo)
+    {
+
+    }
+}
+
+void snd_self_PID(void)
+{
+    int ret = -1;
+    int fifofd = -1;
+
+    /* 创建有名管道文件 */
+    mkfifo(&quot;./fifo&quot;, 0664); 
+    if(ret == -1 &amp;&amp; errno != EEXIST) print_err(&quot;mkfifo fail&quot;);
+
+    /* 以只写方式打开文件 */
+    fifofd = open(&quot;./fifo&quot;, O_WRONLY);
+    if(fifofd == -1) print_err(&quot;open fifo fail&quot;);
+
+    /* 获取当前进程的PID, 使用有名管道发送给写共享内存的进程 */
+    int pid = getpid();
+    ret = write(fifofd, &amp;pid, sizeof(pid));//发送PID
+    if(ret == -1) print_err(&quot;write fifo fail&quot;);
+}
+
+int main(void)
+{
+
+    /*给SIGUSR1注册一个空捕获函数，用于唤醒pause()函数 */
+    signal(SIGUSR1, signal_fun);
+    signal(SIGINT, signal_fun);
+
+    /* 使用有名管道，讲当前进程的PID发送给写共享内存的进程 */
+    snd_self_PID();    
+
+
+    /* 创建、或者获取共享内存 */
+    create_or_get_shm();
+
+
+    //建立映射
+    shmaddr = shmat(shmid, NULL, 0);
+    if(shmaddr == (void *)-1) print_err(&quot;shmat fail&quot;);    
+
+    while(1)//从共享内存读取数据
+    {
+        pause();
+        printf(&quot;%s\n&quot;, (char *)shmaddr);
+        bzero(shmaddr, SHM_SIZE);
+    }
+
+    return 0;
+}</code></pre><p>运行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200313111045203.png" alt="运行结果"></p>
+<p><img src="https://img-blog.csdnimg.cn/2020031311105725.png" alt="运行结果"></p>
+<p>读者需要理解，与前面代码的运行结果相比较来看结果是一样，但是其实是有本质区别，前面实现的代码，在读取的时候，cpu会一直循环的判断一直做无意义的事情，非常浪费cpu资源。后面的改进只有在写共享内存程序写入数据之后才会给读共享内存进程发送信号进行读取，否则读共享内存会休眠（阻塞）。</p>
+<p>那么我们对于代码再进行修改，我们通过自己输入字符串来更加深刻的感受同步过程：</p>
+<h3 id="方式2"><a href="#方式2" class="headerlink" title="方式2"></a>方式2</h3><p>代码演示：<br><strong>sh_m1.c文件</strong></p>
+<pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;sys/ipc.h&gt;
+#include &lt;sys/types.h&gt;
+#include &lt;sys/shm.h&gt;
+#include &lt;sys/types.h&gt;
+#include &lt;sys/stat.h&gt;
+#include &lt;fcntl.h&gt;
+#include &lt;strings.h&gt;
+#include &lt;string.h&gt;
+#include &lt;signal.h&gt;
+#include &lt;errno.h&gt;
+
+
+
+#define SHM_FILE &quot;./shmfile&quot;
+
+#define SHM_SIZE 4096
+
+int shmid = -1;
+void *shmaddr = NULL;
+
+
+
+void print_err(char *estr)
+{
+perror(estr);
+exit(-1);
+}
+
+void create_or_get_shm(void) //创建共享内存
+{
+int fd = 0;
+key_t key = -1;
+
+fd = open(SHM_FILE, O_RDWR|O_CREAT, 0664);
+if(fd == -1) print_err(&quot;open fail&quot;);
+
+key = ftok(SHM_FILE, &apos;b&apos;);
+if(key == -1) print_err(&quot;ftok fail&quot;);
+
+shmid = shmget(key, SHM_SIZE, 0664|IPC_CREAT);
+if(shmid == -1) print_err(&quot;shmget fail&quot;);
+
+
+}
+
+
+void signal_fun(int signo)
+{
+shmdt(shmaddr);  //取消映射
+shmctl(shmid, IPC_RMID, NULL);  //删除共享内存
+remove(&quot;./fifo&quot;);   //删除用于创建同名管道的文件
+remove(SHM_FILE);   //删除用于创建共享内存的文件
+
+exit(-1);
+}
+
+int get_peer_PID(void)
+{
+int ret = -1;
+int fifofd = -1;
+
+/* 创建有名管道文件 */
+ret = mkfifo(&quot;./fifo&quot;, 0664); 
+if(ret == -1 &amp;&amp; errno != EEXIST) print_err(&quot;mkfifo fail&quot;);
+
+/* 以只读方式打开管道 */
+fifofd = open(&quot;./fifo&quot;, O_RDONLY);
+if(fifofd == -1) print_err(&quot;open fifo fail&quot;);
+
+/* 读管道，获取“读共享内存进程”的PID */
+int peer_pid;
+ret = read(fifofd, &amp;peer_pid, sizeof(peer_pid));
+if(ret == -1) print_err(&quot;read fifo fail&quot;);
+
+return peer_pid; 
+}
+
+int main(void)
+{
+int peer_pid = -1;
+
+/* 给SIGINT信号注册捕获函数，用于删除共享内存、管道、文件等 */
+signal(SIGINT, signal_fun);
+
+
+/* 使用有名管道获取读共享内存进程的PID */
+peer_pid = get_peer_PID();
+
+
+/* 创建、或者获取共享内存 */
+create_or_get_shm();
+
+//建立映射
+shmaddr = shmat(shmid, NULL, 0);
+if(shmaddr == (void *)-1) print_err(&quot;shmat fail&quot;);
+
+while(1)   //给共享内存写入数据
+{
+char buf[300] = {0};
+printf(&quot;input:&quot;);
+scanf(&quot;%s&quot;,buf);
+memcpy(shmaddr, buf, sizeof(buf));
+kill(peer_pid, SIGUSR1);
+}
+
+return 0;
+}</code></pre><p><strong>sh_m2.c文件</strong></p>
+<pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;sys/ipc.h&gt;
+#include &lt;sys/types.h&gt;
+#include &lt;sys/shm.h&gt;
+#include &lt;sys/types.h&gt;
+#include &lt;sys/stat.h&gt;
+#include &lt;fcntl.h&gt;
+#include &lt;strings.h&gt;
+#include &lt;string.h&gt;
+#include &lt;signal.h&gt;
+#include &lt;errno.h&gt;
+
+
+#define SHM_FILE &quot;./shmfile&quot;
+
+#define SHM_SIZE 4096
+
+int shmid = -1;
+void *shmaddr = NULL;
+
+
+
+void print_err(char *estr)
+{
+perror(estr);
+exit(-1);
+}
+
+void create_or_get_shm(void)  //创建共享内存
+{
+int fd = 0;
+key_t key = -1;
+
+fd = open(SHM_FILE, O_RDWR|O_CREAT, 0664);
+if(fd == -1) print_err(&quot;open fail&quot;);
+
+key = ftok(SHM_FILE, &apos;b&apos;);
+if(key == -1) print_err(&quot;ftok fail&quot;);
+
+shmid = shmget(key, SHM_SIZE, 0664|IPC_CREAT);
+if(shmid == -1) print_err(&quot;shmget fail&quot;);
+
+
+}
+
+void signal_fun(int signo) //信号处理函数
+{
+if(SIGINT == signo)
+{
+shmdt(shmaddr);//取消映射
+shmctl(shmid, IPC_RMID, NULL);  //删除共享内存
+remove(&quot;./fifo&quot;);  //删除用于创建有名管道的文件
+remove(SHM_FILE);  //删除用于创建共享内存的文件
+
+exit(-1);
+}
+else if(SIGUSR1 == signo)
+{
+
+}
+}
+
+void snd_self_PID(void)
+{
+int ret = -1;
+int fifofd = -1;
+
+/* 创建有名管道文件 */
+mkfifo(&quot;./fifo&quot;, 0664); 
+if(ret == -1 &amp;&amp; errno != EEXIST) print_err(&quot;mkfifo fail&quot;);
+
+/* 以只写方式打开文件 */
+fifofd = open(&quot;./fifo&quot;, O_WRONLY);
+if(fifofd == -1) print_err(&quot;open fifo fail&quot;);
+
+/* 获取当前进程的PID, 使用有名管道发送给写共享内存的进程 */
+int pid = getpid();
+ret = write(fifofd, &amp;pid, sizeof(pid));//发送PID
+if(ret == -1) print_err(&quot;write fifo fail&quot;);
+}
+
+int main(void)
+{
+
+/*给SIGUSR1注册一个空捕获函数，用于唤醒pause()函数 */
+signal(SIGUSR1, signal_fun);
+signal(SIGINT, signal_fun);
+
+/* 使用有名管道，将当前进程的PID发送给写共享内存的进程 */
+snd_self_PID();
+
+
+/* 创建、或者获取共享内存 */
+create_or_get_shm();
+
+
+//建立映射
+shmaddr = shmat(shmid, NULL, 0);
+if(shmaddr == (void *)-1) print_err(&quot;shmat fail&quot;);
+
+while(1)//从共享内存读取数据
+{
+pause();
+printf(&quot;%s\n&quot;, (char *)shmaddr);
+bzero(shmaddr, SHM_SIZE);
+}
+
 return 0;
 }</code></pre><p>运行结果为：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200311003226491.png" alt="运行结果"></p>
+<p><img src="https://img-blog.csdnimg.cn/20200313110323404.png" alt="运行结果"></p>
+<p><img src="https://img-blog.csdnimg.cn/20200313110335157.png" alt="运行结果"></p>
+<p>通过实现进程同步，我们可以在给共享内存输入数据之后再进行读取，避免cpu会一直循环的判断一直做无意义的事情，浪费cpu资源。后面的改进只有在写共享内存程序写入数据之后才会给读共享内存进程发送信号进行读取，否则读共享内存会休眠（阻塞）。</p>
 
             </div>
             <hr/>
@@ -1055,7 +1221,7 @@ return 0;
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://www.teachermin.com/2020/03/12/C++%E6%B4%BE%E7%94%9F%E7%B1%BB%E7%9A%84%E6%9E%84%E9%80%A0/">http://www.teachermin.com/2020/03/12/C++%E6%B4%BE%E7%94%9F%E7%B1%BB%E7%9A%84%E6%9E%84%E9%80%A0/</a>
+                    <a href="http://www.teachermin.com/2020/03/13/%E6%9C%AC%E6%9C%BAIPC%E4%B9%8B%E5%85%B1%E4%BA%AB%E5%86%85%E5%AD%98%E8%AF%A6%E8%A7%A3/">http://www.teachermin.com/2020/03/13/%E6%9C%AC%E6%9C%BAIPC%E4%B9%8B%E5%85%B1%E4%BA%AB%E5%86%85%E5%AD%98%E8%AF%A6%E8%A7%A3/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -1093,8 +1259,8 @@ return 0;
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/C-%E7%BB%A7%E6%89%BF/">
-                                    <span class="chip bg-color">C++继承</span>
+                                <a href="/tags/linux-%E6%9C%AC%E6%9C%BAIPC/">
+                                    <span class="chip bg-color">linux 本机IPC</span>
                                 </a>
                             
                         </div>
@@ -1260,9 +1426,10 @@ return 0;
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
                 <a href="/2020/03/13/%E6%9C%AC%E6%9C%BAIPC%E4%B9%8B%E5%85%B1%E4%BA%AB%E5%86%85%E5%AD%98%E8%AF%A6%E8%A7%A3/">
                     <div class="card-image">
@@ -1281,9 +1448,9 @@ return 0;
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-03-13
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-03-13
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
@@ -1296,6 +1463,7 @@ return 0;
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
@@ -1314,20 +1482,19 @@ return 0;
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/03/12/C++%E7%BB%A7%E6%89%BF%E7%9A%84%E5%BC%95%E5%85%A5/">
+                <a href="/2020/03/12/C++%E6%B4%BE%E7%94%9F%E7%B1%BB%E7%9A%84%E6%9E%84%E9%80%A0/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/15.jpg" class="responsive-img" alt="C++继承的引入">
+                        <img src="/medias/featureimages/9.jpg" class="responsive-img" alt="C++派生类的构造">
                         
-                        <span class="card-title">C++继承的引入</span>
+                        <span class="card-title">C++派生类的构造</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            为什么引入继承？在C++中为了引入代码的可重用(software,reusability) 是通过继承这一机制来实现的。继承是类与对象的精华.
-引例：通过简单的继承实现代码重用在下面的设计中，我们发现讲师和学生，有些方法是相同的。进行引发我
+                            派生类的构造派生的过程不管子类有没有需要，都是把基类的所有成员全部继承。全部继承就会出现问题。基类的部分成员在派生类中是不可见的，不可见就没有办法在派生类里面进行初始化，那么在派生类中不可见的继承部分就需要在基类的构造器中进行初始化，但是派
                         
                     </div>
                     <div class="publish-info">
