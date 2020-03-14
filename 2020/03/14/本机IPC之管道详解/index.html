@@ -1,0 +1,1821 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="本机IPC之管道详解, SkilledBeginner">
+    <meta name="description" content="努力做一个很厉害的人">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <title>本机IPC之管道详解 | SkilledBeginner</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+
+    <script src="/libs/jquery/jquery.min.js"></script>
+    
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">SkilledBeginner</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/contact" class="waves-effect waves-light">
+      
+      <i class="fas fa-comments" style="zoom: 0.6;"></i>
+      
+      <span>留言板</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/friends" class="waves-effect waves-light">
+      
+      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
+      
+      <span>友情链接</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">SkilledBeginner</div>
+        <div class="logo-desc">
+            
+            努力做一个很厉害的人
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/contact" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-comments"></i>
+			
+			留言板
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/friends" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-address-book"></i>
+			
+			友情链接
+		</a>
+          
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/BeginnerMin" class="waves-effect waves-light" target="_blank">
+                <i class="fab fa-github-square fa-fw"></i>Fork Me
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/BeginnerMin" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork Me" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/4.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">本机IPC之管道详解</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        width: 345px;
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content {
+        height: calc(100vh - 250px);
+        overflow: auto;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #toc-content .is-active-link::before {
+        background-color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/linux-%E6%9C%AC%E6%9C%BAIPC/">
+                                <span class="chip bg-color">linux 本机IPC</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/Linux/" class="post-category">
+                                Linux
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2020-03-14
+                </div>
+                
+
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
+                    2020-03-14
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    5.8k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    23 分
+                </div>
+                
+
+                
+                    <div id="busuanzi_container_page_pv" class="info-break-policy">
+                        <i class="far fa-eye fa-fw"></i>阅读次数:&nbsp;&nbsp;
+                        <span id="busuanzi_value_page_pv"></span>
+                    </div>
+				
+            </div>
+
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h2 id="无名管道的通信原理"><a href="#无名管道的通信原理" class="headerlink" title="无名管道的通信原理"></a>无名管道的通信原理</h2><p>内核会开辟一个“管道”，通信的进程通过共享这个管道，从而实现通信。<br>内核的代码也是运行在物理内存上的，内核创建一个“管道”，其实就是在内核自己所在的物理内存空间中开辟出一段缓存空间</p>
+<p>比如：<br>char buf[1024];</p>
+<p><img src="https://img-blog.csdnimg.cn/2020030517551349.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="管道通信"></p>
+<p>进程1向管道写数据，进程2从管道读取数据。或者进程2向管道写数据，进程1从管道读取数据，两个进程共享同一管道并且对同一管道的操作最终实现通信。</p>
+<h2 id="如何操作无名管道"><a href="#如何操作无名管道" class="headerlink" title="如何操作无名管道"></a>如何操作无名管道</h2><p>以文件的方式来读写管道，以文件方式来操作时</p>
+<p><strong>1）有读写用的文件描述符</strong></p>
+<p><strong>2）读写时会用write、read等文件Io函数。</strong></p>
+<h3 id="为什么叫无名管道"><a href="#为什么叫无名管道" class="headerlink" title="为什么叫无名管道"></a>为什么叫无名管道</h3><p>既然可以通过“文件描述符”来操作管道，那么它就是一个文件（管道文件），但是无名管道文件比较特殊，它没有文件名，正是因为没有文件名，所有被称为无名管道。</p>
+<p>没有文件名，我们怎么操作这个文件呢？<br>后面博客内容会说明。</p>
+<h2 id="无名管道的API"><a href="#无名管道的API" class="headerlink" title="无名管道的API"></a>无名管道的API</h2><p> <strong>函数原型</strong></p>
+<pre><code>#include &lt;unistd.h&gt;
+int pipe(int pipefd[2]);</code></pre><p><strong>功能</strong></p>
+<p>创建一个用于亲缘进程（父子进程）之间通信的无名管道（缓存），并将管道与两个读写文件描述符关联起来。</p>
+<p><strong>参数</strong></p>
+<p>缓存地址，缓存用于存放读写管道的文件描述符。</p>
+<p>从这个参数的样子可以看出，<strong>这个缓存就是一个拥有两个元素的int型数组。</strong></p>
+<p><strong>1）元素[0]：里面放的是读管道的读文件描述符</strong></p>
+<p><strong>2）元素[1]：里面放的是写管道的写文件描述符。</strong></p>
+<p>特别需要注意的是，<strong>这里的读和写文件描述符，是两个不同的文件描述符。</strong></p>
+<p>这里无名管道的读、写文件描述符，就是直接在创建管道时得到的，与open没有任何关系。</p>
+<p>这里也根本没办法使用open函数，因为open函数需要文件路径名，无名管道连文件名都没有，所以说根本就没办法使用open来打开文件，返回文件描述符。我们之后在网络编程编程博客中提到的套接字文件，套接字文件描述符通过socket函数得到，socket函数就会返回套接字文件的描述符。</p>
+<p><strong>返回值</strong><br>成功返回0，失败则返回-1，并且errno被设置。</p>
+<h2 id="无名管道特点"><a href="#无名管道特点" class="headerlink" title="无名管道特点"></a>无名管道特点</h2><h3 id="为什么无名管道只能用于亲缘进程之间通信？"><a href="#为什么无名管道只能用于亲缘进程之间通信？" class="headerlink" title="为什么无名管道只能用于亲缘进程之间通信？"></a>为什么无名管道只能用于亲缘进程之间通信？</h3><p>由于没有文件名，因此进程没办法使用open打开管道文件，从而得到文件描述符，所以只有一种办法，那就是父进程先调用pipe创建出管道，并得到读写管道的文件描述符。然后再fork出子进程，让子进程通过继承父进程打开的文件描述符，父子进程就能操作同一个管道，从而实现通信。</p>
+<p>图示：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200305175721968.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="父子进程管道通信"></p>
+<p>父进程调用pipe函数的时候，内核在执行pipe函数的时候就会在内核空间创建一个缓存，这个缓存就是无名管道，文件有一个读端和写端，读端和写端把各自的文件描述符返回给数组，元素1放读文件描述符，文件2放写文件描述符，那么父进程fork出子进程之后，就会继承父进程打开的文件描述符。那么父子进程就可以共享操作同一个管道文件。及就是子进程会继承父进程的读端和写端。那么结果就是父进程和子进程分别由自己的读端和写端只是端口文件描述符号是一样的。</p>
+<p><strong>什么样的进程之间，我们可以称为亲缘进程呢？</strong></p>
+<p>只要是存在继承关系的进程就是亲缘进程，继承关系分为两种。<br>（1）直接继承关系</p>
+<p><strong>父进程————&gt;子进程</strong></p>
+<p>（2）间接继承关系</p>
+<p><strong>父进程————&gt;子进程————&gt;子进程————&gt;…</strong></p>
+<p><strong>读管道时，如果没有数据的话，读操作会休眠（阻塞）</strong></p>
+<p>比如有两个进程，它们是父子进程，需要进行通信，由于父子进程是亲缘进程，此时我就可以使用无名管道通信了。</p>
+<h2 id="父子进程单向通信"><a href="#父子进程单向通信" class="headerlink" title="父子进程单向通信"></a>父子进程单向通信</h2><p>实现步骤：</p>
+<p><strong>（a）父进程在fork之前先调用pipe创建无名管道，并获取读、写文件描述符</strong></p>
+<p><strong>（b）fork创建出子进程，子进程继承无名管道读、写文件描述符</strong></p>
+<p><strong>（c）父子进程使用各自管道的读写文件描述符进行读写操作，即可实现通信</strong></p>
+<p>代码实现：</p>
+<pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;strings.h&gt;
+
+void print_err(char * estr)
+{
+perror(estr);
+exit(-1);
+}
+
+int main()
+{
+int ret = 0;
+//[0]读文件描述符
+//[1]写文件描述符
+int pipefd[2] = {0}; //用于存放管道的读写文件描述符
+ret = pipe(pipefd);
+if(ret == -1)print_err(&quot;pipe fail&quot;);
+ret = fork();
+if(ret&gt;0)
+{
+while(1)
+{
+write(pipefd[1],&quot;hello world&quot;,12);
+sleep(1);
+}
+}
+else if(ret == 0)
+{
+while(1)
+{
+char buffer[20] = {0};
+bzero(buffer,sizeof(buffer));
+read(pipefd[0],buffer,sizeof(buffer) - 1);
+printf(&quot;child recv data:%s\n&quot;,buffer);
+}
+}
+return 0;
+}</code></pre><p>运行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200305180217349.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="运行结果"></p>
+<p>上面就实现了从父进程向管道文件写入数据，子进程从管道文件读取数据的单向通信机制。</p>
+<p><strong>如果管道没有数据的时候，进行的读操作就会进入阻塞（休眠）</strong></p>
+<pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;strings.h&gt;
+
+void print_err(char * estr)
+{
+perror(estr);
+exit(-1);
+}
+
+int main()
+{
+int ret = 0;
+//[0]读文件描述符
+//[1]写文件描述符
+int pipefd[2] = {0}; //用于存放管道的读写文件描述符
+ret = pipe(pipefd);
+if(ret == -1)print_err(&quot;pipe fail&quot;);
+ret = fork();
+if(ret&gt;0)
+{
+while(1)
+{
+sleep(1);
+}
+}
+else if(ret == 0)
+{
+while(1)
+{
+char buffer[20] = {0};
+bzero(buffer,sizeof(buffer));
+read(pipefd[0],buffer,sizeof(buffer) - 1);
+printf(&quot;child recv data:%s\n&quot;,buffer);
+}
+}
+return 0;
+}</code></pre><p>运行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200305180256612.png" alt="运行结果"></p>
+<p>那么父子进程都可以进行读写管道文件的操作，如果是单向的数据传输的时候，我们会把用不到的文件描述符进行关闭。</p>
+<pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;strings.h&gt;
+
+void print_err(char * estr)
+{
+perror(estr);
+exit(-1);
+}
+
+int main()
+{
+int ret = 0;
+//[0]读文件描述符
+//[1]写文件描述符
+int pipefd[2] = {0}; //用于存放管道的读写文件描述符
+ret = pipe(pipefd);
+if(ret == -1)print_err(&quot;pipe fail&quot;);
+ret = fork();
+if(ret&gt;0)
+{
+close(pipefd[0]);
+while(1)
+{
+write(pipefd[1],&quot;hello world&quot;,12);
+sleep(1);
+}
+}
+else if(ret == 0)
+{
+close(pipefd[1]);
+while(1)
+{
+char buffer[20] = {0};
+bzero(buffer,sizeof(buffer));
+read(pipefd[0],buffer,sizeof(buffer) - 1);
+printf(&quot;child recv data:%s\n&quot;,buffer);
+}
+}
+return 0;
+}</code></pre><p>运行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200305180330593.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="运行结果"></p>
+<p>那么就实现了单向通信。</p>
+<h2 id="SIGPIPE信号"><a href="#SIGPIPE信号" class="headerlink" title="SIGPIPE信号"></a>SIGPIPE信号</h2><p>SIGPIPE信号与管道有关</p>
+<p><strong>什么时候会产生在这个信号？</strong><br>写管道时，如果管道的读端被close了话，向管道“写”数据的进程会被内核发送一个SIGPIPE信号，发这个信号的目的就是想通知你，管道所有的“读”都被关闭了。</p>
+<p>这就好比别人把水管的出口（读）给堵住了，结果你还一直往里面灌水（写），别人跟定会警告你，因为你这样可能会对水管造成损害，道理其实是类似的。</p>
+<p>由于这个信号的默认动作是终止，所以收到这个信号的进程会被终止，如果你不想被终止的<br>话，你可以忽略、捕获、或者屏蔽这个信号。</p>
+<p>代码演示：</p>
+<pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;strings.h&gt;
+#include &lt;signal.h&gt;
+
+void print_err(char *estr)
+{
+perror(estr);
+exit(-1);
+}
+int main(void)
+{
+   int ret = 0;
+int pipefd[2] = {0};
+
+ret = pipe(pipefd);
+
+if(ret == -1) print_err(&quot;pipe fail&quot;);
+ret = fork();
+if(ret &gt; 0)
+{
+signal(SIGPIPE, SIG_IGN);
+close(pipefd[0]);
+while(1)
+{
+write(pipefd[1], &quot;hello&quot;, 5);
+sleep(1);
+}
+}
+else if(ret == 0)
+{
+close(pipefd[1]);
+close(pipefd[0]);
+while(1)
+{
+char buf[30] = {0};
+bzero(buf, sizeof(buf));
+read(pipefd[0], buf, sizeof(buf));
+printf(&quot;child, recv data:%s\n&quot;, buf);
+}
+}
+return 0;
+}</code></pre><p>运行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200305180431221.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="运行结果"></p>
+<p>我们可以看到只有一个子进程在运行，父进程不再运行。</p>
+<p><img src="https://img-blog.csdnimg.cn/20200305180926231.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p>因为父进程尝试在向管道写入数据的时候，被内核发送了SIGPIPE信号，父进程收到SIGPIPE信号之后就会被终止。如果不想要终止我们就可以进行忽略或者捕获操作。<br>使用signal函数：<br>signal(SIGPIPE,SIG_IGN); 就可以把信号设置为忽略。详细使用可以查看signal函数博客。</p>
+<p>只有当管道所有的读端都被关闭时，才会产生这个信号，只有还有一个读端开着，就不会产生。</p>
+<h2 id="父子进程双向通信"><a href="#父子进程双向通信" class="headerlink" title="父子进程双向通信"></a>父子进程双向通信</h2><p>单个无名管道无法实现双向通信，为什么？<br>    因为使用单个无名管道来实现双向通信时，自己发送给对方的数据，就被自己给抢读到。<br><img src="https://img-blog.csdnimg.cn/20200305181005931.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="单个无名管道无法实现双向通信"></p>
+<p>上面过程，我们感觉可以实现父子进程的双向通信，但是实际情况是不可以的，如果要实现双向通信，父子进程的读写端都要打开，那么父进程在读数据的时候子进程也在读取数据，父进程在写数据的时候子进程也在写入数据。那么父进程写入的数据父进程就会抢先读取，子进程写入的数据子进程就会抢先读取，就无法实现父子进程之间的双向通信。</p>
+<p><strong>如何实现无名管来实现双向通信？</strong></p>
+<p>使用两个无名管道，每个管道负责一个方向的通信。</p>
+<p><img src="https://img-blog.csdnimg.cn/20200305181039100.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="使用两个无名管道实现父子进程间双向通信"></p>
+<p>父进程两次调用pipe函数创建两个管道，那么总共会产生8个文件描述符，父进程4个子进程4个。然后通过上面图示关闭一部分文件描述符。为了实现双向通信，也是为了防止其他进程对于未关闭的文件描述符进行操作。</p>
+<p>整理上图如下：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200305181103396.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="使用两个无名管道实现父子进程间双向通信"></p>
+<p>代码演示：</p>
+<pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;strings.h&gt;
+#include &lt;signal.h&gt;
+
+void print_err(char *estr)
+{
+perror(estr);
+exit(-1);
+}
+int main(void)
+{
+int ret = 0;
+int pipefd1[2] = {0};
+int pipefd2[2] = {0};
+ret = pipe(pipefd1);
+if(ret == -1) print_err(&quot;pipe fail&quot;);
+ret = pipe(pipefd2);
+if(ret == -1) print_err(&quot;pipe fail&quot;);
+ret = fork();
+
+if(ret &gt; 0)
+{
+close(pipefd1[0]);
+close(pipefd2[1]);
+char buf[30] = {0};
+while(1)
+{
+write(pipefd1[1], &quot;hello&quot;, 5);
+sleep(1);
+bzero(buf, sizeof(buf));
+read(pipefd2[0], buf, sizeof(buf));
+printf(&quot;parent, recv data:%s\n&quot;, buf);
+}
+}
+else if(ret == 0)
+{
+close(pipefd1[1]);
+close(pipefd2[0]);
+char buf[30] = {0};
+while(1)
+{
+sleep(1);
+write(pipefd2[1], &quot;world&quot;, 5);
+
+bzero(buf, sizeof(buf));
+read(pipefd1[0], buf, sizeof(buf));
+printf(&quot;child, recv data:%s\n&quot;, buf);
+}
+}
+return 0;
+}</code></pre><p>运行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200305181247195.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="运行结果"></p>
+<p>上面代码需要注意的一点：</p>
+<p><strong>至少要保证一个进程的write在read之前，否则两个进程都会进入到阻塞状态。</strong></p>
+<p>无名管道有两个缺点</p>
+<p><strong>（1）无法用于非亲缘进程之间</strong><br><strong>因为非亲缘进程之间没办法继承管道的文件描述符。</strong></p>
+<p><strong>（2）无法实现多进程之间的网状通信</strong></p>
+<p><img src="https://img-blog.csdnimg.cn/20200305181415939.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="多进程之间的网状通信"></p>
+<p>如果非要使用无名管道实现多进程之间的网状通信的话，文件描述符的继承关系将非常的复杂。所以无名管道基本只适合两个进程间的通信。</p>
+<h3 id="什么时候合适使用无名管道"><a href="#什么时候合适使用无名管道" class="headerlink" title="什么时候合适使用无名管道"></a>什么时候合适使用无名管道</h3><p>如果通信的进程只有两个，而且还是亲缘进程时，那么可以使用无名管道来通信。<br>比如：</p>
+<p><strong>1）直接继承父子进程之间的通信</strong></p>
+<p><img src="https://img-blog.csdnimg.cn/20200305181504872.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="直接继承父子进程之间的通信"></p>
+<p><strong>2）间接继承关系的两进程之间的通信</strong>    </p>
+<p><img src="https://img-blog.csdnimg.cn/20200305181530800.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="间接继承关系的两进程之间的通信"></p>
+<h2 id="有名管道"><a href="#有名管道" class="headerlink" title="有名管道"></a>有名管道</h2><h3 id="为什么叫“有名管道”"><a href="#为什么叫“有名管道”" class="headerlink" title="为什么叫“有名管道”"></a>为什么叫“有名管道”</h3><p>无名管道因为没有文件名，被称为了无名管道，同样的道理，有名管道之所以叫“有名管道”，是因为它有文件名。<br>也就是说当我们调用相应的API创建好“有名管道”后，会在相应的路径下面看到一个叫某某名字的“有名管道文件”。<br>不管是有名管道，还是无名管道，它们的本质其实都是一样的，它们都是内核所开辟的一段缓存空间。<br>进程间通过管道通信时，本质上就是通过共享操作这段缓存来实现，只不过操作这段缓存的方式，是以读写文件的形式来操作的。</p>
+<h3 id="有名管道特点"><a href="#有名管道特点" class="headerlink" title="有名管道特点"></a>有名管道特点</h3><h4 id="能够用于非亲缘进程之间的通信"><a href="#能够用于非亲缘进程之间的通信" class="headerlink" title="能够用于非亲缘进程之间的通信"></a>能够用于非亲缘进程之间的通信</h4><p>因为有文件名，所以进程可以直接调用open函数打开文件，从而得到文件描述符，不需要像无名管道一样，必须在通过继承的方式才能获取到文件描述符。</p>
+<p>所以任何两个进程之间，如果想要通过“有名管道”来通信的话，不管它们是亲缘的还是非亲缘的，只要调用open函数打开同一个“有名管道”文件，然后对同一个“有名管道文件”进行读写操作，即可实现通信。</p>
+<p><strong>A进程 —————————&gt; 有名管道 ————————&gt; B进程</strong></p>
+<p>总之，不管是亲缘进程还是非亲缘进程，都可以使用有名管道来通信。</p>
+<h4 id="进入阻塞"><a href="#进入阻塞" class="headerlink" title="进入阻塞"></a>进入阻塞</h4><p>读管道时，如果管道没有数据的话，读操作同样会阻塞（休眠）</p>
+<h4 id="读端口被关闭的处理"><a href="#读端口被关闭的处理" class="headerlink" title="读端口被关闭的处理"></a>读端口被关闭的处理</h4><p>当一个进程所有读端都被关闭了的管道时，进程会被内核返回SIGPIPE信号如果不想被该信号终止的话，我们需要忽略、捕获、屏蔽该信号。<br>不过一般情况下，不需要对这个信号进行处理。</p>
+<h3 id="有名管道的使用步骤"><a href="#有名管道的使用步骤" class="headerlink" title="有名管道的使用步骤"></a>有名管道的使用步骤</h3><p><strong>(1)进程调用mkfifo创建有名管道</strong></p>
+<p><strong>(2)open打开有名管道</strong></p>
+<p><strong>(3)read/write读写管道进行通信</strong><br>对于通信的两个进程来说，创建管道时，只需要一个人创建，另一个直接使用即可。</p>
+<p><strong>为了保证管道一定被创建，最好是两个进程都包含创建管道的代码，谁先运行就谁先创建，后运行的发现管道已经创建好了，那就直接open打开使用。</strong></p>
+<h2 id="有名管道API"><a href="#有名管道API" class="headerlink" title="有名管道API"></a>有名管道API</h2><h3 id="API说明"><a href="#API说明" class="headerlink" title="API说明"></a>API说明</h3><p><strong>函数原型</strong></p>
+<pre><code>#include &lt;sys/types.h&gt;
+#include &lt;sys/stat.h&gt;
+int mkfifo(const char *pathname, mode_t mode);</code></pre><p><strong>功能</strong><br>创建有名管道文件，创建好后便可使用open打开。<br>如果是创建普通文件的话，我们可以使用open的O_CREAT选项来创建，比如：<br>    open(“./file”, O_RDWR|O_CREAT, 0664);</p>
+<p><strong>但是对于“有名管道”这种特殊文件，这里只能使用mkfifo函数来创建。</strong></p>
+<p><strong>参数</strong></p>
+<p><strong>pathname</strong>：被创建管道文件的文件路径名。</p>
+<p><strong>mode：</strong></p>
+<p>指定被创建时原始权限，一般为0664（110110100），必须包含读写权限。<br>使用open函数创建普通文件时，指定原始权限是一样的。<br>open(“./file”, O_RDWR|O_CREAT, 0664);<br>创建新文件时，文件被创建时的真实权限=mode &amp; (~umask)<br>umask是文件权限掩码，一般默认为002或者022<br>mkfifo(“./fifo”, 0664);</p>
+<p><strong>返回值</strong><br>成功返回0，失败则返回-1，并且errno被设置。</p>
+<h2 id="有名管道实现进程的单向通信"><a href="#有名管道实现进程的单向通信" class="headerlink" title="有名管道实现进程的单向通信"></a>有名管道实现进程的单向通信</h2><h3 id="代码演示"><a href="#代码演示" class="headerlink" title="代码演示"></a>代码演示</h3><p>有两个进程想要通信，而且还是非亲缘进程，此时我们就可以使用“有名管道”来通信。<br>我们首先在当前代码创建一个管道文件：</p>
+<pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;strings.h&gt;
+#include &lt;signal.h&gt;
+#include &lt;sys/stat.h&gt;
+#include &lt;sys/types.h&gt;
+#include &lt;fcntl.h&gt;
+#define FIFO_NAME1 &quot;./fifo1&quot;
+void print_err(char * estr)
+{
+perror(estr);
+exit(-1);
+}
+
+int main()
+{
+char buf[100] = {0};
+int ret = 0;
+int fd = 0;
+ret = mkfifo(FIFO_NAME1,0664);
+if(ret == -1) print_err(&quot;mkfifo fail&quot;);
+fd = open(FIFO_NAME1,O_WRONLY);
+if(fd == -1) print_err(&quot;open fail&quot;);
+while(1)
+{
+bzero(buf,sizeof(buf));
+scanf(&quot;%s&quot;,buf);
+write(fd,buf,sizeof(buf));
+}
+return 0;
+}</code></pre><p>运行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200307201002945.png" alt="创建一个有名管道文件"></p>
+<p>我们再次运行程序：</p>
+<p><img src="https://img-blog.csdnimg.cn/2020030720101291.png" alt="如果有名管道已经存在，程序报错"></p>
+<p>我们可以看到管道文件已经存在，那么我们就可以知道mkfifo这个函数在创建管道文件的时候如果管道文件已经存在的时候就会出错返回，并且打印文件已经存在的错误。</p>
+<p>那么我们对于上面代码进行修改：<br>把代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">if(ret &#x3D;&#x3D; -1) print_err(&quot;mkfifo fail&quot;);</span><br></pre></td></tr></table></figure>
+
+<p>修改为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">if(ret &#x3D;&#x3D; -1 &amp;&amp; EEXIST	) print_err(&quot;mkfifo fail&quot;);</span><br></pre></td></tr></table></figure>
+
+<p>那么我们当文件存在的时候我们不需要程序去报错退出，而是直接忽略。</p>
+<p>那么我们需要的是：<br>如果文件不存在就创建文件并且在后面进行打开，如果文件已经存在就直接跳过直接执行后面代码。那么文件存在就不会报错并且返回退出进程。那么就上面修改之后就只会报文件存在以外的错误，也就是说我们不认为文件存在时已经错误。</p>
+<p>那么当我们进程运行起来之后我们需要通过管道来进行通信，进程结束之后我们就没有进程通信的需要了，那么我们就在进程运行结束的时候把管道文件删除，那么通过我们按下ctrl+c进行进程结束，那么我们就可以对于SIGINT信号进行捕获，然后把管道文件进行删除再退出进程。</p>
+<p>我们把上面整个代码进行优化：</p>
+<pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;strings.h&gt;
+#include &lt;signal.h&gt;
+#include &lt;sys/stat.h&gt;
+#include &lt;sys/types.h&gt;
+#include &lt;fcntl.h&gt;
+#include &lt;errno.h&gt;
+#define FIFO_NAME1 &quot;./fifo1&quot;
+void print_err(char * estr)
+{
+perror(estr);
+exit(-1);
+}
+
+void signal_fun(int signal)
+{
+remove(FIFO_NAME1);
+exit(-1);
+}
+
+int main()
+{
+char buf[100] = {0};
+int ret = 0;
+int fd = 0;
+ signal(SIGINT,signal_fun);
+ret = mkfifo(FIFO_NAME1,0664);
+if(ret == -1 &amp;&amp; errno!=EEXIST) print_err(&quot;mkfifo fail&quot;);
+fd = open(FIFO_NAME1,O_WRONLY);
+if(fd == -1) print_err(&quot;open fail&quot;);
+while(1)
+{
+bzero(buf,sizeof(buf));
+scanf(&quot;%s&quot;,buf);
+write(fd,buf,sizeof(buf));
+}
+
+return 0;
+}</code></pre><p>运行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200307201047454.png" alt="运行结果"></p>
+<p>但是signal(SIGINT,signal_fun);不能放在</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fd &#x3D; open(FIFO_NAME1,O_WRONLY);</span><br></pre></td></tr></table></figure>
+
+<p>代码之后，因为当前只有一个写端进行打开，管道文件的读端没有打开的时候，代码就会在<br><code>fd = open(FIFO_NAME1,O_WRONLY);</code>  阻塞，不会运行后面的代码。</p>
+<p>我们可以看到创建出来的管道文件，但是当前只有一个从键盘向管道文件写入数据的操作，并没有一个从从管道读取文件的操作，所以我们先将进程退出，接下来我们编写读取管道数据的代码：</p>
+<pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;strings.h&gt;
+#include &lt;signal.h&gt;
+#include &lt;sys/stat.h&gt;
+#include &lt;sys/types.h&gt;
+#include &lt;fcntl.h&gt;
+#include &lt;errno.h&gt;
+#define FIFO_NAME1 &quot;./fifo1&quot;
+void print_err(char * estr)
+{
+perror(estr);
+exit(-1);
+}
+
+void signal_fun(int signal)
+{
+remove(FIFO_NAME1);
+exit(-1);
+}
+
+int main()
+{
+char buf[100] = {0};
+int ret = 0;
+int fd = 0;
+signal(SIGINT,signal_fun);
+ret = mkfifo(FIFO_NAME1,0664);
+if(ret == -1 &amp;&amp; errno!=EEXIST) print_err(&quot;mkfifo fail&quot;);
+fd = open(FIFO_NAME1,O_RDONLY);
+if(fd == -1) print_err(&quot;open fail&quot;);
+while(1)
+{
+read(fd,buf,sizeof(buf));
+printf(&quot;rev:%s\n&quot;,buf);
+}
+return 0;
+}</code></pre><p>运行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200307201428148.png" alt="有名管道实现单向通信"></p>
+<p>我们在另一个中断窗口运行read</p>
+<p><img src="https://img-blog.csdnimg.cn/20200307201439255.png" alt="有名管道实现单向通信"></p>
+<p>我们可以看到实现了两个进程之间数据交换。</p>
+<h2 id="小结：图解分析"><a href="#小结：图解分析" class="headerlink" title="小结：图解分析"></a>小结：图解分析</h2><p><img src="https://img-blog.csdnimg.cn/20200307201459939.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="又名管实现单向通信的图解分析"></p>
+<p>上面的图和无名管道的单向数据交换逻辑是一样的，只不过创建管道文件的方法不一样。</p>
+<h2 id="有名管道双向通信"><a href="#有名管道双向通信" class="headerlink" title="有名管道双向通信"></a>有名管道双向通信</h2><p>同样的，使用一个“有名管道”是无法实现双向通信的，因为也涉及到抢数据的问题。<br>所以双向通信时需要两个管道。</p>
+<p><strong>图解：</strong></p>
+<p><img src="https://img-blog.csdnimg.cn/20200307224906523.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="有名管道实现进程双向通信"></p>
+<p><strong>关闭端口之后的图解：</strong></p>
+<p><img src="https://img-blog.csdnimg.cn/20200307224922561.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="有名管道实现进程双向通信修改后"></p>
+<p>当我们在一个进程里面既要进行读，也要进行写的时候，如果如果没有数据，就会阻塞在read函数，那么就会导致write函数不能执行，所以我们给出下面图解，让两个进程的读写都不会互相干扰到。</p>
+<p>让程序1和程序2分别创建一个子进程，在第一个程序里面父进程读管道2，子进程写管道1，在另一个程序里面父进程写管道2，子进程读管道1。那么程序就会并发运行互不干扰，并且在捕获SININT信号在删除文件的时候只需要一个进程进行删除即可。我们把删除文件的操作放在父进程，子进程在收到SIGINT信号之后只是正常的终止进程。<br>图解如下：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200307224942844.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="有名管道实现进程双向通信"></p>
+<p>代码演示：<br>我们对于函数进行封装，以便于我们创建多个管道文件：<br><strong>文件 name_pipe.c</strong></p>
+<pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;strings.h&gt;
+#include &lt;signal.h&gt;
+#include &lt;sys/types.h&gt;
+#include &lt;sys/stat.h&gt;
+#include &lt;sys/types.h&gt;
+#include &lt;sys/stat.h&gt;
+#include &lt;fcntl.h&gt;
+#include &lt;errno.h&gt;
+
+
+#define FIFONAME1 &quot;./fifo1&quot;
+#define FIFONAME2 &quot;./fifo2&quot;
+
+void print_err(char *estr)
+{
+perror(estr);
+exit(-1);
+}
+
+int creat_open_fifo(char *fifoname, int open_mode)
+{
+int ret = -1;
+int fd = -1;
+
+ret = mkfifo(fifoname, 0664);
+if(ret == -1 &amp;&amp; errno!=EEXIST) print_err(&quot;mkfifo fail&quot;);
+
+fd = open(fifoname, open_mode);
+if(fd == -1) print_err(&quot;open fail&quot;);
+
+return fd;
+}
+
+void signal_fun(int signo)
+{
+//unlink();
+remove(FIFONAME1);
+remove(FIFONAME2);
+exit(-1);
+}
+
+int main(void)
+{
+char buf[100] = {0};
+int ret = -1;
+int fd1 = -1;
+int fd2 = -1;
+
+
+fd1 = creat_open_fifo(FIFONAME1, O_WRONLY);
+fd2 = creat_open_fifo(FIFONAME2, O_RDONLY);
+
+ret = fork();
+if(ret &gt; 0)
+{
+signal(SIGINT, signal_fun);
+while(1)
+{
+bzero(buf, sizeof(buf));
+scanf(&quot;%s&quot;, buf);
+write(fd1, buf, sizeof(buf));
+}
+}
+else if(ret == 0)
+{
+while(1)
+{
+bzero(buf, sizeof(buf));
+read(fd2, buf, sizeof(buf));
+printf(&quot;%s\n&quot;, buf);
+}
+}
+
+return 0;
+}</code></pre><p><strong>文件：name_pipe_read.c</strong></p>
+<pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;strings.h&gt;
+#include &lt;signal.h&gt;
+#include &lt;sys/types.h&gt;
+#include &lt;sys/stat.h&gt;
+#include &lt;sys/types.h&gt;
+#include &lt;sys/stat.h&gt;
+#include &lt;fcntl.h&gt;
+#include &lt;errno.h&gt;
+
+
+#define FIFONAME1 &quot;./fifo1&quot;
+#define FIFONAME2 &quot;./fifo2&quot;
+
+void print_err(char *estr)
+{
+perror(estr);
+exit(-1);
+}
+
+int creat_open_fifo(char *fifoname, int open_mode)
+{
+int ret = -1;
+int fd = -1;
+
+ret = mkfifo(fifoname, 0664);
+
+fd = open(fifoname, open_mode);
+if(fd == -1) print_err(&quot;open fail&quot;);
+
+return fd;
+}
+
+void signal_fun(int signo)
+{
+//unlink();
+remove(FIFONAME1);
+remove(FIFONAME2);
+exit(-1);
+}
+
+int main(void)
+{
+char buf[100] = {0};
+int ret = -1;
+int fd1 = -1;
+int fd2 = -1;
+
+
+fd1 = creat_open_fifo(FIFONAME1, O_RDONLY);
+fd2 = creat_open_fifo(FIFONAME2, O_WRONLY);
+
+
+ret = fork();
+if(ret &gt; 0)
+{
+signal(SIGINT, signal_fun);
+while(1)
+{
+bzero(buf, sizeof(buf));
+read(fd1, buf, sizeof(buf));
+printf(&quot;recv:%s\n&quot;, buf);
+}
+}
+else if(ret == 0)
+{
+while(1)
+{
+bzero(buf, sizeof(buf));
+scanf(&quot;%s&quot;, buf);
+write(fd2, buf, sizeof(buf));
+
+}
+}
+
+return 0;
+}</code></pre><p>运行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200307225027336.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="有名管道实现进程双向通信的运行结果"></p>
+<p><img src="https://img-blog.csdnimg.cn/20200307225032868.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="有名管道实现进程双向通信的运行结果"></p>
+<p>从而就是实现了进程之间通过有名管道实现双向通信.</p>
+<h2 id="什么时候使用有名管道"><a href="#什么时候使用有名管道" class="headerlink" title="什么时候使用有名管道"></a>什么时候使用有名管道</h2><h3 id="实现网状通信"><a href="#实现网状通信" class="headerlink" title="实现网状通信"></a>实现网状通信</h3><p><img src="https://img-blog.csdnimg.cn/20200307225317285.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="网状通信"></p>
+<p>面对众多进程网状通信，有名管道依然实现起来很吃力，所以基本也只适合于两个进程之间的通信。<br>读者可以尝试下，看看能不能使用有名管道来实现多进程的网状通信，在实现过程中，你自己就会发现，实现起来很困难。</p>
+<h3 id="什么时候合适使用有名管道"><a href="#什么时候合适使用有名管道" class="headerlink" title="什么时候合适使用有名管道"></a>什么时候合适使用有名管道</h3><p>当两个进程需要通信时，不管是亲缘的还是非亲缘的，我们都可以使用有名管道来通信。</p>
+<p>至于亲缘进程，你也可以选择前面讲的无名管道来通信。</p>
+
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="http://www.teachermin.com" rel="external nofollow noreferrer">MinWengang</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="http://www.teachermin.com/2020/03/14/%E6%9C%AC%E6%9C%BAIPC%E4%B9%8B%E7%AE%A1%E9%81%93%E8%AF%A6%E8%A7%A3/">http://www.teachermin.com/2020/03/14/%E6%9C%AC%E6%9C%BAIPC%E4%B9%8B%E7%AE%A1%E9%81%93%E8%AF%A6%E8%A7%A3/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="http://www.teachermin.com" target="_blank">MinWengang</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/linux-%E6%9C%AC%E6%9C%BAIPC/">
+                                    <span class="chip bg-color">linux 本机IPC</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+
+<div id="article-share">
+    
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+                <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.4rem;
+        line-height: 38px;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .close:hover {
+        color: #ef5350;
+        transform: scale(1.3);
+        -moz-transform:scale(1.3);
+        -webkit-transform:scale(1.3);
+        -o-transform:scale(1.3);
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-content ul {
+        padding-left: 0 !important;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        background-color: #ccc;
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff !important;
+        background-color: #22AB38 !important;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff !important;
+        background-color: #019FE8 !important;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fas fa-times"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+            
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2020/03/14/%E6%9C%AC%E6%9C%BAPIC%E4%B9%8B%E4%BF%A1%E5%8F%B7%E9%87%8F%E8%AF%A6%E8%A7%A3/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/9.jpg" class="responsive-img" alt="本机IPC之信号量详解">
+                        
+                        <span class="card-title">本机IPC之信号量详解</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            信号量的作用当多个进程/线程进行共享操作时，用于资源保护，以防止出现相互干扰的情况。再间简洁一点，信号量用于“资源的保护“。
+进程信号量实现的是进程操作资源的保护。
+线程信号量实现的是线程操作资源的保护。
+什么是进程资源保护？例子1：多进程
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2020-03-14
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/Linux/" class="post-category">
+                                    Linux
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/linux-%E6%9C%AC%E6%9C%BAIPC/">
+                        <span class="chip bg-color">linux 本机IPC</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2020/03/13/%E6%9C%AC%E6%9C%BAIPC%E4%B9%8B%E5%85%B1%E4%BA%AB%E5%86%85%E5%AD%98%E8%AF%A6%E8%A7%A3/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="本机IPC之共享内存详解">
+                        
+                        <span class="card-title">本机IPC之共享内存详解</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            共享内存简单说明共享内存就是OS在物理内存中开辟一段缓存空间，不过与管道、消息队列调用read、write、msgsnd、msgrcv等API来读写所不同的是，使用共享内存通信时，进程是直接使用地址来共享读写的。
+当然不管使用那种方式，只要
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-03-13
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/Linux/" class="post-category">
+                                    Linux
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/linux-%E6%9C%AC%E6%9C%BAIPC/">
+                        <span class="chip bg-color">linux 本机IPC</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+<!-- 代码块折行 -->
+
+<style type="text/css">
+code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }
+</style>
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+    <footer class="page-footer bg-color">
+    
+        <link rel="stylesheet" href="/libs/aplayer/APlayer.min.css">
+<style>
+    .aplayer .aplayer-lrc p {
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 16px !important;
+    }
+
+    .aplayer .aplayer-lrc p.aplayer-lrc-current {
+        font-size: 15px;
+        color: #42b983;
+    }
+
+    
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body {
+        left: -66px !important;
+    }
+
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body:hover {
+        left: 0px !important;
+    }
+
+    
+</style>
+<div class="">
+    
+    <div class="row">
+        <meting-js class="col l8 offset-l2 m10 offset-m1 s12"
+                   server="netease"
+                   type="playlist"
+                   id="503838841"
+                   fixed='true'
+                   autoplay='false'
+                   theme='#42b983'
+                   loop='all'
+                   order='random'
+                   preload='auto'
+                   volume='0.7'
+                   list-folded='true'
+        >
+        </meting-js>
+    </div>
+</div>
+
+<script src="/libs/aplayer/APlayer.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script>
+    
+    <div class="container row center-align" style="margin-bottom: 15px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            <span id="year">2019</span>
+            <a href="http://www.teachermin.com" target="_blank">MinWengang</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            <br>
+            
+            &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
+                class="white-color">43.6k</span>&nbsp;字
+            
+            
+            
+            
+            
+            
+            <span id="busuanzi_container_site_pv">
+                |&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;<span id="busuanzi_value_site_pv"
+                    class="white-color"></span>&nbsp;次
+            </span>
+            
+            
+            <span id="busuanzi_container_site_uv">
+                |&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;<span id="busuanzi_value_site_uv"
+                    class="white-color"></span>&nbsp;人
+            </span>
+            
+            <br>
+            
+            <span id="sitetime">载入运行时间...</span>
+            <script>
+                function siteTime() {
+                    var seconds = 1000;
+                    var minutes = seconds * 60;
+                    var hours = minutes * 60;
+                    var days = hours * 24;
+                    var years = days * 365;
+                    var today = new Date();
+                    var startYear = "2019";
+                    var startMonth = "6";
+                    var startDate = "28";
+                    var startHour = "0";
+                    var startMinute = "0";
+                    var startSecond = "0";
+                    var todayYear = today.getFullYear();
+                    var todayMonth = today.getMonth() + 1;
+                    var todayDate = today.getDate();
+                    var todayHour = today.getHours();
+                    var todayMinute = today.getMinutes();
+                    var todaySecond = today.getSeconds();
+                    var t1 = Date.UTC(startYear, startMonth, startDate, startHour, startMinute, startSecond);
+                    var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+                    var diff = t2 - t1;
+                    var diffYears = Math.floor(diff / years);
+                    var diffDays = Math.floor((diff / days) - diffYears * 365);
+                    var diffHours = Math.floor((diff - (diffYears * 365 + diffDays) * days) / hours);
+                    var diffMinutes = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours) /
+                        minutes);
+                    var diffSeconds = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours -
+                        diffMinutes * minutes) / seconds);
+                    if (startYear == todayYear) {
+                        document.getElementById("year").innerHTML = todayYear;
+                        document.getElementById("sitetime").innerHTML = "本站已安全运行 " + diffDays + " 天 " + diffHours +
+                            " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+                    } else {
+                        document.getElementById("year").innerHTML = startYear + " - " + todayYear;
+                        document.getElementById("sitetime").innerHTML = "本站已安全运行 " + diffYears + " 年 " + diffDays +
+                            " 天 " + diffHours + " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+                    }
+                }
+                setInterval(siteTime, 1000);
+            </script>
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/BeginnerMin" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:451859114@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=451859114" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 451859114" data-position="top" data-delay="50">
+        <i class="fab fa-qq"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fas fa-rss"></i>
+    </a>
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+$(function () {
+    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
+});
+</script>
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+</body>
+
+</html>
