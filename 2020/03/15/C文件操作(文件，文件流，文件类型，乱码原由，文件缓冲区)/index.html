@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="Linux发行版本/shell说明/Bash说明, SkilledBeginner">
+    <meta name="keywords" content="C文件操作(FILE结构体，mode详解，fopen，fread，fwrite，filea，fclose), SkilledBeginner">
     <meta name="description" content="努力做一个很厉害的人">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>Linux发行版本/shell说明/Bash说明 | SkilledBeginner</title>
+    <title>C文件操作(FILE结构体，mode详解，fopen，fread，fwrite，filea，fclose) | SkilledBeginner</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -306,12 +306,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/1.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/16.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">Linux发行版本/shell说明/Bash说明</h1>
+                    <h1 class="description center-align post-title">C文件操作(FILE结构体，mode详解，fopen，fread，fwrite，filea，fclose)</h1>
                 </div>
             </div>
         </div>
@@ -428,8 +428,8 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/linux-%E5%9F%BA%E7%A1%80/">
-                                <span class="chip bg-color">linux 基础</span>
+                            <a href="/tags/C%E6%96%87%E4%BB%B6/">
+                                <span class="chip bg-color">C文件</span>
                             </a>
                         
                     </div>
@@ -440,8 +440,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/Linux/" class="post-category">
-                                Linux
+                            <a href="/categories/C%E5%9F%BA%E7%A1%80/" class="post-category">
+                                C基础
                             </a>
                         
                     </div>
@@ -453,28 +453,28 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-03-09
+                    2020-03-15
                 </div>
                 
 
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2020-03-09
+                    2020-03-15
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    1.1k
+                    1.8k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    3 分
+                    6 分
                 </div>
                 
 
@@ -490,22 +490,125 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="Linux发行版本"><a href="#Linux发行版本" class="headerlink" title="Linux发行版本"></a>Linux发行版本</h2><p>Linux存在着许多不同的Linux发行版本，比如Ubuntu、CentOS、Redhat、Debian、Fedora、Android等等。 但它们都使用了Linux内核。Linux可安装在各种计算机硬件设备中，比如手机、平板电脑、路由器、视频游戏控制 台、台式计算机、大型机和超级计算机。 </p>
-<p>Linux是一个基于POSIX (Portable Operating System Interface ，缩写为 POSIX ）的多用户、多任务、支持 多线程和多CPU的操作系统。它能运行主要的UNIX工具软件、应用程序和网络协议。它支持32位和64位硬件。 Linux继承了Unix以网络为核心的设计思想，是一个性能稳定的多用户网络操作系统。</p>
-<p> 严格来讲，Linux这个词本身只表示Linux内核，但实际上人们已经习惯了用Linux来形容整个基于Linux内核， 并且使用GNU 工程各种工具和数据库的操作系统。</p>
-<h3 id="CentOS系统"><a href="#CentOS系统" class="headerlink" title="CentOS系统"></a>CentOS系统</h3><p>很多网站站长一般都选择centOS系统，CentOS是从redhat源代码编译的重新发布版。CentOS去除很多 与服务器功能无关的应用，系统简单但非常稳定，命令行操作可以方便管理系统和应用，并且有帮助文档和社 区的支持。</p>
-<h3 id="Ubuntu系统"><a href="#Ubuntu系统" class="headerlink" title="Ubuntu系统"></a>Ubuntu系统</h3><p>Ubuntu有亮丽的用户界面，完善的包管理系统，强大的软件源支持，丰富的技术社区，并且Ubuntu对计 算机硬件的支持好于centos和debian，兼容性强，Ubuntu应用非常多，但对于服务器系统来说，需要的是稳 定，操作方便，维护简单的系统。如果你需要在服务器端使用图形界面, ubuntu是一个不错的选择，你需要注 意的是，图形界面占用的内存非常大，而内存越大的vps(virtual private server)价格也越高。</p>
-<h3 id="Debian系统"><a href="#Debian系统" class="headerlink" title="Debian系统"></a>Debian系统</h3><p>Debian也非常适合做服务器操作系统，与Ubuntu比较，它没有太多的花哨界面，稳定压倒一切。debian 这个Linux系统，底层非常稳定，内核和内存的占用都非常小，比如128M的内存就能运行，比Centos占用的资 源还要少，但debian的帮助文档和技术资料比较少。</p>
-<h2 id="shell"><a href="#shell" class="headerlink" title="shell"></a>shell</h2><p>什么是shell</p>
-<p>在计算机科学中，Shell俗称壳， 是指命令解析器。它类似于DOS下的command和后来的cmd.exe。它接收用 户命令，然后调用相应的应用程序。 同时它又是一种程序设计语言。作为命令语言，它交互式解释和执行用户输入的命令或者自动地解释和执行预 先设定好的一连串的命令；作为程序设计语言，它定义了各种变量和参数，并提供了许多在高级语言中才具有的控 制结构，包括循环和分支。</p>
-<p><img src="https://img-blog.csdnimg.cn/20200226234329985.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="shell"></p>
-<p>Linux内核时核心地位<br>Shell可以理解为壳，不能单独运行，<br>只能在kernel运行之后才能运行。才能发挥价值<br>Shell是用来操作kernel。<br>Shell也可以理解为脚本解释器。<br>Shell指命令解析器。它类似于DOS下的command和后来的cmd.exe。它接收用户命令，然后调用相应的应用程序，并且回写。</p>
-<p>参看系统有哪些shell：<br>命令：<code>cat /etc/shells</code><br><img src="https://img-blog.csdnimg.cn/20200226234400785.png" alt="cat /etc/shell"></p>
-<p>查看当前正在使用的shell：<br>命令<code>echo $SHELL</code></p>
-<p><img src="https://img-blog.csdnimg.cn/20200226234439682.png" alt="cch0 $shell"></p>
-<p>打开的终端窗口并不是shell ，只是shell运行需要在终端窗口运行。<br>终端窗口只是把输入的命令显示并且把命令传输给shell命令解析器，<br>shell解析完成之后在把解析的信息显示到终端窗口。<br>终端 teletype  翻译为打字机<br>终端可以提供从键盘输入的回显<br>当登录之后才进入到shell解释器<br>登陆界面运行的是login程序，这个时候并没有运行shell。</p>
-<h2 id="Bash"><a href="#Bash" class="headerlink" title="Bash"></a>Bash</h2><p>Bash (GNU Bourne­Again Shell) 是许多Linux发行版的默认Shell。事实上，还有许多传统UNIX上用的Shell， 例如tcsh、csh、ash、bsh、ksh等等，Shell Script大致都类同，当您学会一种Shell以后，其它的Shell会很快就上 手，大多数的时候，一个Shell Script通常可以在很多种Shell上使用。</p>
-<h3 id="bash常用快捷键"><a href="#bash常用快捷键" class="headerlink" title="bash常用快捷键"></a>bash常用快捷键</h3><p>在使用bash时候，经常会用到这些快捷方式，有助于提高输入指令的速度 。<img src="https://img-blog.csdnimg.cn/2020022623471041.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="bash常用快捷键"></p>
+                <h2 id="FILE-结构体"><a href="#FILE-结构体" class="headerlink" title="FILE 结构体"></a>FILE 结构体</h2><p><strong>FILE 结构体是对缓冲区和文件读写状态的记录者，所有对文件的操作，都是通过FILE 结构体完成的。</strong></p>
+<pre><code>typedef struct { 
+short level; /* 缓冲区满/空程度 */ 
+unsigned flags; /* 文件状态标志 */ 
+char fd; /* 文件描述符 */ 
+unsigned char hold; /* 若无缓冲区不读取字符 */ 
+short bsize; /* 缓冲区大小 */ 
+unsigned char *buffer; /* 数据传送缓冲区位置 */ 
+unsigned char *curp; /* 当前读写位置 */ 
+unsigned istemp; /* 临时文件指示 */ 
+short token; /* 用作无效检测 */ 
+} FILE ; /* 结构体类型名 FILE */</code></pre><p>当进行打开文件操作之后，我们打开的文件内容就会缓存到内存中，那么我们有一个疑问<strong>这里的FILE * 定义的pf是不是直接就指向这段缓冲了呢？那么FILE * 的结构体是什么呢？</strong>，我们接下来进行图解说明：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200128120929740.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="读取文件到内存缓冲区"></p>
+<p>我们平时如果要看一个电影，如果内存只有1G那么我们可以观看超过1G大小的影片，这个观看是没有问题的。但是如果要把整个影片缓存到内存肯定是不够的，所以缓存是部分缓存。那么硬盘上也有缓冲，那就把内存已经缓存之后的执行完的数据放到硬盘缓冲区。</p>
+<p>当我们把硬盘的内容缓存到内存的时候，我们需要记录什么时候缓存的部分执行完成之后将其放回硬盘缓冲区，内存缓冲区执行到了那个位置，缓冲区的大小，缓冲区有没有满/有没有空，等等很多信息我们都需要记录下来，所以当我们对于文件进行操作的时候，所以这些信息都要被记录下来，而记录者就是FILE *<br>所以当我们在打开文件到内存的时候，在底层系统为我们开了一个结构体，这个结构体就是记录当前文件的所有状态信息，所以FILE * 结构体并不是简单直接指向缓冲区。而是记录这段缓冲区内存的所有指标，指标包括FILE * 结构体中的所有成员。</p>
+<p>通常在windows中我们将pf称为句柄：我们可以理解为资源的把柄，有了句柄我们就可以操作文件，也是文件的核心。所以并不是简单的pf指向内存的缓冲区。<br>我们来举一个例子：例如门柄就是门把手，我们有了门柄就可以操作整个门。门把手就是这个门的核心和要害之处。</p>
+<p>在开始执行程序的时候，将自动打开 3 个文件和相关的流：标准输入流(stdin)、标准输出流(stdout)和标准错误(stderr)，它们都是 FIEL*型的指针。流提供了文件和程序的通信通道。</p>
+<h2 id="fopen函数"><a href="#fopen函数" class="headerlink" title="fopen函数"></a>fopen函数</h2><p><img src="https://img-blog.csdnimg.cn/20200128121002659.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="fopen函数"></p>
+<p><strong>要注意上面的file包括文件路径和文件名。</strong></p>
+<h3 id="mode-详解："><a href="#mode-详解：" class="headerlink" title="mode 详解："></a>mode 详解：</h3><p><img src="https://img-blog.csdnimg.cn/20200128121020485.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="mode详解"></p>
+<p><strong>如果读写的是二进制文件，则还要加 b,比如 rb, r+b 等。 unix/linux 不区分文本和二进制文件。</strong></p>
+<h3 id="读取文件操作"><a href="#读取文件操作" class="headerlink" title="读取文件操作"></a>读取文件操作</h3><p>我们来简单演示一下：</p>
+<pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+int main()
+{
+FILE * pf = fopen(&quot;./read.txt&quot;,&quot;r&quot;);
+if(NULL == pf)
+{
+printf(&quot;open fail\n&quot;);
+exit(-1);
+}
+return 0;
+}</code></pre><p>运行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200315002202174.png" alt="打开文件运行结果"></p>
+<p>这个时候我们并没有创建出来ac.txt这个文件，但是我们给出了文件打开是否成功的判断结果。<br>我们可以看到打开文件失败，因为当前目录下并没有文件名为read.txt。<br>所以如果open函数以只读方式打开，如果文件不存在就会打开失败。<br>那么如果我们创建一个ac.txt文件，那么就会打开成功。</p>
+<p>我们先介绍一个我们接下来使用的向文件写入数据的fputs函数，有博客会进行详细说明，这里只是简单使用。</p>
+<p><strong>函数原型及参数说明</strong>：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200128121133165.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="函数原型及参数说明"></p>
+<p>我们通过上面函数进行文件写入数据操作：</p>
+<h2 id="写入文件操作"><a href="#写入文件操作" class="headerlink" title="写入文件操作"></a>写入文件操作</h2><p>我们让当前目录并没有ac.txt 文件<br>接下来我们进行写入文件操作：</p>
+<pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+int main()
+{
+FILE * pf = fopen(&quot;ac.txt&quot;,&quot;w&quot;);
+if(pf == NULL)
+{
+printf(&quot;open fail\n&quot;);
+exit(-1);
+}
+if(fputc(&apos;a&apos;,pf)==EOF)
+fputc(&apos;a&apos;,pf);
+fputc(&apos;a&apos;,pf);
+fputc(&apos;a&apos;,pf);
+fputc(&apos;a&apos;,pf);
+fputc(&apos;a&apos;,pf);
+fputc(&apos;a&apos;,pf);
+return 0;
+}</code></pre><p>运行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200315002513935.png" alt="文件写入操作"></p>
+<p>我们可以看到创建了ac.txt文件并且写入成功。<br>那么如果文件存在呢？<br>接下来我们先给ac.txt写入一部分内容：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200315002535805.png" alt="给已经存在的文件写入内容"></p>
+<p>我们现在对于ac.txt还是以写入的方式打开，但是不写入任何内容。</p>
+<pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+int main()
+{
+FILE * pf = fopen(&quot;ac.txt&quot;,&quot;w&quot;);
+if(pf == NULL)
+{
+printf(&quot;open fail\n&quot;);
+exit(-1);
+}
+
+return 0;
+}</code></pre><p>执行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200315002612951.png" alt="不写入任何内容的执行结果"></p>
+<p>小结：<br>当对于文件操作有写入操作时。</p>
+<p>我们可以看到执行之后ac.txt里面没有任何数据，也就是将文件清空。</p>
+<p>在读取文件的时候如果文件不存在则创建文件并且写入数据，</p>
+<p>如果文件存在且没有数据则直接给已经存在的文件写入数据。</p>
+<p>如果文件存在且有数据执行写数据操作时，原来文件的数据会被清空。</p>
+<h3 id="filea-操作"><a href="#filea-操作" class="headerlink" title="filea 操作"></a>filea 操作</h3><p><img src="https://img-blog.csdnimg.cn/2020012812172089.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p>执行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200128121738367.png" alt="在这里插入图片描述"></p>
+<p>我们可以看到创建文件成功，里面之所以没有内容是因为我们没有写入数据。</p>
+<p>我们先给xx.txt写入一部分内容：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200128121746184.png" alt="在这里插入图片描述"></p>
+<p>我们写完之后再次执行程序则不会清空：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200128121805389.png" alt="在这里插入图片描述"></p>
+<p>接下来我们需要再引入一个fputs函数，fputs函数的功能就是给文件写入一段数据。</p>
+<p><img src="https://img-blog.csdnimg.cn/20200128121809555.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p>我们通过fputs函数进行写入：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200128121828743.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p>执行结果为:</p>
+<p><img src="https://img-blog.csdnimg.cn/20200128121838536.png" alt="在这里插入图片描述"></p>
+<p>我们可以看到执行成功并且在文件原有数据后面追加了数据hello world<br>那么写入没问题，我们进行读取：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200128121858622.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p>执行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200128121909929.png" alt="在这里插入图片描述"></p>
+<p>我们可以看到读取失败。</p>
+<h2 id="fclose函数"><a href="#fclose函数" class="headerlink" title="fclose函数"></a>fclose函数</h2><p><img src="https://img-blog.csdnimg.cn/20200315003659418.png" alt="fclose函数说明"></p>
+<p>fclose使用方法比较简单。参数直接写入文件描述符进行文件关闭。</p>
+<p>fclose可以刷新缓存。</p>
+<p>fclose会把内存中开辟的缓存的数据存放在磁盘缓冲区</p>
+<p>把开辟的缓存进行释放</p>
+<p>释放FILE * 结构体。</p>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p><strong>r  以只读方式打开，如果文件不存在，则报错，文件不可写</strong></p>
+<p><strong>w  如果文件不存在则创建文件，如果文件存在则清空。文件不可读</strong></p>
+<p><strong>a   如果文件不存在则创建文件，文件存在，追加写，文件不可读。</strong></p>
+<p><strong>r+    可读可写</strong></p>
+<p><strong>w+   可读可写</strong></p>
+<p><strong>a+    可读可写</strong></p>
+<p><strong>后面的+表示缺什么加什么</strong></p>
+<p><strong>如果读写的是二进制文件，则还要加 b,比如 rb, r+b 等。 unix/linux 不区分文本和二进制文件。 文本文件和二进制文件都是二进制文件，但是windows里面编写会有所不同。那么在windows里面在进行二进制文件操作的时候就需要使用我们这里提到的用法</strong></p>
+<p><img src="https://img-blog.csdnimg.cn/20200315003531637.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="我们再次给出表格希望读者验证对比而不是看一遍记忆"></p>
 
             </div>
             <hr/>
@@ -531,7 +634,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://www.teachermin.com/2020/03/09/Linux%E5%8F%91%E8%A1%8C%E7%89%88%E6%9C%ACshell%E8%AF%B4%E6%98%8EBash%E8%AF%B4%E6%98%8E/">http://www.teachermin.com/2020/03/09/Linux%E5%8F%91%E8%A1%8C%E7%89%88%E6%9C%ACshell%E8%AF%B4%E6%98%8EBash%E8%AF%B4%E6%98%8E/</a>
+                    <a href="http://www.teachermin.com/2020/03/15/C%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C(%E6%96%87%E4%BB%B6%EF%BC%8C%E6%96%87%E4%BB%B6%E6%B5%81%EF%BC%8C%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%EF%BC%8C%E4%B9%B1%E7%A0%81%E5%8E%9F%E7%94%B1%EF%BC%8C%E6%96%87%E4%BB%B6%E7%BC%93%E5%86%B2%E5%8C%BA)/">http://www.teachermin.com/2020/03/15/C%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C(%E6%96%87%E4%BB%B6%EF%BC%8C%E6%96%87%E4%BB%B6%E6%B5%81%EF%BC%8C%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%EF%BC%8C%E4%B9%B1%E7%A0%81%E5%8E%9F%E7%94%B1%EF%BC%8C%E6%96%87%E4%BB%B6%E7%BC%93%E5%86%B2%E5%8C%BA)/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -569,8 +672,8 @@
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/linux-%E5%9F%BA%E7%A1%80/">
-                                    <span class="chip bg-color">linux 基础</span>
+                                <a href="/tags/C%E6%96%87%E4%BB%B6/">
+                                    <span class="chip bg-color">C文件</span>
                                 </a>
                             
                         </div>
@@ -736,31 +839,33 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2020/03/09/C%E8%AF%AD%E8%A8%80%E6%96%87%E4%BB%B6(%E6%96%87%E4%BB%B6%EF%BC%8C%E6%96%87%E4%BB%B6%E6%B5%81%EF%BC%8C%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%EF%BC%8C%E4%B9%B1%E7%A0%81%E5%8E%9F%E7%94%B1%EF%BC%8C%E6%96%87%E4%BB%B6%E7%BC%93%E5%86%B2%E5%8C%BA)/">
+                <a href="/2020/03/15/C%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C(%E6%96%87%E4%BB%B6%EF%BC%8C%E6%96%87%E4%BB%B6%E6%B5%81%EF%BC%8C%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%EF%BC%8C%E4%B9%B1%E7%A0%81%E5%8E%9F%E7%94%B1%EF%BC%8C%E6%96%87%E4%BB%B6%E7%BC%93%E5%86%B2%E5%8C%BA)/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/19.jpg" class="responsive-img" alt="C文件引入(文件，文件流，文件类型，乱码原由，文件缓冲区)">
+                        <img src="/medias/featureimages/16.jpg" class="responsive-img" alt="C文件操作(FILE结构体，mode详解，fopen，fread，fwrite，filea，fclose)">
                         
-                        <span class="card-title">C文件引入(文件，文件流，文件类型，乱码原由，文件缓冲区)</span>
+                        <span class="card-title">C文件操作(FILE结构体，mode详解，fopen，fread，fwrite，filea，fclose)</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            文件Unix 的设计哲学之一，就是 Everything is a file（一切设备皆是文件）,可见文件是如此的重要。今天我们说明的是读写磁盘文件，为以后读取网络文件和硬件文件打下基础。 
-
-文件流C 语言把文件看作是一个字符的序列，即文
+                            FILE 结构体FILE 结构体是对缓冲区和文件读写状态的记录者，所有对文件的操作，都是通过FILE 结构体完成的。
+typedef struct { 
+short level; /* 缓冲区满/空程度 */ 
+unsigned flags
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-03-09
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-03-15
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
@@ -773,6 +878,7 @@
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
@@ -791,29 +897,27 @@
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/03/09/%E5%88%86%E5%8C%BA%E4%B8%8E%E7%9B%AE%E5%BD%95/">
+                <a href="/2020/03/14/%E6%9C%AC%E6%9C%BAIPC%E4%B9%8B%E7%AE%A1%E9%81%93%E8%AF%A6%E8%A7%A3/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/19.jpg" class="responsive-img" alt="linux 分区与目录">
+                        <img src="/medias/featureimages/4.jpg" class="responsive-img" alt="本机IPC之管道详解">
                         
-                        <span class="card-title">linux 分区与目录</span>
+                        <span class="card-title">本机IPC之管道详解</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            分区与目录分区
-Linux硬盘的分区主要分为主分区（primary partion）和扩展分区(extension partion)两种，主分区和扩展分区的 数目之和不能大于四个。
+                            无名管道的通信原理内核会开辟一个“管道”，通信的进程通过共享这个管道，从而实现通信。内核的代码也是运行在物理内存上的，内核创建一个“管道”，其实就是在内核自己所在的物理内存空间中开辟出一段缓存空间
+比如：char buf[1024];
 
-主分区可以马上被使用但不能再分区。
-
-扩展分区必须再进行
+进
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-03-09
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-03-14
                             </span>
                         <span class="publish-author">
                             
@@ -830,8 +934,8 @@ Linux硬盘的分区主要分为主分区（primary partion）和扩展分区(ex
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/linux-%E5%9F%BA%E7%A1%80/">
-                        <span class="chip bg-color">linux 基础</span>
+                    <a href="/tags/linux-%E6%9C%AC%E6%9C%BAIPC/">
+                        <span class="chip bg-color">linux 本机IPC</span>
                     </a>
                     
                 </div>
