@@ -1,0 +1,2379 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="本机IPC之信号量详解, SkilledBeginner">
+    <meta name="description" content="努力做一个很厉害的人">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <title>本机IPC之信号量详解 | SkilledBeginner</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+
+    <script src="/libs/jquery/jquery.min.js"></script>
+    
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">SkilledBeginner</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/contact" class="waves-effect waves-light">
+      
+      <i class="fas fa-comments" style="zoom: 0.6;"></i>
+      
+      <span>留言板</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/friends" class="waves-effect waves-light">
+      
+      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
+      
+      <span>友情链接</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">SkilledBeginner</div>
+        <div class="logo-desc">
+            
+            努力做一个很厉害的人
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/contact" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-comments"></i>
+			
+			留言板
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/friends" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-address-book"></i>
+			
+			友情链接
+		</a>
+          
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/BeginnerMin" class="waves-effect waves-light" target="_blank">
+                <i class="fab fa-github-square fa-fw"></i>Fork Me
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/BeginnerMin" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork Me" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/9.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">本机IPC之信号量详解</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        width: 345px;
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content {
+        height: calc(100vh - 250px);
+        overflow: auto;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #toc-content .is-active-link::before {
+        background-color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/linux-%E6%9C%AC%E6%9C%BAIPC/">
+                                <span class="chip bg-color">linux 本机IPC</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/Linux/" class="post-category">
+                                Linux
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2020-03-14
+                </div>
+                
+
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
+                    2020-03-14
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    7.8k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    34 分
+                </div>
+                
+
+                
+                    <div id="busuanzi_container_page_pv" class="info-break-policy">
+                        <i class="far fa-eye fa-fw"></i>阅读次数:&nbsp;&nbsp;
+                        <span id="busuanzi_value_page_pv"></span>
+                    </div>
+				
+            </div>
+
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h2 id="信号量的作用"><a href="#信号量的作用" class="headerlink" title="信号量的作用"></a>信号量的作用</h2><p>当多个进程/线程进行共享操作时，用于资源保护，以防止出现相互干扰的情况。再间简洁一点，信号量用于“资源的保护“。</p>
+<p>进程信号量<br>实现的是进程操作资源的保护。</p>
+<p>线程信号量<br>实现的是线程操作资源的保护。</p>
+<h2 id="什么是进程资源保护？"><a href="#什么是进程资源保护？" class="headerlink" title="什么是进程资源保护？"></a>什么是进程资源保护？</h2><p>例子1：<strong>多进程操作共享内存</strong><br>比如，多个进程同时向共享内存里面写数据时，可能会出现数据相互干扰的情况。</p>
+<p>比如，某个进程写数据操作还没有写完时，进程的时间片就到了，然后被切换到另一个写 “共享内存”的进程上运行，这个进程会接着往共享内存里面写数据，此时显然就把第一个进程写的数据给隔断，这就形成了数据相互干扰。</p>
+<p><strong>多进程操作文件</strong><br>当多个进程同时向共享文件里面写数据时，同样会出现数据的相互干扰的情况。</p>
+<p>为了避免出现以上所说的相互干扰的问题，就需要加入资源保护的措施，保护的目的就是，保证每个进程在没有把数据读、写完整之前，其它进程不能进行读、写操作，以防止干扰别人。</p>
+<p>资源指的就是操作的数据，保护的目的就是不要出现相互干扰，导致紊乱和错误数据的产生。</p>
+<h2 id="资源保护操作的种类"><a href="#资源保护操作的种类" class="headerlink" title="资源保护操作的种类"></a>资源保护操作的种类</h2><h3 id="互斥"><a href="#互斥" class="headerlink" title="互斥"></a>互斥</h3><p>对于互斥操作来说，多进程共享操作时，多个进程间不关心谁先操作、谁后操作的先后顺序问题，它们只关心一件事，那就是我在操作时别人不能操作。</p>
+<p>互斥时，如果当前正在操作的进程它的时间片到了，切换到了其它进程上，但是当该进程检测到上一个进程还没有操作完时，该进程在当前的时间片内会休眠，直到再次切换会上一个进程，将操作完成后再切换回来，此时才能进行操作。</p>
+<h3 id="同步"><a href="#同步" class="headerlink" title="同步"></a>同步</h3><p>同步其实本身就包含了互斥，不过同步不仅仅只互斥，同步对于谁先操作、谁后操作的先后顺序有要求，比如规定A进程先写，然后是B进程写，然后是C进程写，绝对不能出现这操作顺序以外的顺序。</p>
+<p>所以所谓同步就是，多个共享操作时，进程必须要有统一操作的步调，按照一定的顺序来操作。    </p>
+<p>这个机制也像在银行办理业务，既有互斥也有同步：<br>互斥：你办理业务的时候，其他人不能办理业务<br>同步：必须根据排队顺序来进行办理，不能把顺序搞乱。</p>
+<p>实现同步、互斥，其实就是加锁<br>这个很形象，我要操作我就上把锁，我上锁的过程中你就不能操作，直到我把锁打开了，你才能操作，你操作时也会加锁，加锁后我就不能操作了。</p>
+<p>所以说信号量就是一个加锁机制，通过加锁来实现同步和互斥。</p>
+<p>不管是进程还是线程，都存在同步和互斥的问题，同步和互斥的目的其实就是为了实现“资源”的保护，不要让数据（资源）出现紊乱。信号量既能实现互斥，也能实现同步。</p>
+<h2 id="信号量加锁说明"><a href="#信号量加锁说明" class="headerlink" title="信号量加锁说明"></a>信号量加锁说明</h2><p>实物锁大家好理解，不过OS提供的锁就不好理解了，信号量这种OS提供的锁，简单说就是结构体，链表，数组等数据结构，通过这些数据结构就能标记当前某个进程操作是否完成，没有完成的话，其他进程就不能操作，这就实现了加锁的功能。</p>
+<p>信号量既然是一种加锁机制，为什么进程信号量会被归到了进程间通信里面呢？<br>资源保护时，某个进程的操作没有完全完成之前，别人是不能操作的，那么进程间必须相互知道对方的操作状态，必须会涉及到通信过程。<br>所以信号量实现资源保护的本质就是，通过通信让各个进程了解到操作状态，然后查看自己能不能操作。信号量实现通信，由信号量机制自己内部来实现，我们不用关心，我们只关系如何通过API调用信号量这种机制。</p>
+<h2 id="使用信号量实现互斥"><a href="#使用信号量实现互斥" class="headerlink" title="使用信号量实现互斥"></a>使用信号量实现互斥</h2><p>进程信号量既能实现进程的互斥，也能实现进程的同步，不过有些“资源保护机制”就只能实现互斥，而不能实现同步。</p>
+<p>需要互斥实现“资源保护”的例子<br>比如前面介绍的多个进程共享写同一个文件的例子，会了方便起见，我们的进程只有两个。<br>这两个进程可以是亲缘进程，也可以是非亲缘进程，我们使用亲缘进程来演示。</p>
+<h3 id="代码演示"><a href="#代码演示" class="headerlink" title="代码演示"></a>代码演示</h3><p>我们先来查看没有加锁的情况：</p>
+<pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;sys/types.h&gt;
+#include &lt;sys/stat.h&gt;
+#include &lt;fcntl.h&gt;
+
+void print_err(char *estr)
+{
+perror(estr);
+exit(-1);
+}
+
+int main()
+{
+pid_t ret = 0;
+int fd = -1;
+fd = open(&quot;./file&quot;,O_RDWR|O_CREAT|O_TRUNC,0664);
+if(fd == -1) print_err(&quot;open file fail&quot;);
+ret = fork();
+if(ret &gt; 0)
+{
+while(1)
+{
+write(fd,&quot;hello &quot;,6);
+write(fd,&quot;world\n&quot;,6);
+
+}
+}
+else if(ret == 0)
+{
+while(1)
+{
+write(fd,&quot;qqqqq &quot;,6);
+write(fd,&quot;wwwww\n &quot;,6);
+
+}
+}
+return 0;
+}</code></pre><p>运行结果为并打开文件：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200314200356881.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="运行结果"></p>
+<p><img src="https://img-blog.csdnimg.cn/20200314200411680.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="运行结果"></p>
+<p>我们可以看到，存在父进程写了hello刚写了接下来子进程直接写入了qqqqq把父进程的world给隔断了。同样子进程进行数据的写入也会隔断父进程的写入数据操作。</p>
+<p>因为在切换进程时，往往只写了一个“hello”或者“qqqqq”后，就被切换到另一个进程，该进程会继续写数据，如此就对上一个进程所写数据产生了隔断。</p>
+<h3 id="图解"><a href="#图解" class="headerlink" title="图解"></a>图解</h3><p><img src="https://img-blog.csdnimg.cn/20200314200442559.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="时间片切换图解"></p>
+<p>由于时间片切换的时候无法判断程序执行到哪一行，所以隔断的情况会有多种。</p>
+<p>那么上面的问题我们就需要通过信号量加入互斥锁机制来解决。</p>
+<h3 id="进程信号量实现互斥的原理"><a href="#进程信号量实现互斥的原理" class="headerlink" title="进程信号量实现互斥的原理"></a>进程信号量实现互斥的原理</h3><h4 id="什么是进程信号量"><a href="#什么是进程信号量" class="headerlink" title="什么是进程信号量"></a>什么是进程信号量</h4><p>简单理解的话，信号量其实是OS创建的一个共享变量，进程在进行操作之前，会先检查这个变量的值，这变量的值就是一个标记，通过这个标记就可以知道可不可以操作，以实现互斥。</p>
+<h4 id="多值信号量和二值信号量"><a href="#多值信号量和二值信号量" class="headerlink" title="多值信号量和二值信号量"></a>多值信号量和二值信号量</h4><h5 id="二值信号量"><a href="#二值信号量" class="headerlink" title="二值信号量"></a>二值信号量</h5><p>同步和互斥时使用的都是二值信号量。<br>二值信号量的值就两个，0和1，0表示不可以操作，1表示可以操作。<br>通过对变量进行0、1标记，就可以防止出现相互干扰情况。</p>
+<p><img src="https://img-blog.csdnimg.cn/20200314200538939.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="二值信号量"></p>
+<h5 id="多值信号量"><a href="#多值信号量" class="headerlink" title="多值信号量"></a>多值信号量</h5><p>信号量的最大值&gt;1，比如为3的话，信号量允许的值为0、1、2、3。<br>只有信号量为0的时候表示不能操作，为其他值的时候表示可以进行操作。P操作一次3变为2，再进行一次P操作2变为1。</p>
+<h5 id="信号量集合"><a href="#信号量集合" class="headerlink" title="信号量集合"></a>信号量集合</h5><p>我们说信号量其实是一个OS创建的，供相关进程共享的int变量，只不过我们在调用相关API创建信号量时，我们创建的都是一个信号量集合，所谓集合就是可能会包含好多个信号量。</p>
+<p>用于互斥时，集合中只包含一个信号量。<br>用于同步时，集合中会包含多个信号量，至于多少个，需要看情况。</p>
+<h2 id="信号量的使用步骤"><a href="#信号量的使用步骤" class="headerlink" title="信号量的使用步骤"></a>信号量的使用步骤</h2><p><strong>1）    进程调用semget函数创建新的信号量集合，或者获取已有的信号量集合。<br>（信号量创建只由一个进程创建，其他进程直接获取）</strong></p>
+<p><strong>2）调用semctl函数给集合中的每个信号量设置初始值(信号量的初始值只由一个进程设置)</strong></p>
+<p><strong>3）调用semop函数，对集合中的信号量进行pv操作</strong></p>
+<p><strong>4）调用semctl删除信号量集合**</strong></p>
+<p>什么是pv操作？</p>
+<p>pv操作其实说白了就是加锁、解锁操作。<br>P操作（加锁）：对信号量的值进行-1，如果信号量的值为0，p操作就会阻塞。<br>V操作（解锁）：对信号量的值进行+1，V操作不存在阻塞的问题。<br>总之通过pv操作（加锁、解锁），就能够实现互斥，以防止出现干扰。</p>
+<h3 id="信号量相关的API"><a href="#信号量相关的API" class="headerlink" title="信号量相关的API"></a>信号量相关的API</h3><h4 id="semget函数"><a href="#semget函数" class="headerlink" title="semget函数"></a>semget函数</h4><h5 id="函数原型"><a href="#函数原型" class="headerlink" title="函数原型"></a>函数原型</h5><pre><code>#include &lt;sys/types.h&gt;
+#include &lt;sys/ipc.h&gt;
+#include &lt;sys/sem.h&gt;
+int semget(key_t key, int nsems, int semflg);</code></pre><p>sem就是semaphore的缩写。</p>
+<h5 id="功能"><a href="#功能" class="headerlink" title="功能"></a>功能</h5><p>根据key值创建新的、或者获取已有的信号量集合，并返回其标识符。<br>· 实现互斥时：集合中只需要一个信号量<br>· 实现同步时：集合中需要多个信号量    </p>
+<h5 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h5><p>·  key：设置同消息队列和共享内存。<br>一般都使用ftok获取key值。</p>
+<p>· nsems：指定集合中信号量的个数。<br>用于互斥时，数量都指定为1，因为只需要一个信号量。<br>如果是同步的话就需要至多为多个，至于到底是多少个，下面同步会详细说明。</p>
+<p>· semflg：设置同消息队列和共享内存。<br>一般都设置为0664|IPC_CREAT。</p>
+<h5 id="返回值"><a href="#返回值" class="headerlink" title="返回值"></a>返回值</h5><p>调用成功则返回信号量集合的标识符，失败则返回-1，并且errno被设置。</p>
+<h4 id="代码演示-1"><a href="#代码演示-1" class="headerlink" title="代码演示"></a>代码演示</h4><pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;sys/types.h&gt;
+#include &lt;sys/stat.h&gt;
+#include &lt;fcntl.h&gt;
+#include &lt;sys/sem.h&gt;
+#include &lt;sys/ipc.h&gt;
+#include &lt;signal.h&gt;
+#define NSEMS 1
+#define SEM_FILE &quot;./semfile&quot;
+
+void print_err(char *estr)
+{
+perror(estr);
+exit(-1);
+}
+
+int creat_or_get_sem(int nsems)
+{
+int semid = 0;
+int key = 0;
+int fd = -1;
+fd = open(SEM_FILE,O_RDWR|O_CREAT,0664);
+if(fd == -1) print_err(&quot;open  ./semfile  fail&quot;);
+
+key = ftok(SEM_FILE,&apos;c&apos;);
+if(key == -1) print_err(&quot;ftok fail&quot;);
+
+semid = semget(key,nsems,0664|IPC_CREAT);
+if(semid == -1) print_err(&quot;semget fail&quot;);
+return semid;
+
+}
+
+int main()
+{
+pid_t ret = 0;
+int fd = -1;
+fd = open(&quot;./file&quot;,O_RDWR|O_CREAT|O_TRUNC,0664);
+if(fd == -1) print_err(&quot;open file fail&quot;);
+ret = fork();
+if(ret &gt; 0)
+{
+        creat_or_get_sem(NSEMS);
+while(1)
+{
+write(fd,&quot;hello &quot;,6);
+write(fd,&quot;world\n&quot;,6);
+
+}
+}
+else if(ret == 0)
+{
+        creat_or_get_sem(NSEMS);
+while(1)
+{
+write(fd,&quot;qqqqq &quot;,6);
+write(fd,&quot;wwwww\n &quot;,6);
+
+}
+}
+return 0;
+}</code></pre><p>运行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/2020031420090682.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="运行结果"></p>
+<h4 id="semctl函数"><a href="#semctl函数" class="headerlink" title="semctl函数"></a>semctl函数</h4><h5 id="函数原型-1"><a href="#函数原型-1" class="headerlink" title="函数原型"></a>函数原型</h5><pre><code>#include &lt;sys/types.h&gt;
+#include &lt;sys/ipc.h&gt;
+#include &lt;sys/sem.h&gt;
+int semctl(int semid, int semnum, int cmd, ...);</code></pre><h5 id="功能-1"><a href="#功能-1" class="headerlink" title="功能"></a>功能</h5><p>根据cmd的要求对集合中的各个信号量进行控制，…表示它是一个变参函数，如果第四<br>个参数用不到的话，可以省略不写。</p>
+<h5 id="返回值-1"><a href="#返回值-1" class="headerlink" title="返回值"></a>返回值</h5><p>调用成功返回非-1值，失败则返回-1，errno被设置。</p>
+<h5 id="参数说明"><a href="#参数说明" class="headerlink" title="参数说明"></a>参数说明</h5><p>· semid：信号量标识符。<br>通过标识符就能找到信号量集合。</p>
+<p>· semnum：集合中某个信号量的编号。<br>信号量的编号为非负整数，而且是自动从0开始编号的。</p>
+<p>通过信号量编号就能找到集合中对应信号量，然后对这个具体的信号量进行控制操作。</p>
+<p>int semctl(int semid, int semnum, int cmd, …);<br>· cmd：控制选项。</p>
+<ul>
+<li><p>IPC_STAT：将信号量的属性信息从内核读到第四个参数所以指定struct semid_ds缓存中。</p>
+</li>
+<li><p>IPC_SET：修改属性信息，此时也会用到struct semid_ds结构体变量<br>具体的修改方法同消息队列和共享内存。</p>
+</li>
+</ul>
+<ul>
+<li>IPC_RMID：删除信号量，删除信号量执行一次就会把整个信号量集合进行删除。<br>只需要指定semid和IPC_RMID就可以不把整个信号量集合删除，其中第二个参数semnum没有被用到，所以semnum的值可以随便写，不过我们一般都是把它写为0。</li>
+</ul>
+<p>所以删除整个信号量集合时，删除的写法可以统一的为：<br>semctl(semid, 0, IPC_RMID);</p>
+<p>删除操作时第四个参数用不到，所以第四个参数省略不写。<br>比如：semctl(semid, 0, IPC_RMID); </p>
+<p>int semctl(int semid, int semnum, int cmd, …);</p>
+<ul>
+<li>SETVAL：通过第四个参数，给集合中semnu编号的信号量设置一个int初始值。<br>在前面就说过，如果是二值信号量的话，设置初始值要么是0，要么是1，如果信号量的<br>目的是互斥的话，基本都是设置为1。</li>
+</ul>
+<p>当设置为1后，多几个进程互斥操作时，那就是谁先运行就谁先操作。</p>
+<p>如果是同步的话，初值是1还是0，这要就要看具体的情况了。</p>
+<p>其中信号量的IPC_STAT、IPC_SET、IPC_RMID与消息队列和共享内存的IPC_STAT、IPC_SET、IPC_RMID是一样的。但是SETVAL确属于进程信号量所独有的选项。</p>
+<p>对于信号量来说，IPC_RMID、SETVAL是最常用的两个选项。</p>
+<p>int semctl(int semid, int semnum, int cmd, …);</p>
+<p>…表示，如果用不到时可以省略不写。</p>
+<p>通过前面cmd的介绍我们可以看出，第四个参数具体设置为什么其实是不一定的，比如</p>
+<ul>
+<li>cmd为IPC_STAT：第四个参数应为struct semid_ds类型的缓存。</li>
+</ul>
+<p>有关struct semid_ds结构体我们不再说明，因为与共享内存的<br>struct shmid_ds，以及消息队列的struct msqid_ds结构体是类似的。</p>
+<ul>
+<li>cmd为SETVAL：第四个参数应该设置为一个int的值，用于初始化信号量。</li>
+</ul>
+<p>从以上可以看出，第四个参数对应内容是变着的，为了应对这种变化就用到了一个联合体。</p>
+<pre><code>union semun 
+{
+int  val;
+struct semid_ds *buf;
+unsigned short  *array; 
+struct seminfo  *__buf;  
+};</code></pre><p>我们这里主要使用前两个。<br>这个联合体类型并没有被定义在信号量相关的系统头文件中，我们使用这个联合体时，<br>我们需要自己定义这个类型，联合体类型名可以自己定，不过一般都是直接沿用<br>semun这个名字。</p>
+<p>成员：<br>val：存放用于初始化信号量的值<br>buf：存放struct semid_ds结构体变量的地址</p>
+<h4 id="这个联合怎么用？"><a href="#这个联合怎么用？" class="headerlink" title="这个联合怎么用？"></a>这个联合怎么用？</h4><ul>
+<li>例1：当需要指定struct semid_ds缓存时</li>
+</ul>
+<p>union semun sem_un; //定义一个联合体变量</p>
+<p>struct semid_ds buff; //定义一个struct semid_ds缓存</p>
+<p>sem_un.buf = &buff;  //现在整个联合体的值就是buf中所放的buff的地址    </p>
+<p>semctl(semid, 0, IPC_STAT, sem_un);<br>//这里将联合体传递给semctl函数，其实就是将buff的地址传递给了semctl函数。</p>
+<ul>
+<li>例2：当需要指定信号量的int初始值时</li>
+</ul>
+<p>union semun sem_un;<br>sem_un.val = 1;  //现在整个联合体的值就是1    </p>
+<p>semctl(semid, 0, IPC_STAT, sem_un);</p>
+<h4 id="代码演示-2"><a href="#代码演示-2" class="headerlink" title="代码演示"></a>代码演示</h4><p>初始化信号量集合，给集合中的每个信号量设置一个初始值，并且删除信号量。</p>
+<pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;sys/types.h&gt;
+#include &lt;sys/stat.h&gt;
+#include &lt;fcntl.h&gt;
+#include &lt;sys/sem.h&gt;
+#include &lt;sys/ipc.h&gt;
+#include &lt;signal.h&gt;
+#define NSEMS 1
+#define SEM_FILE &quot;./semfile&quot;
+int semid = 0;
+
+union semun  //使用联合体上面函数详解有说明
+{
+    intval;
+    struct semid_ds *buf;
+    unsigned short  *array;
+    struct seminfo  *__buf;  
+};    
+
+void print_err(char *estr)  //报错函数
+{
+perror(estr);
+exit(-1);
+}
+
+int creat_or_get_sem(int nsems)  //创建或获取信号量 
+{
+int key = 0;
+int fd = -1;
+fd = open(SEM_FILE,O_RDWR|O_CREAT,0664);
+if(fd == -1) print_err(&quot;open  ./semfile  fail&quot;);
+
+key = ftok(SEM_FILE,&apos;c&apos;);
+if(key == -1) print_err(&quot;ftok fail&quot;);
+
+semid = semget(key,nsems,0664|IPC_CREAT);
+if(semid == -1) print_err(&quot;semget fail&quot;);
+return semid;
+
+}
+
+void init_sem(int semid,int semnum,int val)  //初始化信号量
+{
+    union semun sem_un;
+    sem_un.val = val;
+    int ret = -1;
+    ret = semctl(semid,semnum,SETVAL,sem_un);   
+    if(ret == -1) print_err(&quot;semctl&quot;);
+}
+
+void del_sem(int semid,int nsems)  //删除信号量
+{
+
+    int ret = -1;
+        ret = semctl(semid,i,IPC_RMID);
+        if(ret == -1) print_err(&quot;del_sem semctl&quot;);
+    remove(SEM_FILE);
+}
+
+void signal_fun(int signo)  //捕获SININT信号
+{
+    del_sem(semid,NSEMS);
+    exit(-1);
+}
+int main()
+{
+pid_t ret = 0;
+int fd = -1;
+fd = open(&quot;./file&quot;,O_RDWR|O_CREAT|O_TRUNC,0664); 
+if(fd == -1) print_err(&quot;open file fail&quot;);
+
+    for(int i = 0;i&lt;NSEMS;i++)  //初始化所有信号量
+    {
+    init_sem(semid,i,1);
+    }
+
+ret = fork();
+if(ret &gt; 0)
+{
+        signal(SIGINT,signal_fun);   
+//获取SIGINT信号之后父进程删除信号量和创建信号量使用的文件
+        creat_or_get_sem(NSEMS);  //创建或者获取信号量
+while(1)
+{
+write(fd,&quot;hello &quot;,6);
+write(fd,&quot;world\n&quot;,6);
+
+}
+}
+else if(ret == 0)
+{
+        creat_or_get_sem(NSEMS); //创建或者获取信号量
+while(1)
+{
+write(fd,&quot;qqqqq &quot;,6);
+write(fd,&quot;wwwww\n &quot;,6);
+
+}
+}
+return 0;
+}</code></pre><h4 id="semop函数"><a href="#semop函数" class="headerlink" title="semop函数"></a>semop函数</h4><h5 id="函数原型-2"><a href="#函数原型-2" class="headerlink" title="函数原型"></a>函数原型</h5><pre><code>#include &lt;sys/types.h&gt;
+#include &lt;sys/ipc.h&gt;
+#include &lt;sys/sem.h&gt;
+int semop(int semid, struct sembuf *sops, unsigned nsops);</code></pre><p>op是operate操作的意思。</p>
+<h5 id="功能-2"><a href="#功能-2" class="headerlink" title="功能"></a>功能</h5><p>对指定的信号量进行p操作、或者是v操作。</p>
+<p>· p操作：将信号量的值-1<br>当信号量的值为0时，p操作默认是阻塞的。<br>对于那个信号量进行p操作还是v操作由第二个参数决定。                            </p>
+<p>· v操作：将信号量的值+1<br>v操作不存在阻塞的问题。</p>
+<p>对于二值信号量来说，v操作后，值就从0变为了1，这就表示我操作完了，其它进程运行时就可以进行p操作了。</p>
+<h5 id="返回值-2"><a href="#返回值-2" class="headerlink" title="返回值"></a>返回值</h5><p>调用成功返回0，失败则返回-1，errno被设置。</p>
+<p>int semop(int semid, struct sembuf *sops, unsigned nsops);</p>
+<h5 id="参数-1"><a href="#参数-1" class="headerlink" title="参数"></a>参数</h5><p>· semid：信号量集合的标识符。</p>
+<p>· sops：这个参数更好理解的写法是struct sembuf sops[]，<br>第三个参数nsops就是用于指定数组元素个数的。</p>
+<p> 每一个数组成员对应一个信号量，每一个元素都是一个struct sembuf结构体变量，内部成员的决定着：</p>
+<ul>
+<li><p>你要对集合中哪一个信号量进行操作</p>
+</li>
+<li><p>要进行的是p操作呢，还是v操作</p>
+</li>
+<li><p>结构体成员</p>
+<p>  struct sembuf<br>  {<br>  unsigned short sem_num;<br>  short  sem_op;<br>  short  sem_flg;<br>  }</p>
+</li>
+</ul>
+<p>这个结构体不需要我们自己定义，因为在semop的头文件中已经定义了。</p>
+<p>如果你无法判断这个结构体是否需要我们自己定义，那你就不要定义，如果编译提示这个结构体类型不存在，就说明需要自己定义，编译通过就说明在系统头文件中早就定义好了。</p>
+<ul>
+<li>sem_num：信号量编号，决定对集合中哪一个信号量进行pv操作</li>
+<li>sem_op：设置为-1，表示想-1进行p操作，设置1表示想+1进行v操作</li>
+<li>sem_flg：</li>
+</ul>
+<p>· IPC_NOWAIT：<br>一般情况下，当信号量的值为0时进行p操作的话，semop的p操作会阻塞。<br>如果你不想阻塞的话，可以指定这个选项，NOWAIT就是不阻塞的意思。</p>
+<p>不过除非某些特殊情况，否则我们不需要设置为非阻塞。</p>
+<p>SEM_UNDO：防止死锁还是以二值信号量为例，当进程在v操作之前就结束时，信号量的值就会一直保持为0，那么其它进程将永远无法p操作成功，会使得进程永远休眠下去，这造成就是死锁。</p>
+<p>但是设置了SEM_UNDO选项后，如果进程在结束时没有V操作的话，OS会自动帮忙V操作，防止死锁。</p>
+<h4 id="代码演示-3"><a href="#代码演示-3" class="headerlink" title="代码演示"></a>代码演示</h4><p>实现p v操作。</p>
+<pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;sys/types.h&gt;
+#include &lt;sys/stat.h&gt;
+#include &lt;fcntl.h&gt;
+#include &lt;signal.h&gt;
+#include &lt;sys/ipc.h&gt;
+#include &lt;sys/sem.h&gt;
+
+
+#define NSEMS 1
+
+union semun
+{
+    int val;
+    struct semid_ds* buf;
+    unsigned short* array;  
+    struct seminfo* __buf;  
+};
+
+#define SEM_FILE &quot;./semfile&quot;
+int semid;
+
+
+void print_err(char* estr)   //错误处理函数
+{
+    perror(estr);
+    //exit(-1);
+}
+
+int creat_or_get_sem(int nsems)   //创建或者获取信号量
+{   
+    int semid;
+    int fd = -1;
+    key_t key = -1;
+
+    fd = open(SEM_FILE, O_RDWR | O_CREAT, 0664);
+    if (fd == -1) print_err(&quot;open ./semfile fail&quot;);
+
+    key = ftok(SEM_FILE, &apos;a&apos;);
+    if (key == -1) print_err(&quot;ftok fail&quot;);
+
+    semid = semget(key, nsems, 0664 | IPC_CREAT);
+    if (semid == -1) print_err(&quot;semget fail&quot;);
+
+    return semid;
+}
+
+void init_sem(int semid, int semnum, int val)   //初始化信号量
+{
+    int ret = -1;
+    union semun sem_un;
+
+    /* semnum:信号量编号
+     * SETVAL:设置信号量初始值cmd
+     * sem_un:初始值
+     */
+    sem_un.val = val;
+    ret = semctl(semid, semnum, SETVAL, sem_un);
+    if (ret == -1) print_err(&quot;semctl fail&quot;);
+}
+
+
+void del_sem(int semid, int nsems)   //删除信号量
+{
+    int ret = 0;
+
+        ret = semctl(semid, 0, IPC_RMID);
+        if (ret == -1) print_err(&quot;semctl del sem fail&quot;);
+
+    remove(SEM_FILE);
+}
+
+void p_sem(int semid, int semnum_buf[], int nsops)   //进行p操作
+{
+    int i = 0;
+    int ret = -1;
+    struct sembuf sops[nsops];
+
+    for (i = 0; i &lt; nsops; i++)
+    {
+        sops[i].sem_num = semnum_buf[i];//信号量编号
+        sops[i].sem_op = -1;//-1 p操作
+        sops[i].sem_flg = SEM_UNDO;//防止死锁 
+    }
+
+    ret = semop(semid, sops, nsops);
+    if (ret == -1) print_err(&quot;semop p fail&quot;);
+}
+
+
+void v_sem(int semid, int semnum_buf[], int nsops)//进行v操作
+{
+    int i = 0;
+    int ret = -1;
+    struct sembuf sops[nsops];
+
+    for (i = 0; i &lt; nsops; i++)
+    {
+        sops[i].sem_num = semnum_buf[i];//信号量编号
+        sops[i].sem_op = 1;//+1 v操作
+        sops[i].sem_flg = SEM_UNDO;//防止死锁 
+    }
+
+    ret = semop(semid, sops, nsops);
+    if (ret == -1) print_err(&quot;semop p fail&quot;);
+}
+
+
+
+
+void signal_fun(int signo)//信号处理函数
+{
+    del_sem(semid, NSEMS);
+    exit(-1);
+}
+
+int main(void)
+{
+    int i = 0;
+    int ret = 0;
+    int fd = -1;
+    int semnum_buf[1] = {0};
+
+    fd = open(&quot;./file&quot;, O_RDWR|O_CREAT|O_TRUNC, 0664);
+    if(fd == -1) print_err(&quot;open file fail&quot;);
+
+    semid = creat_or_get_sem(NSEMS);
+
+    for(i=0; i&lt;NSEMS; i++)
+    {
+        init_sem(semid, i, 1);
+    }
+
+    ret = fork();
+    if(ret &gt; 0)
+    {
+        signal(SIGINT, signal_fun);
+        while(1)
+        {
+            semnum_buf[0] = 0;//设置要操作的信号量的编号
+            p_sem(semid, semnum_buf, 1); //P操作
+            write(fd, &quot;hello &quot;, 6);
+            write(fd, &quot;world\n&quot;, 6);
+            semnum_buf[0] = 0; //设置要操作的信号量的编号
+            v_sem(semid, semnum_buf, 1);//v操作
+        }        
+    }
+    else if(ret == 0)
+    {
+        while(1)
+        {
+            semnum_buf[0] = 0;//设置要操作的信号量的编号
+            p_sem(semid, semnum_buf, 1); //P操作
+            write(fd, &quot;hhhhh &quot;, 6);
+            write(fd, &quot;wwwww\n&quot;, 6);
+            semnum_buf[0] = 0; //设置要操作的信号量的编号
+            v_sem(semid, semnum_buf, 1);//v操作
+        }        
+    }
+
+    return 0;
+}</code></pre><h2 id="使用信号量实现同步"><a href="#使用信号量实现同步" class="headerlink" title="使用信号量实现同步"></a>使用信号量实现同步</h2><h3 id="什么是同步"><a href="#什么是同步" class="headerlink" title="什么是同步"></a>什么是同步</h3><p>让多个进程按照固定的步调做事，我们前面就说过，同步本身就是互斥的。<br>实现同步时，同步的进程可以是亲缘进程，也可以是非亲缘进程。</p>
+<p>通过同步让三个亲缘进程按照顺序打印出111111、222222、333333。</p>
+<h3 id="代码演示-4"><a href="#代码演示-4" class="headerlink" title="代码演示"></a>代码演示</h3><p>先看看没有同步时，三个亲进程的打印顺序。<br>我们对于上面代码进行修改，但是不会使用到一部分函数：</p>
+<pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;sys/types.h&gt;
+#include &lt;sys/stat.h&gt;
+#include &lt;fcntl.h&gt;
+#include &lt;signal.h&gt;
+#include &lt;sys/ipc.h&gt;
+#include &lt;sys/sem.h&gt;
+
+
+#define NSEMS 1
+
+union semun
+{
+    int val;
+    struct semid_ds* buf;
+    unsigned short* array;  
+    struct seminfo* __buf;  
+};
+
+#define SEM_FILE &quot;./semfile&quot;
+int semid;
+
+
+void print_err(char* estr)   //错误处理函数
+{
+    perror(estr);
+    //exit(-1);
+}
+
+int creat_or_get_sem(int nsems)   //创建或者获取信号量
+{   
+    int semid;
+    int fd = -1;
+    key_t key = -1;
+
+    fd = open(SEM_FILE, O_RDWR | O_CREAT, 0664);
+    if (fd == -1) print_err(&quot;open ./semfile fail&quot;);
+
+    key = ftok(SEM_FILE, &apos;a&apos;);
+    if (key == -1) print_err(&quot;ftok fail&quot;);
+
+    semid = semget(key, nsems, 0664 | IPC_CREAT);
+    if (semid == -1) print_err(&quot;semget fail&quot;);
+
+    return semid;
+}
+
+void init_sem(int semid, int semnum, int val)   //初始化信号量
+{
+    int ret = -1;
+    union semun sem_un;
+
+    /* semnum:信号量编号
+     * SETVAL:设置信号量初始值cmd
+     * sem_un:初始值
+     */
+    sem_un.val = val;
+    ret = semctl(semid, semnum, SETVAL, sem_un);
+    if (ret == -1) print_err(&quot;semctl fail&quot;);
+}
+
+
+void del_sem(int semid, int nsems)   //删除信号量
+{
+    int ret = 0;
+        ret = semctl(semid, 0, IPC_RMID);
+        if (ret == -1) print_err(&quot;semctl del sem fail&quot;);
+    remove(SEM_FILE);
+}
+
+void p_sem(int semid, int semnum_buf[], int nsops)   //进行p操作
+{
+    int i = 0;
+    int ret = -1;
+    struct sembuf sops[nsops];
+
+    for (i = 0; i &lt; nsops; i++)
+    {
+        sops[i].sem_num = semnum_buf[i];//信号量编号
+        sops[i].sem_op = -1;//-1 p操作
+        sops[i].sem_flg = SEM_UNDO;//防止死锁 
+    }
+
+    ret = semop(semid, sops, nsops);
+    if (ret == -1) print_err(&quot;semop p fail&quot;);
+}
+
+
+void v_sem(int semid, int semnum_buf[], int nsops)//进行v操作
+{
+    int i = 0;
+    int ret = -1;
+    struct sembuf sops[nsops];
+
+    for (i = 0; i &lt; nsops; i++)
+    {
+        sops[i].sem_num = semnum_buf[i];//信号量编号
+        sops[i].sem_op = 1;//+1 v操作
+        sops[i].sem_flg = SEM_UNDO;//防止死锁 
+    }
+
+    ret = semop(semid, sops, nsops);
+    if (ret == -1) print_err(&quot;semop p fail&quot;);
+}
+
+
+
+
+void signal_fun(int signo)//信号处理函数
+{
+    del_sem(semid, NSEMS);
+    exit(-1);
+}
+
+int main(void)
+{
+    int i = 0;
+    int ret = 0;
+    int fd = -1;
+    int semnum_buf[1] = {0};
+
+
+
+    ret = fork();
+    if(ret &gt; 0)
+    {
+        ret = fork();  //father process 
+        if(ret &gt;0)
+        {
+            while(1)
+            {
+            printf(&quot;333\n&quot;);
+                sleep(1);
+            }
+        }
+        else if(ret == 0) //child 2 process
+        {
+            while(1)
+            {
+            printf(&quot;222\n&quot;);
+                sleep(1);
+            }
+
+        }
+    }
+    else if(ret == 0) //child 1 process
+    {
+            while(1)
+            {
+            printf(&quot;111\n&quot;);
+                sleep(1);
+            }
+
+    }    
+    return 0;
+}</code></pre><p>运行结果为:</p>
+<p><img src="https://img-blog.csdnimg.cn/20200314201702344.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="运行结果"></p>
+<p>那么我们想要按照123的顺序来打印。<br>接下来我们使用信号量来实现：<br>图解说明：</p>
+<p><img src="https://img-blog.csdnimg.cn/202003142017185.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="同步图解说明"></p>
+<p>代码演示：</p>
+<pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;sys/types.h&gt;
+#include &lt;sys/stat.h&gt;
+#include &lt;fcntl.h&gt;
+#include &lt;signal.h&gt;
+#include &lt;sys/ipc.h&gt;
+#include &lt;sys/sem.h&gt;
+
+
+#define NSEMS 3
+
+union semun
+{
+    int val;
+    struct semid_ds* buf;
+    unsigned short* array;  
+    struct seminfo* __buf;  
+};
+
+#define SEM_FILE &quot;./semfile&quot;
+int semid;
+
+
+void print_err(char* estr)   //错误处理函数
+{
+    perror(estr);
+    //exit(-1);
+}
+
+int creat_or_get_sem(int nsems)   //创建或者获取信号量
+{   
+    int semid;
+    int fd = -1;
+    key_t key = -1;
+
+    fd = open(SEM_FILE, O_RDWR | O_CREAT, 0664);
+    if (fd == -1) print_err(&quot;open ./semfile fail&quot;);
+
+    key = ftok(SEM_FILE, &apos;a&apos;);
+    if (key == -1) print_err(&quot;ftok fail&quot;);
+
+    semid = semget(key, nsems, 0664 | IPC_CREAT);
+    if (semid == -1) print_err(&quot;semget fail&quot;);
+
+    return semid;
+}
+
+void init_sem(int semid, int semnum, int val)   //初始化信号量
+{
+    int ret = -1;
+    union semun sem_un;
+
+    /* semnum:信号量编号
+     * SETVAL:设置信号量初始值cmd
+     * sem_un:初始值
+     */
+    sem_un.val = val;
+    ret = semctl(semid, semnum, SETVAL, sem_un);
+    if (ret == -1) print_err(&quot;semctl fail&quot;);
+}
+
+
+void del_sem(int semid, int nsems)   //删除信号量
+{
+    int ret = 0;
+        ret = semctl(semid, i, IPC_RMID);
+        if (ret == -1) print_err(&quot;semctl del sem fail&quot;);
+    remove(SEM_FILE);
+}
+
+void p_sem(int semid, int semnum_buf[], int nsops)   //进行p操作
+{
+    int i = 0;
+    int ret = -1;
+    struct sembuf sops[nsops];
+
+    for (i = 0; i &lt; nsops; i++)
+    {
+        sops[i].sem_num = semnum_buf[i];//信号量编号
+        sops[i].sem_op = -1;//-1 p操作
+        sops[i].sem_flg = SEM_UNDO;//防止死锁 
+    }
+
+    ret = semop(semid, sops, nsops);
+    if (ret == -1) print_err(&quot;semop p fail&quot;);
+}
+
+
+void v_sem(int semid, int semnum_buf[], int nsops)//进行v操作
+{
+    int i = 0;
+    int ret = -1;
+    struct sembuf sops[nsops];
+
+    for (i = 0; i &lt; nsops; i++)
+    {
+        sops[i].sem_num = semnum_buf[i];//信号量编号
+        sops[i].sem_op = 1;//+1 v操作
+        sops[i].sem_flg = SEM_UNDO;//防止死锁 
+    }
+
+    ret = semop(semid, sops, nsops);
+    if (ret == -1) print_err(&quot;semop p fail&quot;);
+}
+
+
+
+
+void signal_fun(int signo)//处理函数
+{
+    del_sem(semid, NSEMS);
+    exit(-1);
+}
+
+int main(void)
+{
+    int i = 0;
+    int ret = 0;
+    int fd = -1;
+    int semnum_buf[1] = {0};
+    semid = creat_or_get_sem(NSEMS);   //creat sem
+    for(i = 0;i&lt;NSEMS;i++)    //init sem
+    {
+        if(i == 0) init_sem(semid,i,1);
+        else init_sem(semid,i,0);
+    }
+
+    ret = fork();
+    if(ret &gt; 0)
+    {
+        ret = fork();  //father process 
+        if(ret &gt;0)
+        {
+            while(1)
+            {
+            semnum_buf[0] = 2;
+            p_sem(semid,semnum_buf,1);
+            printf(&quot;333\n&quot;);
+                sleep(1);
+            semnum_buf[0] = 0;
+            v_sem(semid,semnum_buf,1);
+            }
+        }
+        else if(ret == 0) //child 2 process
+        {
+            while(1)
+            {
+            semnum_buf[0] = 1;
+            p_sem(semid,semnum_buf,1);
+            printf(&quot;222\n&quot;);
+                sleep(1);
+            semnum_buf[0] = 2;
+            v_sem(semid,semnum_buf,1);
+            }
+
+        }
+    }
+    else if(ret == 0) //child 1 process
+    {
+        signal(SIGINT,signal_fun);
+            while(1)
+            {
+            semnum_buf[0] = 0;
+            p_sem(semid,semnum_buf,1);
+            printf(&quot;111\n&quot;);
+                sleep(1);
+            semnum_buf[0] = 1;
+            v_sem(semid,semnum_buf,1);
+            }
+
+    }    
+    return 0;
+}</code></pre><p>运行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200314201801877.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="进程同步运行结果"></p>
+<h3 id="使用信号量解决共享内存的同步问题"><a href="#使用信号量解决共享内存的同步问题" class="headerlink" title="使用信号量解决共享内存的同步问题"></a>使用信号量解决共享内存的同步问题</h3><h4 id="图解说明："><a href="#图解说明：" class="headerlink" title="图解说明："></a>图解说明：</h4><p><img src="https://img-blog.csdnimg.cn/20200314201847115.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="使用信号量解决共享内存的同步问题"></p>
+<p>我们使用多文件编程实现：</p>
+<h3 id="代码演示："><a href="#代码演示：" class="headerlink" title="代码演示："></a>代码演示：</h3><p><strong>sem.h文件</strong></p>
+<pre><code>#ifndef H_SEM_H
+#define H_SEM_H
+
+extern int creat_or_get_sem(int nsems);
+extern void init_sem(int semid, int semnum, int val);
+extern void del_sem(int semid);
+extern void p_sem(int semid, int semnum_buf[], int nsops);
+extern void v_sem(int semid, int semnum_buf[], int nsops);
+
+#endif</code></pre><p><strong>sem.c 文件</strong></p>
+<pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;sys/types.h&gt;
+#include &lt;sys/stat.h&gt;
+#include &lt;fcntl.h&gt;
+#include &lt;sys/types.h&gt;
+#include &lt;sys/ipc.h&gt;
+#include &lt;sys/sem.h&gt;
+
+union semun 
+{
+    int val;   
+    struct semid_ds *buf;
+    unsigned short  *array;  /* 不做要求 */
+    struct seminfo  *__buf;  /* 不做要求 */
+};
+
+#define SEM_FILE &quot;./semfile&quot;
+
+static void print_err(char *estr)
+{
+perror(estr);
+//exit(-1);
+}
+
+int creat_or_get_sem(int nsems)
+{
+    int semid;
+    int fd = -1;
+    key_t key = -1;
+
+    fd = open(SEM_FILE, O_RDWR|O_CREAT, 0664);
+    if(fd == -1) print_err(&quot;open ./semfile fail&quot;);
+
+    key = ftok(SEM_FILE, &apos;a&apos;);    
+    if(key == -1) print_err(&quot;ftok fail&quot;);
+
+    semid = semget(key, nsems, 0664|IPC_CREAT);
+    if(semid == -1) print_err(&quot;semget fail&quot;);
+
+    return semid;    
+}
+
+void init_sem(int semid, int semnum, int val)
+{
+    int ret = -1;
+    union semun sem_un;
+
+    /* semnum:信号量编号
+     * SETVAL:设置信号量初始值cmd
+     * sem_un:初始值
+     */    
+    sem_un.val = val;
+    ret = semctl(semid, semnum, SETVAL, sem_un);
+    if(ret == -1) print_err(&quot;semctl fail&quot;);
+}
+
+
+void del_sem(int semid)
+{
+    int ret = 0;
+
+    ret = semctl(semid, 0, IPC_RMID);
+    if(ret == -1) print_err(&quot;semctl del sem fail&quot;);
+
+    remove(SEM_FILE);
+}
+
+void p_sem(int semid, int semnum_buf[], int nsops)
+{
+    int i = 0;
+    int ret = -1;
+    struct sembuf sops[nsops];
+
+    for(i=0; i&lt;nsops; i++)
+    {
+        sops[i].sem_num = semnum_buf[i];//信号量编号
+        sops[i].sem_op     = -1;//-1 p操作
+        sops[i].sem_flg = SEM_UNDO;//防止死锁 
+    }
+
+    ret = semop(semid, sops, nsops);
+    if(ret == -1) print_err(&quot;semop p fail&quot;);
+}
+
+
+void v_sem(int semid, int semnum_buf[], int nsops)
+{
+    int i = 0;
+    int ret = -1;
+    struct sembuf sops[nsops];
+
+    for(i=0; i&lt;nsops; i++)
+    {
+        sops[i].sem_num = semnum_buf[i];//信号量编号
+        sops[i].sem_op     = 1;//+1 v操作
+        sops[i].sem_flg = SEM_UNDO;//防止死锁 
+    }
+
+    ret = semop(semid, sops, nsops);
+    if(ret == -1) print_err(&quot;semop p fail&quot;);
+}</code></pre><p><strong>she1.c 文件</strong></p>
+<pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;sys/ipc.h&gt;
+#include &lt;sys/types.h&gt;
+#include &lt;sys/shm.h&gt;
+#include &lt;sys/types.h&gt;
+#include &lt;sys/stat.h&gt;
+#include &lt;fcntl.h&gt;
+#include &lt;strings.h&gt;
+#include &lt;string.h&gt;
+#include &lt;signal.h&gt;
+#include &lt;errno.h&gt;
+#include &quot;semaphore.h&quot;
+
+
+
+#define SHM_FILE &quot;./shmfile&quot;
+
+#define SHM_SIZE 4096
+
+int shmid = -1;
+int semid = -1;
+void *shmaddr = NULL;    
+
+
+
+static void print_err(char *estr)
+{
+    perror(estr);    
+    exit(-1);
+}
+
+void create_or_get_shm(void)
+{
+    int fd = 0;
+    key_t key = -1;    
+
+    fd = open(SHM_FILE, O_RDWR|O_CREAT, 0664);
+    if(fd == -1) print_err(&quot;open fail&quot;);
+
+    key = ftok(SHM_FILE, &apos;b&apos;);
+    if(key == -1) print_err(&quot;ftok fail&quot;);
+
+    shmid = shmget(key, SHM_SIZE, 0664|IPC_CREAT);
+    if(shmid == -1) print_err(&quot;shmget fail&quot;);
+
+    //write(fd, &amp;shmid, sizeof(shmid));
+}
+
+char buf[300] = {&quot;aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\
+222222222222222222222222222222222222222222222222222222222222222222222222222222222222222222\
+ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff2222222222&quot;};
+
+void signal_fun(int signo)
+{
+    shmdt(shmaddr);
+    shmctl(shmid, IPC_RMID, NULL);
+
+    del_sem(semid);//删除信号量集合    
+
+    remove(&quot;./fifo&quot;);
+    remove(SHM_FILE);
+
+    exit(-1);    
+}
+
+
+
+int main(void)
+{
+    int peer_pid = -1;
+
+    /* 给SIGINT信号注册捕获函数，用于删除共享内存、管道、文件等 */
+    signal(SIGINT, signal_fun);
+
+
+    /* 创建、或者获取共享内存 */
+    create_or_get_shm();
+
+    //创建信号量集合    
+    semid = creat_or_get_sem(2);
+
+    /* 初始化信号量集合 */
+    int i = 0;
+    for(i=0; i&lt;2; i++)
+    {        
+        //将编号0的信号量初始化为1,其它初始化为0
+        if(i == 0) init_sem(semid, i, 1);
+        else init_sem(semid, i, 0);
+    }
+
+    //建立映射
+    shmaddr = shmat(shmid, NULL, 0);
+    if(shmaddr == (void *)-1) print_err(&quot;shmat fail&quot;);    
+
+    int semnum_buf[1] = {0};//存放信号量的编号
+    while(1)
+    {    
+        //p sem 0
+        semnum_buf[0] = 0;
+        p_sem(semid, semnum_buf, 1);
+
+        /* 向共享内存写数据 */
+        memcpy(shmaddr, buf, sizeof(buf));
+        sleep(1);
+
+        //v sem 1
+        semnum_buf[0] = 1;
+        v_sem(semid, semnum_buf, 1);
+    }
+
+    return 0;
+}</code></pre><p><strong>shem2.c文件</strong></p>
+<pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;sys/ipc.h&gt;
+#include &lt;sys/types.h&gt;
+#include &lt;sys/shm.h&gt;
+#include &lt;sys/types.h&gt;
+#include &lt;sys/stat.h&gt;
+#include &lt;fcntl.h&gt;
+#include &lt;strings.h&gt;
+#include &lt;string.h&gt;
+#include &lt;signal.h&gt;
+#include &lt;errno.h&gt;
+#include &quot;semaphore.h&quot;
+
+#define SHM_FILE &quot;./shmfile&quot;
+
+#define SHM_SIZE 4096
+
+int shmid = -1;
+int semid = -1;
+void *shmaddr = NULL;    
+
+
+
+void print_err(char *estr)
+{
+    perror(estr);    
+    exit(-1);
+}
+
+void create_or_get_shm(void)
+{
+    int fd = 0;
+    key_t key = -1;    
+
+    fd = open(SHM_FILE, O_RDWR|O_CREAT, 0664);
+    if(fd == -1) print_err(&quot;open fail&quot;);
+
+    key = ftok(SHM_FILE, &apos;b&apos;);
+    if(key == -1) print_err(&quot;ftok fail&quot;);
+
+    shmid = shmget(key, SHM_SIZE, 0664|IPC_CREAT);
+    if(shmid == -1) print_err(&quot;shmget fail&quot;);
+
+    //read(fd, &amp;shmid, sizeof(shmid));
+}
+
+void signal_fun(int signo)
+{
+    if(SIGINT == signo)
+    {
+        shmdt(shmaddr);
+        shmctl(shmid, IPC_RMID, NULL);
+        remove(&quot;./fifo&quot;);
+        remove(SHM_FILE);
+
+        exit(-1);
+    }
+    else if(SIGUSR1 == signo)
+    {
+
+    }
+}
+
+int main(void)
+{
+    signal(SIGINT, signal_fun);
+
+    /* 创建、或者获取共享内存 */
+    create_or_get_shm();
+
+    //获取别人创建号的信号量
+    semid = creat_or_get_sem(2);
+
+    //建立映射
+    shmaddr = shmat(shmid, NULL, 0);
+    if(shmaddr == (void *)-1) print_err(&quot;shmat fail&quot;);    
+
+    int semnum_buf[1] = {0};//存放信号量编号    
+    while(1)
+    {
+        //p sem 1
+        semnum_buf[0] = 1;
+p_sem(semid, semnum_buf, 1);
+
+        //从共享内存去除数据并打印显示
+        printf(&quot;%s\n&quot;, (char *)shmaddr);
+        bzero(shmaddr, SHM_SIZE);//清空共享内存
+
+        //v sem 0
+semnum_buf[0] = 0;
+v_sem(semid, semnum_buf, 1);
+    }
+
+    return 0;
+}</code></pre><p>运行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200314202049328.png" alt="进程同步运行结果"></p>
+<p><img src="https://img-blog.csdnimg.cn/20200314202105216.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="进程同步运行结果"></p>
+<p>从共享内存和信号量配合中可以看出，在实际的进程间通信中，不同种类的进程间通信往往是相互配合使用的。</p>
+
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="http://www.teachermin.com" rel="external nofollow noreferrer">MinWengang</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="http://www.teachermin.com/2020/03/14/%E6%9C%AC%E6%9C%BAPIC%E4%B9%8B%E4%BF%A1%E5%8F%B7%E9%87%8F%E8%AF%A6%E8%A7%A3/">http://www.teachermin.com/2020/03/14/%E6%9C%AC%E6%9C%BAPIC%E4%B9%8B%E4%BF%A1%E5%8F%B7%E9%87%8F%E8%AF%A6%E8%A7%A3/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="http://www.teachermin.com" target="_blank">MinWengang</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/linux-%E6%9C%AC%E6%9C%BAIPC/">
+                                    <span class="chip bg-color">linux 本机IPC</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+
+<div id="article-share">
+    
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+                <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.4rem;
+        line-height: 38px;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .close:hover {
+        color: #ef5350;
+        transform: scale(1.3);
+        -moz-transform:scale(1.3);
+        -webkit-transform:scale(1.3);
+        -o-transform:scale(1.3);
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-content ul {
+        padding-left: 0 !important;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        background-color: #ccc;
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff !important;
+        background-color: #22AB38 !important;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff !important;
+        background-color: #019FE8 !important;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fas fa-times"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+            
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
+            <div class="card">
+                <a href="/2020/03/14/%E6%9C%AC%E6%9C%BAPIC%E4%B9%8B%E4%BF%A1%E5%8F%B7%E9%87%8F%E8%AF%A6%E8%A7%A3/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/9.jpg" class="responsive-img" alt="本机IPC之信号量详解">
+                        
+                        <span class="card-title">本机IPC之信号量详解</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            信号量的作用当多个进程/线程进行共享操作时，用于资源保护，以防止出现相互干扰的情况。再间简洁一点，信号量用于“资源的保护“。
+进程信号量实现的是进程操作资源的保护。
+线程信号量实现的是线程操作资源的保护。
+什么是进程资源保护？例子1：多进程
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-03-14
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/Linux/" class="post-category">
+                                    Linux
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/linux-%E6%9C%AC%E6%9C%BAIPC/">
+                        <span class="chip bg-color">linux 本机IPC</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2020/03/13/%E6%9C%AC%E6%9C%BAIPC%E4%B9%8B%E5%85%B1%E4%BA%AB%E5%86%85%E5%AD%98%E8%AF%A6%E8%A7%A3/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="本机IPC之共享内存详解">
+                        
+                        <span class="card-title">本机IPC之共享内存详解</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            共享内存简单说明共享内存就是OS在物理内存中开辟一段缓存空间，不过与管道、消息队列调用read、write、msgsnd、msgrcv等API来读写所不同的是，使用共享内存通信时，进程是直接使用地址来共享读写的。
+当然不管使用那种方式，只要
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-03-13
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/Linux/" class="post-category">
+                                    Linux
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/linux-%E6%9C%AC%E6%9C%BAIPC/">
+                        <span class="chip bg-color">linux 本机IPC</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+<!-- 代码块折行 -->
+
+<style type="text/css">
+code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }
+</style>
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+    <footer class="page-footer bg-color">
+    
+        <link rel="stylesheet" href="/libs/aplayer/APlayer.min.css">
+<style>
+    .aplayer .aplayer-lrc p {
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 16px !important;
+    }
+
+    .aplayer .aplayer-lrc p.aplayer-lrc-current {
+        font-size: 15px;
+        color: #42b983;
+    }
+
+    
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body {
+        left: -66px !important;
+    }
+
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body:hover {
+        left: 0px !important;
+    }
+
+    
+</style>
+<div class="">
+    
+    <div class="row">
+        <meting-js class="col l8 offset-l2 m10 offset-m1 s12"
+                   server="netease"
+                   type="playlist"
+                   id="503838841"
+                   fixed='true'
+                   autoplay='false'
+                   theme='#42b983'
+                   loop='all'
+                   order='random'
+                   preload='auto'
+                   volume='0.7'
+                   list-folded='true'
+        >
+        </meting-js>
+    </div>
+</div>
+
+<script src="/libs/aplayer/APlayer.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script>
+    
+    <div class="container row center-align" style="margin-bottom: 15px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            <span id="year">2019</span>
+            <a href="http://www.teachermin.com" target="_blank">MinWengang</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            <br>
+            
+            &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
+                class="white-color">37.8k</span>&nbsp;字
+            
+            
+            
+            
+            
+            
+            <span id="busuanzi_container_site_pv">
+                |&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;<span id="busuanzi_value_site_pv"
+                    class="white-color"></span>&nbsp;次
+            </span>
+            
+            
+            <span id="busuanzi_container_site_uv">
+                |&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;<span id="busuanzi_value_site_uv"
+                    class="white-color"></span>&nbsp;人
+            </span>
+            
+            <br>
+            
+            <span id="sitetime">载入运行时间...</span>
+            <script>
+                function siteTime() {
+                    var seconds = 1000;
+                    var minutes = seconds * 60;
+                    var hours = minutes * 60;
+                    var days = hours * 24;
+                    var years = days * 365;
+                    var today = new Date();
+                    var startYear = "2019";
+                    var startMonth = "6";
+                    var startDate = "28";
+                    var startHour = "0";
+                    var startMinute = "0";
+                    var startSecond = "0";
+                    var todayYear = today.getFullYear();
+                    var todayMonth = today.getMonth() + 1;
+                    var todayDate = today.getDate();
+                    var todayHour = today.getHours();
+                    var todayMinute = today.getMinutes();
+                    var todaySecond = today.getSeconds();
+                    var t1 = Date.UTC(startYear, startMonth, startDate, startHour, startMinute, startSecond);
+                    var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+                    var diff = t2 - t1;
+                    var diffYears = Math.floor(diff / years);
+                    var diffDays = Math.floor((diff / days) - diffYears * 365);
+                    var diffHours = Math.floor((diff - (diffYears * 365 + diffDays) * days) / hours);
+                    var diffMinutes = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours) /
+                        minutes);
+                    var diffSeconds = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours -
+                        diffMinutes * minutes) / seconds);
+                    if (startYear == todayYear) {
+                        document.getElementById("year").innerHTML = todayYear;
+                        document.getElementById("sitetime").innerHTML = "本站已安全运行 " + diffDays + " 天 " + diffHours +
+                            " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+                    } else {
+                        document.getElementById("year").innerHTML = startYear + " - " + todayYear;
+                        document.getElementById("sitetime").innerHTML = "本站已安全运行 " + diffYears + " 年 " + diffDays +
+                            " 天 " + diffHours + " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+                    }
+                }
+                setInterval(siteTime, 1000);
+            </script>
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/BeginnerMin" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:451859114@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=451859114" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 451859114" data-position="top" data-delay="50">
+        <i class="fab fa-qq"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fas fa-rss"></i>
+    </a>
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+$(function () {
+    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
+});
+</script>
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+</body>
+
+</html>
