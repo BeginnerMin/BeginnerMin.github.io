@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="C++继承的定义, SkilledBeginner">
+    <meta name="keywords" content="C++引入运算符重载(1), SkilledBeginner">
     <meta name="description" content="努力做一个很厉害的人">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>C++继承的定义 | SkilledBeginner</title>
+    <title>C++引入运算符重载(1) | SkilledBeginner</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -306,12 +306,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/16.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/4.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">C++继承的定义</h1>
+                    <h1 class="description center-align post-title">C++引入运算符重载(1)</h1>
                 </div>
             </div>
         </div>
@@ -428,8 +428,8 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/C-%E7%BB%A7%E6%89%BF/">
-                                <span class="chip bg-color">C++继承</span>
+                            <a href="/tags/%E8%BF%90%E7%AE%97%E7%AC%A6%E9%87%8D%E8%BD%BD/">
+                                <span class="chip bg-color">运算符重载</span>
                             </a>
                         
                     </div>
@@ -453,28 +453,28 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-03-12
+                    2020-03-15
                 </div>
                 
 
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2020-03-12
+                    2020-03-15
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    2.5k
+                    1.2k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    10 分
+                    4 分
                 </div>
                 
 
@@ -490,339 +490,119 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="继承的定义"><a href="#继承的定义" class="headerlink" title="继承的定义"></a>继承的定义</h2><p>类的继承，是新的类从已有类那里得到已有的特性。已有类产生新类的过程就是类的派生。原有的类称为基类或父类，产生的新类称为派生类或子类。<br>派生与继承，是同一种意义两种称谓。</p>
-<p>我们已经在继承引入中详细说明。<br>从已有的父类中进行继承的时候，父类相当于是共性，例如我们给出的Human类，子类通过继承得到父类的特性，但是每一个子类都有自己个性只属于每一个子类。</p>
-<h3 id="定性-is-a-Not-has-a"><a href="#定性-is-a-Not-has-a" class="headerlink" title="定性 is-a Not has-a"></a>定性 is-a Not has-a</h3><p><strong>is-a 是一种 属于关系。</strong><br>如：狗属于一种动物，车属于一种交通工具(Dog is an Animal. Car is a Vehicle.)在面向对象中表现为一种继承关系。可以设计一个 Animal 类，Dog 类作为Animal 类(基类)的派生类；设计一个 Vehicle 类，Car 类作为 Vehicle 类(基类)的派生类。</p>
-<p><strong>has-a 是一种 包含、 、 组合关系。</strong><br>如：车包含方向盘、轮胎、发动机(Car has steering-wheel,wheels, engine)，但不能说方向盘/轮胎/发动机是一种车；狗包含腿、尾巴，但不能说腿、尾巴是一种狗。正确的应该说车聚合(包含)了方向盘、轮胎、发动机。</p>
-<p>因此，如果 A is a B，则 B 是 A 的基类，A 是 B 的派生类。为继承关系。如果 A 包含 B，则 B 是 A 的组成部分。为聚合关系，可以由组成部分聚合成为一个类。</p>
-<p><strong>宏观意义上来讲， is-a 和 has-a 均可以实现代码的可重用性。</strong></p>
-<h3 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h3><pre><code>class 派生类名：[继承方式] 基类名
-{
-派生类成员声明；
-};</code></pre><p><strong>默认的继承方式是 private 私有继承。</strong></p>
-<p><strong>一个派生类可以同时有多个基类，这种情况称为多重继承，派生类只有一个基类，称为单继承。</strong></p>
-<p>下面我们从单继承开始说明</p>
-<h2 id="继承方式"><a href="#继承方式" class="headerlink" title="继承方式"></a>继承方式</h2><h3 id="分类"><a href="#分类" class="headerlink" title="分类"></a>分类</h3><p><img src="https://img-blog.csdnimg.cn/2020031015144454.png" alt="继承方式"></p>
-<p>我们先来说明public公有继承。</p>
-<h3 id="继承方式影响了什么？"><a href="#继承方式影响了什么？" class="headerlink" title="继承方式影响了什么？"></a>继承方式影响了什么？</h3><p><strong>继承方式规定了子类如何访问从基类继承的成员。</strong></p>
-<p><strong>继承方式有 public, private, protected。继承方式不影响派生类的访问权限， 影响了从基类继承而来的成员的访问权限，包括派生类内的访问权限和派生类对象的访问权限。</strong></p>
-<p><strong>protected 在外部对象访问的时候，等价于private</strong><br><strong>在类内所有的访问权限都是公开的。</strong></p>
-<p><strong>也就是说不影响派生类在类内部成员的访问方式，影响了基类成员在派生类内部和派生类创建的外部对象的访问权限。</strong></p>
-<p>我们再来看一下共有类public的继承方式：<br><strong>基类的公有成员和保护成员在派生类中保持原有访问属性，其私有成员仍为基类的私有成员。派生类中没有访问权限</strong></p>
+                <h2 id="运算符重载-Operator-Overload"><a href="#运算符重载-Operator-Overload" class="headerlink" title="运算符重载(Operator Overload)"></a>运算符重载(Operator Overload)</h2><p>前面用到的运算符&lt;&lt;，本身在 C 语言中，是位操作中的左移运算符。现在又用作流插入运算符，这种一个运算符多种用处的现像叫作运算符重载。 </p>
+<p>在 C 语言中本身就有重载的现像，比如 &amp; 既表示取地址，又表示位操作中的与运算。 *既表示解引用，又表示乘法运算符。只不过此类功能，C 语言并没有对开发者开放这类功能。意思就是说C语言提供的我们可以使用，但是C语言没有提供的我们不能自己定义符号的其他表示。</p>
+<p>C++提供了运算符重载机制。可以为自定义数据类型重载运算符。实现构造数据类型也可以像基本数据类型一样的运算特性。</p>
+<h2 id="比较两个结构体是否相等"><a href="#比较两个结构体是否相等" class="headerlink" title="比较两个结构体是否相等"></a>比较两个结构体是否相等</h2><p>我们直接来比较结构体是否相等：在我们没有接触运算符重载之前是不可以实现的，我们只能对于结构体的成员进行比较，但是使用运算符重载就可以让结构体变量的直接比较。<br>例如下面代码：</p>
 <pre><code>#include &lt;iostream&gt;
-
-//继承方式影响了什么？不影响什么？
-
-class A
+using namespace std;
+typedef struct _pos
 {
-public:
-int pub;
-protected:
-int pro;
-private:
-int pri;
-};
-
-class B : public A
-{
-public:
-    int pubb;
-protected:
-    int prob;
-private:
-    int prib;
-};
-
+    int x_;
+    int y_;
+}Pos;
 int main()
 {
-B b;
-b.pubb;
-b.prob;
-b.prib;
-return 0;
-}</code></pre><p>上面代码中：</p>
-<pre><code>b.prob;
-b.prib;</code></pre><p>会报错。</p>
-<p><img src="https://img-blog.csdnimg.cn/20200310151642453.png" alt="编译器报错"></p>
-<pre><code>#include &lt;iostream&gt;
-
-using namespace std;
-
-class A
-{
-public:
-int pub;
-protected:
-int pro;
-private:
-int pri;
-};
-
-class B : public A
-{
-public:
-void func()
-{
-cout &lt;&lt; pubb &lt;&lt; prob &lt;&lt; prib &lt;&lt; endl;
-}
-    int pubb;
-protected:
-    int prob;
-private:
-    int prib;
-};</code></pre><p><strong>上面的定义方式不管B类对于A类是否继承，都不会影响到B类在类内对于所有成员的访问。</strong></p>
-<p>我们再来看下面代码：</p>
-<pre><code>#include &lt;iostream&gt;
-
-using namespace std;
-
-//继承方式影响了什么？不影响什么？
-
-class A
-{
-public:
-int pub;
-protected:
-int pro;
-private:
-int pri;
-};
-
-class B : public A
-{
-public:
-void func()
-{
-cout &lt;&lt; pub &lt;&lt; endl;
-cout &lt;&lt; pro &lt;&lt; endl   //protected继承自后在子类可见
-cout &lt;&lt; pri &lt;&lt; endl; //不可见，无法访问
-}
-    int pubb;
-protected:
-    int prob;
-private:
-    int prib;
-};
-
-int main()
-{
-B b;
-b.pub;
-b.pro;  //出错
-b.pri;  //出错
-return 0;
-}</code></pre><p><strong>继承之后父类的成员在子类内部可以访问是public成员和protected成员，父类中的private成员在子类的内部不允许访问。</strong></p>
-<pre><code>b.pro;  //出错
-b.pri;  //出错</code></pre><p>两行代码出错<br>说明<strong>父类的public成员在子类继承之后创建的外部对象可以访问。</strong></p>
-<p><strong>父类的private成员和protected成员在子类继承之后创建的外部对象没有访问权限。</strong></p>
-<p><strong>子类从父类继承public成员之后在子类中仍然为public。所以子类的对象可以访问。</strong></p>
-<p><strong>子类从父类继承private成员之后在子类中直接不可访问，所以子类创建的对象也就不会有访问权限。</strong></p>
-<p>但如上面代码中，<strong>子类在继承父类的protected的时候，我们现在只是知道了在子类中可以访问，在子类创建的对象中没有访问权限我们并不清楚</strong>。所以子类对于从父类继承下来的protected到底是protected还是private我们需要验证：<br>我们再写一个C类进行继承B类：</p>
-<pre><code>class A
-{
-public:
-int pub;
-protected:
-int pro;
-private:
-int pri;
-};
-
-class B : public A
-{
-public:
-void func()
-{
-cout &lt;&lt; pub &lt;&lt; endl;
-cout &lt;&lt; pro &lt;&lt; endl
-cout &lt;&lt; pri &lt;&lt; endl; //不可见，无法访问
-}
-    int pubb;
-protected:
-    int prob;
-private:
-    int prib;
-};
-
-class C : public B
-{
-public:
-    void foo()
-    {
-        cout &lt;&lt; pub &lt;&lt; endl;
-        cout &lt;&lt; pro &lt;&lt; endl
-        cout &lt;&lt; pri &lt;&lt; endl; //不可见，无法访问
-    }
-    int pubb;
-protected:
-    int prob;
-private:
-    int prib;
-};</code></pre><p>C类中的<code>cout &lt;&lt; pro &lt;&lt; endl；</code> 通过了<br>所以<strong>子类从父类继承protected成员之后类内仍可见，所以在子类C中pro仍然为protected。</strong></p>
-<p>所以继承方式中，<strong>父类的protected成员在子类继承之后仍为protected。</strong></p>
-<p><strong>protected 在外部访问的时候，等价于private。所以子类的对象不具有访问权限。</strong></p>
-<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>通过上面的验证我们最终得到结论：</p>
-<p><img src="https://img-blog.csdnimg.cn/2020031015205814.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="继承方式"></p>
-<p>我们上面已经使用的如何验证，父类中 protected 成员,在 public 继承后，仍然是 protected 的呢？</p>
-<p>答案是，再次用 public 派生出孙子类，在其类内考查其可见性。</p>
-<h2 id="派生类的组成"><a href="#派生类的组成" class="headerlink" title="派生类的组成"></a>派生类的组成</h2><h3 id="计算类的大小"><a href="#计算类的大小" class="headerlink" title="计算类的大小"></a>计算类的大小</h3><pre><code>#include &lt;iostream&gt;
-
-using namespace std;
-
-//继承方式影响了什么？不影响什么？
-
-class A
-{
-public:
-int pub;
-protected:
-int pro;
-private:
-int pri;
-};
-
-class B : public A
-{
-public:
-    int pubb;
-protected:
-    int prob;
-private:
-    int prib;
-};
-
-class C : public B
-{
-public:
-    int pubb;
-protected:
-    int prob;
-private:
-    int prib;
-};
-
-int main()
-{
-    cout &lt;&lt; sizeof(A) &lt;&lt; endl;
-    cout &lt;&lt; sizeof(B) &lt;&lt; endl;
-return 0;
-}</code></pre><p>运行结果为：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200310152156734.png" alt="运行结果"></p>
-<p>我们可以看到，子类会继承父类的所有成员。<br>包括public    ,   protected    ,private 所有的成员，即使private中的数据成员继承之后在类中没有访问权限，也会继承。</p>
-<p>继承往往是因为需要的功能，如果是子类中已有的功能再进行继承的话就会出现派生类成员冗余，所以基类需要设计，避免派生类的冗余。</p>
-<h3 id="组成图示"><a href="#组成图示" class="headerlink" title="组成图示"></a>组成图示</h3><p>派生类中的成员，包含两大部分，一类是从基类继承过来的，一类是自己增加的成员。</p>
-<p>从基类继承过来的表现其共性，而新增的成员体现了其个性。</p>
-<p><img src="https://img-blog.csdnimg.cn/20200310152225661.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="派生类的组成"></p>
-<h3 id="一个很重要的结论"><a href="#一个很重要的结论" class="headerlink" title="一个很重要的结论"></a>一个很重要的结论</h3><p><img src="https://img-blog.csdnimg.cn/20200312140406636.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="一个很重要的结论"></p>
-<h3 id="一个很重要的测试"><a href="#一个很重要的测试" class="headerlink" title="一个很重要的测试"></a>一个很重要的测试</h3><h4 id="代码演示"><a href="#代码演示" class="headerlink" title="代码演示"></a>代码演示</h4><pre><code>#include &lt;iostream&gt;
-
-using namespace std;
-
-
-class A
-{
-public:
-A()
-{
-cout &lt;&lt; &quot;A()&quot; &lt;&lt; endl;
-cout &lt;&lt; &quot;&amp;a:&quot; &lt;&lt; &amp;a &lt;&lt; endl;
-cout &lt;&lt; &quot;A-this:&quot;&lt;&lt;this&lt;&lt;endl;
-}
-int a;
-
-};
-
-class B : public A
-{
-public:
-B()
-{
-cout &lt;&lt; &quot;B()&quot; &lt;&lt; endl;
-cout &lt;&lt; &quot;&amp;b:&quot; &lt;&lt; &amp;b &lt;&lt; endl;
-cout &lt;&lt; &quot;B-this:&quot;&lt;&lt;this&lt;&lt;endl;
-}
-int b;
-};
-
-class C : public B
-{
-public:
-C()
-{
-cout &lt;&lt; &quot;C()&quot; &lt;&lt; endl;
-cout &lt;&lt; &quot;&amp;c:&quot; &lt;&lt; &amp;c &lt;&lt; endl;
-cout &lt;&lt; &quot;C-this:&quot;&lt;&lt;this&lt;&lt;endl;
-}
-int c;
-};
-
-int main()
-{
-C d;
-cout &lt;&lt; &quot;&amp;d:&quot; &lt;&lt; &amp;d &lt;&lt; endl;
-return 0;
-}</code></pre><p>运行结果为：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200310152258544.png" alt="运行结果"></p>
-<p>所有的this指针都是指向生成的对象d。</p>
-<h4 id="内存模型"><a href="#内存模型" class="headerlink" title="内存模型"></a>内存模型</h4><p><img src="https://img-blog.csdnimg.cn/20200310152326420.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="内存模型"></p>
-<p>三个类构造器的this指针指向的是同一个地址，也就是子类C生成对象的地址。<br>我们也容易理解，类是不会有地址的，对象才有地址，那么继承之后的子类C只生成了一个对象，那么这三个类中构造器的this指针都是子类C生成对象的地址。</p>
-<p>但是这几个this是有区别的，<strong>三个构造器中的地址相同，类型不同。</strong></p>
-<p>代码演示：</p>
-<pre><code>#include &lt;iostream&gt;
-#include &lt;typeinfo&gt;
-using namespace std;
-
-
-class A
-{
-public:
-    A()
-    {
-        cout &lt;&lt; &quot;A()&quot; &lt;&lt; endl;
-        cout &lt;&lt; &quot;&amp;a:&quot; &lt;&lt; &amp;a &lt;&lt; endl;
-        cout &lt;&lt; &quot;A-this:&quot; &lt;&lt; this &lt;&lt; endl;
-        cout &lt;&lt; typeid(this).name() &lt;&lt; endl;
-    }
-    int a;
-
-};
-
-class B : public A
-{
-public:
-    B()
-    {
-        cout &lt;&lt; &quot;B()&quot; &lt;&lt; endl;
-        cout &lt;&lt; &quot;&amp;b:&quot; &lt;&lt; &amp;b &lt;&lt; endl;
-        cout &lt;&lt; &quot;B-this:&quot; &lt;&lt; this &lt;&lt; endl;
-        cout &lt;&lt; typeid(this).name() &lt;&lt; endl;
-    }
-    int b;
-};
-
-class C : public B
-{
-public:
-    C()
-    {
-        cout &lt;&lt; &quot;C()&quot; &lt;&lt; endl;
-        cout &lt;&lt; &quot;&amp;c:&quot; &lt;&lt; &amp;c &lt;&lt; endl;
-        cout &lt;&lt; &quot;C-this:&quot; &lt;&lt; this &lt;&lt; endl;
-        cout &lt;&lt; typeid(this).name() &lt;&lt; endl;
-    }
-    int c;
-};
-
-int main()
-{
-    C d;
-    cout &lt;&lt; &quot;&amp;d:&quot; &lt;&lt; &amp;d &lt;&lt; endl;
+    Pos ps = {1,2 };
+    Pos fdPs = { 3,4 };
+    ps == fdPs;
     return 0;
-}</code></pre><p>运行结果为：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200310152417912.png" alt="运行结果"></p>
-<p>上面代码也是证明派生类在继承的过程中基类的成员全部继承。<br>我们可以看到打印出来 class  A * 等说明他们的类型不同。</p>
-<p>我们这里只是引入这种方式来说明类型不同，关于函数用法这里不做深究。</p>
-<p>那么接下来我们看一下对象的关系：<br><strong>上面代码先调用A构造器，再调用B构造器，再调用C构造器。</strong><br>关于调用的详细说明我们在派生类的构造博客进行说明</p>
+}</code></pre><p>编译时直接会报错的，以前我们通过结构体所有成员进行比较，结构体对应的所有成员都相等是我们才能判断两个结构体相等，如果结构体的成员非常多，这样写起来是非常麻烦的，所以我们这里引入==运算符重载。<br>我们给出以下代码：</p>
+<pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+typedef struct _pos
+{
+    int x_;
+    int y_;
+}Pos;
+bool operator == (Pos one, Pos another)
+{
+    if (one.x_ == another.x_ &amp;&amp; one.y_ == another.y_)
+        return true;
+    else
+        return false;
+}
+
+int main()
+{
+    Pos ps = {1,2 };
+    Pos fdPs = { 3,4 };
+    if (ps == fdPs)
+        cout &lt;&lt; &quot;==&quot; &lt;&lt; endl;
+    else
+        cout &lt;&lt; &quot;!=&quot; &lt;&lt; endl;
+    return 0;
+}</code></pre><p>执行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200209232713110.png" alt="重载运算符="></p>
+<p>如果我们把主函数里面的内容修改为：</p>
+<pre><code>int main()
+{
+    Pos ps = {1,2 };
+    Pos fdPs = { 1,2 };
+    if (ps == fdPs)  //本质operator ==(ps,fdPs)
+        cout &lt;&lt; &quot;==&quot; &lt;&lt; endl;
+    else
+        cout &lt;&lt; &quot;!=&quot; &lt;&lt; endl;
+    return 0;
+}</code></pre><p>执行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200209232811337.png" alt="运行结果"></p>
+<p>我们对于主函数里面进行修改：</p>
+<pre><code>int main()
+{
+    Pos ps = {1,2 };
+    Pos fdPs = { 1,2 };
+    if (operator==(ps,fdPs))  
+        cout &lt;&lt; &quot;==&quot; &lt;&lt; endl;
+    else
+        cout &lt;&lt; &quot;!=&quot; &lt;&lt; endl;
+    return 0;
+}</code></pre><p>执行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200209232833779.png" alt="执行结果"></p>
+<p>有的读者可能会提出，这里的也是进行成员比较的，和之前的不是一样的嘛？，并非是这样的，这里的和我们之前进行结构体成员的是由很大的区别的，以前的每次比较相等的时候都要写，现在只需要写一次运算符重载函数的内部成员比较既可以在全局所有地方直接使用。</p>
+<p><strong>运算符是＝＝全局的，在任何位置到可以使用，我们在全局范围内重载 ，引入关键字operator把全局范围内的==重载，重载之后就会根据类型去找,并且根据参数类型进行匹配，找到了通过返回bool类型做判断。</strong></p>
+<p>以前我们只能实现计算只能在自定义类型，现在构造类型也可以进行运算。</p>
+<h3 id="重载运算符-进行虚数加法运算"><a href="#重载运算符-进行虚数加法运算" class="headerlink" title="重载运算符+进行虚数加法运算"></a>重载运算符+进行虚数加法运算</h3><pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+
+struct Complex
+{
+    float real;
+    float image;
+};
+
+Complex operator+(Complex one, Complex another)
+{
+    Complex sum;
+    sum.real = one.real + another.real;
+    sum.image = one.image + another.image;
+    return sum;
+}
+
+
+int main()
+{
+     Complex com1 = { 1,2 };
+     Complex com2 = { 3,4 };
+     Complex sum = com1 + com2;
+    cout &lt;&lt; &quot;(&quot; &lt;&lt; sum.real &lt;&lt; &quot;,&quot; &lt;&lt; sum.image &lt;&lt; &quot;)&quot; &lt;&lt; endl;
+    return 0;
+}</code></pre><p>执行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200209233130854.png" alt="重载运算符+"></p>
+<p>主函数进行修改：</p>
+<pre><code>int main()
+{
+     Complex com1 = { 2,2 };
+     Complex com2 = { 4,4 };
+     Complex sum = operator+(com1, com2);
+    cout &lt;&lt; &quot;(&quot; &lt;&lt; sum.real &lt;&lt; &quot;,&quot; &lt;&lt; sum.image &lt;&lt; &quot;)&quot; &lt;&lt; endl;
+    return 0;
+}</code></pre><p>执行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200209233154388.png" alt="重载运算符+运行结果"></p>
+<p>重载了一个全局的操作符+号用于实现将两个自定义结构体类型相加。本质是函数的调用。</p>
+<p>当 然 这 个 Comp operator+(Comp one, Comp another) ， 也 可 以 定 义 为<br> Comp add(Comp one, Comp another)，但这样的话，就只能 Comp sum = add(c1,c2)，<br> 而不能实现 Comp sum = c1 +c2 了。</p>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>我们给出的例子中重载了一个全局的操作符+号用于实现将两个自定义结构体类型相加。本质是函数重载的调用。本博客，只是一个运算符重载的引例，后序博客，我们会更加深入的说明运算符重载。运算符的重载远不止这些内容。</p>
 
             </div>
             <hr/>
@@ -848,7 +628,7 @@ int main()
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://www.teachermin.com/2020/03/12/C++%E7%BB%A7%E6%89%BF%E7%9A%84%E5%AE%9A%E4%B9%89/">http://www.teachermin.com/2020/03/12/C++%E7%BB%A7%E6%89%BF%E7%9A%84%E5%AE%9A%E4%B9%89/</a>
+                    <a href="http://www.teachermin.com/2020/03/15/C++%E5%BC%95%E5%85%A5%E8%BF%90%E7%AE%97%E7%AC%A6%E9%87%8D%E8%BD%BD(1)/">http://www.teachermin.com/2020/03/15/C++%E5%BC%95%E5%85%A5%E8%BF%90%E7%AE%97%E7%AC%A6%E9%87%8D%E8%BD%BD(1)/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -886,8 +666,8 @@ int main()
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/C-%E7%BB%A7%E6%89%BF/">
-                                    <span class="chip bg-color">C++继承</span>
+                                <a href="/tags/%E8%BF%90%E7%AE%97%E7%AC%A6%E9%87%8D%E8%BD%BD/">
+                                    <span class="chip bg-color">运算符重载</span>
                                 </a>
                             
                         </div>
@@ -1053,80 +833,30 @@ int main()
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2020/03/12/C++%E7%BB%A7%E6%89%BF%E7%9A%84%E5%BC%95%E5%85%A5/">
+                <a href="/2020/03/15/C++%E5%BC%95%E5%85%A5%E8%BF%90%E7%AE%97%E7%AC%A6%E9%87%8D%E8%BD%BD(1)/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/15.jpg" class="responsive-img" alt="C++继承的引入">
+                        <img src="/medias/featureimages/4.jpg" class="responsive-img" alt="C++引入运算符重载(1)">
                         
-                        <span class="card-title">C++继承的引入</span>
+                        <span class="card-title">C++引入运算符重载(1)</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            为什么引入继承？在C++中为了引入代码的可重用(software,reusability) 是通过继承这一机制来实现的。继承是类与对象的精华.
-引例：通过简单的继承实现代码重用在下面的设计中，我们发现讲师和学生，有些方法是相同的。进行引发我
-                        
-                    </div>
-                    <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-03-12
-                        </span>
-                        <span class="publish-author">
-                            
-                            <i class="fas fa-bookmark fa-fw icon-category"></i>
-                            
-                            <a href="/categories/C/" class="post-category">
-                                    C++
-                                </a>
-                            
-                            
-                        </span>
-                    </div>
-                </div>
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/C-%E7%BB%A7%E6%89%BF/">
-                        <span class="chip bg-color">C++继承</span>
-                    </a>
-                    
-                </div>
-                
-            </div>
-        </div>
-        
-        
-        <div class="article col s12 m6" data-aos="fade-up">
-            <div class="article-badge right-badge text-color">
-                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
-            </div>
-            <div class="card">
-                <a href="/2020/03/12/C++%E6%B4%BE%E7%94%9F%E7%B1%BB%E7%9A%84%E6%8B%B7%E8%B4%9D%E6%9E%84%E9%80%A0/">
-                    <div class="card-image">
-                        
-                        
-                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="C++派生类的拷贝构造">
-                        
-                        <span class="card-title">C++派生类的拷贝构造</span>
-                    </div>
-                </a>
-                <div class="card-content article-content">
-                    <div class="summary block-with-text">
-                        
-                            派生类的拷贝构造拷贝构造，也是一种构造函数（不要拿拷贝构造不当构造，是己有对象构造新对象），也没有被继承下来。
-引例父类和子类的拷贝构造都是默认的情况#include &lt;iostream&gt;
-using namespace std
+                            运算符重载(Operator Overload)前面用到的运算符&lt;&lt;，本身在 C 语言中，是位操作中的左移运算符。现在又用作流插入运算符，这种一个运算符多种用处的现像叫作运算符重载。 
+在 C 语言中本身就有重载的现像，比如 &
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-03-12
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-03-15
                             </span>
                         <span class="publish-author">
                             
@@ -1140,11 +870,64 @@ using namespace std
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/C-%E7%BB%A7%E6%89%BF/">
-                        <span class="chip bg-color">C++继承</span>
+                    <a href="/tags/%E8%BF%90%E7%AE%97%E7%AC%A6%E9%87%8D%E8%BD%BD/">
+                        <span class="chip bg-color">运算符重载</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2020/03/15/C%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C(FILE%E7%BB%93%E6%9E%84%E4%BD%93%EF%BC%8Cmode%E8%AF%A6%E8%A7%A3%EF%BC%8Cfopen%EF%BC%8Cfread%EF%BC%8Cfwrite%EF%BC%8Cfilea%EF%BC%8Cfclose)/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/16.jpg" class="responsive-img" alt="C文件操作(FILE结构体，mode详解，fopen，fread，fwrite，filea，fclose)">
+                        
+                        <span class="card-title">C文件操作(FILE结构体，mode详解，fopen，fread，fwrite，filea，fclose)</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            FILE 结构体FILE 结构体是对缓冲区和文件读写状态的记录者，所有对文件的操作，都是通过FILE 结构体完成的。
+typedef struct { 
+short level; /* 缓冲区满/空程度 */ 
+unsigned flags
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-03-15
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/C%E5%9F%BA%E7%A1%80/" class="post-category">
+                                    C基础
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/C%E6%96%87%E4%BB%B6/">
+                        <span class="chip bg-color">C文件</span>
                     </a>
                     
                 </div>
