@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="C++运算符重载系列(下篇), SkilledBeginner">
+    <meta name="keywords" content="C++流输入输出运算符重载(4), SkilledBeginner">
     <meta name="description" content="努力做一个很厉害的人">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>C++运算符重载系列(下篇) | SkilledBeginner</title>
+    <title>C++流输入输出运算符重载(4) | SkilledBeginner</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -306,12 +306,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/5.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/21.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">C++运算符重载系列(下篇)</h1>
+                    <h1 class="description center-align post-title">C++流输入输出运算符重载(4)</h1>
                 </div>
             </div>
         </div>
@@ -460,7 +460,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2020-03-09
+                    2020-03-15
                 </div>
                 
 
@@ -495,7 +495,6 @@
 
 using namespace std;
 
-
 class Mail
 {
     friend class Sender;
@@ -505,6 +504,7 @@ private:
     string title_;
     string contents_;
 };
+
 class Sender
 {
 public:
@@ -534,8 +534,7 @@ Mail mail2(&quot;通知&quot;, &quot;关于取消本次会议的通知&quot;);
 <p><strong>声明为谁的友元，就可以通过谁的对象访问谁的私有成员。</strong></p>
 <h3 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h3><p><img src="https://img-blog.csdnimg.cn/20200309213923122.png" alt="友元or成员"></p>
 <h2 id="非全局莫属-operator-lt-lt-gt-gt"><a href="#非全局莫属-operator-lt-lt-gt-gt" class="headerlink" title="非全局莫属 operator&lt;&lt; / &gt;&gt;"></a>非全局莫属 operator&lt;&lt; / &gt;&gt;</h2><p>不可能通过增加 istream 或 ostream 成员的方式重载&gt;&gt;/&lt;&lt;，此时只能通过在自定义的类中增加友元函数的方式重载&gt;&gt;/&lt;&lt;。</p>
-<h3 id="语法格式"><a href="#语法格式" class="headerlink" title="语法格式"></a>语法格式</h3><p>friend istream &amp; operator&gt;&gt;(istream &amp;,自定义类&amp;);</p>
-<p>friend ostream &amp; operator&lt;&lt;(ostream &amp;,自定义类&amp;);</p>
+<h3 id="语法格式"><a href="#语法格式" class="headerlink" title="语法格式"></a>语法格式</h3><p>friend istream &amp; operator&gt;&gt;(istream &amp;,自定义类&amp;);<br>friend ostream &amp; operator&lt;&lt;(ostream &amp;,自定义类&amp;);</p>
 <h3 id="operator-gt-gt"><a href="#operator-gt-gt" class="headerlink" title="operator&gt;&gt;"></a>operator&gt;&gt;</h3><p><img src="https://img-blog.csdnimg.cn/20200309214234858.png" alt="operator&gt;&gt;"></p>
 <h3 id="operator-lt-lt"><a href="#operator-lt-lt" class="headerlink" title="operator&lt;&lt;"></a>operator&lt;&lt;</h3><p><img src="https://img-blog.csdnimg.cn/20200309214256209.png" alt="operator&lt;&lt;"></p>
 <pre><code>#include &lt;iostream&gt;
@@ -561,7 +560,8 @@ int main()
     return 0;
 }</code></pre><p>上面代码会报错：</p>
 <p><img src="https://img-blog.csdnimg.cn/20200309213954574.png" alt="报错截图"></p>
-<p>cin&gt;&gt;c;就会被强制解释为：cin.operator&gt;&gt;(c);<br>cout&lt;&lt;c;就会被强制解释为：cout.operator&lt;&lt;(c);</p>
+<p>cin&gt;&gt;c;就会被强制解释为：cin.operator&gt;&gt;(c);</p>
+<p>cout&lt;&lt;c;就会被强制解释为：cout.operator&lt;&lt;(c);</p>
 <p>上面的实现是不允许的，cin，cout是标准库给出的，上面的操作需要进入cin的类中重载我们自定义的类型，标准库是不允许随便改的。</p>
 <p>那么只能是换一种方式：</p>
 <pre><code>operator&gt;&gt;( cin,c);
@@ -640,7 +640,7 @@ int main()
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://www.teachermin.com/2020/03/09/C++%E8%BF%90%E7%AE%97%E7%AC%A6%E9%87%8D%E8%BD%BD%E7%B3%BB%E5%88%97(%E4%B8%8B%E7%AF%87)/">http://www.teachermin.com/2020/03/09/C++%E8%BF%90%E7%AE%97%E7%AC%A6%E9%87%8D%E8%BD%BD%E7%B3%BB%E5%88%97(%E4%B8%8B%E7%AF%87)/</a>
+                    <a href="http://www.teachermin.com/2020/03/09/C++%E6%B5%81%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA%E8%BF%90%E7%AE%97%E7%AC%A6%E9%87%8D%E8%BD%BD(4)/">http://www.teachermin.com/2020/03/09/C++%E6%B5%81%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA%E8%BF%90%E7%AE%97%E7%AC%A6%E9%87%8D%E8%BD%BD(4)/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -849,13 +849,13 @@ int main()
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2020/03/09/C++%E8%BF%90%E7%AE%97%E7%AC%A6%E9%87%8D%E8%BD%BD%E8%A7%84%E5%88%99(3)/">
+                <a href="/2020/03/09/C++%E8%BF%90%E7%AE%97%E7%AC%A6%E9%87%8D%E8%BD%BD%E8%A7%84%E5%88%99%E5%8F%8A%E8%8C%83%E4%BE%8B(3)/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/3.jpg" class="responsive-img" alt="C++运算符重载规则(3)">
+                        <img src="/medias/featureimages/13.jpg" class="responsive-img" alt="C++运算符重载规则及范例(3)">
                         
-                        <span class="card-title">C++运算符重载规则(3)</span>
+                        <span class="card-title">C++运算符重载规则及范例(3)</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -867,8 +867,9 @@ int main()
 单目运算符重载
 前置++
 后置++
-重载规则可被重载的操作符
-不能新增运算符只能对已有的 C++运算符进行重载。例如，有人觉得 BASIC 中用” * * “作为幂运算符很方便，也想在 C++
+重载规则构造类型向基本类型看齐
+可被重载的操作符
+不能新增运算符只能对已有的 C++运算符进行重载。例如，有人觉得 BASIC 中用” * * “作为幂运算
                         
                     </div>
                     <div class="publish-info">
@@ -905,13 +906,13 @@ int main()
                 本篇&nbsp;<i class="far fa-dot-circle"></i>
             </div>
             <div class="card">
-                <a href="/2020/03/09/C++%E8%BF%90%E7%AE%97%E7%AC%A6%E9%87%8D%E8%BD%BD%E7%B3%BB%E5%88%97(%E4%B8%8B%E7%AF%87)/">
+                <a href="/2020/03/09/C++%E6%B5%81%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA%E8%BF%90%E7%AE%97%E7%AC%A6%E9%87%8D%E8%BD%BD(4)/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/5.jpg" class="responsive-img" alt="C++运算符重载系列(下篇)">
+                        <img src="/medias/featureimages/21.jpg" class="responsive-img" alt="C++流输入输出运算符重载(4)">
                         
-                        <span class="card-title">C++运算符重载系列(下篇)</span>
+                        <span class="card-title">C++流输入输出运算符重载(4)</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
