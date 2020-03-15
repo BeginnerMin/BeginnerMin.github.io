@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="C文件操作(FILE结构体，mode详解，fopen，fread，fwrite，filea，fclose), SkilledBeginner">
+    <meta name="keywords" content="图解归并排序(C语言实现), SkilledBeginner">
     <meta name="description" content="努力做一个很厉害的人">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>C文件操作(FILE结构体，mode详解，fopen，fread，fwrite，filea，fclose) | SkilledBeginner</title>
+    <title>图解归并排序(C语言实现) | SkilledBeginner</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -306,12 +306,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/16.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/19.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">C文件操作(FILE结构体，mode详解，fopen，fread，fwrite，filea，fclose)</h1>
+                    <h1 class="description center-align post-title">图解归并排序(C语言实现)</h1>
                 </div>
             </div>
         </div>
@@ -428,8 +428,8 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/C%E6%96%87%E4%BB%B6/">
-                                <span class="chip bg-color">C文件</span>
+                            <a href="/tags/%E6%8E%92%E5%BA%8F/">
+                                <span class="chip bg-color">排序</span>
                             </a>
                         
                     </div>
@@ -440,8 +440,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/C%E5%9F%BA%E7%A1%80/" class="post-category">
-                                C基础
+                            <a href="/categories/%E7%AE%97%E6%B3%95/" class="post-category">
+                                算法
                             </a>
                         
                     </div>
@@ -467,14 +467,14 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    1.8k
+                    1.1k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    6 分
+                    4 分
                 </div>
                 
 
@@ -490,125 +490,162 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="FILE-结构体"><a href="#FILE-结构体" class="headerlink" title="FILE 结构体"></a>FILE 结构体</h2><p><strong>FILE 结构体是对缓冲区和文件读写状态的记录者，所有对文件的操作，都是通过FILE 结构体完成的。</strong></p>
-<pre><code>typedef struct { 
-short level; /* 缓冲区满/空程度 */ 
-unsigned flags; /* 文件状态标志 */ 
-char fd; /* 文件描述符 */ 
-unsigned char hold; /* 若无缓冲区不读取字符 */ 
-short bsize; /* 缓冲区大小 */ 
-unsigned char *buffer; /* 数据传送缓冲区位置 */ 
-unsigned char *curp; /* 当前读写位置 */ 
-unsigned istemp; /* 临时文件指示 */ 
-short token; /* 用作无效检测 */ 
-} FILE ; /* 结构体类型名 FILE */</code></pre><p>当进行打开文件操作之后，我们打开的文件内容就会缓存到内存中，那么我们有一个疑问<strong>这里的FILE * 定义的pf是不是直接就指向这段缓冲了呢？那么FILE * 的结构体是什么呢？</strong>，我们接下来进行图解说明：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200128120929740.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="读取文件到内存缓冲区"></p>
-<p>我们平时如果要看一个电影，如果内存只有1G那么我们可以观看超过1G大小的影片，这个观看是没有问题的。但是如果要把整个影片缓存到内存肯定是不够的，所以缓存是部分缓存。那么硬盘上也有缓冲，那就把内存已经缓存之后的执行完的数据放到硬盘缓冲区。</p>
-<p>当我们把硬盘的内容缓存到内存的时候，我们需要记录什么时候缓存的部分执行完成之后将其放回硬盘缓冲区，内存缓冲区执行到了那个位置，缓冲区的大小，缓冲区有没有满/有没有空，等等很多信息我们都需要记录下来，所以当我们对于文件进行操作的时候，所以这些信息都要被记录下来，而记录者就是FILE *<br>所以当我们在打开文件到内存的时候，在底层系统为我们开了一个结构体，这个结构体就是记录当前文件的所有状态信息，所以FILE * 结构体并不是简单直接指向缓冲区。而是记录这段缓冲区内存的所有指标，指标包括FILE * 结构体中的所有成员。</p>
-<p>通常在windows中我们将pf称为句柄：我们可以理解为资源的把柄，有了句柄我们就可以操作文件，也是文件的核心。所以并不是简单的pf指向内存的缓冲区。<br>我们来举一个例子：例如门柄就是门把手，我们有了门柄就可以操作整个门。门把手就是这个门的核心和要害之处。</p>
-<p>在开始执行程序的时候，将自动打开 3 个文件和相关的流：标准输入流(stdin)、标准输出流(stdout)和标准错误(stderr)，它们都是 FIEL*型的指针。流提供了文件和程序的通信通道。</p>
-<h2 id="fopen函数"><a href="#fopen函数" class="headerlink" title="fopen函数"></a>fopen函数</h2><p><img src="https://img-blog.csdnimg.cn/20200128121002659.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="fopen函数"></p>
-<p><strong>要注意上面的file包括文件路径和文件名。</strong></p>
-<h3 id="mode-详解："><a href="#mode-详解：" class="headerlink" title="mode 详解："></a>mode 详解：</h3><p><img src="https://img-blog.csdnimg.cn/20200128121020485.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="mode详解"></p>
-<p><strong>如果读写的是二进制文件，则还要加 b,比如 rb, r+b 等。 unix/linux 不区分文本和二进制文件。</strong></p>
-<h3 id="读取文件操作"><a href="#读取文件操作" class="headerlink" title="读取文件操作"></a>读取文件操作</h3><p>我们来简单演示一下：</p>
+                <h2 id="归并排序说明"><a href="#归并排序说明" class="headerlink" title="归并排序说明"></a>归并排序说明</h2><p>归并排序，简单理解就是先归再并，在归的时候，我们使用递归，并的时候类似于我们之前接触过的把两个有序数据进行合并，合并之后仍然有序的思想。<br>归并排序（MERGE-SORT）是建立在归并操作上的一种有效的排序算法,该算法是采用<br>分治法（Divide and Conquer）的一个非常典型的应用。将已有序的子序列合并，得到<br>完全有序的序列；即先使每个子序列有序，再使子序列段间有序。若将两个有序表合并成<br>一个有序表，称为二路归并。</p>
+<h2 id="算法逻辑"><a href="#算法逻辑" class="headerlink" title="算法逻辑"></a>算法逻辑</h2><p>1，将序列每相邻两个数字进行归并操作（merge)，形成 floor(n/2) 个序列，排序后每个序列包含两个元素。</p>
+<p>2，将上述序列再次归并，形成 floor(n/4) 个序列，每个序列包含四个元素</p>
+<p>3，重复步骤 2</p>
+<h3 id="图示说明"><a href="#图示说明" class="headerlink" title="图示说明"></a>图示说明</h3><p><img src="https://img-blog.csdnimg.cn/20200315110847125.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="算法逻辑"></p>
+<p><img src="https://img-blog.csdnimg.cn/20200315110858888.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="算法逻辑"></p>
+<p>我们上来一定要先说明清楚：</p>
+<p>下面两个子序列在排序的时候并不是并行执行的。而是递归，我们会在最后给出归并排序程序执行的详细图解。</p>
+<p><img src="https://img-blog.csdnimg.cn/20200315110914220.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="递归执行而不是并行执行"></p>
+<h2 id="合并两个有序数组，合并之后仍然有序"><a href="#合并两个有序数组，合并之后仍然有序" class="headerlink" title="合并两个有序数组，合并之后仍然有序"></a>合并两个有序数组，合并之后仍然有序</h2><p>int a[4] = { 2,4,5,9 };<br>int b[4] = { 1,6,7,8 };</p>
+<p>图解：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200315111054866.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt=" 合并两个有序数组，合并之后仍然有序"></p>
+<p>我们先来给出我们已经学过的合并两个有序数组合并之后仍然有序的算法：</p>
 <pre><code>#include &lt;stdio.h&gt;
-#include &lt;stdlib.h&gt;
+
+void MergeArr(int* a, int alen, int* b, int blen, int* c, int clen)
+{
+    int i = 0;
+    int j = 0;
+    int k = 0;
+    while (i != alen &amp;&amp; j != blen)
+    {
+        if (a[i] &lt; b[j])
+            c[k++] = a[i++];
+        else
+            c[k++] = b[j++];    
+    }
+    if (i == alen)
+    {
+        while (j != blen)
+        c[k++] = b[j++];
+    }
+    else
+    {
+        while (i != alen)
+            c[k++] = a[i++];
+    }
+}
+
 int main()
 {
-FILE * pf = fopen(&quot;./read.txt&quot;,&quot;r&quot;);
-if(NULL == pf)
-{
-printf(&quot;open fail\n&quot;);
-exit(-1);
-}
-return 0;
+    int a[4] = { 2,4,5,9 };
+    int b[4] = { 1,6,7,8 };
+    int c[8] = { 0 };
+    MergeArr(a, 4, b, 4, c, 8);
+    for (int i = 0; i &lt; 8; i++)
+    {
+        printf(&quot;%d\t&quot;, c[i]);
+    }
+    return 0;
 }</code></pre><p>运行结果为：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200315002202174.png" alt="打开文件运行结果"></p>
-<p>这个时候我们并没有创建出来ac.txt这个文件，但是我们给出了文件打开是否成功的判断结果。<br>我们可以看到打开文件失败，因为当前目录下并没有文件名为read.txt。<br>所以如果open函数以只读方式打开，如果文件不存在就会打开失败。<br>那么如果我们创建一个ac.txt文件，那么就会打开成功。</p>
-<p>我们先介绍一个我们接下来使用的向文件写入数据的fputs函数，有博客会进行详细说明，这里只是简单使用。</p>
-<p><strong>函数原型及参数说明</strong>：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200128121133165.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="函数原型及参数说明"></p>
-<p>我们通过上面函数进行文件写入数据操作：</p>
-<h2 id="写入文件操作"><a href="#写入文件操作" class="headerlink" title="写入文件操作"></a>写入文件操作</h2><p>我们让当前目录并没有ac.txt 文件<br>接下来我们进行写入文件操作：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200315111118765.png" alt="合并两个有序数组，合并之后仍然有序"></p>
+<h2 id="一个数组的有序部分合并为完整有序"><a href="#一个数组的有序部分合并为完整有序" class="headerlink" title="一个数组的有序部分合并为完整有序"></a>一个数组的有序部分合并为完整有序</h2><p>接下来我们来给出合并同一个有序数组：</p>
+<p>例如:<br>int a[4] = { 2,4,5,9,1,6,7,8 };</p>
 <pre><code>#include &lt;stdio.h&gt;
-#include &lt;stdlib.h&gt;
+
+void MergeArr(int* src,int * tmp,int start,int mid,int end)
+{
+    int i = start;
+    int j = mid + 1;
+    int k = start;
+    while (i != mid + 1 &amp;&amp; j != end + 1) 
+    {
+        if (src[i] &lt; src[j])
+            tmp[k++] = src[i++];
+        else
+            tmp[k++] = src[j++];    
+    }
+    if (i == mid + 1)
+    {
+        while (j != end+1)
+        tmp[k++] = src[j++];
+    }
+    else
+    {
+        while (i != mid + 1)
+            tmp[k++] = src[i++];
+    }
+    while (start &lt;= end)
+    {
+        src[start] = tmp[start];
+        start++;
+    }
+}
+
 
 int main()
 {
-FILE * pf = fopen(&quot;ac.txt&quot;,&quot;w&quot;);
-if(pf == NULL)
-{
-printf(&quot;open fail\n&quot;);
-exit(-1);
-}
-if(fputc(&apos;a&apos;,pf)==EOF)
-fputc(&apos;a&apos;,pf);
-fputc(&apos;a&apos;,pf);
-fputc(&apos;a&apos;,pf);
-fputc(&apos;a&apos;,pf);
-fputc(&apos;a&apos;,pf);
-fputc(&apos;a&apos;,pf);
-return 0;
+    int a[8] = { 2,4,5,9,1,6,7,8 };
+    int c[8] = {0};
+    MergeArr(a, c, 0, 3, 7);
+    for (int i = 0; i &lt; 8; i++)
+    {
+        printf(&quot;%d\t&quot;, c[i]);
+    }
+    return 0;
 }</code></pre><p>运行结果为：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200315002513935.png" alt="文件写入操作"></p>
-<p>我们可以看到创建了ac.txt文件并且写入成功。<br>那么如果文件存在呢？<br>接下来我们先给ac.txt写入一部分内容：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200315002535805.png" alt="给已经存在的文件写入内容"></p>
-<p>我们现在对于ac.txt还是以写入的方式打开，但是不写入任何内容。</p>
+<p><img src="https://img-blog.csdnimg.cn/20200315111151236.png" alt="一个数组的有序部分合并为完整有序"></p>
+<h2 id="归并排序"><a href="#归并排序" class="headerlink" title="归并排序"></a>归并排序</h2><p>接下来我们运用上面方法来继续实现归并排序，上面的过程就是归并过程的合并过程，接下来我们实现完整的归并排序。</p>
 <pre><code>#include &lt;stdio.h&gt;
-#include &lt;stdlib.h&gt;
+
+void MergeArr(int* src,int * tmp,int start,int mid,int end)
+{
+    int i = start;
+    int j = mid + 1;
+    int k = start;
+    while (i != mid + 1 &amp;&amp; j != end + 1) //并
+    {
+        if (src[i] &lt; src[j])
+            tmp[k++] = src[i++];
+        else
+            tmp[k++] = src[j++];    
+    }
+    if (i == mid + 1)
+    {
+        while (j != end+1)
+        tmp[k++] = src[j++];
+    }
+    else
+    {
+        while (i != mid + 1)
+            tmp[k++] = src[i++];
+    }
+    while (start &lt;= end)
+    {
+        src[start] = tmp[start];
+        start++;
+    }
+}
+
+void MergeSort(int* arr, int * tmp,int start,int end)  //归
+{
+    if (start &lt; end)
+    {
+        int mid = (start + end) / 2;
+        MergeSort(arr, tmp,start,mid);
+        MergeSort(arr, tmp, mid+1, end);
+        MergeArr(arr, tmp, start, mid, end);
+    }
+}
 
 int main()
 {
-FILE * pf = fopen(&quot;ac.txt&quot;,&quot;w&quot;);
-if(pf == NULL)
-{
-printf(&quot;open fail\n&quot;);
-exit(-1);
-}
-
-return 0;
-}</code></pre><p>执行结果为：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200315002612951.png" alt="不写入任何内容的执行结果"></p>
-<p>小结：<br>当对于文件操作有写入操作时。</p>
-<p>我们可以看到执行之后ac.txt里面没有任何数据，也就是将文件清空。</p>
-<p>在读取文件的时候如果文件不存在则创建文件并且写入数据，</p>
-<p>如果文件存在且没有数据则直接给已经存在的文件写入数据。</p>
-<p>如果文件存在且有数据执行写数据操作时，原来文件的数据会被清空。</p>
-<h3 id="filea-操作"><a href="#filea-操作" class="headerlink" title="filea 操作"></a>filea 操作</h3><p><img src="https://img-blog.csdnimg.cn/2020012812172089.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<p>执行结果为：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200128121738367.png" alt="在这里插入图片描述"></p>
-<p>我们可以看到创建文件成功，里面之所以没有内容是因为我们没有写入数据。</p>
-<p>我们先给xx.txt写入一部分内容：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200128121746184.png" alt="在这里插入图片描述"></p>
-<p>我们写完之后再次执行程序则不会清空：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200128121805389.png" alt="在这里插入图片描述"></p>
-<p>接下来我们需要再引入一个fputs函数，fputs函数的功能就是给文件写入一段数据。</p>
-<p><img src="https://img-blog.csdnimg.cn/20200128121809555.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<p>我们通过fputs函数进行写入：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200128121828743.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<p>执行结果为:</p>
-<p><img src="https://img-blog.csdnimg.cn/20200128121838536.png" alt="在这里插入图片描述"></p>
-<p>我们可以看到执行成功并且在文件原有数据后面追加了数据hello world<br>那么写入没问题，我们进行读取：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200128121858622.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
-<p>执行结果为：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200128121909929.png" alt="在这里插入图片描述"></p>
-<p>我们可以看到读取失败。</p>
-<h2 id="fclose函数"><a href="#fclose函数" class="headerlink" title="fclose函数"></a>fclose函数</h2><p><img src="https://img-blog.csdnimg.cn/20200315003659418.png" alt="fclose函数说明"></p>
-<p>fclose使用方法比较简单。参数直接写入文件描述符进行文件关闭。</p>
-<p>fclose可以刷新缓存。</p>
-<p>fclose会把内存中开辟的缓存的数据存放在磁盘缓冲区</p>
-<p>把开辟的缓存进行释放</p>
-<p>释放FILE * 结构体。</p>
-<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p><strong>r  以只读方式打开，如果文件不存在，则报错，文件不可写</strong></p>
-<p><strong>w  如果文件不存在则创建文件，如果文件存在则清空。文件不可读</strong></p>
-<p><strong>a   如果文件不存在则创建文件，文件存在，追加写，文件不可读。</strong></p>
-<p><strong>r+    可读可写</strong></p>
-<p><strong>w+   可读可写</strong></p>
-<p><strong>a+    可读可写</strong></p>
-<p><strong>后面的+表示缺什么加什么</strong></p>
-<p><strong>如果读写的是二进制文件，则还要加 b,比如 rb, r+b 等。 unix/linux 不区分文本和二进制文件。 文本文件和二进制文件都是二进制文件，但是windows里面编写会有所不同。那么在windows里面在进行二进制文件操作的时候就需要使用我们这里提到的用法</strong></p>
-<p><img src="https://img-blog.csdnimg.cn/20200315003531637.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="我们再次给出表格希望读者验证对比而不是看一遍记忆"></p>
+    int a[8] = { 2,4,5,9,1,6,7,8 };
+    int c[8] = {0};
+    MergeSort(a, c, 0, 7);
+    for (int i = 0; i &lt; 8; i++)
+    {
+        printf(&quot;%d\t&quot;, c[i]);
+    }
+    return 0;
+}</code></pre><p>运行结果：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200315111224387.png" alt="递归排序"></p>
+<h2 id="归并排序执行过程分析"><a href="#归并排序执行过程分析" class="headerlink" title="归并排序执行过程分析"></a>归并排序执行过程分析</h2><p><img src="https://img-blog.csdnimg.cn/20200315111243149.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="归并排序执行过程分析"></p>
+<h2 id="算法分析"><a href="#算法分析" class="headerlink" title="算法分析"></a>算法分析</h2><p>归并排序是 稳定的排序.即相等的元素的顺序不会改变.如输入记录 1(1) 3(2) 2(3)<br>2(4) 5(5) (括号中是记录的关键字)时输出的 1(1) 2(3) 2(4) 3(2) 5(5) 中的 2 和 2<br>是按输入的顺序.这对要排序数据包含多个信息而要按其中的某一个信息排序,要求其它信<br>息尽量按输入的顺序排列时很重要.这也是它比快速排序优势的地方.<br>需要额外空间，故称为外排序，冒泡不需要借助额外空间，所以是内排序。</p>
+<p><img src="https://img-blog.csdnimg.cn/20200315111303173.png" alt="算法分析"></p>
 
             </div>
             <hr/>
@@ -634,7 +671,7 @@ return 0;
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://www.teachermin.com/2020/03/15/C%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C(%E6%96%87%E4%BB%B6%EF%BC%8C%E6%96%87%E4%BB%B6%E6%B5%81%EF%BC%8C%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%EF%BC%8C%E4%B9%B1%E7%A0%81%E5%8E%9F%E7%94%B1%EF%BC%8C%E6%96%87%E4%BB%B6%E7%BC%93%E5%86%B2%E5%8C%BA)/">http://www.teachermin.com/2020/03/15/C%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C(%E6%96%87%E4%BB%B6%EF%BC%8C%E6%96%87%E4%BB%B6%E6%B5%81%EF%BC%8C%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%EF%BC%8C%E4%B9%B1%E7%A0%81%E5%8E%9F%E7%94%B1%EF%BC%8C%E6%96%87%E4%BB%B6%E7%BC%93%E5%86%B2%E5%8C%BA)/</a>
+                    <a href="http://www.teachermin.com/2020/03/15/%E5%9B%BE%E8%A7%A3%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F(C%E8%AF%AD%E8%A8%80%E5%AE%9E%E7%8E%B0)/">http://www.teachermin.com/2020/03/15/%E5%9B%BE%E8%A7%A3%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F(C%E8%AF%AD%E8%A8%80%E5%AE%9E%E7%8E%B0)/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -672,8 +709,8 @@ return 0;
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/C%E6%96%87%E4%BB%B6/">
-                                    <span class="chip bg-color">C文件</span>
+                                <a href="/tags/%E6%8E%92%E5%BA%8F/">
+                                    <span class="chip bg-color">排序</span>
                                 </a>
                             
                         </div>
@@ -839,12 +876,11 @@ return 0;
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="far fa-dot-circle"></i>&nbsp;本篇
-            </div>
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2020/03/15/C%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C(%E6%96%87%E4%BB%B6%EF%BC%8C%E6%96%87%E4%BB%B6%E6%B5%81%EF%BC%8C%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%EF%BC%8C%E4%B9%B1%E7%A0%81%E5%8E%9F%E7%94%B1%EF%BC%8C%E6%96%87%E4%BB%B6%E7%BC%93%E5%86%B2%E5%8C%BA)/">
+                <a href="/2020/03/15/C%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C(FILE%E7%BB%93%E6%9E%84%E4%BD%93%EF%BC%8Cmode%E8%AF%A6%E8%A7%A3%EF%BC%8Cfopen%EF%BC%8Cfread%EF%BC%8Cfwrite%EF%BC%8Cfilea%EF%BC%8Cfclose)/">
                     <div class="card-image">
                         
                         
@@ -863,9 +899,9 @@ unsigned flags
                         
                     </div>
                     <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-03-15
-                            </span>
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2020-03-15
+                        </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
@@ -878,7 +914,6 @@ unsigned flags
                         </span>
                     </div>
                 </div>
-
                 
                 <div class="card-action article-tags">
                     
@@ -897,22 +932,22 @@ unsigned flags
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/03/14/%E6%9C%AC%E6%9C%BAIPC%E4%B9%8B%E7%AE%A1%E9%81%93%E8%AF%A6%E8%A7%A3/">
+                <a href="/2020/03/14/%E6%9C%AC%E6%9C%BAPIC%E4%B9%8B%E4%BF%A1%E5%8F%B7%E9%87%8F%E8%AF%A6%E8%A7%A3/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/4.jpg" class="responsive-img" alt="本机IPC之管道详解">
+                        <img src="/medias/featureimages/9.jpg" class="responsive-img" alt="本机IPC之信号量详解">
                         
-                        <span class="card-title">本机IPC之管道详解</span>
+                        <span class="card-title">本机IPC之信号量详解</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            无名管道的通信原理内核会开辟一个“管道”，通信的进程通过共享这个管道，从而实现通信。内核的代码也是运行在物理内存上的，内核创建一个“管道”，其实就是在内核自己所在的物理内存空间中开辟出一段缓存空间
-比如：char buf[1024];
-
-进
+                            信号量的作用当多个进程/线程进行共享操作时，用于资源保护，以防止出现相互干扰的情况。再间简洁一点，信号量用于“资源的保护“。
+进程信号量实现的是进程操作资源的保护。
+线程信号量实现的是线程操作资源的保护。
+什么是进程资源保护？例子1：多进程
                         
                     </div>
                     <div class="publish-info">
@@ -1134,7 +1169,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">48.3k</span>&nbsp;字
+                class="white-color">49.4k</span>&nbsp;字
             
             
             
