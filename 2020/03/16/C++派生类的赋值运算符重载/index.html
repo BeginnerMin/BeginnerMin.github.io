@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="C++流输入输出运算符重载(4), SkilledBeginner">
+    <meta name="keywords" content="C++派生类的赋值运算符重载, SkilledBeginner">
     <meta name="description" content="努力做一个很厉害的人">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>C++流输入输出运算符重载(4) | SkilledBeginner</title>
+    <title>C++派生类的赋值运算符重载 | SkilledBeginner</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -306,12 +306,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/21.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/17.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">C++流输入输出运算符重载(4)</h1>
+                    <h1 class="description center-align post-title">C++派生类的赋值运算符重载</h1>
                 </div>
             </div>
         </div>
@@ -428,8 +428,8 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/%E8%BF%90%E7%AE%97%E7%AC%A6%E9%87%8D%E8%BD%BD/">
-                                <span class="chip bg-color">运算符重载</span>
+                            <a href="/tags/C-%E7%BB%A7%E6%89%BF/">
+                                <span class="chip bg-color">C++继承</span>
                             </a>
                         
                     </div>
@@ -453,28 +453,28 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-03-09
+                    2020-03-16
                 </div>
                 
 
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2020-03-15
+                    2020-03-16
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    694
+                    3.6k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    3 分
+                    19 分
                 </div>
                 
 
@@ -490,131 +490,857 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="成员函数作谁的成员？友元？"><a href="#成员函数作谁的成员？友元？" class="headerlink" title="成员函数作谁的成员？友元？"></a>成员函数作谁的成员？友元？</h2><h3 id="引例：邮件发送"><a href="#引例：邮件发送" class="headerlink" title="引例：邮件发送"></a>引例：邮件发送</h3><p>假设，我们有类 Sender 类和 Mail 类，实现发送邮件的功能。<br>Sender sender; Mail mail;<br>sender &lt;&lt; mail;<br>sender左操作数，决定了operator&lt;&lt;为Sender的成员函数,<br>而mail决定了operator&lt;&lt;要作 Mail 类的友员。</p>
-<pre><code>#include &lt;iostream&gt;
+                <h2 id="派生类的赋值符重载"><a href="#派生类的赋值符重载" class="headerlink" title="派生类的赋值符重载"></a>派生类的赋值符重载</h2><p>赋值运算符函数,不是构造器，可以看作是一个普通的函数，所以可以继承，语法上就<br>没有构造器那么严格。</p>
+<h3 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h3><pre><code>子类&amp; 子类::operator=(const 子类&amp; another)
+{
+...
+父类::operator =(another); // 调用父类的赋值运算符重载
+...
+}</code></pre><h2 id="情况分析"><a href="#情况分析" class="headerlink" title="情况分析"></a>情况分析</h2><h3 id="父类和子类都是系统默认"><a href="#父类和子类都是系统默认" class="headerlink" title="父类和子类都是系统默认"></a>父类和子类都是系统默认</h3><pre><code>#include &lt;iostream&gt;
 
 using namespace std;
 
-class Mail
-{
-    friend class Sender;
-public:
-    Mail(string t, string c) :title_(t), contents_(c) {}
-private:
-    string title_;
-    string contents_;
-};
-
-class Sender
+class A
 {
 public:
-Sender(string addr):addr_(addr) {}
-Sender &amp; operator&lt;&lt;(const Mail &amp; mail)
+    A(string x = &quot; &quot;)
     {
-        cout &lt;&lt; mail.title_ &lt;&lt; endl;
-        cout &lt;&lt; mail.contents_ &lt;&lt; endl;
-return *this;
+        a = x;
+        cout &lt;&lt; &quot;A()&quot; &lt;&lt; endl;
     }
-private:
-string addr_;
+    string a;
 };
 
-
+class B:public A
+{
+public:
+    B(string x , string y)
+        :A(x)
+    {
+        b = y;
+        cout &lt;&lt; &quot;B()&quot; &lt;&lt; endl;
+    }
+    string b;
+};
 
 int main()
 {
-Sender sender(&quot;hello@163.com&quot;);
-Mail mail(&quot;开会&quot;,&quot;关于年底分红的若干事项&quot;);
-Mail mail2(&quot;通知&quot;, &quot;关于取消本次会议的通知&quot;);
-    sender &lt;&lt; mail;//发送邮件sender.operator&lt;&lt;(mail);   operator&lt;&lt;(sender, mail);
-    sender &lt;&lt; mail2;
-    return 0;
+    B b(&quot;b1&quot;,&quot;b2&quot;);
+    B bb(&quot;bb1&quot;,&quot;bb2&quot;);    
+bb = b;
+    cout &lt;&lt; &quot;bb.a:&quot; &lt;&lt; bb.a &lt;&lt; endl;
+    cout &lt;&lt; &quot;bb.b:&quot; &lt;&lt; bb.b &lt;&lt; endl;
+
+return 0;
+}</code></pre><p>执行结果为：</p>
+<p> <img src="https://img-blog.csdnimg.cn/20200316113403487.png" alt="运行结果"></p>
+<p>我们可以看到默认情况下，父类和子类的赋值运算符重载都调用成功。</p>
+<h3 id="子类系统默认，父类自实现赋值运算符重载"><a href="#子类系统默认，父类自实现赋值运算符重载" class="headerlink" title="子类系统默认，父类自实现赋值运算符重载"></a>子类系统默认，父类自实现赋值运算符重载</h3><pre><code>#include &lt;iostream&gt;
+
+using namespace std;
+
+class A
+{
+public:
+    A(string x = &quot; &quot;)
+    {
+        a = x;
+        cout &lt;&lt; &quot;A()&quot; &lt;&lt; endl;
+    }
+    A&amp; operator=(const A&amp; another)
+    {
+        this-&gt;a = another.a;
+        cout &lt;&lt; &quot;A &amp; operator=(const A &amp; another)&quot; &lt;&lt; endl;
+        return *(this);
+    }
+    string a;
+};
+
+class B:public A
+{
+public:
+    B(string x , string y)
+        :A(x)
+    {
+        b = y;
+        cout &lt;&lt; &quot;B()&quot; &lt;&lt; endl;
+    }
+
+    string b;
+};
+
+int main()
+{
+    B b(&quot;b1&quot;,&quot;b2&quot;);
+    B bb(&quot;bb1&quot;,&quot;bb2&quot;);
+    bb = b;
+    cout &lt;&lt; &quot;bb.a:&quot; &lt;&lt; bb.a &lt;&lt; endl;
+    cout &lt;&lt; &quot;bb.b:&quot; &lt;&lt; bb.b &lt;&lt; endl;
+
+return 0;
+}</code></pre><p>运行结果：</p>
+<p><img src="https://img-blog.csdnimg.cn/2020031611344521.png" alt="执行结果"></p>
+<p>上面的代码中，父类自实现的赋值运算符重载函数和系统默认提供的赋值运算符重载函数的功能是一样的，只不过我们多了一个cout输出语句。<br>我们可以看到先调用父类自实现的赋值运算符重载函数，然后子类调用系统默认提供赋值运算符重载函数。</p>
+<h3 id="父类系统默认，子类自实现赋值运算符重载"><a href="#父类系统默认，子类自实现赋值运算符重载" class="headerlink" title="父类系统默认，子类自实现赋值运算符重载"></a>父类系统默认，子类自实现赋值运算符重载</h3><pre><code>#include &lt;iostream&gt;
+
+using namespace std;
+
+class A
+{
+public:
+    A(string x = &quot; &quot;)
+    {
+        a = x;
+        cout &lt;&lt; &quot;A()&quot; &lt;&lt; endl;
+    }
+    string a;
+};
+
+class B:public A
+{
+public:
+    B(string x , string y)
+        :A(x)
+    {
+        b = y;
+        cout &lt;&lt; &quot;B()&quot; &lt;&lt; endl;
+    }
+
+    B &amp; operator=(const B&amp; another)
+    {
+        if (this == &amp;another)  //判断是否是自赋值
+            return *this;
+        cout &lt;&lt; &quot;B &amp; operator=(const B &amp; another)&quot; &lt;&lt; endl;
+        A::operator=(another); //继承赋值运算符重载函数
+        this-&gt;b = another.b;
+        return *this;
+    }
+    string b;
+};
+
+int main()
+{
+    B b(&quot;b1&quot;,&quot;b2&quot;);
+    B bb(&quot;bb1&quot;,&quot;bb2&quot;);
+    bb = b;
+    cout &lt;&lt; &quot;bb.a:&quot; &lt;&lt; bb.a &lt;&lt; endl;
+    cout &lt;&lt; &quot;bb.b:&quot; &lt;&lt; bb.b &lt;&lt; endl;
+
+return 0;
+}</code></pre><p>运行结果;</p>
+<p><img src="https://img-blog.csdnimg.cn/20200316113527748.png" alt="运行结果"></p>
+<p>父类系统默认，子类自实现赋值运算符重载的时候，先调用父类的默认，然后调用子类自实现赋值运算符重载。</p>
+<h3 id="子类和父类都自实现赋值运算符重载"><a href="#子类和父类都自实现赋值运算符重载" class="headerlink" title="子类和父类都自实现赋值运算符重载"></a>子类和父类都自实现赋值运算符重载</h3><pre><code>#include &lt;iostream&gt;
+
+using namespace std;
+
+class A
+{
+public:
+    A(string x = &quot; &quot;)
+    {
+        a = x;
+        cout &lt;&lt; &quot;A()&quot; &lt;&lt; endl;
+    }
+    A&amp; operator=(const A&amp; another)
+    {
+        this-&gt;a = another.a;
+        cout &lt;&lt; &quot;A &amp; operator=(const A &amp; another)&quot; &lt;&lt; endl;
+        return *(this);
+    }
+    string a;
+};
+
+class B:public A
+{
+public:
+    B(string x , string y)
+        :A(x)
+    {
+        b = y;
+        cout &lt;&lt; &quot;B()&quot; &lt;&lt; endl;
+    }
+
+    B &amp; operator=(const B&amp; another)
+    {
+        if (this == &amp;another)  //判断是否是自赋值
+            return *this;
+        cout &lt;&lt; &quot;B &amp; operator=(const B &amp; another)&quot; &lt;&lt; endl;
+        this-&gt;b = another.b;
+        return *this;
+    }
+    string b;
+};
+
+int main()
+{
+    B b(&quot;b1&quot;,&quot;b2&quot;);
+    B bb(&quot;bb1&quot;,&quot;bb2&quot;);
+    bb = b;
+    cout &lt;&lt; &quot;bb.a:&quot; &lt;&lt; bb.a &lt;&lt; endl;
+    cout &lt;&lt; &quot;bb.b:&quot; &lt;&lt; bb.b &lt;&lt; endl;
+
+return 0;
 }</code></pre><p>运行结果为：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200309213900537.png" alt="运行结果"></p>
-<p><strong>声明为谁的友元，就可以通过谁的对象访问谁的私有成员。</strong></p>
-<h3 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h3><p><img src="https://img-blog.csdnimg.cn/20200309213923122.png" alt="友元or成员"></p>
-<h2 id="非全局莫属-operator-lt-lt-gt-gt"><a href="#非全局莫属-operator-lt-lt-gt-gt" class="headerlink" title="非全局莫属 operator&lt;&lt; / &gt;&gt;"></a>非全局莫属 operator&lt;&lt; / &gt;&gt;</h2><p>不可能通过增加 istream 或 ostream 成员的方式重载&gt;&gt;/&lt;&lt;，此时只能通过在自定义的类中增加友元函数的方式重载&gt;&gt;/&lt;&lt;。</p>
-<h3 id="语法格式"><a href="#语法格式" class="headerlink" title="语法格式"></a>语法格式</h3><p>friend istream &amp; operator&gt;&gt;(istream &amp;,自定义类&amp;);<br>friend ostream &amp; operator&lt;&lt;(ostream &amp;,自定义类&amp;);</p>
-<h3 id="operator-gt-gt"><a href="#operator-gt-gt" class="headerlink" title="operator&gt;&gt;"></a>operator&gt;&gt;</h3><p><img src="https://img-blog.csdnimg.cn/20200309214234858.png" alt="operator&gt;&gt;"></p>
-<h3 id="operator-lt-lt"><a href="#operator-lt-lt" class="headerlink" title="operator&lt;&lt;"></a>operator&lt;&lt;</h3><p><img src="https://img-blog.csdnimg.cn/20200309214256209.png" alt="operator&lt;&lt;"></p>
-<pre><code>#include &lt;iostream&gt;
+<p><img src="https://img-blog.csdnimg.cn/20200316113631649.png" alt="运行结果"></p>
+<p>父类和子类都自实现赋值运算符重载函数的时候，只调用子类的赋值运算符重载不调用父类的赋值运算符函数，那就失去了赋值的意义。</p>
+<p>那么我们如果解决？</p>
+<h2 id="父类显式调用"><a href="#父类显式调用" class="headerlink" title="父类显式调用"></a>父类显式调用</h2><p>我们前面说过，赋值运算符重载已经被继承，所以我们可以在子类直接调用父类的赋值运算符重载函数。</p>
+<h3 id="赋值顺序"><a href="#赋值顺序" class="headerlink" title="赋值顺序"></a>赋值顺序</h3><h4 id="图示"><a href="#图示" class="headerlink" title="图示"></a>图示</h4><p><img src="https://img-blog.csdnimg.cn/20200316113237643.png" alt="赋值运算符复制顺序"></p>
+<h4 id="注解"><a href="#注解" class="headerlink" title="注解"></a>注解</h4><p><img src="https://img-blog.csdnimg.cn/20200316113302486.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="赋值运算符重载注解"></p>
+<h4 id="代码演示"><a href="#代码演示" class="headerlink" title="代码演示"></a>代码演示</h4><pre><code>#include &lt;iostream&gt;
 
 using namespace std;
 
-
-class Complex
+class A
 {
 public:
-    Complex(double r = 0,double i = 0):real_(r),image_(i){}
-private:
-    double real_;
-    double image_;
+    A(string x = &quot; &quot;)
+    {
+        a = x;
+        cout &lt;&lt; &quot;A()&quot; &lt;&lt; endl;
+    }
+    A&amp; operator=(const A&amp; another)
+    {
+        this-&gt;a = another.a;
+        cout &lt;&lt; &quot;A &amp; operator=(const A &amp; another)&quot; &lt;&lt; endl;
+        return *(this);
+    }
+    string a;
+};
+
+class B:public A
+{
+public:
+    B(string x , string y)
+        :A(x)
+    {
+        b = y;
+        cout &lt;&lt; &quot;B()&quot; &lt;&lt; endl;
+    }
+
+    B &amp; operator=(const B&amp; another)
+    {
+        if (this == &amp;another)  //判断是否是自赋值
+            return *this;
+        cout &lt;&lt; &quot;B &amp; operator=(const B &amp; another)&quot; &lt;&lt; endl;
+        A::operator=(another); //继承赋值运算符重载函数
+        this-&gt;b = another.b;
+        return *this;
+    }
+    string b;
 };
 
 int main()
 {
-    Complex c;
-    cin &gt;&gt; c;
-    cout &lt;&lt; c;
-    //上面操作是不允许的。
-    return 0;
-}</code></pre><p>上面代码会报错：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200309213954574.png" alt="报错截图"></p>
-<p>cin&gt;&gt;c;就会被强制解释为：cin.operator&gt;&gt;(c);</p>
-<p>cout&lt;&lt;c;就会被强制解释为：cout.operator&lt;&lt;(c);</p>
-<p>上面的实现是不允许的，cin，cout是标准库给出的，上面的操作需要进入cin的类中重载我们自定义的类型，标准库是不允许随便改的。</p>
-<p>那么只能是换一种方式：</p>
-<pre><code>operator&gt;&gt;( cin,c);
-operator&lt;&lt;( cout,c);</code></pre><p>cin和cout  作为参数传递。</p>
-<p>代码演示：</p>
+    B b(&quot;b1&quot;,&quot;b2&quot;);
+    B bb(&quot;bb1&quot;,&quot;bb2&quot;);
+    bb = b;
+    cout &lt;&lt; &quot;bb.a:&quot; &lt;&lt; bb.a &lt;&lt; endl;
+    cout &lt;&lt; &quot;bb.b:&quot; &lt;&lt; bb.b &lt;&lt; endl;
+
+return 0;
+}</code></pre><p>运行结果：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200316113952409.png" alt="执行结果"></p>
+<p>上面代码中：</p>
+<pre><code>B &amp; operator=(const B&amp; another)
+    {
+        if (this == &amp;another)  //判断是否是自赋值
+            return *this;
+        cout &lt;&lt; &quot;B &amp; operator=(const B &amp; another)&quot; &lt;&lt; endl;
+        A::operator=(another); //继承赋值运算符重载函数
+        this-&gt;b = another.b;
+        return *this;
+    }</code></pre><p><code>A::operator=(another);</code> 必须加上A::   作用域是不能省略的。<br>否则B的赋值运算符重载函数就会和里面的operator=(another);同名，那就是自己调用自己实现了递归。</p>
+<p>代码演示:</p>
 <pre><code>#include &lt;iostream&gt;
 
 using namespace std;
 
-
-class Complex
+class A
 {
 public:
-    Complex(double r = 0,double i = 0):real_(r),image_(i){}
-    friend istream &amp; operator&gt;&gt;(istream &amp; ci, Complex &amp; c)
+    A(string x = &quot; &quot;)
     {
-        ci &gt;&gt; c.real_;
-        ci &gt;&gt; c.image_;
-        return ci;
+        a = x;
+        cout &lt;&lt; &quot;A()&quot; &lt;&lt; endl;
     }
-    friend ostream &amp; operator&lt;&lt;(ostream &amp; co, Complex &amp; c)
+    A&amp; operator=(const A&amp; another)
     {
+        this-&gt;a = another.a;
+        cout &lt;&lt; &quot;A &amp; operator=(const A &amp; another)&quot; &lt;&lt; endl;
+        return *(this);
+    }
+    string a;
+};
 
-        co &lt;&lt; &quot;(&quot; &lt;&lt; c.real_ &lt;&lt; &quot;,&quot; &lt;&lt; c.image_ &lt;&lt; &quot;)&quot; &lt;&lt; endl;
-        return co;
+class B:public A
+{
+public:
+    B(string x , string y)
+        :A(x)
+    {
+        b = y;
+        cout &lt;&lt; &quot;B()&quot; &lt;&lt; endl;
     }
 
-private:
-    double real_;
-    double image_;
+    B &amp; operator=(const B&amp; another)
+    {
+        if (this == &amp;another)  //判断是否是自赋值
+            return *this;
+        cout &lt;&lt; &quot;B &amp; operator=(const B &amp; another)&quot; &lt;&lt; endl;
+        operator=(another); //继承赋值运算符重载函数
+        this-&gt;b = another.b;
+        return *this;
+    }
+    string b;
 };
 
 int main()
 {
-    Complex c, c1;
-    cin &gt;&gt; c;
-    cout &lt;&lt; c;
+    B b(&quot;b1&quot;,&quot;b2&quot;);
+    B bb(&quot;bb1&quot;,&quot;bb2&quot;);
+    bb = b;
+    cout &lt;&lt; &quot;bb.a:&quot; &lt;&lt; bb.a &lt;&lt; endl;
+    cout &lt;&lt; &quot;bb.b:&quot; &lt;&lt; bb.b &lt;&lt; endl;
+
+return 0;
+}</code></pre><p>运行结果：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200316114104931.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="执行结果"></p>
+<p>就会进入死循环。</p>
+<h2 id="内嵌子对象"><a href="#内嵌子对象" class="headerlink" title="内嵌子对象"></a>内嵌子对象</h2><h3 id="子类使用系统默认，内嵌子对象类也使用系统默认"><a href="#子类使用系统默认，内嵌子对象类也使用系统默认" class="headerlink" title="子类使用系统默认，内嵌子对象类也使用系统默认"></a>子类使用系统默认，内嵌子对象类也使用系统默认</h3><pre><code>#include &lt;iostream&gt;
+
+using namespace std;
+
+
+class C
+{
+public:
+    C(string z = &quot;0&quot;)
+    {
+        c = z;
+        cout &lt;&lt; &quot;C()&quot; &lt;&lt; endl;
+    }
+    string c;
+};
+
+
+
+
+
+class A
+{
+public:
+    A(string x = &quot; &quot;)
+    {
+        a = x;
+        cout &lt;&lt; &quot;A()&quot; &lt;&lt; endl;
+    }
+    string a;
+};
+
+class B:public A
+{
+public:
+    B(string x , string y, string z)
+        :A(x),c(z)
+    {
+        b = y;
+        cout &lt;&lt; &quot;B()&quot; &lt;&lt; endl;
+    }
+
+    C c;
+    string b;
+};
+
+int main()
+{
+    B b(&quot;b1&quot;,&quot;b2&quot;,&quot;b3&quot;);
+    B bb(&quot;bb1&quot;,&quot;bb2&quot;,&quot;bb3&quot;);
+    bb = b;
+    cout &lt;&lt; &quot;bb.a:&quot; &lt;&lt; bb.a &lt;&lt; endl;
+    cout &lt;&lt; &quot;bb.b:&quot; &lt;&lt; bb.b &lt;&lt; endl;
+    cout &lt;&lt; &quot;bb.c.c:&quot; &lt;&lt; bb.c.c &lt;&lt; endl;
+
+return 0;
+}</code></pre><p>执行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200316114309726.png" alt="执行结果"></p>
+<p>我们可以看到子类和内嵌子对象都使用默认的时候，系统会调用子类和内嵌子对象的系统默认赋值运算符重载函数。</p>
+<h3 id="子类是系统默认，内嵌子对象类自实现赋值运算符重载函数。"><a href="#子类是系统默认，内嵌子对象类自实现赋值运算符重载函数。" class="headerlink" title="子类是系统默认，内嵌子对象类自实现赋值运算符重载函数。"></a>子类是系统默认，内嵌子对象类自实现赋值运算符重载函数。</h3><pre><code>#include &lt;iostream&gt;
+
+using namespace std;
+
+
+class C
+{
+public:
+    C(string z = &quot;0&quot;)
+    {
+        c = z;
+        cout &lt;&lt; &quot;C()&quot; &lt;&lt; endl;
+    }
+    C&amp; operator=(const C&amp; another)
+    {
+        this-&gt;c = another.c;
+        cout &lt;&lt; &quot;C &amp; operator=(const C &amp; another)&quot; &lt;&lt; endl;
+        return *(this);
+    }
+    string c;
+};
+
+
+
+
+
+class A
+{
+public:
+    A(string x = &quot; &quot;)
+    {
+        a = x;
+        cout &lt;&lt; &quot;A()&quot; &lt;&lt; endl;
+    }
+    string a;
+};
+
+class B:public A
+{
+public:
+    B(string x , string y, string z)
+        :A(x),c(z)
+    {
+        b = y;
+        cout &lt;&lt; &quot;B()&quot; &lt;&lt; endl;
+    }
+    C c;
+    string b;
+};
+
+int main()
+{
+    B b(&quot;b1&quot;,&quot;b2&quot;,&quot;b3&quot;);
+    B bb(&quot;bb1&quot;,&quot;bb2&quot;,&quot;bb3&quot;);
+    bb = b;
+    cout &lt;&lt; &quot;bb.a:&quot; &lt;&lt; bb.a &lt;&lt; endl;
+    cout &lt;&lt; &quot;bb.b:&quot; &lt;&lt; bb.b &lt;&lt; endl;
+    cout &lt;&lt; &quot;bb.c.c:&quot; &lt;&lt; bb.c.c &lt;&lt; endl;
+
+return 0;
+}</code></pre><p>运行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200316114356140.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="执行结果"></p>
+<p>这个时候默认调用内嵌子对象的赋值运算符重载函数，然后默认调用子类系统默认提供的赋值运算符重载函数。</p>
+<h3 id="子类是自实现赋值运算符重载函数，内嵌子对象类系统默认"><a href="#子类是自实现赋值运算符重载函数，内嵌子对象类系统默认" class="headerlink" title="子类是自实现赋值运算符重载函数，内嵌子对象类系统默认"></a>子类是自实现赋值运算符重载函数，内嵌子对象类系统默认</h3><pre><code>#include &lt;iostream&gt;
+
+using namespace std;
+
+
+class C
+{
+public:
+    C(string z = &quot;0&quot;)
+    {
+        c = z;
+        cout &lt;&lt; &quot;C()&quot; &lt;&lt; endl;
+    }
+
+    string c;
+};
+
+
+
+
+
+class A
+{
+public:
+    A(string x = &quot; &quot;)
+    {
+        a = x;
+        cout &lt;&lt; &quot;A()&quot; &lt;&lt; endl;
+    }
+
+    string a;
+};
+
+class B:public A
+{
+public:
+    B(string x , string y, string z)
+        :A(x),c(z)
+    {
+        b = y;
+        cout &lt;&lt; &quot;B()&quot; &lt;&lt; endl;
+    }
+
+    B &amp; operator=(const B&amp; another)
+    {
+        if (this == &amp;another)  //判断是否是自赋值
+            return *this;
+        cout &lt;&lt; &quot;B &amp; operator=(const B &amp; another)&quot; &lt;&lt; endl;
+        A::operator=(another); //继承赋值运算符重载函数
+        this-&gt;b = another.b;
+        return *this;
+    }
+    C c;
+    string b;
+};
+
+int main()
+{
+    B b(&quot;b1&quot;,&quot;b2&quot;,&quot;b3&quot;);
+    B bb(&quot;bb1&quot;,&quot;bb2&quot;,&quot;bb3&quot;);
+    bb = b;
+    cout &lt;&lt; &quot;bb.a:&quot; &lt;&lt; bb.a &lt;&lt; endl;
+    cout &lt;&lt; &quot;bb.b:&quot; &lt;&lt; bb.b &lt;&lt; endl;
+    cout &lt;&lt; &quot;bb.c.c:&quot; &lt;&lt; bb.c.c &lt;&lt; endl;
+
+return 0;
+}</code></pre><p>执行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200316114504542.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="执行结果"></p>
+<p>我们可以看到子类会调用自实现赋值运算符重载函数，内嵌子对象类不会调用系统默认提供的赋值运算符重载函数。</p>
+<h3 id="子类和内嵌子对象类都自实现赋值运算符重载函数。"><a href="#子类和内嵌子对象类都自实现赋值运算符重载函数。" class="headerlink" title="子类和内嵌子对象类都自实现赋值运算符重载函数。"></a>子类和内嵌子对象类都自实现赋值运算符重载函数。</h3><pre><code>#include &lt;iostream&gt;
+
+using namespace std;
+
+
+class C
+{
+public:
+    C(string z = &quot;0&quot;)
+    {
+        c = z;
+        cout &lt;&lt; &quot;C()&quot; &lt;&lt; endl;
+    }
+    C&amp; operator=(const C&amp; another)
+    {
+        this-&gt;c = another.c;
+        cout &lt;&lt; &quot;C &amp; operator=(const A &amp; another)&quot; &lt;&lt; endl;
+        return *(this);
+    }
+    string c;
+};
+
+
+
+
+
+class A
+{
+public:
+    A(string x = &quot; &quot;)
+    {
+        a = x;
+        cout &lt;&lt; &quot;A()&quot; &lt;&lt; endl;
+    }
+    //A&amp; operator=(const A&amp; another)
+    //{
+    //    this-&gt;a = another.a;
+    //    cout &lt;&lt; &quot;A &amp; operator=(const A &amp; another)&quot; &lt;&lt; endl;
+    //    return *(this);
+    //}
+    string a;
+};
+
+class B:public A
+{
+public:
+    B(string x , string y, string z)
+        :A(x),c(z)
+    {
+        b = y;
+        cout &lt;&lt; &quot;B()&quot; &lt;&lt; endl;
+    }
+
+    B &amp; operator=(const B&amp; another)
+    {
+        if (this == &amp;another)  //判断是否是自赋值
+            return *this;
+        cout &lt;&lt; &quot;B &amp; operator=(const B &amp; another)&quot; &lt;&lt; endl;
+        A::operator=(another); //继承赋值运算符重载函数
+        this-&gt;b = another.b;
+        return *this;
+    }
+    C c;
+    string b;
+};
+
+int main()
+{
+    B b(&quot;b1&quot;,&quot;b2&quot;,&quot;b3&quot;);
+    B bb(&quot;bb1&quot;,&quot;bb2&quot;,&quot;bb3&quot;);
+    bb = b;
+    cout &lt;&lt; &quot;bb.a:&quot; &lt;&lt; bb.a &lt;&lt; endl;
+    cout &lt;&lt; &quot;bb.b:&quot; &lt;&lt; bb.b &lt;&lt; endl;
+    cout &lt;&lt; &quot;bb.c.c:&quot; &lt;&lt; bb.c.c &lt;&lt; endl;
+
+return 0;
+}</code></pre><p>运行结果为;</p>
+<p><img src="https://img-blog.csdnimg.cn/20200316114548528.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="执行结果"></p>
+<p>当子类和内嵌子对象类都自实现赋值运算符重载函数的时候，不会调用内嵌子对象类的赋值运算符重载函数。</p>
+<h3 id="内嵌子对象显式调用"><a href="#内嵌子对象显式调用" class="headerlink" title="内嵌子对象显式调用"></a>内嵌子对象显式调用</h3><pre><code>#include &lt;iostream&gt;
+
+using namespace std;
+
+
+class C
+{
+public:
+    C(string z = &quot;0&quot;)
+    {
+        c = z;
+        cout &lt;&lt; &quot;C()&quot; &lt;&lt; endl;
+    }
+    C &amp; operator=(const C&amp; another)
+    {
+        this-&gt;c = another.c;
+        cout &lt;&lt; &quot;C &amp; operator=(const C &amp; another)&quot; &lt;&lt; endl;
+        return *(this);
+    }
+    string c;
+};
+
+
+
+
+
+class A
+{
+public:
+    A(string x = &quot; &quot;)
+    {
+        a = x;
+        cout &lt;&lt; &quot;A()&quot; &lt;&lt; endl;
+    }
+    A&amp; operator=(const A&amp; another)
+    {
+        this-&gt;a = another.a;
+        cout &lt;&lt; &quot;A &amp; operator=(const A &amp; another)&quot; &lt;&lt; endl;
+        return *(this);
+    }
+    string a;
+};
+
+class B:public A
+{
+public:
+    B(string x , string y, string z)
+        :A(x),c(z)
+    {
+        b = y;
+        cout &lt;&lt; &quot;B()&quot; &lt;&lt; endl;
+    }
+
+    B &amp; operator=(const B&amp; another)
+    {
+        if (this == &amp;another)  //判断是否是自赋值
+            return *this;
+        cout &lt;&lt; &quot;B &amp; operator=(const B &amp; another)&quot; &lt;&lt; endl;
+        A::operator=(another); //继承父类赋值运算符重载函数
+        c = another.c; //继承内嵌类赋值运算符重载函数
+        this-&gt;b = another.b;
+        return *this;
+    }
+    C c;
+    string b;
+};
+
+int main()
+{
+    B b(&quot;b1&quot;,&quot;b2&quot;,&quot;b3&quot;);
+    B bb(&quot;bb1&quot;,&quot;bb2&quot;,&quot;bb3&quot;);
+    bb = b;
+    cout &lt;&lt; &quot;bb.a:&quot; &lt;&lt; bb.a &lt;&lt; endl;
+    cout &lt;&lt; &quot;bb.b:&quot; &lt;&lt; bb.b &lt;&lt; endl;
+    cout &lt;&lt; &quot;bb.c.c:&quot; &lt;&lt; bb.c.c &lt;&lt; endl;
+
+return 0;
+}</code></pre><p>执行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/2020031611471329.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="执行结果"></p>
+<h2 id="实战操作"><a href="#实战操作" class="headerlink" title="实战操作"></a>实战操作</h2><h3 id="实战：使用系统默认的赋值运算符重载函数实现派生类的赋值。"><a href="#实战：使用系统默认的赋值运算符重载函数实现派生类的赋值。" class="headerlink" title="实战：使用系统默认的赋值运算符重载函数实现派生类的赋值。"></a>实战：使用系统默认的赋值运算符重载函数实现派生类的赋值。</h3><pre><code>#include &lt;iostream&gt;
+using namespace std;
+class Student
+{
+public:
+    Student(string name, int num, char sex)
+        :_name(name), _num(num), _sex(sex) {}
+    Student(const Student&amp; another)
+    {
+        _name = another._name;
+        _num = another._num;
+        _sex = another._sex;
+    }
+    Student&amp; operator=(const Student&amp; another)
+    {
+        if (this == &amp;another)
+            return *this;
+        _name = another._name;
+        _num = another._num;
+        _sex = another._sex;
+    }
+    void dump()
+    {
+        cout &lt;&lt; &quot;name:&quot; &lt;&lt; _name &lt;&lt; endl;
+        cout &lt;&lt; &quot;num :&quot; &lt;&lt; _num &lt;&lt; endl;
+        cout &lt;&lt; &quot;sex :&quot; &lt;&lt; _sex &lt;&lt; endl;
+    }
+private:
+    string _name;
+    int _num;
+    char _sex;
+};
+class Birthday
+{
+public:
+    Birthday(int y, int m, int d)
+        :_year(y), _month(m), _day(d)
+    {
+    }
+    Birthday(const Birthday&amp; b)
+    {
+        _year = b._year;
+        _month = b._month;
+        _day = b._month;
+    }
+    void disBirthday()
+    {
+        cout &lt;&lt; &quot;birth date:&quot; &lt;&lt; _year &lt;&lt; &quot;:&quot; &lt;&lt; _month &lt;&lt; &quot;:&quot; &lt;&lt; _day &lt;&lt; endl;
+    }
+private:
+    int _year;
+    int _month;
+    int _day;
+};
+class Graduate :public Student
+{
+public:
+    Graduate(string name, int num, char sex, float salary, int y, int m, int d)
+        :Student(name, num, sex), _salary(salary), birth(y, m, d)
+    {
+        _salary = salary;
+    }
+    Graduate(const Graduate&amp; another)
+        :Student(another), birth(another.birth)
+    {
+        _salary = another._salary;
+    }
+    void dis()
+    {
+        dump();
+        cout &lt;&lt; &quot;salary:&quot; &lt;&lt; _salary &lt;&lt; endl;
+        birth.disBirthday();
+    }
+private:
+    float _salary;
+    Birthday birth;
+};
+
+int main()
+{
+    Graduate g(&quot;sun&quot;, 2001, &apos;s&apos;, 10000, 1990, 9, 19);
+    g.dis();
+    Graduate gg(&quot;wang&quot;, 2002, &apos;c&apos;, 20000, 3990, 39, 39);
+    g = gg;
+    g.dis();
     return 0;
 }</code></pre><p>执行结果为：</p>
-<p><img src="https://img-blog.csdnimg.cn/202003092140375.png" alt="执行结果"></p>
-<p>我们再设置连续输入变量。</p>
-<pre><code>int main()
+<p><img src="https://img-blog.csdnimg.cn/20200316114846263.png" alt="执行结果"></p>
+<h3 id="实战：自实现显式调用赋值运算符重载函数实现派生类的赋值。"><a href="#实战：自实现显式调用赋值运算符重载函数实现派生类的赋值。" class="headerlink" title="实战：自实现显式调用赋值运算符重载函数实现派生类的赋值。"></a>实战：自实现显式调用赋值运算符重载函数实现派生类的赋值。</h3><pre><code>#include &lt;iostream&gt;
+using namespace std;
+class Student
 {
-    Complex c, c1;
-    cin &gt;&gt; c &gt;&gt; c1;
-    cout &lt;&lt; c &lt;&lt; c1;
+public:
+    Student(string name, int num, char sex)
+        :_name(name), _num(num), _sex(sex) {}
+    Student(const Student&amp; another)
+    {
+        _name = another._name;
+        _num = another._num;
+        _sex = another._sex;
+    }
+    Student&amp; operator=(const Student&amp; another)
+    {
+        if (this == &amp;another)
+            return *this;
+        _name = another._name;
+        _num = another._num;
+        _sex = another._sex;
+    }
+    void dump()
+    {
+        cout &lt;&lt; &quot;name:&quot; &lt;&lt; _name &lt;&lt; endl;
+        cout &lt;&lt; &quot;num :&quot; &lt;&lt; _num &lt;&lt; endl;
+        cout &lt;&lt; &quot;sex :&quot; &lt;&lt; _sex &lt;&lt; endl;
+    }
+private:
+    string _name;
+    int _num;
+    char _sex;
+};
+class Birthday
+{
+public:
+    Birthday(int y, int m, int d)
+        :_year(y), _month(m), _day(d)
+    {
+    }
+    Birthday(const Birthday&amp; b)
+    {
+        _year = b._year;
+        _month = b._month;
+        _day = b._month;
+    }
+    void disBirthday()
+    {
+        cout &lt;&lt; &quot;birth date:&quot; &lt;&lt; _year &lt;&lt; &quot;:&quot; &lt;&lt; _month &lt;&lt; &quot;:&quot; &lt;&lt; _day &lt;&lt; endl;
+    }
+private:
+    int _year;
+    int _month;
+    int _day;
+};
+class Graduate :public Student
+{
+public:
+    Graduate(string name, int num, char sex, float salary, int y, int m, int d)
+        :Student(name, num, sex), _salary(salary), birth(y, m, d)
+    {
+        _salary = salary;
+    }
+    Graduate(const Graduate&amp; another)
+        :Student(another), birth(another.birth)
+    {
+        _salary = another._salary;
+    }
+    Graduate&amp; operator=(Graduate&amp; another)
+    {
+        if (this == &amp;another)
+            return *this;
+        Student::operator =(another);
+        birth = another.birth;
+        this-&gt;_salary = another._salary;
+        return *this;
+    }
+    void dis()
+    {
+        dump();
+        cout &lt;&lt; &quot;salary:&quot; &lt;&lt; _salary &lt;&lt; endl;
+        birth.disBirthday();
+    }
+private:
+    float _salary;
+    Birthday birth;
+};
+
+int main()
+{
+    Graduate g(&quot;sun&quot;, 2001, &apos;s&apos;, 10000, 1990, 9, 19);
+    g.dis();
+    Graduate gg(&quot;wang&quot;, 2002, &apos;c&apos;, 20000, 3990, 39, 39);
+    g = gg;
+    g.dis();
     return 0;
 }</code></pre><p>运行结果为：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200309214145272.png" alt="运行结果"></p>
-<h2 id="运算符重载小结"><a href="#运算符重载小结" class="headerlink" title="运算符重载小结"></a>运算符重载小结</h2><h3 id="重载格式"><a href="#重载格式" class="headerlink" title="重载格式"></a>重载格式</h3><p><img src="https://img-blog.csdnimg.cn/20200309214322687.png" alt="重载格式"></p>
-<h3 id="不可重载运算符"><a href="#不可重载运算符" class="headerlink" title="不可重载运算符"></a>不可重载运算符</h3><p><img src="https://img-blog.csdnimg.cn/20200309214355119.png" alt="不可重载运算符"></p>
-<h3 id="只能重载为成员的运算符"><a href="#只能重载为成员的运算符" class="headerlink" title="只能重载为成员的运算符"></a>只能重载为成员的运算符</h3><p><img src="https://img-blog.csdnimg.cn/20200309214359449.png" alt="只能重载为成员的运算符"></p>
-<h3 id="常规使用建议"><a href="#常规使用建议" class="headerlink" title="常规使用建议"></a>常规使用建议</h3><p><img src="https://img-blog.csdnimg.cn/20200309214426390.png" alt="建议使用"></p>
+<p><img src="https://img-blog.csdnimg.cn/20200316114922571.png" alt="执行结果"></p>
 
             </div>
             <hr/>
@@ -640,7 +1366,7 @@ int main()
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://www.teachermin.com/2020/03/09/C++%E6%B5%81%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA%E8%BF%90%E7%AE%97%E7%AC%A6%E9%87%8D%E8%BD%BD(4)/">http://www.teachermin.com/2020/03/09/C++%E6%B5%81%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA%E8%BF%90%E7%AE%97%E7%AC%A6%E9%87%8D%E8%BD%BD(4)/</a>
+                    <a href="http://www.teachermin.com/2020/03/16/C++%E6%B4%BE%E7%94%9F%E7%B1%BB%E7%9A%84%E8%B5%8B%E5%80%BC%E8%BF%90%E7%AE%97%E7%AC%A6%E9%87%8D%E8%BD%BD/">http://www.teachermin.com/2020/03/16/C++%E6%B4%BE%E7%94%9F%E7%B1%BB%E7%9A%84%E8%B5%8B%E5%80%BC%E8%BF%90%E7%AE%97%E7%AC%A6%E9%87%8D%E8%BD%BD/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -678,8 +1404,8 @@ int main()
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/%E8%BF%90%E7%AE%97%E7%AC%A6%E9%87%8D%E8%BD%BD/">
-                                    <span class="chip bg-color">运算符重载</span>
+                                <a href="/tags/C-%E7%BB%A7%E6%89%BF/">
+                                    <span class="chip bg-color">C++继承</span>
                                 </a>
                             
                         </div>
@@ -845,85 +1571,33 @@ int main()
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2020/03/09/C++%E8%BF%90%E7%AE%97%E7%AC%A6%E9%87%8D%E8%BD%BD%E8%A7%84%E5%88%99%E5%8F%8A%E8%8C%83%E4%BE%8B(3)/">
+                <a href="/2020/03/16/C++%E6%B4%BE%E7%94%9F%E7%B1%BB%E7%9A%84%E8%B5%8B%E5%80%BC%E8%BF%90%E7%AE%97%E7%AC%A6%E9%87%8D%E8%BD%BD/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/13.jpg" class="responsive-img" alt="C++运算符重载规则及范例(3)">
+                        <img src="/medias/featureimages/17.jpg" class="responsive-img" alt="C++派生类的赋值运算符重载">
                         
-                        <span class="card-title">C++运算符重载规则及范例(3)</span>
+                        <span class="card-title">C++派生类的赋值运算符重载</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            涉及知识点重载规则：
-重载范例
-双目运算符重载
-单目运算符重载
-前置++
-后置++
-重载规则构造类型向基本类型看齐
-可被重载的操作符
-不能新增运算符只能对已有的 C++运算符进行重载。例如，有人觉得 BASIC 中用” * * “作为幂运算
-                        
-                    </div>
-                    <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-03-09
-                        </span>
-                        <span class="publish-author">
-                            
-                            <i class="fas fa-bookmark fa-fw icon-category"></i>
-                            
-                            <a href="/categories/C/" class="post-category">
-                                    C++
-                                </a>
-                            
-                            
-                        </span>
-                    </div>
-                </div>
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/%E8%BF%90%E7%AE%97%E7%AC%A6%E9%87%8D%E8%BD%BD/">
-                        <span class="chip bg-color">运算符重载</span>
-                    </a>
-                    
-                </div>
-                
-            </div>
-        </div>
-        
-        
-        <div class="article col s12 m6" data-aos="fade-up">
-            <div class="article-badge right-badge text-color">
-                本篇&nbsp;<i class="far fa-dot-circle"></i>
-            </div>
-            <div class="card">
-                <a href="/2020/03/09/C++%E6%B5%81%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA%E8%BF%90%E7%AE%97%E7%AC%A6%E9%87%8D%E8%BD%BD(4)/">
-                    <div class="card-image">
-                        
-                        
-                        <img src="/medias/featureimages/21.jpg" class="responsive-img" alt="C++流输入输出运算符重载(4)">
-                        
-                        <span class="card-title">C++流输入输出运算符重载(4)</span>
-                    </div>
-                </a>
-                <div class="card-content article-content">
-                    <div class="summary block-with-text">
-                        
-                            成员函数作谁的成员？友元？引例：邮件发送假设，我们有类 Sender 类和 Mail 类，实现发送邮件的功能。Sender sender; Mail mail;sender &lt;&lt; mail;sender左操作数，决定了opera
+                            派生类的赋值符重载赋值运算符函数,不是构造器，可以看作是一个普通的函数，所以可以继承，语法上就没有构造器那么严格。
+语法子类&amp; 子类::operator=(const 子类&amp; another)
+{
+...
+父类::opera
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-03-09
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-03-16
                             </span>
                         <span class="publish-author">
                             
@@ -941,8 +1615,62 @@ int main()
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/%E8%BF%90%E7%AE%97%E7%AC%A6%E9%87%8D%E8%BD%BD/">
-                        <span class="chip bg-color">运算符重载</span>
+                    <a href="/tags/C-%E7%BB%A7%E6%89%BF/">
+                        <span class="chip bg-color">C++继承</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2020/03/15/C++%E5%8F%8B%E5%85%83%EF%BC%8C%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81%E5%8F%8B%E5%85%83%EF%BC%8C%E5%8F%8B%E5%85%83%E5%87%BD%E6%95%B0%EF%BC%8C%E5%8F%8B%E5%85%83%E7%B1%BB%EF%BC%8C%E5%B0%8F%E7%BB%93/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/11.jpg" class="responsive-img" alt="C++友元">
+                        
+                        <span class="card-title">C++友元</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            涉及知识点C++友元
+为什么需要友元
+友元函数
+友元类
+小结
+友元为什么需要友元get/set Methodget 方法和 set 方法，是常见的获取和设置数据成员的方式。比如游戏角色遭到对方攻击后血量减少，就需要用到 set 方法，而要实
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-03-15
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/C/" class="post-category">
+                                    C++
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/C-%E5%8F%8B%E5%85%83/">
+                        <span class="chip bg-color">C++友元</span>
                     </a>
                     
                 </div>
