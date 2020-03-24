@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="C文件操作(FILE结构体，mode详解，fopen，fread，fwrite，filea，fclose), SkilledBeginner">
+    <meta name="keywords" content="C文件操作：一次读写一行文本字符fputs，fgets，典型问题分析, SkilledBeginner">
     <meta name="description" content="努力做一个很厉害的人">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>C文件操作(FILE结构体，mode详解，fopen，fread，fwrite，filea，fclose) | SkilledBeginner</title>
+    <title>C文件操作：一次读写一行文本字符fputs，fgets，典型问题分析 | SkilledBeginner</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -306,12 +306,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/16.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/22.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">C文件操作(FILE结构体，mode详解，fopen，fread，fwrite，filea，fclose)</h1>
+                    <h1 class="description center-align post-title">C文件操作：一次读写一行文本字符fputs，fgets，典型问题分析</h1>
                 </div>
             </div>
         </div>
@@ -453,28 +453,28 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-03-15
+                    2020-03-17
                 </div>
                 
 
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2020-03-15
+                    2020-03-24
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    1.8k
+                    1k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    6 分
+                    4 分
                 </div>
                 
 
@@ -490,125 +490,218 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="FILE-结构体"><a href="#FILE-结构体" class="headerlink" title="FILE 结构体"></a>FILE 结构体</h2><p><strong>FILE 结构体是对缓冲区和文件读写状态的记录者，所有对文件的操作，都是通过FILE 结构体完成的。</strong></p>
-<pre><code>typedef struct { 
-short level; /* 缓冲区满/空程度 */ 
-unsigned flags; /* 文件状态标志 */ 
-char fd; /* 文件描述符 */ 
-unsigned char hold; /* 若无缓冲区不读取字符 */ 
-short bsize; /* 缓冲区大小 */ 
-unsigned char *buffer; /* 数据传送缓冲区位置 */ 
-unsigned char *curp; /* 当前读写位置 */ 
-unsigned istemp; /* 临时文件指示 */ 
-short token; /* 用作无效检测 */ 
-} FILE ; /* 结构体类型名 FILE */</code></pre><p>当进行打开文件操作之后，我们打开的文件内容就会缓存到内存中，那么我们有一个疑问<strong>这里的FILE * 定义的pf是不是直接就指向这段缓冲了呢？那么FILE * 的结构体是什么呢？</strong>，我们接下来进行图解说明：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200128120929740.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="读取文件到内存缓冲区"></p>
-<p>我们平时如果要看一个电影，如果内存只有1G那么我们可以观看超过1G大小的影片，这个观看是没有问题的。但是如果要把整个影片缓存到内存肯定是不够的，所以缓存是部分缓存。那么硬盘上也有缓冲，那就把内存已经缓存之后的执行完的数据放到硬盘缓冲区。</p>
-<p>当我们把硬盘的内容缓存到内存的时候，我们需要记录什么时候缓存的部分执行完成之后将其放回硬盘缓冲区，内存缓冲区执行到了那个位置，缓冲区的大小，缓冲区有没有满/有没有空，等等很多信息我们都需要记录下来，所以当我们对于文件进行操作的时候，所以这些信息都要被记录下来，而记录者就是FILE *<br>所以当我们在打开文件到内存的时候，在底层系统为我们开了一个结构体，这个结构体就是记录当前文件的所有状态信息，所以FILE * 结构体并不是简单直接指向缓冲区。而是记录这段缓冲区内存的所有指标，指标包括FILE * 结构体中的所有成员。</p>
-<p>通常在windows中我们将pf称为句柄：我们可以理解为资源的把柄，有了句柄我们就可以操作文件，也是文件的核心。所以并不是简单的pf指向内存的缓冲区。<br>我们来举一个例子：例如门柄就是门把手，我们有了门柄就可以操作整个门。门把手就是这个门的核心和要害之处。</p>
-<p>在开始执行程序的时候，将自动打开 3 个文件和相关的流：标准输入流(stdin)、标准输出流(stdout)和标准错误(stderr)，它们都是 FIEL*型的指针。流提供了文件和程序的通信通道。</p>
-<h2 id="fopen函数"><a href="#fopen函数" class="headerlink" title="fopen函数"></a>fopen函数</h2><p><img src="https://img-blog.csdnimg.cn/20200128121002659.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="fopen函数"></p>
-<p><strong>要注意上面的file包括文件路径和文件名。</strong></p>
-<h3 id="mode-详解："><a href="#mode-详解：" class="headerlink" title="mode 详解："></a>mode 详解：</h3><p><img src="https://img-blog.csdnimg.cn/20200128121020485.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="mode详解"></p>
-<p><strong>如果读写的是二进制文件，则还要加 b,比如 rb, r+b 等。 unix/linux 不区分文本和二进制文件。</strong></p>
-<h3 id="读取文件操作"><a href="#读取文件操作" class="headerlink" title="读取文件操作"></a>读取文件操作</h3><p>我们来简单演示一下：</p>
-<pre><code>#include &lt;stdio.h&gt;
+                <h2 id="fputs函数"><a href="#fputs函数" class="headerlink" title="fputs函数"></a>fputs函数</h2><p><img src="https://img-blog.csdnimg.cn/20200202212031101.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="fputs函数说明"></p>
+<p>我们给出使用的测试代码：</p>
+<pre><code>#define _CRT_SECURE_NO_WARNINGS
+#include &lt;stdio.h&gt;
 #include &lt;stdlib.h&gt;
-int main()
-{
-FILE * pf = fopen(&quot;./read.txt&quot;,&quot;r&quot;);
-if(NULL == pf)
-{
-printf(&quot;open fail\n&quot;);
-exit(-1);
-}
-return 0;
-}</code></pre><p>运行结果为：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200315002202174.png" alt="打开文件运行结果"></p>
-<p>这个时候我们并没有创建出来ac.txt这个文件，但是我们给出了文件打开是否成功的判断结果。<br>我们可以看到打开文件失败，因为当前目录下并没有文件名为read.txt。<br>所以如果open函数以只读方式打开，如果文件不存在就会打开失败。<br>那么如果我们创建一个ac.txt文件，那么就会打开成功。</p>
-<p>我们先介绍一个我们接下来使用的向文件写入数据的fputs函数，有博客会进行详细说明，这里只是简单使用。</p>
-<p><strong>函数原型及参数说明</strong>：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200128121133165.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="函数原型及参数说明"></p>
-<p>我们通过上面函数进行文件写入数据操作：</p>
-<h2 id="写入文件操作"><a href="#写入文件操作" class="headerlink" title="写入文件操作"></a>写入文件操作</h2><p>我们让当前目录并没有ac.txt 文件<br>接下来我们进行写入文件操作：</p>
-<pre><code>#include &lt;stdio.h&gt;
-#include &lt;stdlib.h&gt;
+#define F_PRINTF_ERR(e)\
+do\
+{\
+    if (e == NULL)\
+    {\
+        printf(&quot;open error\n&quot;);\
+        exit(0);\
+    }\
+} while (0)\
 
 int main()
 {
-FILE * pf = fopen(&quot;ac.txt&quot;,&quot;w&quot;);
-if(pf == NULL)
-{
-printf(&quot;open fail\n&quot;);
-exit(-1);
-}
-if(fputc(&apos;a&apos;,pf)==EOF)
-fputc(&apos;a&apos;,pf);
-fputc(&apos;a&apos;,pf);
-fputc(&apos;a&apos;,pf);
-fputc(&apos;a&apos;,pf);
-fputc(&apos;a&apos;,pf);
-fputc(&apos;a&apos;,pf);
-return 0;
-}</code></pre><p>运行结果为：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200315002513935.png" alt="文件写入操作"></p>
-<p>我们可以看到创建了ac.txt文件并且写入成功。<br>那么如果文件存在呢？<br>接下来我们先给ac.txt写入一部分内容：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200315002535805.png" alt="给已经存在的文件写入内容"></p>
-<p>我们现在对于ac.txt还是以写入的方式打开，但是不写入任何内容。</p>
-<pre><code>#include &lt;stdio.h&gt;
-#include &lt;stdlib.h&gt;
-
-int main()
-{
-FILE * pf = fopen(&quot;ac.txt&quot;,&quot;w&quot;);
-if(pf == NULL)
-{
-printf(&quot;open fail\n&quot;);
-exit(-1);
-}
-
-return 0;
+    FILE* pf = fopen(&quot;lines.txt&quot;,&quot;w&quot;);
+    F_PRINTF_ERR(pf);
+    fputs(&quot;aaaaaaaaaaaaaaa\n&quot;, pf);
+    fputs(&quot;bbbbbbbbbbbbbbb\n&quot;, pf);
+    fputs(&quot;ccccccccccccccc\n&quot;, pf);
+    fclose(pf);
+    return 0;
 }</code></pre><p>执行结果为：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200315002612951.png" alt="不写入任何内容的执行结果"></p>
-<p>小结：<br>当对于文件操作有写入操作时。</p>
-<p>我们可以看到执行之后ac.txt里面没有任何数据，也就是将文件清空。</p>
-<p>在读取文件的时候如果文件不存在则创建文件并且写入数据，</p>
-<p>如果文件存在且没有数据则直接给已经存在的文件写入数据。</p>
-<p>如果文件存在且有数据执行写数据操作时，原来文件的数据会被清空。</p>
-<h3 id="filea-操作"><a href="#filea-操作" class="headerlink" title="filea 操作"></a>filea 操作</h3><p><img src="https://img-blog.csdnimg.cn/2020012812172089.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="使用追加创建文件"></p>
+<p><img src="https://img-blog.csdnimg.cn/20200202212102677.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="fputs函数执行结果"></p>
+<p>我们可以看到三行数据已经写入。<br>当然我们也可以给字符串中加入控制字符：</p>
+<pre><code>#define _CRT_SECURE_NO_WARNINGS
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#define F_PRINTF_ERR(e)\
+do\
+{\
+    if (e == NULL)\
+    {\
+        printf(&quot;open error\n&quot;);\
+        exit(0);\
+    }\
+} while (0)\
+
+int main()
+{
+    FILE* pf = fopen(&quot;lines.txt&quot;,&quot;w&quot;);
+    F_PRINTF_ERR(pf);
+    fputs(&quot;aaa\naaaaaaaaaaaa\n&quot;, pf);
+    fputs(&quot;bbbbbbbbbbbbbbb\n&quot;, pf);
+    fputs(&quot;ccccc\0cccccccccc\n&quot;, pf);
+    fclose(pf);
+    return 0;
+}</code></pre><p>执行结果如下：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200202212135683.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="执行结果"></p>
+<p><strong>\n表示换行，\0代表字符串结束，所以控制字符在代码中也得以体现。</strong></p>
+<h2 id="fgets函数"><a href="#fgets函数" class="headerlink" title="fgets函数"></a>fgets函数</h2><p><img src="https://img-blog.csdnimg.cn/20200202212211576.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="fgets函数说明"></p>
+<p>我们通过代码进行测试：</p>
+<pre><code>#define _CRT_SECURE_NO_WARNINGS
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#define F_PRINTF_ERR(e)\
+do\
+{\
+    if (e == NULL)\
+    {\
+        printf(&quot;open error\n&quot;);\
+        exit(0);\
+    }\
+} while (0)\
+
+int main()
+{
+    FILE* pf = fopen(&quot;lines.txt&quot;, &quot;r+&quot;);
+    F_PRINTF_ERR(pf);
+    char buf[1024];
+    fgets(buf,1024,pf);
+    printf(&quot;buf = %s&quot;,buf);
+    fclose(pf);
+    return 0;
+}</code></pre><p>执行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200202212236286.png" alt="写入文本文件"></p>
+<p>这里只读取到了 aaa\n   </p>
+<p><strong>这里呢就是我们的第一种情况：</strong></p>
+<p><strong>读 n-1 个字符前遇到\n，读取\n然后在后面加上\0结束。</strong></p>
+<p>接下来我们修改代码，这次我们就值读取2个字节：</p>
+<pre><code>#define _CRT_SECURE_NO_WARNINGS
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#define F_PRINTF_ERR(e)\
+do\
+{\
+    if (e == NULL)\
+    {\
+        printf(&quot;open error\n&quot;);\
+        exit(0);\
+    }\
+} while (0)\
+
+int main()
+{
+    FILE* pf = fopen(&quot;lines.txt&quot;, &quot;r+&quot;);
+    F_PRINTF_ERR(pf);
+    char buf[1024];
+    fgets(buf,2,pf);
+    printf(&quot;buf = %s&quot;,buf);
+    fclose(pf);
+    return 0;
+}</code></pre><p>执行结果为:</p>
+<p><img src="https://img-blog.csdnimg.cn/20200202212321433.png" alt="在这里插入图片描述"></p>
+<p>只读取到了一个字符，这里我们说明第二种情况：</p>
+<p> <strong>n-1 个字符前没有遇到\n，读 n-1 个字符前也没有遇到 EOF，读到 n-1 个字符然后后面加上\0。</strong> </p>
+<p><strong>所以上面代码读取两个的时候只读取到1个  因为最后一个字符用与添加\0表示字符串结束。</strong></p>
+<p>那么这一次我们把所有的\n都去掉：</p>
+<pre><code>#define _CRT_SECURE_NO_WARNINGS
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#define F_PRINTF_ERR(e)\
+do\
+{\
+    if (e == NULL)\
+    {\
+        printf(&quot;open error\n&quot;);\
+        exit(0);\
+    }\
+} while (0)\
+
+int main()
+{
+    FILE* pf = fopen(&quot;lines.txt&quot;, &quot;r+&quot;);
+    F_PRINTF_ERR(pf);
+    fputs(&quot;aaaaaaaaaaaaaaa&quot;, pf);
+    fputs(&quot;bbbbbbbbbbbbbbb&quot;, pf);
+    fputs(&quot;ccccccccccccccc&quot;, pf);
+    return 0;
+}</code></pre><p>执行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200202212417681.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="写入文本操作"></p>
+<p>接下来我们进行读取：</p>
+<pre><code>#define _CRT_SECURE_NO_WARNINGS
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#define F_PRINTF_ERR(e)\
+do\
+{\
+    if (e == NULL)\
+    {\
+        printf(&quot;open error\n&quot;);\
+        exit(0);\
+    }\
+} while (0)\
+
+int main()
+{
+    FILE* pf = fopen(&quot;lines.txt&quot;, &quot;r+&quot;);
+    F_PRINTF_ERR(pf);
+
+
+    char buf[1024];
+    fgets(buf,1024,pf);
+    printf(&quot;buf = %s&quot;,buf);
+    fclose(pf);
+    return 0;
+}</code></pre><p>执行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/2020020221244961.png" alt="执行结果"></p>
+<p>这是我们的第三种情况：</p>
+<p><strong>这次读取没有遇到\n，读取的大小大于存储数据的大小，提前遇到EOF那么此时读取到的就是EOF+\0结束。</strong></p>
+<p>这里在读取所有字母之后遇到了EOF，所以只读取了30个字符并且在后面添加了\0</p>
+<h2 id="典型问题分析"><a href="#典型问题分析" class="headerlink" title="典型问题分析"></a>典型问题分析</h2><p>如果读取以下文件:<br>1234567890abcdefg<br>1234567890<br>abcdefg  \n</p>
+<p>使用</p>
+<pre><code>fgets(buf,10,fp);</code></pre><p>读取数据需要读取多少次？<br>我们在这里直接进行说明，然后通过编译器验证：</p>
+<p><strong>①123456789   \0</strong></p>
+<p><strong>②0abcdefg     \0</strong></p>
+<p><strong>③123456789    \0</strong></p>
+<p><strong>④0            \0</strong></p>
+<p><strong>⑤abcdefg       \0</strong></p>
+<p><strong>⑥需要再进行一次来判断是文件结束EOF</strong></p>
+<p><strong>总共需要6次</strong></p>
+<p>我们通过代码来验证：<br>首先我们先把数据写入文件：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200202212634499.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p>接下来我们进行验证：</p>
+<pre><code>#define _CRT_SECURE_NO_WARNINGS
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#define F_PRINTF_ERR(e)\
+do\
+{\
+    if (e == NULL)\
+    {\
+        printf(&quot;open error\n&quot;);\
+        exit(0);\
+    }\
+} while (0)\
+
+int main()
+{
+    FILE* pf = fopen(&quot;lines.txt&quot;, &quot;r+&quot;);
+    F_PRINTF_ERR(pf);
+    char buf[1024];
+    int count = 0;
+    while (fgets(buf, 10, pf) != NULL)
+    {
+        count++;
+        printf(&quot;第%d次读取%s\n&quot;,count,buf);
+    }
+    return 0;
+}</code></pre><p>执行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200202212658342.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="执行结果"></p>
+<p>如果我们把最后的一行的回车去掉（只留下多一个空行）：</p>
+<p><img src="https://img-blog.csdnimg.cn/2020020221270856.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="文本文件"></p>
 <p>执行结果为：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200128121738367.png" alt="使用追加创建文件成功"></p>
-<p>我们可以看到创建文件成功，里面之所以没有内容是因为我们没有写入数据。</p>
-<p>我们先给xx.txt写入一部分内容：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200128121746184.png" alt="给追加创建的文件写入数据"></p>
-<p>我们写完之后再次执行程序则不会清空：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200128121805389.png" alt="运行结果"></p>
-<p>接下来我们需要再引入一个fputs函数，fputs函数的功能就是给文件写入一段数据。</p>
-<p><img src="https://img-blog.csdnimg.cn/20200128121809555.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="fputs函数原型及参数说明"></p>
-<p>我们通过fputs函数进行写入：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200128121828743.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="使用fputs给文件写入数据"></p>
-<p>执行结果为:</p>
-<p><img src="https://img-blog.csdnimg.cn/20200128121838536.png" alt="运行结果"></p>
-<p>我们可以看到执行成功并且在文件原有数据后面追加了数据hello world<br>那么写入没问题，我们进行读取：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200128121858622.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="从追加创建的文件读取数据"></p>
+<p><img src="https://img-blog.csdnimg.cn/20200202212718343.png" alt="执行结果"></p>
+<p>如果我们不要所有的空行：</p>
+<p><img src="https://img-blog.csdnimg.cn/2020020221272336.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="文本文件"></p>
 <p>执行结果为：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200128121909929.png" alt="读取失败"></p>
-<p>我们可以看到读取失败。</p>
-<h2 id="fclose函数"><a href="#fclose函数" class="headerlink" title="fclose函数"></a>fclose函数</h2><p><img src="https://img-blog.csdnimg.cn/20200315003659418.png" alt="fclose函数说明"></p>
-<p>fclose使用方法比较简单。参数直接写入文件描述符进行文件关闭。</p>
-<p>fclose可以刷新缓存。</p>
-<p>fclose会把内存中开辟的缓存的数据存放在磁盘缓冲区</p>
-<p>把开辟的缓存进行释放</p>
-<p>释放FILE * 结构体。</p>
-<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p><strong>r  以只读方式打开，如果文件不存在，则报错，文件不可写</strong></p>
-<p><strong>w  如果文件不存在则创建文件，如果文件存在则清空。文件不可读</strong></p>
-<p><strong>a   如果文件不存在则创建文件，文件存在，追加写，文件不可读。</strong></p>
-<p><strong>r+    可读可写</strong></p>
-<p><strong>w+   可读可写</strong></p>
-<p><strong>a+    可读可写</strong></p>
-<p><strong>后面的+表示缺什么加什么</strong></p>
-<p><strong>如果读写的是二进制文件，则还要加 b,比如 rb, r+b 等。 unix/linux 不区分文本和二进制文件。 文本文件和二进制文件都是二进制文件，但是windows里面编写会有所不同。那么在windows里面在进行二进制文件操作的时候就需要使用我们这里提到的用法</strong></p>
-<p><img src="https://img-blog.csdnimg.cn/20200315003531637.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="我们再次给出表格希望读者验证对比而不是看一遍记忆"></p>
+<p><img src="https://img-blog.csdnimg.cn/20200202212756985.png" alt="执行结果"></p>
+<p>结果也是只需要读取5次，读者可以根据前面的行规则细细体会其中的不同。</p>
 
             </div>
             <hr/>
@@ -634,7 +727,7 @@ return 0;
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://www.teachermin.com/2020/03/15/C%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C(FILE%E7%BB%93%E6%9E%84%E4%BD%93%EF%BC%8Cmode%E8%AF%A6%E8%A7%A3%EF%BC%8Cfopen%EF%BC%8Cfread%EF%BC%8Cfwrite%EF%BC%8Cfilea%EF%BC%8Cfclose)/">http://www.teachermin.com/2020/03/15/C%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C(FILE%E7%BB%93%E6%9E%84%E4%BD%93%EF%BC%8Cmode%E8%AF%A6%E8%A7%A3%EF%BC%8Cfopen%EF%BC%8Cfread%EF%BC%8Cfwrite%EF%BC%8Cfilea%EF%BC%8Cfclose)/</a>
+                    <a href="http://www.teachermin.com/2020/03/17/C%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C%EF%BC%9A%E4%B8%80%E6%AC%A1%E8%AF%BB%E5%86%99%E4%B8%80%E8%A1%8C%E6%96%87%E6%9C%AC%E5%AD%97%E7%AC%A6fputs%EF%BC%8Cfgets%EF%BC%8C%E5%85%B8%E5%9E%8B%E9%97%AE%E9%A2%98%E5%88%86%E6%9E%90/">http://www.teachermin.com/2020/03/17/C%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C%EF%BC%9A%E4%B8%80%E6%AC%A1%E8%AF%BB%E5%86%99%E4%B8%80%E8%A1%8C%E6%96%87%E6%9C%AC%E5%AD%97%E7%AC%A6fputs%EF%BC%8Cfgets%EF%BC%8C%E5%85%B8%E5%9E%8B%E9%97%AE%E9%A2%98%E5%88%86%E6%9E%90/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -843,34 +936,37 @@ return 0;
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2020/03/15/C++%E8%BF%90%E7%AE%97%E7%AC%A6%E9%87%8D%E8%BD%BD%E5%BC%95%E5%85%A5(1)/">
+                <a href="/2020/03/17/C%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C%EF%BC%9A%E4%B8%80%E6%AC%A1%E8%AF%BB%E5%86%99%E4%B8%80%E4%B8%AA%E6%96%87%E6%9C%AC%E5%AD%97%E7%AC%A6fputc%EF%BC%8Cfgetc%EF%BC%8Cfeof/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="C++运算符重载引入(1)">
+                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="C文件操作：一次读写一个文本字符fputc，fgetc，feof">
                         
-                        <span class="card-title">C++运算符重载引入(1)</span>
+                        <span class="card-title">C文件操作：一次读写一个文本字符fputc，fgetc，feof</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            涉及运算符重载知识点;初探运算符重载
-比较两个结构体是否相等
-虚数求加法运算
-运算符重载(Operator Overload)前面用到的运算符&lt;&lt;，本身在 C 语言中，是位操作中的左移运算符。现在又用作流插入运算符，这种一个运算
+                            fputc
+返回值：
+
+上面是我们在linux平台在帮助手册里面查看到的。接下来我们给出代码说明：
+#define _CRT_SECURE_NO_WARNINGS
+#include &lt;stdio.h&gt;
+#include &lt;
                         
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-03-15
+                            <i class="far fa-clock fa-fw icon-date"></i>2020-03-17
                         </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/C/" class="post-category">
-                                    C++
+                            <a href="/categories/C%E5%9F%BA%E7%A1%80/" class="post-category">
+                                    C基础
                                 </a>
                             
                             
@@ -880,8 +976,8 @@ return 0;
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/%E8%BF%90%E7%AE%97%E7%AC%A6%E9%87%8D%E8%BD%BD/">
-                        <span class="chip bg-color">运算符重载</span>
+                    <a href="/tags/C%E6%96%87%E4%BB%B6/">
+                        <span class="chip bg-color">C文件</span>
                     </a>
                     
                 </div>
@@ -895,31 +991,35 @@ return 0;
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/03/15/%E5%9B%BE%E8%A7%A3%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F(C%E8%AF%AD%E8%A8%80%E5%AE%9E%E7%8E%B0)/">
+                <a href="/2020/03/17/C%E8%AF%AD%E8%A8%80%E6%96%87%E4%BB%B6%EF%BC%9A%E4%BA%86%E8%A7%A3%E6%B8%85%E6%A5%9A%E4%B8%8D%E5%90%8C%E5%B9%B3%E5%8F%B0%E7%9A%84%E2%80%9C%E8%A1%8C%E2%80%9D%E6%89%8D%E8%83%BD%E5%9C%A8%E8%B7%A8%E5%B9%B3%E5%8F%B0%E7%BC%96%E7%A8%8B%E4%B8%AD%E6%B8%85%E6%A5%9A%E5%B9%B6%E9%81%BF%E5%85%8D%E7%8A%AF%E9%94%99/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/19.jpg" class="responsive-img" alt="图解归并排序(C语言实现)">
+                        <img src="/medias/featureimages/2.jpg" class="responsive-img" alt="C语言文件：了解清楚不同平台的“行”才能在跨平台编程中清楚并避免犯错">
                         
-                        <span class="card-title">图解归并排序(C语言实现)</span>
+                        <span class="card-title">C语言文件：了解清楚不同平台的“行”才能在跨平台编程中清楚并避免犯错</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            归并排序说明归并排序，简单理解就是先归再并，在归的时候，我们使用递归，并的时候类似于我们之前接触过的把两个有序数据进行合并，合并之后仍然有序的思想。归并排序（MERGE-SORT）是建立在归并操作上的一种有效的排序算法,该算法是采用分治法（
+                            什么是行定义 
+行是文本编辑器中的概念，文件流中就是一个字符。这个在不同的平台是有差异的。window 平台 ‘\r\n’，linux 平台是’\n’。 
+我们很容易理解，在文本文件里面这就是两行：
+
+我们可以看到文本文件会给我们呈现出所谓
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-03-15
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-03-17
                             </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/%E7%AE%97%E6%B3%95/" class="post-category">
-                                    算法
+                            <a href="/categories/C%E5%9F%BA%E7%A1%80/" class="post-category">
+                                    C基础
                                 </a>
                             
                             
@@ -929,8 +1029,8 @@ return 0;
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/%E6%8E%92%E5%BA%8F/">
-                        <span class="chip bg-color">排序</span>
+                    <a href="/tags/C%E6%96%87%E4%BB%B6/">
+                        <span class="chip bg-color">C文件</span>
                     </a>
                     
                 </div>
