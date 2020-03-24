@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="C文件操作：一次读写一个字符fputc，fgetc，feof, SkilledBeginner">
+    <meta name="keywords" content="了解清楚不同平台的“行”才能在跨平台编程中清楚并避免犯错, SkilledBeginner">
     <meta name="description" content="努力做一个很厉害的人">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>C文件操作：一次读写一个字符fputc，fgetc，feof | SkilledBeginner</title>
+    <title>了解清楚不同平台的“行”才能在跨平台编程中清楚并避免犯错 | SkilledBeginner</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -306,12 +306,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/14.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/3.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">C文件操作：一次读写一个字符fputc，fgetc，feof</h1>
+                    <h1 class="description center-align post-title">了解清楚不同平台的“行”才能在跨平台编程中清楚并避免犯错</h1>
                 </div>
             </div>
         </div>
@@ -467,14 +467,14 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    2.4k
+                    1.8k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    11 分
+                    6 分
                 </div>
                 
 
@@ -490,106 +490,145 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="fputc"><a href="#fputc" class="headerlink" title="fputc"></a>fputc</h2><p><img src="https://img-blog.csdnimg.cn/20200129183002788.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="fputc函数说明"></p>
-<p><strong>返回值：</strong></p>
-<p><img src="https://img-blog.csdnimg.cn/20200129183013729.png" alt="fputc 返回值"></p>
-<p>上面是我们在linux平台在帮助手册里面查看到的。<br>接下来我们给出代码说明：</p>
+                <h2 id="什么是行"><a href="#什么是行" class="headerlink" title="什么是行"></a>什么是行</h2><p>定义 </p>
+<p><strong>行是文本编辑器中的概念，文件流中就是一个字符。这个在不同的平台是有差异的。window 平台 ‘\r\n’，linux 平台是’\n’。</strong> </p>
+<p>我们很容易理解，在文本文件里面这就是两行：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200202202722221.png" alt="文本文件的行"></p>
+<p><strong>我们可以看到文本文件会给我们呈现出所谓的行的概念，但是如果用二进制形式打开的话，里面就是一个控制字符。</strong></p>
+<p>我们使用二进制文件进行查看：</p>
+<p>我们通过hexdump  -C line.txt  命令进行二进制查看：</p>
+<p><img src="https://img-blog.csdnimg.cn/2020020220274945.png" alt="二进制文件的行"></p>
+<p><strong>文本文件的本质是呈现给人来看的，我们可看到中间有0a，0a就是换行，在linux平台我们可以看到中间有一个0a 在结束的时候也会自动加一个0a，最后加0a会给我们带来很多便利。</strong></p>
+<h3 id="平台差异"><a href="#平台差异" class="headerlink" title="平台差异"></a>平台差异</h3><p>==windows 平台在写入’\n’是会体现为’\r\n’，linux 平台在写入’\n’时会体现为’\n’。==</p>
+<p>==windows 平台在读入’\r\n’时，体现为一个字符’\n’，linux 平台在读入’\n’时，体现为 一个字符’\n’。==</p>
+<p><strong>在windows二进制体现为OD   OA</strong><br><strong>对应ACSII:OD（13）代表回车     （10）OA代表换行</strong><br><strong>回车在windows文本里面表把光标移动到头部，然后再通过OA换到下一行。</strong></p>
+<p><strong>也就是说在windows中 ‘\r\n’  前面\r表示回车，后面\n表示换行，两个字符在一起所体现的功能和linux中的’\n’是一样的。</strong></p>
+<p>所以如果你把已经换行的linux平台的文本移动到windows平台是不会出现换行的。因为文本编译器发现没有<strong>OD   OA</strong> 所以无法换行。</p>
+<p>linux 读 windows 中的换行，则会多读一个字符，windows 读 linux 中的换行，则没有问题。会直接把linux中的一个换行用一个字符表示方法来读取，我们后面会有代码演示。</p>
+<p><strong>那么会不会造成很大的障碍呢？</strong>  </p>
+<p><strong>那倒不至于</strong></p>
+<p>我们接下来进行代码测试：</p>
+<p><strong>这里我们文件的创建和读取都使用代码进行创建：</strong></p>
+<p><img src="https://img-blog.csdnimg.cn/20200202203904210.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="linux平台换行测试"></p>
+<p><strong>执行结果为：</strong></p>
+<p><img src="https://img-blog.csdnimg.cn/20200202203913706.png" alt="linux平台换行测试结果"></p>
+<p>我们写入成功之后打开查看文件可以看到写入成功。</p>
+<p>接下来我们查看二进制形式：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200202203933798.png" alt="linux平台换行的二进制形式"></p>
+<p>我们可以看到这里最后没有自动加入0a。</p>
+<p>我们接下来在windows平台下再进行测试代码和上面linux平台下一样：</p>
 <pre><code>#define _CRT_SECURE_NO_WARNINGS
 #include &lt;stdio.h&gt;
-#include &lt;stdlib.h&gt;
-
-//通过fopen打开一个文件  返回一个FILE * 指针，以后我们所有对于文件的操作都是通过FILE * 指针
-
 int main()
 {
-    FILE* pf = fopen(&quot;xx.txt&quot;,&quot;w+&quot;);
-    if (pf == NULL)
-    {
-        printf(&quot;open error\n&quot;);
-        exit(-1);
-    }
-    if (fputc(&apos;a&apos;, pf) == EOF)
-    {
-        printf(&quot;write error\n&quot;);
-    }
-    for ( char ch = &apos;a&apos;;ch  &lt;= &apos;z&apos;;  ch++)
-    {
-        fputc(ch,pf);
-    }
-    fclose(pf);
-    return 0;
-}</code></pre><p>上面代码执行结果为：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200129183108942.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="给文件写入数据"></p>
-<p>我们可以看到写入成功。</p>
-<p>但是一般情况下来说写的过程不会出现问题，在代码中我们给出了写入是否成功的判断，我们可以看到：</p>
-<p><strong>如果写入错误就会返回EOF如果写入成功就会返回写入的数据。</strong></p>
-<p>那么接下来我们测试一下如果把w+改成r之后会不会出现错误：</p>
-<pre><code>#define _CRT_SECURE_NO_WARNINGS
-#include &lt;stdio.h&gt;
-#include &lt;stdlib.h&gt;
-
-//通过fopen打开一个文件  返回一个FILE * 指针，以后我们所有对于文件的操作都是通过FILE * 指针
-
-int main()
-{
-    FILE* pf = fopen(&quot;xx.txt&quot;,&quot;r&quot;);
-    if (pf == NULL)
-    {
-        printf(&quot;open error\n&quot;);
-        exit(-1);
-    }
-    if (fputc(&apos;a&apos;, pf) == EOF)
-    {
-        printf(&quot;write error\n&quot;);
-    }
-    for ( char ch = &apos;a&apos;;ch  &lt;= &apos;z&apos;;  ch++)
-    {
-        fputc(ch,pf);
-    }
-    fclose(pf);
-    return 0;
+FILE* fp = fopen(&quot;win.txt&quot;, &quot;w&quot;);
+fputc(&apos;a&apos;, fp);
+fputc(&apos;\n&apos;, fp);
+fputc(&apos;b&apos;, fp);
+return 0;
 }</code></pre><p>执行结果为：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200129183158440.png" alt="执行结果"></p>
-<p><strong>我们可以看到给出的是只读操作，所以写入失败。</strong></p>
-<p>我们刚才说过，如果写入成功则会返回成功写入的字符，我们可以直接打印出来返回值：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200202204005656.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="windows环境下的文本换行"></p>
+<p>我们在windows环境下查看二进制格式文件为：</p>
+<p>我们使用UE查看文件：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200317094338742.png" alt="使用UE查看windows文本文件中的换行"></p>
+<p><strong>61 0D 0A 62     体现的就体现的我们不同平台的差异性。</strong></p>
+<p>那么我们接下来看一下从文件读取数据的区别：<br>我们在windows平台读取三个字符：</p>
 <pre><code>#define _CRT_SECURE_NO_WARNINGS
 #include &lt;stdio.h&gt;
-#include &lt;stdlib.h&gt;
-//通过fopen打开一个文件  返回一个FILE * 指针，以后我们所有对于文件的操作都是通过FILE * 指针
 
 int main()
-{
-    FILE* pf = fopen(&quot;xx.txt&quot;,&quot;w+&quot;);
-    if (pf == NULL)
-    {
-        printf(&quot;open error\n&quot;);
-        exit(-1);
-    }
-    for ( char ch = &apos;a&apos;;ch  &lt;= &apos;z&apos;;  ch++)
-    {
-        putchar(fputc(ch, pf));
 
-    }
-    fclose(pf);
-    return 0;
+{
+
+FILE* fp = fopen(&quot;win.txt&quot;, &quot;w+&quot;);
+
+fputc(&apos;a&apos;, fp);
+
+fputc(&apos;\n&apos;, fp);
+
+fputc(&apos;b&apos;, fp);
+
+
+
+rewind(fp);
+
+
+
+char ch;
+
+ch = fgetc(fp);
+
+printf(&quot;%x&quot;, ch);
+
+
+
+ch = fgetc(fp);
+
+printf(&quot;%x&quot;, ch);
+
+
+
+ch = getc(fp);
+
+printf(&quot;%x&quot;, ch);
+
+return 0;
+
 }</code></pre><p>执行结果为：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200129183225249.png" alt="执行结果"></p>
-<p><img src="https://img-blog.csdnimg.cn/20200129183239203.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="打开文件"></p>
-<p><strong>我们可以看到文件写入成功并且把文件内容打印在了屏幕上，也正是因为写入成功所以返回值刚好是写入的字符我们进行打印。</strong></p>
-<h2 id="fgetc"><a href="#fgetc" class="headerlink" title="fgetc"></a>fgetc</h2><p><img src="https://img-blog.csdnimg.cn/20200129183258909.png" alt="fget函数说明"></p>
-<p><strong>函数返回值：</strong></p>
-<p><img src="https://img-blog.csdnimg.cn/20200129183313389.png" alt="fetc函数返回值"></p>
-<p>在这里我们加入一个带参数的宏定义，因为我们每次都需要判断文件打开是否成功，所以我们把判断文件打开是否成功写入一个宏，便于我们判断方便而且降低代码的冗余。<br>我们通过一下方法：</p>
-<pre><code>#define F_PRINTF_ERR(e)\
-do\
-{\
-    if (e == NULL)\
-    {\
-        printf(&quot;open error\n&quot;);\
-        exit(0);\
-    }\
-} while (0)\</code></pre><p><strong>其中\代表续航符   上面整体代码表示一个的宏定义，然后通过个do，while进行判断，当然也可以用其他方式进行判断。我们可以观察到，while的后面没有;在实际的代码中我们刚好需要在一条语句执行完成之后加上;所以刚好和这里的宏定义组成规则的do，while语句。那么定义好了之后我们就可以在其他需要判断文件是否打开成功的时候直接使用带参数的宏定义。</strong></p>
-<p>我们给出代码：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200202204058326.png" alt="windwos文本文件的读取"></p>
+<p>那么我们来读取第四个位置：</p>
+<pre><code>#include &lt;stdio.h&gt;
+int main()
+
+{
+
+FILE* fp = fopen(&quot;win.txt&quot;, &quot;w+&quot;);
+fputc(&apos;a&apos;, fp);
+fputc(&apos;\n&apos;, fp);
+fputc(&apos;b&apos;, fp);
+
+rewind(fp);
+
+char ch;
+ch = fgetc(fp);
+printf(&quot;%x&quot;, ch);
+
+ch = fgetc(fp);
+printf(&quot;%x&quot;, ch);
+
+ch = getc(fp);
+printf(&quot;%x&quot;, ch);
+ch = getc(fp);
+printf(&quot;%x&quot;, ch);
+return 0;
+}</code></pre><p>执行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200202204135467.png" alt="windows读取文本文件"></p>
+<p><strong>我们可以看到读取到了文件结束标记。</strong></p>
+<p>我们前面进行过说明：</p>
+<p><strong>windows中 ‘\r\n’  前面\r表示回车，后面\n表示换行，两个字符在一起所体现的功能和linux中的’\n’是一样的。也就是说windows平台的两个字符和linux平台的一个字符的作用是一样的，并且在写入操作的时候，在windows平台我们在代码中使用fputc(‘\n’, fp);写入’\n’一个字符也没有问题，但是真正在进行读写操作的时候，在window平台读写过程中也是把’\r\n’  合并为一个’\n’进行操作所以我们在windows平台写入的时候也是直接使用fputc(‘\n’, fp); 读取的时候直接读取也是一个字符。所以读取文件三次就可以读完，因为中间的换行符整体操作。这样在写代码的过程中也就屏蔽了平台的差别。</strong></p>
+<p>我们接下来在Linux平台下面进行测试：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200202204228651.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="linux平台读取文本文件"></p>
+<p><img src="https://img-blog.csdnimg.cn/20200202204240826.png" alt="linux平台读取文本文件结果"></p>
+<p>我们可以看到在linux平台也没有差别。所以在通过代码进行操作的时候是没有区别的，linux平台通过代码写入和读取的过程中不会在文件末尾自动加入0A。</p>
+<p>但是如果在我们用vi编译器打开之后的文本文件就会在文件结束位置自动加上换符。</p>
+<p>我们进行测试：</p>
+<p><strong>我们只在文件中输入 a  （回车）b</strong></p>
+<p><img src="https://img-blog.csdnimg.cn/20200202204622529.png" alt="linux平台下的vi编辑器"></p>
+<p>查看二进制结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200202204523879.png" alt="查看vi编辑器的二进制结果"></p>
+<p>而在windows平台则不论是通过代码写入还是通过文本文件进行写入数据都不会在文件结束位置加上换行符。</p>
+<h2 id="交换文件读取"><a href="#交换文件读取" class="headerlink" title="交换文件读取"></a>交换文件读取</h2><h3 id="windows—–-gt-linux"><a href="#windows—–-gt-linux" class="headerlink" title="windows—–&gt;linux"></a>windows—–&gt;linux</h3><p>我们把windows平台的txt文件放在linux平台打开查看文件读取情况：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200202204857704.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="windows中的文件拿到linux平台"></p>
+<p>我们可看到放到linux平台之后用文本编译器打开是和windows平台一样的内容：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200202204955226.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="使用linux平台的文本编辑器打开windows平台的文本文文件"></p>
+<p>我们使用程序进行读取：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200202205006548.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="使用linux平台的文本编辑器打开windows平台的文本文文件"></p>
+<p>执行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200202205013541.png" alt="执行结果"></p>
+<p><strong>结果打印出来为61 d a 62</strong></p>
+<p>从结果我们可以看出来，windows和Linux的差异性，linux把windows中的两个字符还是作为一个字符来读取，所以才会打印出来d  a</p>
+<h3 id="linux—–-gt-windows"><a href="#linux—–-gt-windows" class="headerlink" title="linux—–&gt;windows"></a>linux—–&gt;windows</h3><p>我们再把linux平台的文本文件放在windows平台进行程序读写：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200202205130250.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="linux平台的文本文件移动到windwos平台"></p>
 <pre><code>#define _CRT_SECURE_NO_WARNINGS
 #include &lt;stdio.h&gt;
 #include &lt;stdlib.h&gt;
@@ -603,341 +642,26 @@ do\
     }\
 } while (0)\
 
-
-
 int main()
 {
-    FILE* pf = fopen(&quot;asd.txt&quot;, &quot;r&quot;);
-    //if (pf == NULL)
-    //{
-    //    printf(&quot;open error\n&quot;);
-    //    exit(-1);
-    //}
+    FILE* pf = fopen(&quot;linux.txt&quot;, &quot;r+&quot;);
     F_PRINTF_ERR(pf);
-    fclose(pf);
-    return 0;
-}</code></pre><p>执行结果为：</p>
-<p><img src="https://img-blog.csdnimg.cn/2020012918341028.png" alt="执行结果"></p>
-<p><strong>中间注释的部分是我们之前判断文件是否打开成功的方法，现在我们写入宏定义里面之后我们就可以通过定义的宏来直接判断。</strong></p>
-<p><strong>那么现在我们有一个问题就是，我们在读取的时候读取到什么时候结束呢？我们读取数组需要知道三要素，我们读取字符串找‘\0’结束，那么读取文件的结束位置也同样是很重要的。</strong><br>我们首先把文件里面所包含的内容读取出来：我们刚开始保存了26个英文字母。</p>
-<pre><code>#define _CRT_SECURE_NO_WARNINGS
-#include &lt;stdio.h&gt;
-#include &lt;stdlib.h&gt;
-#define F_PRINTF_ERR(e)\
-do\
-{\
-    if (e == NULL)\
-    {\
-        printf(&quot;open error\n&quot;);\
-        exit(0);\
-    }\
-} while (0)\
-
-
-
-int main()
-{
-    FILE* pf = fopen(&quot;xx.txt&quot;, &quot;r&quot;);
-    //if (pf == NULL)
-    //{
-    //    printf(&quot;open error\n&quot;);
-    //    exit(-1);
-    //}
-    F_PRINTF_ERR(pf);
-    for (int i = 0; i &lt; 26; i++)
-    {
-        if (i % 5 == 0)
-            printf(&quot;\n&quot;);
-        putchar(fgetc(pf));
-        printf(&quot;\t&quot;);
-    }
-
-    fclose(pf);
-    return 0;
-}</code></pre><p>执行结果为：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200129183459286.png" alt="执行结果"></p>
-<p>那么我们是刚好给文件存了26个字符，我们自己规定读取到了26个字符。那么在一个文件中我们自己有时候是没法确定文件的位置的，如果文件很长的话，我们能够一个一个去数吗？<br>例如：</p>
-<pre><code>#define _CRT_SECURE_NO_WARNINGS
-#include &lt;stdio.h&gt;
-#include &lt;stdlib.h&gt;
-#define F_PRINTF_ERR(e)\
-do\
-{\
-    if (e == NULL)\
-    {\
-        printf(&quot;open error\n&quot;);\
-        exit(0);\
-    }\
-} while (0)\
-
-
-
-int main()
-{
-    FILE* pf = fopen(&quot;xx.txt&quot;, &quot;r&quot;);
-    //if (pf == NULL)
-    //{
-    //    printf(&quot;open error\n&quot;);
-    //    exit(-1);
-    //}
-    F_PRINTF_ERR(pf);
-    for (int i = 0; i &lt; 30; i++)
-    {
-        if (i % 5 == 0)
-            printf(&quot;\n&quot;);
-        putchar(fgetc(pf));
-        printf(&quot;\t&quot;);
-    }
-
-    fclose(pf);
-    return 0;
-}</code></pre><p>执行结果为：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200129183533608.png" alt="执行结果"></p>
-<p>我们可以看到，读取到了很多不可打印的字符。<br>为我们换一种方式，之前打印30个字符，现在我们打印这30个字符的地址：</p>
-<pre><code>#define _CRT_SECURE_NO_WARNINGS
-#include &lt;stdio.h&gt;
-#include &lt;stdlib.h&gt;
-#define F_PRINTF_ERR(e)\
-do\
-{\
-    if (e == NULL)\
-    {\
-        printf(&quot;open error\n&quot;);\
-        exit(0);\
-    }\
-} while (0)\
-
-
-
-int main()
-{
-    char ch;
-    FILE* pf = fopen(&quot;xx.txt&quot;, &quot;r&quot;);
-    //if (pf == NULL)
-    //{
-    //    printf(&quot;open error\n&quot;);
-    //    exit(-1);
-    //}
-    F_PRINTF_ERR(pf);
-    for (int i = 0; i &lt; 30; i++)
-    {
-        if (i % 5 == 0)
-            printf(&quot;\n&quot;);
-        ch = fgetc(pf);
-        putchar(ch);
-        printf(&quot;\t%p\t&quot;,ch);
-    }
-
-    fclose(pf);
-    return 0;
-}</code></pre><p>执行结果为：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200129183559115.png" alt="执行结果"></p>
-<p>我们可以看到，<strong>前面的26个字母我们所读取到的数据和地址都没有问题。但是后面的4个读取到了什么呢？  其实我们之后的4个读取到的是EOF EOF 的本质就是-1。所以我们必须有一个标准来作为我们文件读取完的标志：所以我们用while循环实现</strong></p>
-<pre><code>#define _CRT_SECURE_NO_WARNINGS
-#include &lt;stdio.h&gt;
-#include &lt;stdlib.h&gt;
-#define F_PRINTF_ERR(e)\
-do\
-{\
-    if (e == NULL)\
-    {\
-        printf(&quot;open error\n&quot;);\
-        exit(0);\
-    }\
-} while (0)\
-
-
-
-int main()
-{
-    char ch;
-    FILE* pf = fopen(&quot;xx.txt&quot;, &quot;r&quot;);
-    //if (pf == NULL)
-    //{
-    //    printf(&quot;open error\n&quot;);
-    //    exit(-1);
-    //}
-    F_PRINTF_ERR(pf);
-    while ((ch = fgetc(pf)) != EOF)   //注意运算符优先级
-    {
-        putchar(ch);
-        printf(&quot;\t%p\n&quot;, ch);
-    }
-
-    fclose(pf);
-    return 0;
-}</code></pre><p>执行结果为：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200129183632395.png" alt="执行结果"></p>
-<p>这样我们就可以很放心的来直接读取。</p>
-<h2 id="feof"><a href="#feof" class="headerlink" title="feof"></a>feof</h2><p><img src="https://img-blog.csdnimg.cn/20200129183711590.png" alt="feof函数说明"></p>
-<p><strong>feof 这个函数，是去读标志位判断文件是否结束的。即在读到文件结尾的时候再去读一次，标志位才会置位，此时再来作判断文件处理结束状态，文件到结尾。如果用于打印，则会出现多打一次的现象</strong> </p>
-<p>我们先来看不多打印的一次情况，然后进行对比分析理解。<br>代码演示：</p>
-<pre><code>#define _CRT_SECURE_NO_WARNINGS
-#include &lt;stdio.h&gt;
-#include &lt;stdlib.h&gt;
-//下面的 \ 符号称为续航符
-#define F_PRINT_ERR(e)\
-do\
-{\
-if (e == NULL)\
-{\
-        printf(&quot;open error\n&quot;);\
-        exit(-1);\
-}\
-}\
-while (0)\
-
-//通过fopen打开一个文件  返回一个FILE * 指针，以后我们所有对于文件的操作都是通过FILE * 指针
-
-
-
-
-int main()
-{
-    FILE* pf = fopen(&quot;xx.txt&quot;, &quot;w+&quot;);
-    F_PRINT_ERR(pf);
-    for (char ch = &apos;a&apos;; ch &lt;= &apos;z&apos;; ch++)
-    {
-        putchar(fputc(ch, pf));
-    }
-    rewind(pf);
-    char data;
-    printf(&quot;\n==========================\n&quot;);
-    while ((data = fgetc(pf)) != EOF)
-    {
-        printf(&quot;%c&quot;, data);
-    }
-    fclose(pf);
-    return 0;
-}</code></pre><p>执行结果为：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200129183756948.png" alt="执行结果"></p>
-<p>我们把两种情况进行对比：</p>
-<pre><code>#define _CRT_SECURE_NO_WARNINGS
-#include &lt;stdio.h&gt;
-#include &lt;stdlib.h&gt;
-//下面的 \ 符号称为续航符
-#define F_PRINT_ERR(e)\
-do\
-{\
-if (e == NULL)\
-{\
-        printf(&quot;open error\n&quot;);\
-        exit(-1);\
-}\
-}\
-while (0)\
-
-//通过fopen打开一个文件  返回一个FILE * 指针，以后我们所有对于文件的操作都是通过FILE * 指针
-
-
-
-
-int main()
-{
-    FILE* pf = fopen(&quot;xx.txt&quot;, &quot;w+&quot;);
-    F_PRINT_ERR(pf);
-    for (char ch = &apos;a&apos;; ch &lt;= &apos;z&apos;; ch++)
-    {
-        putchar(fputc(ch, pf));
-    }
-    rewind(pf);
-    char data;
-    printf(&quot;\n==========================\n&quot;);
-    while ((data = fgetc(pf)) != EOF)
-    {
-        printf(&quot;%c&quot;, data);
-    }
-    printf(&quot;\n==========================\n&quot;);
-    rewind(pf);
-    while (!feof(pf))//检测文件结束标记，若为1表示结束，为0表示没有结束
-    {
-        data = fgetc(pf);
-        putchar(data);
-    }
-    fclose(pf);
-    return 0;
-}</code></pre><p>执行结果为：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200129183836704.png" alt="执行结果"></p>
-<p><strong>我们可以清楚的看到使用feof会在判断判断文件是否读到文件结尾之后再多读一次字符，导致的原因就是标志位检测滞后所导致的。</strong></p>
-<p>我们通过图解进行说明：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200129183850271.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="feof标志位检测滞后分析"></p>
-<p>所以我们如果使用的话就可以先读取再判断。因为根据读取后的结果更新flag 这个时候才使用flag，就是说我们先读取，再判断，代码如下：</p>
-<pre><code>#define _CRT_SECURE_NO_WARNINGS
-#include &lt;stdio.h&gt;
-#include &lt;stdlib.h&gt;
-//下面的 \ 符号称为续航符
-#define F_PRINT_ERR(e)\
-do\
-{\
-if (e == NULL)\
-{\
-        printf(&quot;open error\n&quot;);\
-        exit(-1);\
-}\
-}\
-while (0)\
-
-//通过fopen打开一个文件  返回一个FILE * 指针，以后我们所有对于文件的操作都是通过FILE * 指针
-
-
-
-
-int main()
-{
-    FILE* pf = fopen(&quot;xx.txt&quot;, &quot;w+&quot;);
-    F_PRINT_ERR(pf);
-    for (char ch = &apos;a&apos;; ch &lt;= &apos;z&apos;; ch++)
-    {
-        putchar(fputc(ch, pf));
-    }
-    rewind(pf);
-    char data;
-    printf(&quot;\n==========================\n&quot;);
-    while ((data = fgetc(pf)) != EOF)
-    {
-        printf(&quot;%c&quot;, data);
-    }
-    printf(&quot;\n==========================\n&quot;);
-    rewind(pf);
-
     char ch;
     ch = fgetc(pf);
-    while (!feof(pf))//检测文件结束标记，若为1表示结束，为0表示没有结束
-    {
-        printf(&quot;%c&quot;,ch);
-        ch = fgetc(pf);
-    }
+    printf(&quot;%x&quot;,ch);
+    ch = fgetc(pf);
+    printf(&quot;%x&quot;, ch);
+    ch = fgetc(pf);
+    printf(&quot;%x&quot;, ch);
+    ch = fgetc(pf);
+    printf(&quot;%x&quot;, ch);
     fclose(pf);
     return 0;
 }</code></pre><p>执行结果为：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200129183916469.png" alt="执行结果"></p>
-<h2 id="实现-linux-中-cp-命令的功能"><a href="#实现-linux-中-cp-命令的功能" class="headerlink" title="实现 linux 中 cp 命令的功能"></a>实现 linux 中 cp 命令的功能</h2><pre><code>int main(int argc, char *argv[])
-{
-if (argc &lt;3)
-{
-printf(&quot;uage: %s src dest\n&quot;, argv[0]);
-return 0;
-}
-FILE * fp = fopen(argv[1], &quot;r&quot;);
-if (fp == NULL)
-{
-return -1;
-}
-FILE * fp2 = fopen(argv[2], &quot;w&quot;);
-if (fp2 == NULL)
-{
-fclose(fp);
-return -1;
-}
-char ch ;
-while ((ch = fgetc(fp)) != EOF)
-{
-fputc(ch, fp2);
-ch = fgetc(fp);
-}
-fclose(fp);
-fclose(fp2);
-}</code></pre>
+<p><img src="https://img-blog.csdnimg.cn/20200202205158266.png" alt="运行结果"></p>
+<p>我们可以看到，linux平台下文件最后的位置会自动加上换行符，并且把换行符只有一个字符体现,之所以会加上最后的换行符是因为打开的文件在linux平台下是通过vi编译器编写，所以会在文件结束的位置加上换行符。</p>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>不同的平台在开发的时候同样的内容定义的不同，我们必须要提前了解到不同之处并且做出处理才能避免在跨平台编程的时候出现一些因为平台差异性而出现的一些问题，所以我们在开发过程中跨平台开发的时候就需要做一些处理。</p>
+
             </div>
             <hr/>
 
@@ -962,7 +686,7 @@ fclose(fp2);
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://www.teachermin.com/2020/03/17/C%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C%EF%BC%9A%E4%B8%80%E6%AC%A1%E8%AF%BB%E5%86%99%E4%B8%80%E4%B8%AA%E5%AD%97%E7%AC%A6fputc%EF%BC%8Cfgetc%EF%BC%8Cfeof/">http://www.teachermin.com/2020/03/17/C%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C%EF%BC%9A%E4%B8%80%E6%AC%A1%E8%AF%BB%E5%86%99%E4%B8%80%E4%B8%AA%E5%AD%97%E7%AC%A6fputc%EF%BC%8Cfgetc%EF%BC%8Cfeof/</a>
+                    <a href="http://www.teachermin.com/2020/03/17/%E4%BA%86%E8%A7%A3%E6%B8%85%E6%A5%9A%E4%B8%8D%E5%90%8C%E5%B9%B3%E5%8F%B0%E7%9A%84%E2%80%9C%E8%A1%8C%E2%80%9D%E6%89%8D%E8%83%BD%E5%9C%A8%E8%B7%A8%E5%B9%B3%E5%8F%B0%E7%BC%96%E7%A8%8B%E4%B8%AD%E6%B8%85%E6%A5%9A%E5%B9%B6%E9%81%BF%E5%85%8D%E7%8A%AF%E9%94%99/">http://www.teachermin.com/2020/03/17/%E4%BA%86%E8%A7%A3%E6%B8%85%E6%A5%9A%E4%B8%8D%E5%90%8C%E5%B9%B3%E5%8F%B0%E7%9A%84%E2%80%9C%E8%A1%8C%E2%80%9D%E6%89%8D%E8%83%BD%E5%9C%A8%E8%B7%A8%E5%B9%B3%E5%8F%B0%E7%BC%96%E7%A8%8B%E4%B8%AD%E6%B8%85%E6%A5%9A%E5%B9%B6%E9%81%BF%E5%85%8D%E7%8A%AF%E9%94%99/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -1167,36 +891,34 @@ fclose(fp2);
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="far fa-dot-circle"></i>&nbsp;本篇
-            </div>
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2020/03/17/C%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C%EF%BC%9A%E4%B8%80%E6%AC%A1%E8%AF%BB%E5%86%99%E4%B8%80%E4%B8%AA%E5%AD%97%E7%AC%A6fputc%EF%BC%8Cfgetc%EF%BC%8Cfeof/">
+                <a href="/2020/03/17/%E4%B8%80%E6%AC%A1%E8%AF%BB%E5%86%99%E4%B8%80%E8%A1%8C%E6%96%87%E6%9C%AC%E5%AD%97%E7%AC%A6fputs%EF%BC%8Cfgets%EF%BC%8C%E5%85%B8%E5%9E%8B%E9%97%AE%E9%A2%98%E5%88%86%E6%9E%90/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/14.jpg" class="responsive-img" alt="C文件操作：一次读写一个字符fputc，fgetc，feof">
+                        <img src="/medias/featureimages/19.jpg" class="responsive-img" alt="一次读写一行文本字符:fputs，fgets，典型问题分析">
                         
-                        <span class="card-title">C文件操作：一次读写一个字符fputc，fgetc，feof</span>
+                        <span class="card-title">一次读写一行文本字符:fputs，fgets，典型问题分析</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            fputc
-返回值：
-
-上面是我们在linux平台在帮助手册里面查看到的。接下来我们给出代码说明：
+                            fputs函数
+我们给出使用的测试代码：
 #define _CRT_SECURE_NO_WARNINGS
 #include &lt;stdio.h&gt;
-#include &lt;
+#include &lt;stdlib.h&gt;
+#define F_PRINTF
                         
                     </div>
                     <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-03-17
-                            </span>
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2020-03-17
+                        </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
@@ -1209,7 +931,6 @@ fclose(fp2);
                         </span>
                     </div>
                 </div>
-
                 
                 <div class="card-action article-tags">
                     
@@ -1469,7 +1190,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">66.6k</span>&nbsp;字
+                class="white-color">72.2k</span>&nbsp;字
             
             
             

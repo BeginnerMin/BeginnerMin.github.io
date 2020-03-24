@@ -366,11 +366,11 @@
                 </a>
                 
                 
-                <a href="/categories/C%E5%9F%BA%E7%A1%80/" title="C基础: 3">
+                <a href="/categories/C%E5%9F%BA%E7%A1%80/" title="C基础: 7">
                     <span class="chip center-align waves-effect waves-light
                              chip-active "
                             style="background-color: #F5EEF8;">C基础
-                        <span class="tag-length">3</span>
+                        <span class="tag-length">7</span>
                     </span>
                 </a>
                 
@@ -405,13 +405,215 @@
             
             <div class="article tag-post col s12 m6 l4" data-aos="zoom-in">
                 <div class="card">
-                    <a href="/2020/03/17/C%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C%EF%BC%9A%E4%B8%80%E6%AC%A1%E8%AF%BB%E5%86%99%E4%B8%80%E4%B8%AA%E5%AD%97%E7%AC%A6fputc%EF%BC%8Cfgetc%EF%BC%8Cfeof/">
+                    <a href="/2020/03/24/C%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C%EF%BC%9A%E4%BA%86%E8%A7%A3%E6%B8%85%E6%A5%9A%E4%B8%8D%E5%90%8C%E5%B9%B3%E5%8F%B0%E7%9A%84%E2%80%9C%E8%A1%8C%E2%80%9D/">
                         <div class="card-image tag-image">
                             
                             
-                            <img src="/medias/featureimages/14.jpg" class="responsive-img" alt="C文件操作：一次读写一个字符fputc，fgetc，feof">
+                            <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="C文件操作：了解清楚不同平台的“行”">
                             
-                            <span class="card-title">C文件操作：一次读写一个字符fputc，fgetc，feof</span>
+                            <span class="card-title">C文件操作：了解清楚不同平台的“行”</span>
+                        </div>
+                    </a>
+                    <div class="card-content article-content">
+                        <div class="summary block-with-text">
+                            
+                                @TOC
+什么是行定义行是文本编辑器中的概念，文件流中就是一个字符。这个在不同的平台是有差异的。window 平台 ‘\r\n’，linux 平台是’\n’。 
+我们很容易理解，在文本文件里面这就是两行：
+
+我们可以看到文本文件会给我们呈现
+                            
+                        </div>
+                        <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-03-24
+                            </span>
+                            <span class="publish-author">
+                                
+                                <i class="fas fa-bookmark fa-fw icon-category"></i>
+                                
+                                <a href="/categories/C%E5%9F%BA%E7%A1%80/" class="post-category">
+                                    C基础
+                                </a>
+                                
+                                
+                            </span>
+                        </div>
+                    </div>
+
+                    
+                    <div class="card-action article-tags">
+                        
+                        <a href="/tags/C%E6%96%87%E4%BB%B6/">
+                            <span class="chip bg-color">C文件</span>
+                        </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+            
+            <div class="article tag-post col s12 m6 l4" data-aos="zoom-in">
+                <div class="card">
+                    <a href="/2020/03/24/C%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C%EF%BC%9Afputs%E5%87%BD%E6%95%B0%EF%BC%8Cfgets%E5%87%BD%E6%95%B0%EF%BC%8C%E5%85%B8%E5%9E%8B%E9%97%AE%E9%A2%98%E5%88%86%E6%9E%90%EF%BC%88%E4%B8%80%E6%AC%A1%E8%AF%BB%E5%86%99%E4%B8%80%E8%A1%8C%E5%AD%97%E7%AC%A6-----%E6%96%87%E6%9C%AC%E6%93%8D%E4%BD%9C%EF%BC%89/">
+                        <div class="card-image tag-image">
+                            
+                            
+                            <img src="/medias/featureimages/19.jpg" class="responsive-img" alt="C文件操作：fputs函数，fgets函数，典型问题分析（一次读写一行字符-----文本操作）">
+                            
+                            <span class="card-title">C文件操作：fputs函数，fgets函数，典型问题分析（一次读写一行字符-----文本操作）</span>
+                        </div>
+                    </a>
+                    <div class="card-content article-content">
+                        <div class="summary block-with-text">
+                            
+                                fputs函数
+我们给出使用的测试代码：
+#define _CRT_SECURE_NO_WARNINGS
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#define F_PRINTF
+                            
+                        </div>
+                        <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-03-24
+                            </span>
+                            <span class="publish-author">
+                                
+                                <i class="fas fa-bookmark fa-fw icon-category"></i>
+                                
+                                <a href="/categories/C%E5%9F%BA%E7%A1%80/" class="post-category">
+                                    C基础
+                                </a>
+                                
+                                
+                            </span>
+                        </div>
+                    </div>
+
+                    
+                    <div class="card-action article-tags">
+                        
+                        <a href="/tags/C%E6%96%87%E4%BB%B6/">
+                            <span class="chip bg-color">C文件</span>
+                        </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+            
+            <div class="article tag-post col s12 m6 l4" data-aos="zoom-in">
+                <div class="card">
+                    <a href="/2020/03/17/%E4%BA%86%E8%A7%A3%E6%B8%85%E6%A5%9A%E4%B8%8D%E5%90%8C%E5%B9%B3%E5%8F%B0%E7%9A%84%E2%80%9C%E8%A1%8C%E2%80%9D%E6%89%8D%E8%83%BD%E5%9C%A8%E8%B7%A8%E5%B9%B3%E5%8F%B0%E7%BC%96%E7%A8%8B%E4%B8%AD%E6%B8%85%E6%A5%9A%E5%B9%B6%E9%81%BF%E5%85%8D%E7%8A%AF%E9%94%99/">
+                        <div class="card-image tag-image">
+                            
+                            
+                            <img src="/medias/featureimages/3.jpg" class="responsive-img" alt="了解清楚不同平台的“行”才能在跨平台编程中清楚并避免犯错">
+                            
+                            <span class="card-title">了解清楚不同平台的“行”才能在跨平台编程中清楚并避免犯错</span>
+                        </div>
+                    </a>
+                    <div class="card-content article-content">
+                        <div class="summary block-with-text">
+                            
+                                什么是行定义 
+行是文本编辑器中的概念，文件流中就是一个字符。这个在不同的平台是有差异的。window 平台 ‘\r\n’，linux 平台是’\n’。 
+我们很容易理解，在文本文件里面这就是两行：
+
+我们可以看到文本文件会给我们呈现出所谓
+                            
+                        </div>
+                        <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-03-17
+                            </span>
+                            <span class="publish-author">
+                                
+                                <i class="fas fa-bookmark fa-fw icon-category"></i>
+                                
+                                <a href="/categories/C%E5%9F%BA%E7%A1%80/" class="post-category">
+                                    C基础
+                                </a>
+                                
+                                
+                            </span>
+                        </div>
+                    </div>
+
+                    
+                    <div class="card-action article-tags">
+                        
+                        <a href="/tags/C%E6%96%87%E4%BB%B6/">
+                            <span class="chip bg-color">C文件</span>
+                        </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+            
+            <div class="article tag-post col s12 m6 l4" data-aos="zoom-in">
+                <div class="card">
+                    <a href="/2020/03/17/%E4%B8%80%E6%AC%A1%E8%AF%BB%E5%86%99%E4%B8%80%E8%A1%8C%E6%96%87%E6%9C%AC%E5%AD%97%E7%AC%A6fputs%EF%BC%8Cfgets%EF%BC%8C%E5%85%B8%E5%9E%8B%E9%97%AE%E9%A2%98%E5%88%86%E6%9E%90/">
+                        <div class="card-image tag-image">
+                            
+                            
+                            <img src="/medias/featureimages/19.jpg" class="responsive-img" alt="一次读写一行文本字符:fputs，fgets，典型问题分析">
+                            
+                            <span class="card-title">一次读写一行文本字符:fputs，fgets，典型问题分析</span>
+                        </div>
+                    </a>
+                    <div class="card-content article-content">
+                        <div class="summary block-with-text">
+                            
+                                fputs函数
+我们给出使用的测试代码：
+#define _CRT_SECURE_NO_WARNINGS
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#define F_PRINTF
+                            
+                        </div>
+                        <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-03-17
+                            </span>
+                            <span class="publish-author">
+                                
+                                <i class="fas fa-bookmark fa-fw icon-category"></i>
+                                
+                                <a href="/categories/C%E5%9F%BA%E7%A1%80/" class="post-category">
+                                    C基础
+                                </a>
+                                
+                                
+                            </span>
+                        </div>
+                    </div>
+
+                    
+                    <div class="card-action article-tags">
+                        
+                        <a href="/tags/C%E6%96%87%E4%BB%B6/">
+                            <span class="chip bg-color">C文件</span>
+                        </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+            
+            <div class="article tag-post col s12 m6 l4" data-aos="zoom-in">
+                <div class="card">
+                    <a href="/2020/03/17/C%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C%EF%BC%9A%E4%B8%80%E6%AC%A1%E8%AF%BB%E5%86%99%E4%B8%80%E4%B8%AA%E6%96%87%E6%9C%AC%E5%AD%97%E7%AC%A6fputc%EF%BC%8Cfgetc%EF%BC%8Cfeof/">
+                        <div class="card-image tag-image">
+                            
+                            
+                            <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="C文件操作：一次读写一个文本字符fputc，fgetc，feof">
+                            
+                            <span class="card-title">C文件操作：一次读写一个文本字符fputc，fgetc，feof</span>
                         </div>
                     </a>
                     <div class="card-content article-content">
@@ -618,7 +820,7 @@ unsigned flags
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">66.6k</span>&nbsp;字
+                class="white-color">72.2k</span>&nbsp;字
             
             
             

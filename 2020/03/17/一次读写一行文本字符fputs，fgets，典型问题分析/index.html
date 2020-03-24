@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="C++运算符重载引入(2), SkilledBeginner">
+    <meta name="keywords" content="一次读写一行文本字符:fputs，fgets，典型问题分析, SkilledBeginner">
     <meta name="description" content="努力做一个很厉害的人">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>C++运算符重载引入(2) | SkilledBeginner</title>
+    <title>一次读写一行文本字符:fputs，fgets，典型问题分析 | SkilledBeginner</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -311,7 +311,7 @@
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">C++运算符重载引入(2)</h1>
+                    <h1 class="description center-align post-title">一次读写一行文本字符:fputs，fgets，典型问题分析</h1>
                 </div>
             </div>
         </div>
@@ -428,8 +428,8 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/%E8%BF%90%E7%AE%97%E7%AC%A6%E9%87%8D%E8%BD%BD/">
-                                <span class="chip bg-color">运算符重载</span>
+                            <a href="/tags/C%E6%96%87%E4%BB%B6/">
+                                <span class="chip bg-color">C文件</span>
                             </a>
                         
                     </div>
@@ -440,8 +440,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/C/" class="post-category">
-                                C++
+                            <a href="/categories/C%E5%9F%BA%E7%A1%80/" class="post-category">
+                                C基础
                             </a>
                         
                     </div>
@@ -453,28 +453,28 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-03-09
+                    2020-03-17
                 </div>
                 
 
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2020-03-15
+                    2020-03-17
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    1.5k
+                    1k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    6 分
+                    4 分
                 </div>
                 
 
@@ -490,233 +490,218 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="涉及知识点"><a href="#涉及知识点" class="headerlink" title="涉及知识点"></a>涉及知识点</h2><p>运算符重载：<br>语法格式</p>
-<p>友元重载</p>
-<p>成员重载</p>
-<p>对比赋值运算符重载</p>
-<p>const 修饰返值</p>
-<h2 id="运算符重载本质"><a href="#运算符重载本质" class="headerlink" title="运算符重载本质"></a>运算符重载本质</h2><p>运算符重载的本质是函数重载，函数名是:operator x（后面的x表示重载运算符）</p>
-<h2 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h2><p>对于基本数据类型，比如 int 类型，我们对其进行加、减、乘、除运算，是语言层面己经设置好的。但是对于结构类型，比如 struct Complex 类型的对象是否也可以直接进行加、减、乘、除运算呢，答案是否定的。</p>
-<p>要想实现自定义类型加、减、乘、除运算，怎么操作呢，对加、减、乘、除运算符进行重载，也就是本博客要说明的内容。</p>
-<h2 id="重载引入"><a href="#重载引入" class="headerlink" title="重载引入"></a>重载引入</h2><h3 id="语法格式"><a href="#语法格式" class="headerlink" title="语法格式"></a>语法格式</h3><p>重载函数的一般格式如下，operator 是关键字 ，后面跟的是运算符，operator+运算符构成了新的函数名，此时我们说该运算符被重载了。</p>
-<pre><code>返值类型  operator 运算符名称(形参列表)
-{
-重载实体;
-}</code></pre><h3 id="友元运算符重载"><a href="#友元运算符重载" class="headerlink" title="友元运算符重载"></a>友元运算符重载</h3><p>我们在说明友元的时候已经说明过友元重载，那么在这里我们直接使用。</p>
-<p><strong>通过友元的方式实现了重载Comlpex类生成的对象相加。</strong> </p>
-<pre><code>#include &lt;iostream&gt;
-
-using namespace std;
-
-class Comlpex
-{
-    friend Comlpex operator+(Comlpex&amp; c1, Comlpex&amp; c2);  //友元重载
-public:
-    Comlpex(double r = 0, double i = 0) :real(r), image(i) {}
-
-    void dumpFormat()
-    {
-        cout &lt;&lt; &quot;(&quot; &lt;&lt; this-&gt;real &lt;&lt; &quot;,&quot; &lt;&lt; this-&gt;image &lt;&lt; &quot;)&quot;&lt;&lt;endl;
-    }
-
-private:
-    double real;
-    double image;
-};
-
-
-Comlpex operator+(Comlpex&amp; c1, Comlpex&amp; c2)
-{
-    Comlpex c;
-    c.real = c1.real + c2.real;
-    c.image = c1.image + c2.image;
-    return c;
-}
+                <h2 id="fputs函数"><a href="#fputs函数" class="headerlink" title="fputs函数"></a>fputs函数</h2><p><img src="https://img-blog.csdnimg.cn/20200202212031101.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="fputs函数说明"></p>
+<p>我们给出使用的测试代码：</p>
+<pre><code>#define _CRT_SECURE_NO_WARNINGS
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#define F_PRINTF_ERR(e)\
+do\
+{\
+    if (e == NULL)\
+    {\
+        printf(&quot;open error\n&quot;);\
+        exit(0);\
+    }\
+} while (0)\
 
 int main()
 {
-    Comlpex c1(3, 4);
-    c1.dumpFormat();
-    Comlpex c2(5, 6);
-    c2.dumpFormat();
-    Comlpex sum = c1 + c2;   // Comlpex sum = operator+(c1,c2);
-    sum.dumpFormat();
+    FILE* pf = fopen(&quot;lines.txt&quot;,&quot;w&quot;);
+    F_PRINTF_ERR(pf);
+    fputs(&quot;aaaaaaaaaaaaaaa\n&quot;, pf);
+    fputs(&quot;bbbbbbbbbbbbbbb\n&quot;, pf);
+    fputs(&quot;ccccccccccccccc\n&quot;, pf);
+    fclose(pf);
     return 0;
-}</code></pre><p>运行结果为：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200308004202158.png" alt="运行结果"></p>
-<p><strong>及就是通过友元的方式实现了Comlpex对象相加。</strong></p>
-<p>我们知道基础类型向加减的时候我们就不需要重载,例如：</p>
-<pre><code>int a;
-int b;
-int c = a + b;</code></pre><p><strong>但凡涉及到自定义类型想要跟普通数据类型一样的操作体验，就需要重载。</strong></p>
-<p><strong>简单理解:友元重载就是一个全局函数实现重载。</strong></p>
-<h3 id="成员运算符重载"><a href="#成员运算符重载" class="headerlink" title="成员运算符重载"></a>成员运算符重载</h3><p>友元重载到成员重载，少了一个参数。</p>
-<p>少的参数，即左操作数，也就是成员函数中默认的this 指针。</p>
-<pre><code>#include &lt;iostream&gt;
-
-using namespace std;
-
-class Comlpex
-{
-public:
-    Comlpex(double r = 0, double i = 0) :real(r), image(i) {}
-
-    void dumpFormat()
-    {
-        cout &lt;&lt; &quot;(&quot; &lt;&lt; this-&gt;real &lt;&lt; &quot;,&quot; &lt;&lt; this-&gt;image &lt;&lt; &quot;)&quot;&lt;&lt;endl;
-    }
-
-    Comlpex operator+(const Comlpex &amp; another)
-    {
-        Comlpex c;
-        c.real = this-&gt;real + another.real;
-        c.image = this-&gt;image + another.image;
-        return c;
-    }
-
-private:
-    double real;
-    double image;
-};
-
-
+}</code></pre><p>执行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200202212102677.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="fputs函数执行结果"></p>
+<p>我们可以看到三行数据已经写入。<br>当然我们也可以给字符串中加入控制字符：</p>
+<pre><code>#define _CRT_SECURE_NO_WARNINGS
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#define F_PRINTF_ERR(e)\
+do\
+{\
+    if (e == NULL)\
+    {\
+        printf(&quot;open error\n&quot;);\
+        exit(0);\
+    }\
+} while (0)\
 
 int main()
 {
-    Comlpex c1(3, 4);
-    c1.dumpFormat();
-    Comlpex c2(5, 6);
-    c2.dumpFormat();
-    Comlpex s = c1 + c2;
-    Comlpex s1 = c1.operator+(c2);
-    s.dumpFormat();
-    s1.dumpFormat();
-
+    FILE* pf = fopen(&quot;lines.txt&quot;,&quot;w&quot;);
+    F_PRINTF_ERR(pf);
+    fputs(&quot;aaa\naaaaaaaaaaaa\n&quot;, pf);
+    fputs(&quot;bbbbbbbbbbbbbbb\n&quot;, pf);
+    fputs(&quot;ccccc\0cccccccccc\n&quot;, pf);
+    fclose(pf);
     return 0;
-}</code></pre><p>运行结果为;</p>
-<p><img src="https://img-blog.csdnimg.cn/20200308004256828.png" alt="成员运算符重载"></p>
-<p>我们在计算的时候并不会改变对象的内容，所以在对于对象进行应用的时候也需要加上const</p>
-<p><strong>局部变量不能返回引用。</strong></p>
-<p><strong>栈上的对象可以返回，栈上的引用不可以返回。</strong></p>
-<h3 id="对比赋值运算符重载"><a href="#对比赋值运算符重载" class="headerlink" title="对比赋值运算符重载="></a>对比赋值运算符重载=</h3><p>我们来对比我们之前赋值运算符重载的实现：</p>
-<pre><code>#include &lt;iostream&gt;
-
-using namespace std;
-
-class Comlpex
-{
-public:
-    Comlpex(double r = 0, double i = 0) :real(r), image(i) {}
-
-    void dumpFormat()
-    {
-        cout &lt;&lt; &quot;(&quot; &lt;&lt; this-&gt;real &lt;&lt; &quot;,&quot; &lt;&lt; this-&gt;image &lt;&lt; &quot;)&quot;&lt;&lt;endl;
-    }
-
-    Comlpex &amp; operator=(const Comlpex &amp; another)
-    {
-
-        this-&gt;real  = another.real;
-        this-&gt;image =  another.image;
-        return  *this;
-    }
-
-private:
-    double real;
-    double image;
-};
-
-
+}</code></pre><p>执行结果如下：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200202212135683.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="执行结果"></p>
+<p><strong>\n表示换行，\0代表字符串结束，所以控制字符在代码中也得以体现。</strong></p>
+<h2 id="fgets函数"><a href="#fgets函数" class="headerlink" title="fgets函数"></a>fgets函数</h2><p><img src="https://img-blog.csdnimg.cn/20200202212211576.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="fgets函数说明"></p>
+<p>我们通过代码进行测试：</p>
+<pre><code>#define _CRT_SECURE_NO_WARNINGS
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#define F_PRINTF_ERR(e)\
+do\
+{\
+    if (e == NULL)\
+    {\
+        printf(&quot;open error\n&quot;);\
+        exit(0);\
+    }\
+} while (0)\
 
 int main()
 {
-    Comlpex c1(3, 4);
-    Comlpex c2(5, 6);
-    c2 = c1;
-    c1.dumpFormat();
-    c2.dumpFormat();
-
-
-
+    FILE* pf = fopen(&quot;lines.txt&quot;, &quot;r+&quot;);
+    F_PRINTF_ERR(pf);
+    char buf[1024];
+    fgets(buf,1024,pf);
+    printf(&quot;buf = %s&quot;,buf);
+    fclose(pf);
     return 0;
-}</code></pre><p>运算结果为：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200308004344587.png" alt="运行结果"></p>
-<p>在我们的基本类型中可以有以下写法：</p>
-<pre><code>int x,y,z;
-x = y = z;
-(x = y) = z;</code></pre><p><strong>对于+</strong></p>
-<pre><code>x+y+z;
-x+(y+z);
-(x+y)+z;</code></pre><p>上面都没有问题<br>但是</p>
-<pre><code>(x+y) = z;</code></pre><p>就会出现问题。<br>那么对于我们上面创建的对象</p>
-<pre><code>(x+y) = z;</code></pre><p>是可以实现的：</p>
-<pre><code>Comlpex operator+(Comlpex &amp; another)
-    {
-        Comlpex c;
-        c.real = this-&gt;real + another.real;
-        c.image = +this-&gt;image + another.image;
-        return c;
-    }</code></pre><p>那么就出现了问题：运算符重载的实现和基础类型规则相违背，我们就要进行修改必须符合基本类型运算规则。</p>
-<p>返回c的时候并没有主函数去进行接收，那么就会返回在main函数的匿名对象，那么对象x+y就是一个匿名对象，匿名对象被复制为s。我们知道给匿名对象进行复制之后匿名对象最终会消失。那么就没有甚名实际的意义了，所以为了解释这个问题我们在前面加上const：</p>
-<pre><code>const Comlpex operator+(Comlpex &amp; another)
-    {
-        Comlpex c;
-        c.real = this-&gt;real + another.real;
-        c.image = +this-&gt;image + another.image;
-        return c;
-    }</code></pre><p>这个时候</p>
-<pre><code>(x+y) = z;</code></pre><p>就会直接报错。</p>
-<p>通过上面理解那么我们对于代码整体进行修改后为：</p>
-<pre><code>#include &lt;iostream&gt;
-using namespace std;
-class Complex
-{
-friend const Compl ex operator+(const Complex &amp;c1,const Complex &amp;c2);
-public:
-Complex(float x=0, float y=0)
-:_x(x),_y(y){}
-void dis()
-{
-cout&lt;&lt;&quot;(&quot;&lt;&lt;_x&lt;&lt;&quot;,&quot;&lt;&lt;_y&lt;&lt;&quot;)&quot;&lt;&lt;endl;
-}
-Complex const operator+(const Complex &amp;another);
-
-private:
-float _x;
-float _y;
-};
-
-const Complex operator+(const Complex &amp;c1,const Complex &amp;c2)
-{
- cout&lt;&lt;&quot;friend overload&quot;&lt;&lt;endl;
- return Complex(c1._x + c2._x,c1._y + c2._y);
-}
-
-const Complex Complex::operator+(const Complex &amp; another)
-{
-cout&lt;&lt;&quot;func member overload&quot;&lt;&lt;endl;
-return Complex(this-&gt;_x + another._x,this-&gt;_y + another._y);
-}
+}</code></pre><p>执行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200202212236286.png" alt="写入文本文件"></p>
+<p>这里只读取到了 aaa\n   </p>
+<p><strong>这里呢就是我们的第一种情况：</strong></p>
+<p><strong>读 n-1 个字符前遇到\n，读取\n然后在后面加上\0结束。</strong></p>
+<p>接下来我们修改代码，这次我们就值读取2个字节：</p>
+<pre><code>#define _CRT_SECURE_NO_WARNINGS
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#define F_PRINTF_ERR(e)\
+do\
+{\
+    if (e == NULL)\
+    {\
+        printf(&quot;open error\n&quot;);\
+        exit(0);\
+    }\
+} while (0)\
 
 int main()
 {
-Complex c1(2,3);
-Complex c2(3,4);
-c1.dis();
-c2.dis();
-// Complex c3 = c1+c2;
-// Complex c3 = operator+(c1,c2);
-Complex c3 = c1+c2; 
-c3.dis();
-return 0;
-}</code></pre><p>运行结果为：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200309220135436.png" alt="运算结果"></p>
-<p>所以我们之后就要主要在代码编写完成之后考虑是否需要加上const</p>
-<h3 id="const-修饰返值"><a href="#const-修饰返值" class="headerlink" title="const 修饰返值"></a>const 修饰返值</h3><p>C++引入引用的概念后，表达式可以被赋值的现象就出现了，有的表达式可以被赋值，<br>有的表达式则不可以。</p>
-<p>比如，int a; int b; int c; (a=b)= c; 是可以的。而，(a+b) =c ;则是不允许的。</p>
-<p><strong>重载的运算符是否会导致表达式可以被赋值应该以基础类型为准。</strong></p>
-<p><strong>返回类型通过加 const 加以限定来实现。</strong></p>
-<p><strong>并不是所有的表达式均可被赋值。</strong></p>
+    FILE* pf = fopen(&quot;lines.txt&quot;, &quot;r+&quot;);
+    F_PRINTF_ERR(pf);
+    char buf[1024];
+    fgets(buf,2,pf);
+    printf(&quot;buf = %s&quot;,buf);
+    fclose(pf);
+    return 0;
+}</code></pre><p>执行结果为:</p>
+<p><img src="https://img-blog.csdnimg.cn/20200202212321433.png" alt="在这里插入图片描述"></p>
+<p>只读取到了一个字符，这里我们说明第二种情况：</p>
+<p> <strong>n-1 个字符前没有遇到\n，读 n-1 个字符前也没有遇到 EOF，读到 n-1 个字符然后后面加上\0。</strong> </p>
+<p><strong>所以上面代码读取两个的时候只读取到1个  因为最后一个字符用与添加\0表示字符串结束。</strong></p>
+<p>那么这一次我们把所有的\n都去掉：</p>
+<pre><code>#define _CRT_SECURE_NO_WARNINGS
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#define F_PRINTF_ERR(e)\
+do\
+{\
+    if (e == NULL)\
+    {\
+        printf(&quot;open error\n&quot;);\
+        exit(0);\
+    }\
+} while (0)\
+
+int main()
+{
+    FILE* pf = fopen(&quot;lines.txt&quot;, &quot;r+&quot;);
+    F_PRINTF_ERR(pf);
+    fputs(&quot;aaaaaaaaaaaaaaa&quot;, pf);
+    fputs(&quot;bbbbbbbbbbbbbbb&quot;, pf);
+    fputs(&quot;ccccccccccccccc&quot;, pf);
+    return 0;
+}</code></pre><p>执行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200202212417681.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="写入文本操作"></p>
+<p>接下来我们进行读取：</p>
+<pre><code>#define _CRT_SECURE_NO_WARNINGS
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#define F_PRINTF_ERR(e)\
+do\
+{\
+    if (e == NULL)\
+    {\
+        printf(&quot;open error\n&quot;);\
+        exit(0);\
+    }\
+} while (0)\
+
+int main()
+{
+    FILE* pf = fopen(&quot;lines.txt&quot;, &quot;r+&quot;);
+    F_PRINTF_ERR(pf);
+
+
+    char buf[1024];
+    fgets(buf,1024,pf);
+    printf(&quot;buf = %s&quot;,buf);
+    fclose(pf);
+    return 0;
+}</code></pre><p>执行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/2020020221244961.png" alt="执行结果"></p>
+<p>这是我们的第三种情况：</p>
+<p><strong>这次读取没有遇到\n，读取的大小大于存储数据的大小，提前遇到EOF那么此时读取到的就是EOF+\0结束。</strong></p>
+<p>这里在读取所有字母之后遇到了EOF，所以只读取了30个字符并且在后面添加了\0</p>
+<h2 id="典型问题分析"><a href="#典型问题分析" class="headerlink" title="典型问题分析"></a>典型问题分析</h2><p>如果读取以下文件:<br>1234567890abcdefg<br>1234567890<br>abcdefg  \n</p>
+<p>使用</p>
+<pre><code>fgets(buf,10,fp);</code></pre><p>读取数据需要读取多少次？<br>我们在这里直接进行说明，然后通过编译器验证：</p>
+<p><strong>①123456789   \0</strong></p>
+<p><strong>②0abcdefg     \0</strong></p>
+<p><strong>③123456789    \0</strong></p>
+<p><strong>④0            \0</strong></p>
+<p><strong>⑤abcdefg       \0</strong></p>
+<p><strong>⑥需要再进行一次来判断是文件结束EOF</strong></p>
+<p><strong>总共需要6次</strong></p>
+<p>我们通过代码来验证：<br>首先我们先把数据写入文件：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200202212634499.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p>接下来我们进行验证：</p>
+<pre><code>#define _CRT_SECURE_NO_WARNINGS
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#define F_PRINTF_ERR(e)\
+do\
+{\
+    if (e == NULL)\
+    {\
+        printf(&quot;open error\n&quot;);\
+        exit(0);\
+    }\
+} while (0)\
+
+int main()
+{
+    FILE* pf = fopen(&quot;lines.txt&quot;, &quot;r+&quot;);
+    F_PRINTF_ERR(pf);
+    char buf[1024];
+    int count = 0;
+    while (fgets(buf, 10, pf) != NULL)
+    {
+        count++;
+        printf(&quot;第%d次读取%s\n&quot;,count,buf);
+    }
+    return 0;
+}</code></pre><p>执行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200202212658342.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="执行结果"></p>
+<p>如果我们把最后的一行的回车去掉（只留下多一个空行）：</p>
+<p><img src="https://img-blog.csdnimg.cn/2020020221270856.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="文本文件"></p>
+<p>执行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200202212718343.png" alt="执行结果"></p>
+<p>如果我们不要所有的空行：</p>
+<p><img src="https://img-blog.csdnimg.cn/2020020221272336.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="文本文件"></p>
+<p>执行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200202212756985.png" alt="执行结果"></p>
+<p>结果也是只需要读取5次，读者可以根据前面的行规则细细体会其中的不同。</p>
 
             </div>
             <hr/>
@@ -742,7 +727,7 @@ return 0;
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://www.teachermin.com/2020/03/09/C++%E8%BF%90%E7%AE%97%E7%AC%A6%E9%87%8D%E8%BD%BD%E5%BC%95%E5%85%A5(2)/">http://www.teachermin.com/2020/03/09/C++%E8%BF%90%E7%AE%97%E7%AC%A6%E9%87%8D%E8%BD%BD%E5%BC%95%E5%85%A5(2)/</a>
+                    <a href="http://www.teachermin.com/2020/03/17/%E4%B8%80%E6%AC%A1%E8%AF%BB%E5%86%99%E4%B8%80%E8%A1%8C%E6%96%87%E6%9C%AC%E5%AD%97%E7%AC%A6fputs%EF%BC%8Cfgets%EF%BC%8C%E5%85%B8%E5%9E%8B%E9%97%AE%E9%A2%98%E5%88%86%E6%9E%90/">http://www.teachermin.com/2020/03/17/%E4%B8%80%E6%AC%A1%E8%AF%BB%E5%86%99%E4%B8%80%E8%A1%8C%E6%96%87%E6%9C%AC%E5%AD%97%E7%AC%A6fputs%EF%BC%8Cfgets%EF%BC%8C%E5%85%B8%E5%9E%8B%E9%97%AE%E9%A2%98%E5%88%86%E6%9E%90/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -780,8 +765,8 @@ return 0;
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/%E8%BF%90%E7%AE%97%E7%AC%A6%E9%87%8D%E8%BD%BD/">
-                                    <span class="chip bg-color">运算符重载</span>
+                                <a href="/tags/C%E6%96%87%E4%BB%B6/">
+                                    <span class="chip bg-color">C文件</span>
                                 </a>
                             
                         </div>
@@ -951,33 +936,37 @@ return 0;
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2020/03/11/%E6%9C%AC%E6%9C%BAIPC%E4%B9%8B%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E8%AF%A6%E8%A7%A3/">
+                <a href="/2020/03/17/C%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C%EF%BC%9A%E4%B8%80%E6%AC%A1%E8%AF%BB%E5%86%99%E4%B8%80%E4%B8%AA%E6%96%87%E6%9C%AC%E5%AD%97%E7%AC%A6fputc%EF%BC%8Cfgetc%EF%BC%8Cfeof/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/7.jpg" class="responsive-img" alt="本机IPC之消息队列详解">
+                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="C文件操作：一次读写一个文本字符fputc，fgetc，feof">
                         
-                        <span class="card-title">本机IPC之消息队列详解</span>
+                        <span class="card-title">C文件操作：一次读写一个文本字符fputc，fgetc，feof</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            消息队列的原理消息队列的本质就是由内核创建的用于存放消息的双向链表，由于是存放消息的，所以我们就把这个链表称为了消息队列。
-通信的进程通过共享操作同一个消息队列，就能实现进程间通信。
-消息是如何存放在消息队列中的呢？消息队列这个链表有很多的
+                            fputc
+返回值：
+
+上面是我们在linux平台在帮助手册里面查看到的。接下来我们给出代码说明：
+#define _CRT_SECURE_NO_WARNINGS
+#include &lt;stdio.h&gt;
+#include &lt;
                         
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-03-11
+                            <i class="far fa-clock fa-fw icon-date"></i>2020-03-17
                         </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/Linux/" class="post-category">
-                                    Linux
+                            <a href="/categories/C%E5%9F%BA%E7%A1%80/" class="post-category">
+                                    C基础
                                 </a>
                             
                             
@@ -987,8 +976,8 @@ return 0;
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/linux-%E6%9C%AC%E6%9C%BAIPC/">
-                        <span class="chip bg-color">linux 本机IPC</span>
+                    <a href="/tags/C%E6%96%87%E4%BB%B6/">
+                        <span class="chip bg-color">C文件</span>
                     </a>
                     
                 </div>
@@ -1002,31 +991,35 @@ return 0;
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/03/09/Linux%E5%8F%91%E8%A1%8C%E7%89%88%E6%9C%ACshell%E8%AF%B4%E6%98%8EBash%E8%AF%B4%E6%98%8E/">
+                <a href="/2020/03/17/%E4%BA%86%E8%A7%A3%E6%B8%85%E6%A5%9A%E4%B8%8D%E5%90%8C%E5%B9%B3%E5%8F%B0%E7%9A%84%E2%80%9C%E8%A1%8C%E2%80%9D%E6%89%8D%E8%83%BD%E5%9C%A8%E8%B7%A8%E5%B9%B3%E5%8F%B0%E7%BC%96%E7%A8%8B%E4%B8%AD%E6%B8%85%E6%A5%9A%E5%B9%B6%E9%81%BF%E5%85%8D%E7%8A%AF%E9%94%99/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="Linux发行版本/shell说明/Bash说明">
+                        <img src="/medias/featureimages/3.jpg" class="responsive-img" alt="了解清楚不同平台的“行”才能在跨平台编程中清楚并避免犯错">
                         
-                        <span class="card-title">Linux发行版本/shell说明/Bash说明</span>
+                        <span class="card-title">了解清楚不同平台的“行”才能在跨平台编程中清楚并避免犯错</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            Linux发行版本Linux存在着许多不同的Linux发行版本，比如Ubuntu、CentOS、Redhat、Debian、Fedora、Android等等。 但它们都使用了Linux内核。Linux可安装在各种计算机硬件设备中，比如手机、
+                            什么是行定义 
+行是文本编辑器中的概念，文件流中就是一个字符。这个在不同的平台是有差异的。window 平台 ‘\r\n’，linux 平台是’\n’。 
+我们很容易理解，在文本文件里面这就是两行：
+
+我们可以看到文本文件会给我们呈现出所谓
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-03-09
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-03-17
                             </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/Linux/" class="post-category">
-                                    Linux
+                            <a href="/categories/C%E5%9F%BA%E7%A1%80/" class="post-category">
+                                    C基础
                                 </a>
                             
                             
@@ -1036,8 +1029,8 @@ return 0;
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/linux-%E5%9F%BA%E7%A1%80/">
-                        <span class="chip bg-color">linux 基础</span>
+                    <a href="/tags/C%E6%96%87%E4%BB%B6/">
+                        <span class="chip bg-color">C文件</span>
                     </a>
                     
                 </div>
