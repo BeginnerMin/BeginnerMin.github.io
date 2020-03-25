@@ -460,21 +460,21 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2020-03-24
+                    2020-03-25
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    1k
+                    1.2k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    4 分
+                    5 分
                 </div>
                 
 
@@ -702,6 +702,28 @@ int main()
 <p>执行结果为：</p>
 <p><img src="https://img-blog.csdnimg.cn/20200202212756985.png" alt="执行结果"></p>
 <p>结果也是只需要读取5次，读者可以根据前面的行规则细细体会其中的不同。</p>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#define N 1024
+int main()
+{
+FILE* pf = fopen(&quot;xx.txt&quot;, &quot;w+&quot;);
+if (pf == NULL)
+exit(-1);
+fputs(&quot;abcd\n1234567&quot;, pf);
+// fputs(&quot;abcd1234567&quot;,pf);
+rewind(pf);
+char buf[N];
+//遇到\n EOF 的时候返回非空，在 EOF 以后，再去读，返回为NULL
+printf(&quot;%p\n&quot;, fgets(buf, N - 1, pf));
+printf(&quot;%p\n&quot;, fgets(buf, N - 1, pf));
+printf(&quot;%p\n&quot;, fgets(buf, N - 1, pf));
+puts(buf);
+fclose(pf);
+return 0;
+}</code></pre><p>执行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200325121900130.png" alt="执行结果"></p>
+<h3 id="分析说明"><a href="#分析说明" class="headerlink" title="分析说明"></a>分析说明</h3><p><strong>遇到\n 或者EOF 的时候返回非空，在 EOF 以后，再去读取，返回为NULL。</strong></p>
 
             </div>
             <hr/>
@@ -936,28 +958,30 @@ int main()
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2020/03/24/C%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C%EF%BC%9A%E4%BA%86%E8%A7%A3%E6%B8%85%E6%A5%9A%E4%B8%8D%E5%90%8C%E5%B9%B3%E5%8F%B0%E7%9A%84%E2%80%9C%E8%A1%8C%E2%80%9D/">
+                <a href="/2020/03/17/C%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C%EF%BC%9A%E4%B8%80%E6%AC%A1%E8%AF%BB%E5%86%99%E4%B8%80%E4%B8%AA%E6%96%87%E6%9C%AC%E5%AD%97%E7%AC%A6fputc%EF%BC%8Cfgetc%EF%BC%8Cfeof/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="C文件操作：了解清楚不同平台的“行”">
+                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="C文件操作：一次读写一个文本字符fputc，fgetc，feof">
                         
-                        <span class="card-title">C文件操作：了解清楚不同平台的“行”</span>
+                        <span class="card-title">C文件操作：一次读写一个文本字符fputc，fgetc，feof</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            @TOC
-什么是行定义行是文本编辑器中的概念，文件流中就是一个字符。这个在不同的平台是有差异的。window 平台 ‘\r\n’，linux 平台是’\n’。 
-我们很容易理解，在文本文件里面这就是两行：
+                            fputc
+返回值：
 
-我们可以看到文本文件会给我们呈现
+上面是我们在linux平台在帮助手册里面查看到的。接下来我们给出代码说明：
+#define _CRT_SECURE_NO_WARNINGS
+#include &lt;stdio.h&gt;
+#include &lt;
                         
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-03-24
+                            <i class="far fa-clock fa-fw icon-date"></i>2020-03-17
                         </span>
                         <span class="publish-author">
                             
@@ -989,37 +1013,38 @@ int main()
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/03/17/C%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C%EF%BC%9A%E4%B8%80%E6%AC%A1%E8%AF%BB%E5%86%99%E4%B8%80%E4%B8%AA%E6%96%87%E6%9C%AC%E5%AD%97%E7%AC%A6fputc%EF%BC%8Cfgetc%EF%BC%8Cfeof/">
+                <a href="/2020/03/16/%E5%AE%9E%E7%8E%B0%E5%B8%A6%E5%A4%B4%E7%BB%93%E7%82%B9%E7%9A%84%E5%8D%95%E9%93%BE%E8%A1%A8%E5%8F%8A%E5%B8%B8%E8%A7%81%E7%AE%97%E6%B3%95/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="C文件操作：一次读写一个文本字符fputc，fgetc，feof">
+                        <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="实现带头结点的单链表及常见算法">
                         
-                        <span class="card-title">C文件操作：一次读写一个文本字符fputc，fgetc，feof</span>
+                        <span class="card-title">实现带头结点的单链表及常见算法</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            fputc
-返回值：
-
-上面是我们在linux平台在帮助手册里面查看到的。接下来我们给出代码说明：
-#define _CRT_SECURE_NO_WARNINGS
+                            main.cpp#include &quot;LinkList.h&quot;
 #include &lt;stdio.h&gt;
-#include &lt;
+
+int main()
+{
+    Node Link;
+    InitList(&amp;Link);
+ 
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-03-17
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-03-16
                             </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/C%E5%9F%BA%E7%A1%80/" class="post-category">
-                                    C基础
+                            <a href="/categories/%E7%AE%97%E6%B3%95/" class="post-category">
+                                    算法
                                 </a>
                             
                             
@@ -1029,8 +1054,8 @@ int main()
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/C%E6%96%87%E4%BB%B6/">
-                        <span class="chip bg-color">C文件</span>
+                    <a href="/tags/%E9%93%BE%E8%A1%A8/">
+                        <span class="chip bg-color">链表</span>
                     </a>
                     
                 </div>
@@ -1229,7 +1254,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">70.4k</span>&nbsp;字
+                class="white-color">71.3k</span>&nbsp;字
             
             
             

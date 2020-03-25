@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="带头结点的单链表, SkilledBeginner">
+    <meta name="keywords" content="实现带头结点的单链表及常见算法, SkilledBeginner">
     <meta name="description" content="努力做一个很厉害的人">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>带头结点的单链表 | SkilledBeginner</title>
+    <title>实现带头结点的单链表及常见算法 | SkilledBeginner</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -306,12 +306,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/17.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/0.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">带头结点的单链表</h1>
+                    <h1 class="description center-align post-title">实现带头结点的单链表及常见算法</h1>
                 </div>
             </div>
         </div>
@@ -460,21 +460,21 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2020-03-16
+                    2020-03-25
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    2k
+                    2.7k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    9 分
+                    13 分
                 </div>
                 
 
@@ -521,6 +521,13 @@ int main()
     Show(&amp;Link);
     ListDeleteData(&amp;Link,1024);
     Show(&amp;Link);
+    Node* kToLast = Find_k_to_last(&amp;Link,5);
+    printf(&quot;linklist %d to last is %d\n&quot;,5,kToLast-&gt;data);
+    Node * tmp =GetPosPrior(&amp;Link,2);//获得pos位置节点的前驱节点
+    DeleteP(&amp;Link, tmp);
+    Show(&amp;Link);
+    reverse(&amp;Link);
+    Show(&amp;Link);
     return 0;
 }</code></pre><h2 id="LinkList-h"><a href="#LinkList-h" class="headerlink" title="LinkList.h"></a>LinkList.h</h2><pre><code>#pragma 
 
@@ -548,14 +555,26 @@ int  ListLength(LinkList head);//求链表长度
 ElemType GetElem(LinkList head, int pos); //得到链表的第pos个元素
 int LocateElem(LinkList head, ElemType data);  //得到链表指定元素的位置
 Node* GetPosPrior(LinkList head, int pos);//获得pos位置节点的前驱节点
-void Show(LinkList head);//打印单链表
-void ListInsert(LinkList head, int pos, ElemType data); //在指定位置插入元素
+void Show(LinkList head);  //打印单链表
+void ListInsert(LinkList head, int pos, ElemType data);//在指定位置插入元素
 void ListInsertHead(LinkList head,ElemType data);  //在链表的头部插入元素
 void ListInsertTail(LinkList head, ElemType data); //在链表的尾部插入元素
 void ListDeletePos(LinkList head, int pos);//删除指定位置的元素
-void ListDeleteHead(LinkList head);   //删除单链表的第一个元素
-void ListDeleteTail(LinkList head);   //删除单链表的最后一个元素
-void ListDeleteData(LinkList head, ElemType data);//删除与data相等数据的元素</code></pre><h2 id="LinkList-cpp"><a href="#LinkList-cpp" class="headerlink" title="LinkList.cpp"></a>LinkList.cpp</h2><pre><code>#include &quot;LinkList.h&quot;
+void ListDeleteHead(LinkList head);//删除单链表的第一个元素
+void ListDeleteTail(LinkList head);//删除单链表的最后一个元素
+void ListDeleteData(LinkList head, ElemType data);  ////删除与data相等数据的元素
+/*面经题
+1、找倒数第k个结点O(n)
+2、O(1)删除结点p（不是尾结点）
+3、单链表的原地逆置
+4、判断两个单链表是否相交，找到相交的一个结点
+5、判断单链表是否有环，找到入环的第一个结点
+*/
+Node* Find_k_to_last(LinkList head, int k);  //查找到链表中的倒数第K个节点O(n)
+void DeleteP(LinkList head, Node* pfind);   //O(1)删除结点p（不是尾结点）
+LinkList reverse(LinkList head); //单链表的原地逆置
+Node* IsIntersect(LinkList head1, LinkList head2);//判断两个单链表是否相交，找到相交的一个结点
+Node* IsLoop(LinkList head);  //判断单链表是否有环,找到入环的第一个结点</code></pre><h2 id="LinkList-cpp"><a href="#LinkList-cpp" class="headerlink" title="LinkList.cpp"></a>LinkList.cpp</h2><pre><code>#include &quot;LinkList.h&quot;
 #include &lt;stdio.h&gt;
 #include &lt;stdlib.h&gt;
 #include &lt;malloc.h&gt;
@@ -871,6 +890,8 @@ void ListDeletePos(LinkList head, int pos)
         printf(&quot;%s %d error&quot;, __FUNCTION__, __LINE__);
         exit(0);
     }
+    if (pos&lt;0 || pos&gt;head-&gt;data)
+        exit(0);
     Node * tmp = GetPosPrior(head,pos);
     Node* PosNode = tmp-&gt;next;
     tmp-&gt;next = PosNode-&gt;next;
@@ -957,7 +978,167 @@ void ListDeleteData(LinkList head, ElemType data)   //删除与data相等数据�
             count++;
         }    
     }
-}</code></pre><h2 id="测试结果"><a href="#测试结果" class="headerlink" title="测试结果"></a>测试结果</h2><p><img src="https://img-blog.csdnimg.cn/20200316190927468.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="测试结果"></p>
+}
+
+/*------------------------------------------------------------
+操作目的：    查找链表中倒数第k和节点
+初始条件：    线性表head已存在且非空
+操作结果：    查找链表中倒数第k和节点
+函数参数：
+        LinkList head    线性表head
+        int  k  倒数第k个元素
+返回值：
+        无返回值
+------------------------------------------------------------*/
+Node* Find_k_to_last(LinkList head, int k)
+{
+    assert(head != NULL);
+    if (head == NULL)
+    {
+        printf(&quot;%s %d error&quot;, __FUNCTION__, __LINE__);
+        exit(0);
+    }
+    if (k &lt; 1)
+    {
+        printf(&quot;pos error&quot;);
+        exit(0);
+    }
+    Node* fast = head-&gt;next;
+    Node* slow = head-&gt;next;
+    while (k &gt; 0 &amp;&amp; fast)
+    {
+        fast = fast-&gt;next;
+        k--;
+    }
+
+    while (fast)
+    {
+        fast = fast-&gt;next;
+        slow = slow-&gt;next;
+    }
+    return slow;
+
+}
+
+void DeleteP(LinkList head,Node * pfind)
+{
+    assert(head != NULL);
+    if (head == NULL)
+    {
+        printf(&quot;%s %d error&quot;, __FUNCTION__, __LINE__);
+        exit(0);
+    }
+    if (pfind-&gt;next == NULL)
+    {
+        while (head-&gt;next != pfind)
+            head = head-&gt;next;
+        head-&gt;next = pfind-&gt;next;
+        free(pfind);
+        pfind = NULL;
+    }
+    else
+    {
+        Node* p = pfind-&gt;next;
+        pfind-&gt;data = pfind-&gt;next-&gt;data;
+        pfind-&gt;next = pfind-&gt;next-&gt;next;
+        free(p);
+        pfind = NULL;
+    }
+}
+
+LinkList reverse(LinkList head) //单链表的原地逆置
+{
+    assert(head != NULL);
+    if (head == NULL)
+    {
+        printf(&quot;%s %d error&quot;, __FUNCTION__, __LINE__);
+        exit(0);
+    }
+    Node* p;
+    Node* s;
+    p = head-&gt;next;
+    s = p-&gt;next;
+    head-&gt;next = NULL;
+    while (p)
+    {
+        p-&gt;next = head-&gt;next;
+        head-&gt;next = p;
+        p = s;
+        if (p != NULL)
+            s = p-&gt;next;
+    }
+    return head;
+}
+
+Node* IsIntersect(LinkList head1, LinkList head2)//判断两个单链表是否相交，找到相交的一个结点
+{
+    if (head1 == NULL || head2 == NULL)  return NULL;
+    int distance = 0;
+    Node* p = head1-&gt;next;
+    Node* q = head2-&gt;next;
+    distance = head1-&gt;data &gt; head2-&gt;data ? head1-&gt;data - head2-&gt;data : head2-&gt;data - head1-&gt;data;
+    if (head1-&gt;data &gt; head2-&gt;data)
+    {
+        while (distance)
+        {
+            p = p-&gt;next;
+            distance--;
+        }
+        while (p)
+        {
+            if (p == q)  return p;
+            p = p-&gt;next;
+            q = q-&gt;next;
+        }
+    }
+    if(head1-&gt;data &lt;= head2-&gt;data)
+    {
+        while (distance)
+        {
+            q = q-&gt;next;
+            distance--;
+        }
+        while (q)
+        {
+            if (p == q)  return p;
+            p = p-&gt;next;
+            q = q-&gt;next;
+        }
+    }
+    return NULL;
+}
+
+Node* IsLoop(LinkList head)//判断单链表是否有环，找到入环的第一个结点
+{
+    assert(head != NULL);
+    if (head == NULL)
+    {
+        printf(&quot;%s %d error&quot;, __FUNCTION__, __LINE__);
+        exit(0);
+    }
+    Node* p = head;
+    Node* q = head;
+    while (1)
+    {
+        p = p-&gt;next;
+        if (q == NULL || q-&gt;next == NULL)
+            break;
+        q = q-&gt;next-&gt;next;
+        if (p == q)
+            break;
+    }
+    if (p != q)
+        return NULL;
+    else
+        p = head-&gt;next;
+    while (p != q)
+    {
+        p = p-&gt;next;
+        q = q-&gt;next;
+    }
+    return p;
+}</code></pre><h3 id="判断单链表是否有环，找到入环的第一个结点（图解分析）"><a href="#判断单链表是否有环，找到入环的第一个结点（图解分析）" class="headerlink" title="判断单链表是否有环，找到入环的第一个结点（图解分析）"></a>判断单链表是否有环，找到入环的第一个结点（图解分析）</h3><p><img src="https://img-blog.csdnimg.cn/20200325093644501.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="判断单链表是否有环，找到入环的第一个结点"></p>
+<h2 id="测试结果"><a href="#测试结果" class="headerlink" title="测试结果"></a>测试结果</h2><p><img src="https://img-blog.csdnimg.cn/20200325093532627.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="测试结果"></p>
 
             </div>
             <hr/>
@@ -983,7 +1164,7 @@ void ListDeleteData(LinkList head, ElemType data)   //删除与data相等数据�
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://www.teachermin.com/2020/03/16/%E5%B8%A6%E5%A4%B4%E7%BB%93%E7%82%B9%E7%9A%84%E5%8D%95%E9%93%BE%E8%A1%A8/">http://www.teachermin.com/2020/03/16/%E5%B8%A6%E5%A4%B4%E7%BB%93%E7%82%B9%E7%9A%84%E5%8D%95%E9%93%BE%E8%A1%A8/</a>
+                    <a href="http://www.teachermin.com/2020/03/16/%E5%AE%9E%E7%8E%B0%E5%B8%A6%E5%A4%B4%E7%BB%93%E7%82%B9%E7%9A%84%E5%8D%95%E9%93%BE%E8%A1%A8%E5%8F%8A%E5%B8%B8%E8%A7%81%E7%AE%97%E6%B3%95/">http://www.teachermin.com/2020/03/16/%E5%AE%9E%E7%8E%B0%E5%B8%A6%E5%A4%B4%E7%BB%93%E7%82%B9%E7%9A%84%E5%8D%95%E9%93%BE%E8%A1%A8%E5%8F%8A%E5%B8%B8%E8%A7%81%E7%AE%97%E6%B3%95/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -1192,25 +1373,24 @@ void ListDeleteData(LinkList head, ElemType data)   //删除与data相等数据�
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2020/03/17/C%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C%EF%BC%9A%E4%B8%80%E6%AC%A1%E8%AF%BB%E5%86%99%E4%B8%80%E4%B8%AA%E6%96%87%E6%9C%AC%E5%AD%97%E7%AC%A6fputc%EF%BC%8Cfgetc%EF%BC%8Cfeof/">
+                <a href="/2020/03/17/C%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C%EF%BC%9A%E4%B8%80%E6%AC%A1%E8%AF%BB%E5%86%99%E4%B8%80%E8%A1%8C%E6%96%87%E6%9C%AC%E5%AD%97%E7%AC%A6fputs%EF%BC%8Cfgets%EF%BC%8C%E5%85%B8%E5%9E%8B%E9%97%AE%E9%A2%98%E5%88%86%E6%9E%90/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="C文件操作：一次读写一个文本字符fputc，fgetc，feof">
+                        <img src="/medias/featureimages/22.jpg" class="responsive-img" alt="C文件操作：一次读写一行文本字符fputs，fgets，典型问题分析">
                         
-                        <span class="card-title">C文件操作：一次读写一个文本字符fputc，fgetc，feof</span>
+                        <span class="card-title">C文件操作：一次读写一行文本字符fputs，fgets，典型问题分析</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            fputc
-返回值：
-
-上面是我们在linux平台在帮助手册里面查看到的。接下来我们给出代码说明：
+                            fputs函数
+我们给出使用的测试代码：
 #define _CRT_SECURE_NO_WARNINGS
 #include &lt;stdio.h&gt;
-#include &lt;
+#include &lt;stdlib.h&gt;
+#define F_PRINTF
                         
                     </div>
                     <div class="publish-info">
@@ -1485,7 +1665,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">70.4k</span>&nbsp;字
+                class="white-color">71.3k</span>&nbsp;字
             
             
             
