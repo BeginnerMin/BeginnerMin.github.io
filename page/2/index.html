@@ -357,22 +357,79 @@
             
             <div class="article col s12 m6 l4" data-aos="zoom-in">
                 <div class="card">
-                    <a href="/2020/03/17/C%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C%EF%BC%9Afwritefread%20%E8%BF%94%E5%9B%9E%E5%80%BC%E7%9A%84%E9%99%B7%E9%98%B1/">
+                    <a href="/2020/03/17/C%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C%EF%BC%9A%E4%B8%80%E6%AC%A1%E8%AF%BB%E5%86%99%E4%B8%80%E4%B8%AA%E6%96%87%E6%9C%AC%E5%AD%97%E7%AC%A6fputc%EF%BC%8Cfgetc%EF%BC%8Cfeof/">
                         <div class="card-image">
                             
                             
-                            <img src="/medias/featureimages/23.jpg" class="responsive-img" alt="C文件操作：fwrite / fread 返回值的陷阱">
+                            <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="C文件操作：一次读写一个文本字符fputc，fgetc，feof">
                             
-                            <span class="card-title">C文件操作：fwrite / fread 返回值的陷阱</span>
+                            <span class="card-title">C文件操作：一次读写一个文本字符fputc，fgetc，feof</span>
                         </div>
                     </a>
 
                     <div class="card-content article-content">
                         <div class="summary block-with-text">
                             
-                                fwrite / fread函数返回值的陷阱二进制文件没有\n / EOF / len-1 作为读出的结束标识，fread 依靠读出块多少来标识读结果和文件结束标志。 
-以最小的单元格式进行读，或是以写入的最小单元进行读
-我们通过文本进行写
+                                fputc
+返回值：
+
+上面是我们在linux平台在帮助手册里面查看到的。接下来我们给出代码说明：
+#define _CRT_SECURE_NO_WARNINGS
+#include &lt;stdio.h&gt;
+#include &lt;
+                            
+                        </div>
+                        <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-03-17
+                            </span>
+                            <span class="publish-author">
+                                
+                                <i class="fas fa-bookmark fa-fw icon-category"></i>
+                                
+                                <a href="/categories/C%E5%9F%BA%E7%A1%80/" class="post-category">
+                                    C基础
+                                </a>
+                                
+                                
+                            </span>
+                        </div>
+                    </div>
+
+                    
+                    <div class="card-action article-tags">
+                        
+                        <a href="/tags/C%E6%96%87%E4%BB%B6/">
+                            <span class="chip bg-color">C文件</span>
+                        </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+            
+            <div class="article col s12 m6 l4" data-aos="zoom-in">
+                <div class="card">
+                    <a href="/2020/03/17/C%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C%EF%BC%9A%E6%96%87%E4%BB%B6%E6%8C%87%E9%92%88%E5%81%8F%E7%A7%BB,%20rewind%E5%87%BD%E6%95%B0,ftell%E5%87%BD%E6%95%B0%20,%20fseek%E5%87%BD%E6%95%B0/">
+                        <div class="card-image">
+                            
+                            
+                            <img src="/medias/featureimages/18.jpg" class="responsive-img" alt="C文件操作：文件指针偏移, rewind函数,ftell函数 , fseek函数">
+                            
+                            <span class="card-title">C文件操作：文件指针偏移, rewind函数,ftell函数 , fseek函数</span>
+                        </div>
+                    </a>
+
+                    <div class="card-content article-content">
+                        <div class="summary block-with-text">
+                            
+                                rewind 函数
+如果一个文件具有读写属性，当我们写完文件，需要读的时候，此时会遇到文件结尾现象。此时就需要 rewind。
+ftell 函数
+#include &lt;stdio.h&gt;
+int main()
+{
+    FILE*
                             
                         </div>
                         <div class="publish-info">
@@ -910,53 +967,6 @@ init 的初始化前面我们封装 Date/Stack/List，虽然表达的意义各�
                 </div>
             </div>
             
-            <div class="article col s12 m6 l4" data-aos="zoom-in">
-                <div class="card">
-                    <a href="/2020/03/12/C++%E6%B4%BE%E7%94%9F%E7%B1%BB%E7%9A%84%E6%9E%84%E9%80%A0/">
-                        <div class="card-image">
-                            
-                            
-                            <img src="/medias/featureimages/9.jpg" class="responsive-img" alt="C++派生类的构造">
-                            
-                            <span class="card-title">C++派生类的构造</span>
-                        </div>
-                    </a>
-
-                    <div class="card-content article-content">
-                        <div class="summary block-with-text">
-                            
-                                派生类的构造派生的过程不管子类有没有需要，都是把基类的所有成员全部继承。全部继承就会出现问题。基类的部分成员在派生类中是不可见的，不可见就没有办法在派生类里面进行初始化，那么在派生类中不可见的继承部分就需要在基类的构造器中进行初始化，但是派
-                            
-                        </div>
-                        <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-03-12
-                            </span>
-                            <span class="publish-author">
-                                
-                                <i class="fas fa-bookmark fa-fw icon-category"></i>
-                                
-                                <a href="/categories/C/" class="post-category">
-                                    C++
-                                </a>
-                                
-                                
-                            </span>
-                        </div>
-                    </div>
-
-                    
-                    <div class="card-action article-tags">
-                        
-                        <a href="/tags/C-%E7%BB%A7%E6%89%BF/">
-                            <span class="chip bg-color">C++继承</span>
-                        </a>
-                        
-                    </div>
-                    
-                </div>
-            </div>
-            
         </div>
     </article>
 
@@ -1049,7 +1059,7 @@ init 的初始化前面我们封装 Date/Stack/List，虽然表达的意义各�
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">87.8k</span>&nbsp;字
+                class="white-color">88.2k</span>&nbsp;字
             
             
             
