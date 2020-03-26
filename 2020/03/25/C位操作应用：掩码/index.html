@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="C++继承的定义, SkilledBeginner">
+    <meta name="keywords" content="C位操作应用：掩码, SkilledBeginner">
     <meta name="description" content="努力做一个很厉害的人">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>C++继承的定义 | SkilledBeginner</title>
+    <title>C位操作应用：掩码 | SkilledBeginner</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -306,12 +306,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/16.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/3.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">C++继承的定义</h1>
+                    <h1 class="description center-align post-title">C位操作应用：掩码</h1>
                 </div>
             </div>
         </div>
@@ -428,8 +428,8 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/C-%E7%BB%A7%E6%89%BF/">
-                                <span class="chip bg-color">C++继承</span>
+                            <a href="/tags/C%E4%BD%8D%E6%93%8D%E4%BD%9C/">
+                                <span class="chip bg-color">C位操作</span>
                             </a>
                         
                     </div>
@@ -440,8 +440,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/C/" class="post-category">
-                                C++
+                            <a href="/categories/C%E5%9F%BA%E7%A1%80/" class="post-category">
+                                C基础
                             </a>
                         
                     </div>
@@ -453,28 +453,28 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-03-12
+                    2020-03-25
                 </div>
                 
 
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2020-03-12
+                    2020-03-25
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    2.5k
+                    983
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    10 分
+                    4 分
                 </div>
                 
 
@@ -490,339 +490,246 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="继承的定义"><a href="#继承的定义" class="headerlink" title="继承的定义"></a>继承的定义</h2><p>类的继承，是新的类从已有类那里得到已有的特性。已有类产生新类的过程就是类的派生。原有的类称为基类或父类，产生的新类称为派生类或子类。<br>派生与继承，是同一种意义两种称谓。</p>
-<p>我们已经在继承引入中详细说明。<br>从已有的父类中进行继承的时候，父类相当于是共性，例如我们给出的Human类，子类通过继承得到父类的特性，但是每一个子类都有自己个性只属于每一个子类。</p>
-<h3 id="定性-is-a-Not-has-a"><a href="#定性-is-a-Not-has-a" class="headerlink" title="定性 is-a Not has-a"></a>定性 is-a Not has-a</h3><p><strong>is-a 是一种 属于关系。</strong><br>如：狗属于一种动物，车属于一种交通工具(Dog is an Animal. Car is a Vehicle.)在面向对象中表现为一种继承关系。可以设计一个 Animal 类，Dog 类作为Animal 类(基类)的派生类；设计一个 Vehicle 类，Car 类作为 Vehicle 类(基类)的派生类。</p>
-<p><strong>has-a 是一种 包含、 、 组合关系。</strong><br>如：车包含方向盘、轮胎、发动机(Car has steering-wheel,wheels, engine)，但不能说方向盘/轮胎/发动机是一种车；狗包含腿、尾巴，但不能说腿、尾巴是一种狗。正确的应该说车聚合(包含)了方向盘、轮胎、发动机。</p>
-<p>因此，如果 A is a B，则 B 是 A 的基类，A 是 B 的派生类。为继承关系。如果 A 包含 B，则 B 是 A 的组成部分。为聚合关系，可以由组成部分聚合成为一个类。</p>
-<p><strong>宏观意义上来讲， is-a 和 has-a 均可以实现代码的可重用性。</strong></p>
-<h3 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h3><pre><code>class 派生类名：[继承方式] 基类名
-{
-派生类成员声明；
-};</code></pre><p><strong>默认的继承方式是 private 私有继承。</strong></p>
-<p><strong>一个派生类可以同时有多个基类，这种情况称为多重继承，派生类只有一个基类，称为单继承。</strong></p>
-<p>下面我们从单继承开始说明</p>
-<h2 id="继承方式"><a href="#继承方式" class="headerlink" title="继承方式"></a>继承方式</h2><h3 id="分类"><a href="#分类" class="headerlink" title="分类"></a>分类</h3><p><img src="https://img-blog.csdnimg.cn/2020031015144454.png" alt="继承方式"></p>
-<p>我们先来说明public公有继承。</p>
-<h3 id="继承方式影响了什么？"><a href="#继承方式影响了什么？" class="headerlink" title="继承方式影响了什么？"></a>继承方式影响了什么？</h3><p><strong>继承方式规定了子类如何访问从基类继承的成员。</strong></p>
-<p><strong>继承方式有 public, private, protected。继承方式不影响派生类的访问权限， 影响了从基类继承而来的成员的访问权限，包括派生类内的访问权限和派生类对象的访问权限。</strong></p>
-<p><strong>protected 在外部对象访问的时候，等价于private</strong><br><strong>在类内所有的访问权限都是公开的。</strong></p>
-<p><strong>也就是说不影响派生类在类内部成员的访问方式，影响了基类成员在派生类内部和派生类创建的外部对象的访问权限。</strong></p>
-<p>我们再来看一下共有类public的继承方式：<br><strong>基类的公有成员和保护成员在派生类中保持原有访问属性，其私有成员仍为基类的私有成员。派生类中没有访问权限</strong></p>
-<pre><code>#include &lt;iostream&gt;
+                <h2 id="掩码-mask"><a href="#掩码-mask" class="headerlink" title="掩码(mask)"></a>掩码(mask)</h2><p>掩盖掉一些东西，然后，留下一些东西，就是掩码存在的意义。</p>
+<p><img src="https://img-blog.csdnimg.cn/20200325222740235.png" alt="掩码及标志位"></p>
+<p><img src="https://img-blog.csdnimg.cn/20200325222758742.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="掩码与标志位取AND"></p>
+<h2 id="功能"><a href="#功能" class="headerlink" title="功能"></a>功能</h2><p><strong>①  打开位（位置 1） flag |= MASK;</strong></p>
+<p><strong>② 关闭位（位置 0） flag &amp;= ~MASK;</strong></p>
+<p><strong>③ 转置位（位反转） flag ^= MASK;</strong></p>
+<p><strong>④ 查看某一位的值 if((flag&amp;MASK)==MASK)</strong></p>
+<h3 id="打开位（位置-1）-flag-MASK"><a href="#打开位（位置-1）-flag-MASK" class="headerlink" title="打开位（位置 1） flag |= MASK;"></a>打开位（位置 1） flag |= MASK;</h3><p>我们先来看打开位，之前我们在判断真假的时候如果使用的是char类型数据，只能通过判断char类型数据整体来判断真假，但是如果使用位来判断，一个char就可以有8种控制，那么就可以使用移位。</p>
+<p>如果用来控制灯的开关，之前一个char类型的数据只能控制一盏灯，如果使用位来判断，一个位就可以控制八盏灯。</p>
+<pre><code>#include &lt;stdio.h&gt;
 
-//继承方式影响了什么？不影响什么？
-
-class A
-{
-public:
-int pub;
-protected:
-int pro;
-private:
-int pri;
-};
-
-class B : public A
-{
-public:
-    int pubb;
-protected:
-    int prob;
-private:
-    int prib;
-};
-
-int main()
-{
-B b;
-b.pubb;
-b.prob;
-b.prib;
-return 0;
-}</code></pre><p>上面代码中：</p>
-<pre><code>b.prob;
-b.prib;</code></pre><p>会报错。</p>
-<p><img src="https://img-blog.csdnimg.cn/20200310151642453.png" alt="编译器报错"></p>
-<pre><code>#include &lt;iostream&gt;
-
-using namespace std;
-
-class A
-{
-public:
-int pub;
-protected:
-int pro;
-private:
-int pri;
-};
-
-class B : public A
-{
-public:
-void func()
-{
-cout &lt;&lt; pubb &lt;&lt; prob &lt;&lt; prib &lt;&lt; endl;
-}
-    int pubb;
-protected:
-    int prob;
-private:
-    int prib;
-};</code></pre><p><strong>上面的定义方式不管B类对于A类是否继承，都不会影响到B类在类内对于所有成员的访问。</strong></p>
-<p>我们再来看下面代码：</p>
-<pre><code>#include &lt;iostream&gt;
-
-using namespace std;
-
-//继承方式影响了什么？不影响什么？
-
-class A
-{
-public:
-int pub;
-protected:
-int pro;
-private:
-int pri;
-};
-
-class B : public A
-{
-public:
-void func()
-{
-cout &lt;&lt; pub &lt;&lt; endl;
-cout &lt;&lt; pro &lt;&lt; endl   //protected继承自后在子类可见
-cout &lt;&lt; pri &lt;&lt; endl; //不可见，无法访问
-}
-    int pubb;
-protected:
-    int prob;
-private:
-    int prib;
-};
-
-int main()
-{
-B b;
-b.pub;
-b.pro;  //出错
-b.pri;  //出错
-return 0;
-}</code></pre><p><strong>继承之后父类的成员在子类内部可以访问是public成员和protected成员，父类中的private成员在子类的内部不允许访问。</strong></p>
-<pre><code>b.pro;  //出错
-b.pri;  //出错</code></pre><p>两行代码出错<br>说明<strong>父类的public成员在子类继承之后创建的外部对象可以访问。</strong></p>
-<p><strong>父类的private成员和protected成员在子类继承之后创建的外部对象没有访问权限。</strong></p>
-<p><strong>子类从父类继承public成员之后在子类中仍然为public。所以子类的对象可以访问。</strong></p>
-<p><strong>子类从父类继承private成员之后在子类中直接不可访问，所以子类创建的对象也就不会有访问权限。</strong></p>
-<p>但如上面代码中，<strong>子类在继承父类的protected的时候，我们现在只是知道了在子类中可以访问，在子类创建的对象中没有访问权限我们并不清楚</strong>。所以子类对于从父类继承下来的protected到底是protected还是private我们需要验证：<br>我们再写一个C类进行继承B类：</p>
-<pre><code>class A
-{
-public:
-int pub;
-protected:
-int pro;
-private:
-int pri;
-};
-
-class B : public A
-{
-public:
-void func()
-{
-cout &lt;&lt; pub &lt;&lt; endl;
-cout &lt;&lt; pro &lt;&lt; endl
-cout &lt;&lt; pri &lt;&lt; endl; //不可见，无法访问
-}
-    int pubb;
-protected:
-    int prob;
-private:
-    int prib;
-};
-
-class C : public B
-{
-public:
-    void foo()
+void dis32bin(int data)
     {
-        cout &lt;&lt; pub &lt;&lt; endl;
-        cout &lt;&lt; pro &lt;&lt; endl
-        cout &lt;&lt; pri &lt;&lt; endl; //不可见，无法访问
+        int i = 32;
+        while (i--)
+        {
+            if (data &amp; (1 &lt;&lt; i))
+                printf(&quot;1&quot;);
+            else
+            {
+                printf(&quot;0&quot;);
+            }
+            if (i % 4 == 0)
+            {
+                if (i % 8 == 0)
+                    printf(&quot; &quot;);
+                else
+                    printf(&quot;-&quot;);
+            }
+        }
+        putchar(10);
     }
-    int pubb;
-protected:
-    int prob;
-private:
-    int prib;
-};</code></pre><p>C类中的<code>cout &lt;&lt; pro &lt;&lt; endl；</code> 通过了<br>所以<strong>子类从父类继承protected成员之后类内仍可见，所以在子类C中pro仍然为protected。</strong></p>
-<p>所以继承方式中，<strong>父类的protected成员在子类继承之后仍为protected。</strong></p>
-<p><strong>protected 在外部访问的时候，等价于private。所以子类的对象不具有访问权限。</strong></p>
-<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>通过上面的验证我们最终得到结论：</p>
-<p><img src="https://img-blog.csdnimg.cn/2020031015205814.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="继承方式"></p>
-<p>我们上面已经使用的如何验证，父类中 protected 成员,在 public 继承后，仍然是 protected 的呢？</p>
-<p>答案是，再次用 public 派生出孙子类，在其类内考查其可见性。</p>
-<h2 id="派生类的组成"><a href="#派生类的组成" class="headerlink" title="派生类的组成"></a>派生类的组成</h2><h3 id="计算类的大小"><a href="#计算类的大小" class="headerlink" title="计算类的大小"></a>计算类的大小</h3><pre><code>#include &lt;iostream&gt;
-
-using namespace std;
-
-//继承方式影响了什么？不影响什么？
-
-class A
-{
-public:
-int pub;
-protected:
-int pro;
-private:
-int pri;
-};
-
-class B : public A
-{
-public:
-    int pubb;
-protected:
-    int prob;
-private:
-    int prib;
-};
-
-class C : public B
-{
-public:
-    int pubb;
-protected:
-    int prob;
-private:
-    int prib;
-};
-
-int main()
-{
-    cout &lt;&lt; sizeof(A) &lt;&lt; endl;
-    cout &lt;&lt; sizeof(B) &lt;&lt; endl;
-return 0;
-}</code></pre><p>运行结果为：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200310152156734.png" alt="运行结果"></p>
-<p>我们可以看到，子类会继承父类的所有成员。<br>包括public    ,   protected    ,private 所有的成员，即使private中的数据成员继承之后在类中没有访问权限，也会继承。</p>
-<p>继承往往是因为需要的功能，如果是子类中已有的功能再进行继承的话就会出现派生类成员冗余，所以基类需要设计，避免派生类的冗余。</p>
-<h3 id="组成图示"><a href="#组成图示" class="headerlink" title="组成图示"></a>组成图示</h3><p>派生类中的成员，包含两大部分，一类是从基类继承过来的，一类是自己增加的成员。</p>
-<p>从基类继承过来的表现其共性，而新增的成员体现了其个性。</p>
-<p><img src="https://img-blog.csdnimg.cn/20200310152225661.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="派生类的组成"></p>
-<h3 id="一个很重要的结论"><a href="#一个很重要的结论" class="headerlink" title="一个很重要的结论"></a>一个很重要的结论</h3><p><img src="https://img-blog.csdnimg.cn/20200312140406636.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="一个很重要的结论"></p>
-<h3 id="一个很重要的测试"><a href="#一个很重要的测试" class="headerlink" title="一个很重要的测试"></a>一个很重要的测试</h3><h4 id="代码演示"><a href="#代码演示" class="headerlink" title="代码演示"></a>代码演示</h4><pre><code>#include &lt;iostream&gt;
-
-using namespace std;
-
-
-class A
-{
-public:
-A()
-{
-cout &lt;&lt; &quot;A()&quot; &lt;&lt; endl;
-cout &lt;&lt; &quot;&amp;a:&quot; &lt;&lt; &amp;a &lt;&lt; endl;
-cout &lt;&lt; &quot;A-this:&quot;&lt;&lt;this&lt;&lt;endl;
-}
-int a;
-
-};
-
-class B : public A
-{
-public:
-B()
-{
-cout &lt;&lt; &quot;B()&quot; &lt;&lt; endl;
-cout &lt;&lt; &quot;&amp;b:&quot; &lt;&lt; &amp;b &lt;&lt; endl;
-cout &lt;&lt; &quot;B-this:&quot;&lt;&lt;this&lt;&lt;endl;
-}
-int b;
-};
-
-class C : public B
-{
-public:
-C()
-{
-cout &lt;&lt; &quot;C()&quot; &lt;&lt; endl;
-cout &lt;&lt; &quot;&amp;c:&quot; &lt;&lt; &amp;c &lt;&lt; endl;
-cout &lt;&lt; &quot;C-this:&quot;&lt;&lt;this&lt;&lt;endl;
-}
-int c;
-};
-
-int main()
-{
-C d;
-cout &lt;&lt; &quot;&amp;d:&quot; &lt;&lt; &amp;d &lt;&lt; endl;
-return 0;
-}</code></pre><p>运行结果为：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200310152258544.png" alt="运行结果"></p>
-<p>所有的this指针都是指向生成的对象d。</p>
-<h4 id="内存模型"><a href="#内存模型" class="headerlink" title="内存模型"></a>内存模型</h4><p><img src="https://img-blog.csdnimg.cn/20200310152326420.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="内存模型"></p>
-<p>三个类构造器的this指针指向的是同一个地址，也就是子类C生成对象的地址。<br>我们也容易理解，类是不会有地址的，对象才有地址，那么继承之后的子类C只生成了一个对象，那么这三个类中构造器的this指针都是子类C生成对象的地址。</p>
-<p>但是这几个this是有区别的，<strong>三个构造器中的地址相同，类型不同。</strong></p>
-<p>代码演示：</p>
-<pre><code>#include &lt;iostream&gt;
-#include &lt;typeinfo&gt;
-using namespace std;
-
-
-class A
-{
-public:
-    A()
+    int main()
     {
-        cout &lt;&lt; &quot;A()&quot; &lt;&lt; endl;
-        cout &lt;&lt; &quot;&amp;a:&quot; &lt;&lt; &amp;a &lt;&lt; endl;
-        cout &lt;&lt; &quot;A-this:&quot; &lt;&lt; this &lt;&lt; endl;
-        cout &lt;&lt; typeid(this).name() &lt;&lt; endl;
-    }
-    int a;
+        //1开0关 0101   0101 0x55   8栈灯有4盏灯亮
+ //操作后 0000   1000 1&lt;&lt;3
+        char ch = 0x55;
+        dis32bin(ch);
+        //只打开其中一盏灯  
+        int mask = 1 &lt;&lt; 3;
+        ch |= mask;   //0000   1000
+        dis32bin(ch);
+        return 0;
+    }</code></pre><p>执行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/2020032522285589.png" alt="打开位"></p>
+<h3 id="关闭位（位置-0）-flag-amp-MASK"><a href="#关闭位（位置-0）-flag-amp-MASK" class="headerlink" title="关闭位（位置 0） flag &amp;= ~MASK;"></a>关闭位（位置 0） flag &amp;= ~MASK;</h3><pre><code>#include &lt;stdio.h&gt;
 
-};
-
-class B : public A
-{
-public:
-    B()
+void dis32bin(int data)
     {
-        cout &lt;&lt; &quot;B()&quot; &lt;&lt; endl;
-        cout &lt;&lt; &quot;&amp;b:&quot; &lt;&lt; &amp;b &lt;&lt; endl;
-        cout &lt;&lt; &quot;B-this:&quot; &lt;&lt; this &lt;&lt; endl;
-        cout &lt;&lt; typeid(this).name() &lt;&lt; endl;
+        int i = 32;
+        while (i--)
+        {
+            if (data &amp; (1 &lt;&lt; i))
+                printf(&quot;1&quot;);
+            else
+            {
+                printf(&quot;0&quot;);
+            }
+            if (i % 4 == 0)
+            {
+                if (i % 8 == 0)
+                    printf(&quot; &quot;);
+                else
+                    printf(&quot;-&quot;);
+            }
+        }
+        putchar(10);
     }
-    int b;
-};
-
-class C : public B
-{
-public:
-    C()
+    int main()
     {
-        cout &lt;&lt; &quot;C()&quot; &lt;&lt; endl;
-        cout &lt;&lt; &quot;&amp;c:&quot; &lt;&lt; &amp;c &lt;&lt; endl;
-        cout &lt;&lt; &quot;C-this:&quot; &lt;&lt; this &lt;&lt; endl;
-        cout &lt;&lt; typeid(this).name() &lt;&lt; endl;
-    }
-    int c;
-};
+        //1开0关 0101   0101 0x55   8栈灯有4盏灯亮
+ // 操作后0100   0101 
+        char ch = 0x55;
+        dis32bin(ch);
+        //只关闭其中一盏灯  其他灯不动 
+        int mask = 1 &lt;&lt; 4;
+        ch = ch&amp;~mask;   //0100   0101  
+        dis32bin(ch);
+        return 0;
+    }</code></pre><p>执行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200325222936144.png" alt="关闭位"></p>
+<h3 id="转置位（位反转）"><a href="#转置位（位反转）" class="headerlink" title="转置位（位反转）"></a>转置位（位反转）</h3><pre><code>#include &lt;stdio.h&gt;
 
-int main()
-{
-    C d;
-    cout &lt;&lt; &quot;&amp;d:&quot; &lt;&lt; &amp;d &lt;&lt; endl;
-    return 0;
-}</code></pre><p>运行结果为：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200310152417912.png" alt="运行结果"></p>
-<p>上面代码也是证明派生类在继承的过程中基类的成员全部继承。<br>我们可以看到打印出来 class  A * 等说明他们的类型不同。</p>
-<p>我们这里只是引入这种方式来说明类型不同，关于函数用法这里不做深究。</p>
-<p>那么接下来我们看一下对象的关系：<br><strong>上面代码先调用A构造器，再调用B构造器，再调用C构造器。</strong><br>关于调用的详细说明我们在派生类的构造博客进行说明</p>
+void dis32bin(int data)
+    {
+        int i = 32;
+        while (i--)
+        {
+            if (data &amp; (1 &lt;&lt; i))
+                printf(&quot;1&quot;);
+            else
+            {
+                printf(&quot;0&quot;);
+            }
+            if (i % 4 == 0)
+            {
+                if (i % 8 == 0)
+                    printf(&quot; &quot;);
+                else
+                    printf(&quot;-&quot;);
+            }
+        }
+        putchar(10);
+    }
+    int main()
+    {
+        //1开0关 0101   0101 0x55   8栈灯有4盏灯亮
+ //操作后0110   1001 
+        char ch = 0x55;
+        dis32bin(ch);
+        //反转一部分灯 
+        int mask = (1 &lt;&lt; 5)| (1 &lt;&lt; 4)| (1 &lt;&lt; 3)|(1 &lt;&lt; 2);
+        ch = ch^mask;   //0110   1001
+        dis32bin(ch);
+        return 0;
+    }</code></pre><p>执行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200325223004811.png" alt="反转位"></p>
+<h3 id="查看某一位的值"><a href="#查看某一位的值" class="headerlink" title="查看某一位的值"></a>查看某一位的值</h3><pre><code>#include &lt;stdio.h&gt;
+
+void dis32bin(int data)
+    {
+        int i = 32;
+        while (i--)
+        {
+            if (data &amp; (1 &lt;&lt; i))
+                printf(&quot;1&quot;);
+            else
+            {
+                printf(&quot;0&quot;);
+            }
+            if (i % 4 == 0)
+            {
+                if (i % 8 == 0)
+                    printf(&quot; &quot;);
+                else
+                    printf(&quot;-&quot;);
+            }
+        }
+        putchar(10);
+    }
+    int main()
+    {
+        //1开0关 0101   0101 0x55   8栈灯有4盏灯亮
+ //判断第四位是0还是1   
+        char ch = 0x55;
+        dis32bin(ch);
+        //
+        int mask = 1 &lt;&lt; 4;//0001  0000
+        if ((ch &amp; mask) == mask)
+            printf(&quot;此位为1&quot;);
+        else
+            printf(&quot;此位为0&quot;);
+        return 0;
+    }</code></pre><p>执行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/2020032522303399.png" alt="查看某一位的值"></p>
+<h2 id="实战训练"><a href="#实战训练" class="headerlink" title="实战训练"></a>实战训练</h2><p>输出位数</p>
+<p>题目：从键盘上输入 1 个正整数给 int 变量 num，输出由 3～6 位构成的数（从低 0<br>号开始编号）</p>
+<p>基本思路：</p>
+<ol>
+<li>截取 3<del>6 位的数，位移到 0</del>3 位</li>
+<li>a)构建 3~6 位不变，其余为 0 的数</li>
+</ol>
+<p>b)右移3位 </p>
+<pre><code>#include &lt;stdio.h&gt;
+
+void dis32bin(int data)
+    {
+        int i = 32;
+        while (i--)
+        {
+            if (data &amp; (1 &lt;&lt; i))
+                printf(&quot;1&quot;);
+            else
+            {
+                printf(&quot;0&quot;);
+            }
+            if (i % 4 == 0)
+            {
+                if (i % 8 == 0)
+                    printf(&quot; &quot;);
+                else
+                    printf(&quot;-&quot;);
+            }
+        }
+        putchar(10);
+    }
+    int main()
+    {
+        int a = 0x55;   //0101  0101结果：0000 1010 10
+        dis32bin(a);
+        int mask = 1 &lt;&lt; 3 | 1 &lt;&lt; 4 | 1 &lt;&lt; 5 | 1 &lt;&lt; 6;
+        a = a &amp; mask;
+        a &gt;&gt;= 3;
+        dis32bin(a);
+        printf(&quot;%d&quot;, a);
+        return 0;
+    }</code></pre><p>执行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200325223116697.png" alt="运行结果"></p>
+<p>2.先将 3<del>6 位移到 0</del>3 位，截取 0~3 位</p>
+<p>a)输入数右移 3 位</p>
+<p>b)构建 0~3 位不变 其余为 0 的数</p>
+<pre><code>#include &lt;stdio.h&gt;
+
+void dis32bin(int data)
+    {
+        int i = 32;
+        while (i--)
+        {
+            if (data &amp; (1 &lt;&lt; i))
+                printf(&quot;1&quot;);
+            else
+            {
+                printf(&quot;0&quot;);
+            }
+            if (i % 4 == 0)
+            {
+                if (i % 8 == 0)
+                    printf(&quot; &quot;);
+                else
+                    printf(&quot;-&quot;);
+            }
+        }
+        putchar(10);
+    }
+    int main()
+    {
+        int a = 0x55;   //0101  0101结果：0000 1010 10
+        dis32bin(a);
+        a &gt;&gt;= 3;
+        int mask = 0x0f;
+        a = a &amp; mask;
+        dis32bin(a);
+        printf(&quot;%d&quot;, a);
+        return 0;
+    }</code></pre><p>执行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/2020032522314678.png" alt="运行结果"></p>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>位操作的方法：</p>
+<p><strong>1，    要操作哪一位或者那几位</strong></p>
+<p><strong>2，    找到合适的掩码</strong></p>
+<p><strong>3，    位运算</strong></p>
 
             </div>
             <hr/>
@@ -848,7 +755,7 @@ int main()
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://www.teachermin.com/2020/03/12/C++%E7%BB%A7%E6%89%BF%E7%9A%84%E5%AE%9A%E4%B9%89/">http://www.teachermin.com/2020/03/12/C++%E7%BB%A7%E6%89%BF%E7%9A%84%E5%AE%9A%E4%B9%89/</a>
+                    <a href="http://www.teachermin.com/2020/03/25/C%E4%BD%8D%E6%93%8D%E4%BD%9C%E5%BA%94%E7%94%A8%EF%BC%9A%E6%8E%A9%E7%A0%81/">http://www.teachermin.com/2020/03/25/C%E4%BD%8D%E6%93%8D%E4%BD%9C%E5%BA%94%E7%94%A8%EF%BC%9A%E6%8E%A9%E7%A0%81/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -886,8 +793,8 @@ int main()
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/C-%E7%BB%A7%E6%89%BF/">
-                                    <span class="chip bg-color">C++继承</span>
+                                <a href="/tags/C%E4%BD%8D%E6%93%8D%E4%BD%9C/">
+                                    <span class="chip bg-color">C位操作</span>
                                 </a>
                             
                         </div>
@@ -1053,47 +960,53 @@ int main()
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2020/03/12/C++%E7%BB%A7%E6%89%BF%E7%9A%84%E5%BC%95%E5%85%A5/">
+                <a href="/2020/03/25/C%E4%BD%8D%E6%93%8D%E4%BD%9C%E5%BA%94%E7%94%A8%EF%BC%9A%E6%8E%A9%E7%A0%81/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/15.jpg" class="responsive-img" alt="C++继承的引入">
+                        <img src="/medias/featureimages/3.jpg" class="responsive-img" alt="C位操作应用：掩码">
                         
-                        <span class="card-title">C++继承的引入</span>
+                        <span class="card-title">C位操作应用：掩码</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            为什么引入继承？在C++中为了引入代码的可重用(software,reusability) 是通过继承这一机制来实现的。继承是类与对象的精华.
-引例：通过简单的继承实现代码重用在下面的设计中，我们发现讲师和学生，有些方法是相同的。进行引发我
+                            掩码(mask)掩盖掉一些东西，然后，留下一些东西，就是掩码存在的意义。
+
+
+功能①  打开位（位置 1） flag |= MASK;
+② 关闭位（位置 0） flag &amp;= ~MASK;
+③ 转置位（位反转） flag ^= MA
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-03-12
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-03-25
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/C/" class="post-category">
-                                    C++
+                            <a href="/categories/C%E5%9F%BA%E7%A1%80/" class="post-category">
+                                    C基础
                                 </a>
                             
                             
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/C-%E7%BB%A7%E6%89%BF/">
-                        <span class="chip bg-color">C++继承</span>
+                    <a href="/tags/C%E4%BD%8D%E6%93%8D%E4%BD%9C/">
+                        <span class="chip bg-color">C位操作</span>
                     </a>
                     
                 </div>
@@ -1107,33 +1020,35 @@ int main()
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/03/12/C++%E6%B4%BE%E7%94%9F%E7%B1%BB%E7%9A%84%E6%8B%B7%E8%B4%9D%E6%9E%84%E9%80%A0/">
+                <a href="/2020/03/25/C%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C%EF%BC%9AC%E9%A1%B9%E7%9B%AE%EF%BC%88%E6%96%87%E4%BB%B6%E9%93%BE%E8%A1%A8%E5%AE%9E%E7%8E%B0%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%EF%BC%89/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="C++派生类的拷贝构造">
+                        <img src="/medias/featureimages/20.jpg" class="responsive-img" alt="C文件操作：C项目（文件链表实现管理系统）">
                         
-                        <span class="card-title">C++派生类的拷贝构造</span>
+                        <span class="card-title">C文件操作：C项目（文件链表实现管理系统）</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            派生类的拷贝构造拷贝构造，也是一种构造函数（不要拿拷贝构造不当构造，是己有对象构造新对象），也没有被继承下来。
-引例父类和子类的拷贝构造都是默认的情况#include &lt;iostream&gt;
-using namespace std
+                            项目核心管理系统的三大块：内存模型，数据库模型，人机交互界面。
+将链表作为内存数据模型，将文件作为数据库，将终端作为交互界面。读文件生成链表，修改链表写入文件。
+初始化数据库     此时数据库是文件
+读取数据库，生成内存数据模型
+增，删，
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-03-12
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-03-25
                             </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/C/" class="post-category">
-                                    C++
+                            <a href="/categories/C%E5%9F%BA%E7%A1%80/" class="post-category">
+                                    C基础
                                 </a>
                             
                             
@@ -1143,8 +1058,12 @@ using namespace std
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/C-%E7%BB%A7%E6%89%BF/">
-                        <span class="chip bg-color">C++继承</span>
+                    <a href="/tags/C%E6%96%87%E4%BB%B6/">
+                        <span class="chip bg-color">C文件</span>
+                    </a>
+                    
+                    <a href="/tags/C%E9%A1%B9%E7%9B%AE/">
+                        <span class="chip bg-color">C项目</span>
                     </a>
                     
                 </div>
