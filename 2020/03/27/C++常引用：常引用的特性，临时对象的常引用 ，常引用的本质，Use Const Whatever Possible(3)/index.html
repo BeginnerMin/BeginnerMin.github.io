@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="C++运算符重载引入(1), SkilledBeginner">
+    <meta name="keywords" content="C++常引用：常引用的特性，临时对象的常引用 ，常引用的本质，Use Const Whatever Possible(3), SkilledBeginner">
     <meta name="description" content="努力做一个很厉害的人">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>C++运算符重载引入(1) | SkilledBeginner</title>
+    <title>C++常引用：常引用的特性，临时对象的常引用 ，常引用的本质，Use Const Whatever Possible(3) | SkilledBeginner</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -306,12 +306,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/12.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/4.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">C++运算符重载引入(1)</h1>
+                    <h1 class="description center-align post-title">C++常引用：常引用的特性，临时对象的常引用 ，常引用的本质，Use Const Whatever Possible(3)</h1>
                 </div>
             </div>
         </div>
@@ -428,8 +428,8 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/%E8%BF%90%E7%AE%97%E7%AC%A6%E9%87%8D%E8%BD%BD/">
-                                <span class="chip bg-color">运算符重载</span>
+                            <a href="/tags/C-%E5%BC%95%E7%94%A8/">
+                                <span class="chip bg-color">C++引用</span>
                             </a>
                         
                     </div>
@@ -453,28 +453,28 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-03-15
+                    2020-03-27
                 </div>
                 
 
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2020-03-15
+                    2020-03-27
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    1.2k
+                    1.3k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    4 分
+                    5 分
                 </div>
                 
 
@@ -490,122 +490,130 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id=""><a href="#" class="headerlink" title=""></a></h2><p>涉及运算符重载知识点;<br>初探运算符重载</p>
-<p>比较两个结构体是否相等</p>
-<p>虚数求加法运算</p>
-<h2 id="运算符重载-Operator-Overload"><a href="#运算符重载-Operator-Overload" class="headerlink" title="运算符重载(Operator Overload)"></a>运算符重载(Operator Overload)</h2><p>前面用到的运算符&lt;&lt;，本身在 C 语言中，是位操作中的左移运算符。现在又用作流插入运算符，这种一个运算符多种用处的现像叫作运算符重载。 </p>
-<p>在 C 语言中本身就有重载的现像，比如 &amp; 既表示取地址，又表示位操作中的与运算。 *既表示解引用，又表示乘法运算符。只不过此类功能，C 语言并没有对开发者开放这类功能。意思就是说C语言提供的我们可以使用，但是C语言没有提供的我们不能自己定义符号的其他表示。</p>
-<p>C++提供了运算符重载机制。可以为自定义数据类型重载运算符。实现构造数据类型也可以像基本数据类型一样的运算特性。</p>
-<h2 id="比较两个结构体是否相等"><a href="#比较两个结构体是否相等" class="headerlink" title="比较两个结构体是否相等"></a>比较两个结构体是否相等</h2><p>我们直接来比较结构体是否相等：在我们没有接触运算符重载之前是不可以实现的，我们只能对于结构体的成员进行比较，但是使用运算符重载就可以让结构体变量的直接比较。<br>例如下面代码：</p>
+                <h2 id="常引用"><a href="#常引用" class="headerlink" title="常引用"></a>常引用</h2><p>const 的本意，即不可修改。所以，const 对象，只能声明为 const 引用，使其语义保持一致性。 non-const 对象，既可以声明为 const 引用，也可以声明为 no-const 引用。声明为 const 引用，则不可以通过 const 引用修改数据。</p>
+<p>C++中 const 定义的变量称为常变量。const 修饰的变量，有着变量的形式，常量的作用，用作常量，常用于取代#define 定义的宏常量。</p>
+<p>我们之前说过从一个文本文件到一个可执行程序的过程，我们说明过define定义的宏是在预处理阶段进行替换的。</p>
+<p>我们在linux平台写入一个main.c文件</p>
 <pre><code>#include &lt;iostream&gt;
 using namespace std;
-typedef struct _pos
-{
-    int x_;
-    int y_;
-}Pos;
+#define N 200
 int main()
 {
-    Pos ps = {1,2 };
-    Pos fdPs = { 3,4 };
-    ps == fdPs;
-    return 0;
-}</code></pre><p>编译时直接会报错的，以前我们通过结构体所有成员进行比较，结构体对应的所有成员都相等是我们才能判断两个结构体相等，如果结构体的成员非常多，这样写起来是非常麻烦的，所以我们这里引入==运算符重载。<br>我们给出以下代码：</p>
+const int a = 200;
+int b = 300;
+int c = a+b;
+return 0;
+}</code></pre><p>我们对于main.c文件进行编译</p>
+<p><img src="https://img-blog.csdnimg.cn/20200213215111472.png" alt="预处理"></p>
+<p>打开预处理之后的文件为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200213215121954.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="预处理结果"></p>
+<p>我们可以看到define定义的宏变量被替换</p>
+<p>我们进入到编译之后的文件：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200213215137997.png" alt="编译"></p>
+<p>打开main.s文件:</p>
+<p><img src="https://img-blog.csdnimg.cn/20200213215155810.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="汇编代码"></p>
+<p>上面的汇编代码中，在计算加法的时候把300用eax代替，但是200使用的直接数值200。</p>
+<p><strong>cons定义的变量是在汇编阶段替换的。</strong></p>
+<h2 id="常引用的特性"><a href="#常引用的特性" class="headerlink" title="常引用的特性"></a>常引用的特性</h2><p>const 的本意，即不可修改。所以，const 对象，只能声明为 const 引用，使其语义保持一致性。</p>
+<pre><code>#include &lt;iostream&gt;
+
+int main()
+{
+const int a = 10;
+int&amp; ra = a;
+return   0;
+}</code></pre><p>上面的使用是不允许的，因为类型不一样，如果要使用引用就必须给inter&amp;前面加上const</p>
 <pre><code>#include &lt;iostream&gt;
 using namespace std;
+int main()
+{
+const int a = 10;
+const int&amp; ra = a;
+return 0;
+}</code></pre><p>non-const 对象，既可以声明为 const 引用，也可以声明为 no-const 引用。 声明为 const 引用，则不可以通过 const 引用修改数据。</p>
+<pre><code>#include &lt;iostream&gt;
+using namespace std;
+int main()
+{
+ int a = 10;
+ int &amp; rb = a;
+const int &amp; ra = a;
+cin &gt;&gt; ra;//错误  使用const引用 只能读取数据，不能写数据
+cout &lt;&lt; ra &lt;&lt; endl;
 
-typedef struct _pos
+return 0;
+}</code></pre><p><strong>上面代码中对于ra只具备读的属性，不具备写的属性。</strong></p>
+<h2 id="临时对象的常引用"><a href="#临时对象的常引用" class="headerlink" title="临时对象的常引用"></a>临时对象的常引用</h2><p>临时对象，通常理解为不可以取地址的对象，比如常量，函数的返回值即 cpu 中计算产生的中间变量通常称为右值。常见临时值有常量，表达式等。</p>
+<p>临时变量，不可取地址的对象：</p>
+<p><strong>①常量</strong></p>
+<p><strong>②表达式</strong></p>
+<p><strong>③函数返回值</strong></p>
+<p><strong>④类型不同的变量</strong></p>
+<pre><code>#include &lt;iostream&gt;
+using namespace std;
+int foo()// 返回cpu中产生的一个中间变量
 {
-    int x_;
-    int y_;
-}Pos;
-bool operator == (Pos one, Pos another)
-{
-    if (one.x_ == another.x_ &amp;&amp; one.y_ == another.y_)
-        return true;
-    else
-        return false;
+int a = 100;
+return a;
 }
 
 int main()
 {
-    Pos ps = {1,2 };
-    Pos fdPs = { 3,4 };
-    if (ps == fdPs)
-        cout &lt;&lt; &quot;==&quot; &lt;&lt; endl;
-    else
-        cout &lt;&lt; &quot;!=&quot; &lt;&lt; endl;
-    return 0;
-}</code></pre><p>执行结果为：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200209232713110.png" alt="重载运算符="></p>
-<p>如果我们把主函数里面的内容修改为：</p>
-<pre><code>int main()
-{
-    Pos ps = {1,2 };
-    Pos fdPs = { 1,2 };
-    if (ps == fdPs)  //本质operator ==(ps,fdPs)
-        cout &lt;&lt; &quot;==&quot; &lt;&lt; endl;
-    else
-        cout &lt;&lt; &quot;!=&quot; &lt;&lt; endl;
-    return 0;
-}</code></pre><p>执行结果为：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200209232811337.png" alt="运行结果"></p>
-<p>我们对于主函数里面进行修改：</p>
-<pre><code>int main()
-{
-    Pos ps = {1,2 };
-    Pos fdPs = { 1,2 };
-    if (operator==(ps,fdPs))  
-        cout &lt;&lt; &quot;==&quot; &lt;&lt; endl;
-    else
-        cout &lt;&lt; &quot;!=&quot; &lt;&lt; endl;
-    return 0;
-}</code></pre><p>执行结果为：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200209232833779.png" alt="执行结果"></p>
-<p>有的读者可能会提出，这里的也是进行成员比较的，和之前的不是一样的嘛？，并非是这样的，这里的和我们之前进行结构体成员的是由很大的区别的，以前的每次比较相等的时候都要写，现在只需要写一次运算符重载函数的内部成员比较既可以在全局所有地方直接使用。</p>
-<p><strong>运算符是＝＝全局的，在任何位置到可以使用，我们在全局范围内重载 ，引入关键字operator把全局范围内的==重载，重载之后就会根据类型去找,并且根据参数类型进行匹配，找到了通过返回bool类型做判断。</strong></p>
-<p>以前我们只能实现计算只能在自定义类型，现在构造类型也可以进行运算。</p>
-<h3 id="重载运算符-进行虚数加法运算"><a href="#重载运算符-进行虚数加法运算" class="headerlink" title="重载运算符+进行虚数加法运算"></a>重载运算符+进行虚数加法运算</h3><pre><code>#include &lt;iostream&gt;
+//临时变量，不可取地址的对象
+//常量
+//表达式
+//函数返回值
+//类型不同的变量
+
+    int &amp; cc = 55;  //错误  不允许给常量引用为变量
+const int &amp; cc = 55;//给常量55取常引用常量临时变量
+cout &lt;&lt; cc &lt;&lt; endl;
+
+
+int a = 3;
+int b = 5;
+int &amp; ret = a + b;   //错误  不允许给表达式引用为变量
+const int &amp; ret = a + b;//给表达式a+b取常引用  表达式临时变量
+cout &lt;&lt; ret &lt;&lt; endl;
+
+    int &amp; ra = foo();   //错误  不允许给函数返回值引用为变量
+const int &amp; ra = foo();//给函数返回值取常引用 ra引用cpu中的临时变量
+
+double d = 100.12;
+double &amp; rd = d;//正常引用
+int&amp; rd = d;  //错误  不允许把double类型变量引用为int类型
+const int&amp; rd = d;//给类型不同的变量引用时使用常引用
+
+return 0;
+}</code></pre><h3 id="常引用的本质"><a href="#常引用的本质" class="headerlink" title="常引用的本质"></a>常引用的本质</h3><p>我们先给出一段代码：</p>
+<pre><code>#include &lt;iostream&gt;
 using namespace std;
-
-
-struct Complex
-{
-    float real;
-    float image;
-};
-
-Complex operator+(Complex one, Complex another)
-{
-    Complex sum;
-    sum.real = one.real + another.real;
-    sum.image = one.image + another.image;
-    return sum;
-}
-
 
 int main()
 {
-     Complex com1 = { 1,2 };
-     Complex com2 = { 3,4 };
-     Complex sum = com1 + com2;
-    cout &lt;&lt; &quot;(&quot; &lt;&lt; sum.real &lt;&lt; &quot;,&quot; &lt;&lt; sum.image &lt;&lt; &quot;)&quot; &lt;&lt; endl;
-    return 0;
+double d = 3.14;
+const int &amp; rd = d;
+cout &lt;&lt; &quot;d =&quot; &lt;&lt; d &lt;&lt; endl;
+cout &lt;&lt; &quot;rd = &quot; &lt;&lt; rd &lt;&lt; endl;
+
+d = 4.14;
+cout &lt;&lt; &quot;d =&quot; &lt;&lt; d &lt;&lt; endl;
+cout &lt;&lt; &quot;rd = &quot; &lt;&lt; rd &lt;&lt; endl;
+
+return 0;
 }</code></pre><p>执行结果为：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200209233130854.png" alt="重载运算符+"></p>
-<p>主函数进行修改：</p>
-<pre><code>int main()
-{
-     Complex com1 = { 2,2 };
-     Complex com2 = { 4,4 };
-     Complex sum = operator+(com1, com2);
-    cout &lt;&lt; &quot;(&quot; &lt;&lt; sum.real &lt;&lt; &quot;,&quot; &lt;&lt; sum.image &lt;&lt; &quot;)&quot; &lt;&lt; endl;
-    return 0;
-}</code></pre><p>执行结果为：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200209233154388.png" alt="重载运算符+运行结果"></p>
-<p>重载了一个全局的操作符+号用于实现将两个自定义结构体类型相加。本质是函数的调用。</p>
-<p>当 然 这 个 Comp operator+(Comp one, Comp another) ， 也 可 以 定 义 为<br> Comp add(Comp one, Comp another)，但这样的话，就只能 Comp sum = add(c1,c2)，<br> 而不能实现 Comp sum = c1 +c2 了。</p>
-<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>我们给出的例子中重载了一个全局的操作符+号用于实现将两个自定义结构体类型相加。本质是函数重载的调用。本博客，只是一个运算符重载的引例，后序博客，我们会更加深入的说明运算符重载。运算符的重载远不止这些内容。</p>
+<p><img src="https://img-blog.csdnimg.cn/20200213220137894.png" alt="常引用本质"></p>
+<p>这种类型不同，在引用的时候其实我们知道int&amp; rd = d;肯定是不可以的，那么实际上就产生了中间变量。</p>
+<p><strong>double d = 3.14;</strong></p>
+<p><strong>const int &amp; rd = d;</strong></p>
+<p>我们可以理解为 </p>
+<p> <strong>double d = 3.14;     (中间变量)int &amp; t = d;      const int&amp; rd = t;</strong>   </p>
+<p> rd引用的是一个不可改变的临时变量，所以在打印的时候两次打印都是3。</p>
+<p>对于上述代码中的a+b计算结果，函数返回值等其他临时变量也是产生了中间变量之后再对于中间变量进行引用。</p>
+<h2 id="Use-Const-Whatever-Possible"><a href="#Use-Const-Whatever-Possible" class="headerlink" title="Use Const Whatever Possible"></a>Use Const Whatever Possible</h2><p>在任何可以使用 const 的地方，尽量使用 const，为什么呢？因为有如下的好处，可以使你的程序，更健壮。</p>
+<p><strong>使用 const 可以避免无意修改数据的编程错误。</strong> </p>
+<p><strong>使用 const 可以处理 const 和非 const 实参。否则将只能接受非 const 数据。</strong> </p>
+<p><strong>使用 const 引用，可使函数能够正确的生成并使用临时变量(如果实参与引用参数不匹配，就会生成临时变量)。</strong></p>
 
             </div>
             <hr/>
@@ -631,7 +639,7 @@ int main()
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://www.teachermin.com/2020/03/15/C++%E8%BF%90%E7%AE%97%E7%AC%A6%E9%87%8D%E8%BD%BD%E5%BC%95%E5%85%A5(1)/">http://www.teachermin.com/2020/03/15/C++%E8%BF%90%E7%AE%97%E7%AC%A6%E9%87%8D%E8%BD%BD%E5%BC%95%E5%85%A5(1)/</a>
+                    <a href="http://www.teachermin.com/2020/03/27/C++%E5%B8%B8%E5%BC%95%E7%94%A8%EF%BC%9A%E5%B8%B8%E5%BC%95%E7%94%A8%E7%9A%84%E7%89%B9%E6%80%A7%EF%BC%8C%E4%B8%B4%E6%97%B6%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%B8%B8%E5%BC%95%E7%94%A8%20%EF%BC%8C%E5%B8%B8%E5%BC%95%E7%94%A8%E7%9A%84%E6%9C%AC%E8%B4%A8%EF%BC%8CUse%20Const%20Whatever%20Possible(3)/">http://www.teachermin.com/2020/03/27/C++%E5%B8%B8%E5%BC%95%E7%94%A8%EF%BC%9A%E5%B8%B8%E5%BC%95%E7%94%A8%E7%9A%84%E7%89%B9%E6%80%A7%EF%BC%8C%E4%B8%B4%E6%97%B6%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%B8%B8%E5%BC%95%E7%94%A8%20%EF%BC%8C%E5%B8%B8%E5%BC%95%E7%94%A8%E7%9A%84%E6%9C%AC%E8%B4%A8%EF%BC%8CUse%20Const%20Whatever%20Possible(3)/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -669,8 +677,8 @@ int main()
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/%E8%BF%90%E7%AE%97%E7%AC%A6%E9%87%8D%E8%BD%BD/">
-                                    <span class="chip bg-color">运算符重载</span>
+                                <a href="/tags/C-%E5%BC%95%E7%94%A8/">
+                                    <span class="chip bg-color">C++引用</span>
                                 </a>
                             
                         </div>
@@ -840,29 +848,28 @@ int main()
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2020/03/15/C++%E5%8F%8B%E5%85%83%EF%BC%8C%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81%E5%8F%8B%E5%85%83%EF%BC%8C%E5%8F%8B%E5%85%83%E5%87%BD%E6%95%B0%EF%BC%8C%E5%8F%8B%E5%85%83%E7%B1%BB%EF%BC%8C%E5%B0%8F%E7%BB%93/">
+                <a href="/2020/03/27/C++%E5%BC%95%E7%94%A8%E7%9A%84%E6%9C%AC%E8%B4%A8%EF%BC%8C%E5%A4%A7%E5%B0%8F%EF%BC%8C%E5%88%9D%E5%A7%8B%E5%8C%96%EF%BC%8C%20%E6%B1%87%E7%BC%96%E4%BB%A3%E7%A0%81%E8%BF%9B%E8%A1%8C%E9%AA%8C%E8%AF%81/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/11.jpg" class="responsive-img" alt="C++友元">
+                        <img src="/medias/featureimages/11.jpg" class="responsive-img" alt="C++引用的本质，大小，初始化， 汇编代码进行验证">
                         
-                        <span class="card-title">C++友元</span>
+                        <span class="card-title">C++引用的本质，大小，初始化， 汇编代码进行验证</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            涉及知识点C++友元
-为什么需要友元
-友元函数
-友元类
-小结
-友元为什么需要友元get/set Methodget 方法和 set 方法，是常见的获取和设置数据成员的方式。比如游戏角色遭到对方攻击后血量减少，就需要用到 set 方法，而要实
+                            引用的本质引用的本质是，C++对指针的包装，即引用即指针。
+为引我们开始如下的探寻。先从引用的大小入手，然后再能通过编译的角度来剖析。
+大小那么我们如果来证明引用即指针呢？
+我们设计下面代码进行证明：
+#include &lt;iostre
                         
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-03-15
+                            <i class="far fa-clock fa-fw icon-date"></i>2020-03-27
                         </span>
                         <span class="publish-author">
                             
@@ -879,8 +886,8 @@ int main()
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/C-%E5%8F%8B%E5%85%83/">
-                        <span class="chip bg-color">C++友元</span>
+                    <a href="/tags/C-%E5%BC%95%E7%94%A8/">
+                        <span class="chip bg-color">C++引用</span>
                     </a>
                     
                 </div>
@@ -894,34 +901,36 @@ int main()
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/03/15/C%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C%EF%BC%9A(FILE%E7%BB%93%E6%9E%84%E4%BD%93%EF%BC%8Cmode%E8%AF%A6%E8%A7%A3%EF%BC%8Cfopen%EF%BC%8Cfread%EF%BC%8Cfwrite%EF%BC%8Cfilea%EF%BC%8Cfclose)/">
+                <a href="/2020/03/27/C++%E5%BC%95%E7%94%A8%E6%8F%90%E9%AB%98(2)/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="C文件操作：(FILE结构体，mode详解，fopen，fread，fwrite，filea，fclose)">
+                        <img src="/medias/featureimages/15.jpg" class="responsive-img" alt="C++引用提高(2)">
                         
-                        <span class="card-title">C文件操作：(FILE结构体，mode详解，fopen，fread，fwrite，filea，fclose)</span>
+                        <span class="card-title">C++引用提高(2)</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            FILE 结构体FILE 结构体是对缓冲区和文件读写状态的记录者，所有对文件的操作，都是通过FILE 结构体完成的。
-typedef struct { 
-short level; /* 缓冲区满/空程度 */ 
-unsigned flags
+                            我们再次说明说很重要的一点：只有完全等价才能使用引用。
+指针数据交换接下来我们再看一个例子实现平级操作：
+我们先给出在C语言中不能实现的一种情况
+先给出代码：
+#include &lt;iostream&gt;
+using namespac
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-03-15
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-03-27
                             </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/C%E5%9F%BA%E7%A1%80/" class="post-category">
-                                    C基础
+                            <a href="/categories/C/" class="post-category">
+                                    C++
                                 </a>
                             
                             
@@ -931,8 +940,8 @@ unsigned flags
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/C%E6%96%87%E4%BB%B6/">
-                        <span class="chip bg-color">C文件</span>
+                    <a href="/tags/C-%E5%BC%95%E7%94%A8/">
+                        <span class="chip bg-color">C++引用</span>
                     </a>
                     
                 </div>
@@ -1131,7 +1140,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">89.6k</span>&nbsp;字
+                class="white-color">95.8k</span>&nbsp;字
             
             
             
