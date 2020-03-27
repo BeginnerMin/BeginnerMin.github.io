@@ -762,24 +762,25 @@ int main()
             
             <div class="article tag-post col s12 m6 l4" data-aos="zoom-in">
                 <div class="card">
-                    <a href="/2020/03/17/C%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C%EF%BC%9A%E4%B8%80%E6%AC%A1%E8%AF%BB%E5%86%99%E4%B8%80%E8%A1%8C%E6%96%87%E6%9C%AC%E5%AD%97%E7%AC%A6fputs%EF%BC%8Cfgets%EF%BC%8C%E5%85%B8%E5%9E%8B%E9%97%AE%E9%A2%98%E5%88%86%E6%9E%90/">
+                    <a href="/2020/03/17/C%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C%EF%BC%9A%E4%B8%80%E6%AC%A1%E8%AF%BB%E5%86%99%E4%B8%80%E4%B8%AA%E6%96%87%E6%9C%AC%E5%AD%97%E7%AC%A6fputc%EF%BC%8Cfgetc%EF%BC%8Cfeof/">
                         <div class="card-image tag-image">
                             
                             
-                            <img src="/medias/featureimages/22.jpg" class="responsive-img" alt="C文件操作：一次读写一行文本字符fputs，fgets，典型问题分析">
+                            <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="C文件操作：一次读写一个文本字符fputc，fgetc，feof">
                             
-                            <span class="card-title">C文件操作：一次读写一行文本字符fputs，fgets，典型问题分析</span>
+                            <span class="card-title">C文件操作：一次读写一个文本字符fputc，fgetc，feof</span>
                         </div>
                     </a>
                     <div class="card-content article-content">
                         <div class="summary block-with-text">
                             
-                                fputs函数
-我们给出使用的测试代码：
+                                fputc
+返回值：
+
+上面是我们在linux平台在帮助手册里面查看到的。接下来我们给出代码说明：
 #define _CRT_SECURE_NO_WARNINGS
 #include &lt;stdio.h&gt;
-#include &lt;stdlib.h&gt;
-#define F_PRINTF
+#include &lt;
                             
                         </div>
                         <div class="publish-info">
@@ -813,25 +814,24 @@ int main()
             
             <div class="article tag-post col s12 m6 l4" data-aos="zoom-in">
                 <div class="card">
-                    <a href="/2020/03/17/C%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C%EF%BC%9A%E4%B8%80%E6%AC%A1%E8%AF%BB%E5%86%99%E4%B8%80%E4%B8%AA%E6%96%87%E6%9C%AC%E5%AD%97%E7%AC%A6fputc%EF%BC%8Cfgetc%EF%BC%8Cfeof/">
+                    <a href="/2020/03/17/C%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C%EF%BC%9A%E4%B8%80%E6%AC%A1%E8%AF%BB%E5%86%99%E4%B8%80%E8%A1%8C%E6%96%87%E6%9C%AC%E5%AD%97%E7%AC%A6fputs%EF%BC%8Cfgets%EF%BC%8C%E5%85%B8%E5%9E%8B%E9%97%AE%E9%A2%98%E5%88%86%E6%9E%90/">
                         <div class="card-image tag-image">
                             
                             
-                            <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="C文件操作：一次读写一个文本字符fputc，fgetc，feof">
+                            <img src="/medias/featureimages/22.jpg" class="responsive-img" alt="C文件操作：一次读写一行文本字符fputs，fgets，典型问题分析">
                             
-                            <span class="card-title">C文件操作：一次读写一个文本字符fputc，fgetc，feof</span>
+                            <span class="card-title">C文件操作：一次读写一行文本字符fputs，fgets，典型问题分析</span>
                         </div>
                     </a>
                     <div class="card-content article-content">
                         <div class="summary block-with-text">
                             
-                                fputc
-返回值：
-
-上面是我们在linux平台在帮助手册里面查看到的。接下来我们给出代码说明：
+                                fputs函数
+我们给出使用的测试代码：
 #define _CRT_SECURE_NO_WARNINGS
 #include &lt;stdio.h&gt;
-#include &lt;
+#include &lt;stdlib.h&gt;
+#define F_PRINTF
                             
                         </div>
                         <div class="publish-info">
