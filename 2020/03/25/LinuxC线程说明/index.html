@@ -845,20 +845,25 @@ int main()
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2020/03/25/C%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C%EF%BC%9Afwrite%E5%87%BD%E6%95%B0fread%20%E5%87%BD%E6%95%B0%E4%B8%80%E6%AC%A1%E8%AF%BB%E5%86%99%E4%B8%80%E5%9D%97%E5%AD%97%E8%8A%82(%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%93%8D%E4%BD%9C%E5%92%8C%E6%96%87%E6%9C%AC%E6%93%8D%E4%BD%9C)/">
+                <a href="/2020/03/25/C%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C%EF%BC%9Afreadfwrite%E4%BD%BF%E7%94%A8%E4%BA%8C%E8%BF%9B%E5%88%B6%E8%AF%BB%E5%86%99%E8%AF%BB%E5%86%99%E7%BB%93%E6%9E%84%E4%BD%93/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/14.jpg" class="responsive-img" alt="C文件操作：fwrite / fread 函数，一次读写一块字节（二进制操作和文本操作）">
+                        <img src="/medias/featureimages/19.jpg" class="responsive-img" alt="C文件操作：fread/fwrite使用二进制读写读写结构体">
                         
-                        <span class="card-title">C文件操作：fwrite / fread 函数，一次读写一块字节（二进制操作和文本操作）</span>
+                        <span class="card-title">C文件操作：fread/fwrite使用二进制读写读写结构体</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            fwrite / fread 函数C 语言己经从接口的层面区分了，文本的读写方式和二进制的读写方式。对于文本文件来说：
-所有的文件接口函数，要么以 ‘\0’，表示输入结束，要么以 ‘\n’， EOF(0xFF)表示 读取结束。 ‘\0’ ‘
+                            我们给出一个代码，这次我们读取的时候把块的大小设置为1024，每次读取一个块长度
+#define _CRT_SECURE_NO_WARNINGS
+#include &lt;stdio.h&gt;
+
+int main()
+{
+    FILE
                         
                     </div>
                     <div class="publish-info">
@@ -1131,7 +1136,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">88.2k</span>&nbsp;字
+                class="white-color">91k</span>&nbsp;字
             
             
             
