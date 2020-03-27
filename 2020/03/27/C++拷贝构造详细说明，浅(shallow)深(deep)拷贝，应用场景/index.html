@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="C文件操作：(FILE结构体，mode详解，fopen，fread，fwrite，filea，fclose), SkilledBeginner">
+    <meta name="keywords" content="C++拷贝构造详细说明，浅(shallow)/深(deep)拷贝，应用场景, SkilledBeginner">
     <meta name="description" content="努力做一个很厉害的人">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>C文件操作：(FILE结构体，mode详解，fopen，fread，fwrite，filea，fclose) | SkilledBeginner</title>
+    <title>C++拷贝构造详细说明，浅(shallow)/深(deep)拷贝，应用场景 | SkilledBeginner</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -306,12 +306,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/0.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/3.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">C文件操作：(FILE结构体，mode详解，fopen，fread，fwrite，filea，fclose)</h1>
+                    <h1 class="description center-align post-title">C++拷贝构造详细说明，浅(shallow)/深(deep)拷贝，应用场景</h1>
                 </div>
             </div>
         </div>
@@ -428,8 +428,8 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/C%E6%96%87%E4%BB%B6/">
-                                <span class="chip bg-color">C文件</span>
+                            <a href="/tags/C-%E6%8B%B7%E8%B4%9D%E6%9E%84%E9%80%A0/">
+                                <span class="chip bg-color">C++拷贝构造</span>
                             </a>
                         
                     </div>
@@ -440,8 +440,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/C%E5%9F%BA%E7%A1%80/" class="post-category">
-                                C基础
+                            <a href="/categories/C/" class="post-category">
+                                C++
                             </a>
                         
                     </div>
@@ -453,28 +453,28 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-03-15
+                    2020-03-27
                 </div>
                 
 
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2020-03-25
+                    2020-03-27
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    1.8k
+                    2.6k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    6 分
+                    11 分
                 </div>
                 
 
@@ -490,125 +490,475 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="FILE-结构体"><a href="#FILE-结构体" class="headerlink" title="FILE 结构体"></a>FILE 结构体</h2><p><strong>FILE 结构体是对缓冲区和文件读写状态的记录者，所有对文件的操作，都是通过FILE 结构体完成的。</strong></p>
-<pre><code>typedef struct { 
-short level; /* 缓冲区满/空程度 */ 
-unsigned flags; /* 文件状态标志 */ 
-char fd; /* 文件描述符 */ 
-unsigned char hold; /* 若无缓冲区不读取字符 */ 
-short bsize; /* 缓冲区大小 */ 
-unsigned char *buffer; /* 数据传送缓冲区位置 */ 
-unsigned char *curp; /* 当前读写位置 */ 
-unsigned istemp; /* 临时文件指示 */ 
-short token; /* 用作无效检测 */ 
-} FILE ; /* 结构体类型名 FILE */</code></pre><p>当进行打开文件操作之后，我们打开的文件内容就会缓存到内存中，那么我们有一个疑问<strong>这里的FILE * 定义的pf是不是直接就指向这段缓冲了呢？那么FILE * 的结构体是什么呢？</strong>，我们接下来进行图解说明：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200128120929740.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="读取文件到内存缓冲区"></p>
-<p>我们平时如果要看一个电影，如果内存只有1G那么我们可以观看超过1G大小的影片，这个观看是没有问题的。但是如果要把整个影片缓存到内存肯定是不够的，所以缓存是部分缓存。那么硬盘上也有缓冲，那就把内存已经缓存之后的执行完的数据放到硬盘缓冲区。</p>
-<p>当我们把硬盘的内容缓存到内存的时候，我们需要记录什么时候缓存的部分执行完成之后将其放回硬盘缓冲区，内存缓冲区执行到了那个位置，缓冲区的大小，缓冲区有没有满/有没有空，等等很多信息我们都需要记录下来，所以当我们对于文件进行操作的时候，所以这些信息都要被记录下来，而记录者就是FILE *<br>所以当我们在打开文件到内存的时候，在底层系统为我们开了一个结构体，这个结构体就是记录当前文件的所有状态信息，所以FILE * 结构体并不是简单直接指向缓冲区。而是记录这段缓冲区内存的所有指标，指标包括FILE * 结构体中的所有成员。</p>
-<p>通常在windows中我们将pf称为句柄：我们可以理解为资源的把柄，有了句柄我们就可以操作文件，也是文件的核心。所以并不是简单的pf指向内存的缓冲区。<br>我们来举一个例子：例如门柄就是门把手，我们有了门柄就可以操作整个门。门把手就是这个门的核心和要害之处。</p>
-<p>在开始执行程序的时候，将自动打开 3 个文件和相关的流：标准输入流(stdin)、标准输出流(stdout)和标准错误(stderr)，它们都是 FIEL*型的指针。流提供了文件和程序的通信通道。</p>
-<h2 id="fopen函数"><a href="#fopen函数" class="headerlink" title="fopen函数"></a>fopen函数</h2><p><img src="https://img-blog.csdnimg.cn/20200128121002659.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="fopen函数"></p>
-<p><strong>要注意上面的file包括文件路径和文件名。</strong></p>
-<h3 id="mode-详解："><a href="#mode-详解：" class="headerlink" title="mode 详解："></a>mode 详解：</h3><p><img src="https://img-blog.csdnimg.cn/20200128121020485.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="mode详解"></p>
-<p><strong>如果读写的是二进制文件，则还要加 b,比如 rb, r+b 等。 unix/linux 不区分文本和二进制文件。</strong></p>
-<h3 id="读取文件操作"><a href="#读取文件操作" class="headerlink" title="读取文件操作"></a>读取文件操作</h3><p>我们来简单演示一下：</p>
-<pre><code>#include &lt;stdio.h&gt;
-#include &lt;stdlib.h&gt;
+                <h2 id="拷贝构造"><a href="#拷贝构造" class="headerlink" title="拷贝构造"></a>拷贝构造</h2><p>我们再次强调初始化与赋值的区别：</p>
+<pre><code>int a = 0; //初始化
+a = 5; //赋值</code></pre><h3 id="发生时机"><a href="#发生时机" class="headerlink" title="发生时机"></a>发生时机</h3><p><strong>由己存在的对象，创建新对象。</strong></p>
+<p><strong>也就是说新对象，不由构造器来构造，而是由拷贝构造器来完成</strong>。</p>
+<p><strong>拷贝构造器的格式是固定的。</strong></p>
+<p><strong>拷贝构造器和构造器的地位是一样的。</strong></p>
+<h3 id="语法定义"><a href="#语法定义" class="headerlink" title="语法定义"></a>语法定义</h3><pre><code>class 类名 
+{ 
+类名(const 类名 &amp; another) 
+拷贝构造体 
+}
+
+
+
+class A 
+{ 
+A(const A &amp; another) 
+{} 
+} </code></pre><p><strong>由普通数值作参数完成的构造，调用构造器。</strong></p>
+<p><strong>由同类对象做参数完成构造就是拷贝构造。</strong></p>
+<p>普通数值参数完成构造说明如下：</p>
+<pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+struct Data
+{
+public:
+Data(int y = 2016, int m = 6, int d = 6)
+:year(y), month(m), day(d) 
+{}
+void dis()
+{
+cout &lt;&lt; &quot; year &quot; &lt;&lt; year &lt;&lt; &quot; month &quot; &lt;&lt; month &lt;&lt; &quot; day &quot; &lt;&lt; day &lt;&lt; endl;
+}
+private:
+int year;
+int month;
+int day;
+};
+
 int main()
 {
-FILE * pf = fopen(&quot;./read.txt&quot;,&quot;r&quot;);
-if(NULL == pf)
-{
-printf(&quot;open fail\n&quot;);
-exit(-1);
-}
+Data d(2016, 8, 8);   //普通数值构造
+d.dis();
 return 0;
 }</code></pre><p>运行结果为：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200315002202174.png" alt="打开文件运行结果"></p>
-<p>这个时候我们并没有创建出来ac.txt这个文件，但是我们给出了文件打开是否成功的判断结果。<br>我们可以看到打开文件失败，因为当前目录下并没有文件名为read.txt。<br>所以如果open函数以只读方式打开，如果文件不存在就会打开失败。<br>那么如果我们创建一个ac.txt文件，那么就会打开成功。</p>
-<p>我们先介绍一个我们接下来使用的向文件写入数据的fputs函数，有博客会进行详细说明，这里只是简单使用。</p>
-<p><strong>函数原型及参数说明</strong>：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200128121133165.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="函数原型及参数说明"></p>
-<p>我们通过上面函数进行文件写入数据操作：</p>
-<h2 id="写入文件操作"><a href="#写入文件操作" class="headerlink" title="写入文件操作"></a>写入文件操作</h2><p>我们让当前目录并没有ac.txt 文件<br>接下来我们进行写入文件操作：</p>
-<pre><code>#include &lt;stdio.h&gt;
-#include &lt;stdlib.h&gt;
+<p><img src="https://img-blog.csdnimg.cn/2020022122213774.png" alt="普通数值做参数完成对象构造"></p>
+<p>```c<br>    #include <iostream><br>    using namespace std;</p>
+<pre><code>struct Data
+{
+public:
+Data(int y = 2016, int m = 6, int d = 6)
+:year(y), month(m), day(d) 
+{}
+void dis()
+{
+cout &lt;&lt; &quot; year &quot; &lt;&lt; year &lt;&lt; &quot; month &quot; &lt;&lt; month &lt;&lt; &quot; day &quot; &lt;&lt; day &lt;&lt; endl;
+}
+private:
+int year;
+int month;
+int day;
+};
 
 int main()
 {
-FILE * pf = fopen(&quot;ac.txt&quot;,&quot;w&quot;);
-if(pf == NULL)
-{
-printf(&quot;open fail\n&quot;);
-exit(-1);
-}
-if(fputc(&apos;a&apos;,pf)==EOF)
-fputc(&apos;a&apos;,pf);
-fputc(&apos;a&apos;,pf);
-fputc(&apos;a&apos;,pf);
-fputc(&apos;a&apos;,pf);
-fputc(&apos;a&apos;,pf);
-fputc(&apos;a&apos;,pf);
+Data d(2016, 8, 8);   //普通数值构造
+d.dis();
+Data dd(d);  //同类对象拷贝构造
+dd.dis(); 
 return 0;
 }</code></pre><p>运行结果为：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200315002513935.png" alt="文件写入操作"></p>
-<p>我们可以看到创建了ac.txt文件并且写入成功。<br>那么如果文件存在呢？<br>接下来我们先给ac.txt写入一部分内容：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200315002535805.png" alt="给已经存在的文件写入内容"></p>
-<p>我们现在对于ac.txt还是以写入的方式打开，但是不写入任何内容。</p>
-<pre><code>#include &lt;stdio.h&gt;
-#include &lt;stdlib.h&gt;
+<p><img src="https://img-blog.csdnimg.cn/20200221222201222.png" alt="同类对象拷贝构造"></p>
+<p><strong>系统提供了默认的拷贝构造器</strong></p>
+<p>例如上面的代码演示就是系统提供的拷贝构造器，格式固定。一经实现系统提供拷贝构造器的将不复存在。</p>
+<p>上面我们说过如果我们自己实现拷贝构造器那么系统默认提供的就不存在，我们通过下面的代码进验证。</p>
+<pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+struct Data
+{
+public:
+Data(int y = 2016, int m = 6, int d = 6)
+:year(y), month(m), day(d) 
+{}
+Data(const Data&amp; another)  //此拷贝构造器不是空的，C++只是提供提供了等位拷贝机制
+{
+
+}
+void dis()
+{
+cout &lt;&lt; &quot; year &quot; &lt;&lt; year &lt;&lt; &quot; month &quot; &lt;&lt; month &lt;&lt; &quot; day &quot; &lt;&lt; day &lt;&lt; endl;
+}
+private:
+int year;
+int month;
+int day;
+};
 
 int main()
 {
-FILE * pf = fopen(&quot;ac.txt&quot;,&quot;w&quot;);
-if(pf == NULL)
+Data d(2016, 8, 8);   //普通数值构造
+d.dis();
+Data dd(d);  //拷贝构造
+dd.dis(); 
+return 0;
+}</code></pre><p>运行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200221222240341.png" alt="空体拷贝构造器"></p>
+<p>我们可以看到，系统默认的拷贝构造器会打印出来和构造器相同的内容，而我们实现一个空的构造器，打印出来就是随机值，可见系统默认的拷贝构造器不是空的拷贝构造器。</p>
+<p>编译器只是提供一种等位拷贝机制。那么我们可以在拷贝构造器里面进行自实现等位拷贝：</p>
+<pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+struct Data
 {
-printf(&quot;open fail\n&quot;);
-exit(-1);
+public:
+Data(int y = 2016, int m = 6, int d = 6)
+:year(y), month(m), day(d) 
+{}
+Data(const Data&amp; another)  //此拷贝构造器不是空的，C++编译器提供了等位拷贝机制
+{
+year = another.year;
+month = another.month;
+day = another.day;
+}
+void dis()
+{
+cout &lt;&lt; &quot; year &quot; &lt;&lt; year &lt;&lt; &quot; month &quot; &lt;&lt; month &lt;&lt; &quot; day &quot; &lt;&lt; day &lt;&lt; endl;
+}
+private:
+int year;
+int month;
+int day;
+};
+
+int main()
+{
+Data d(2016, 8, 8);   //普通数值构造
+d.dis();
+Data dd(d);  //同类对象拷贝构造
+dd.dis(); 
+return 0;
+}</code></pre><p>运行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200221222312550.png" alt="自实现拷贝构造器"></p>
+<p><strong>我们来说明类对象成员中是不包含函数:</strong></p>
+<pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+struct Data
+{
+public:
+Data(int y = 2016, int m = 6, int d = 6)
+:year(y), month(m), day(d) 
+{}
+Data(const Data&amp; another)  //此拷贝构造器不是空的，C++编译器提供了等位拷贝机制
+{
+year = another.year;
+month = another.month;
+day = another.day;
+}
+void dis()
+{
+cout &lt;&lt; &quot; year &quot; &lt;&lt; year &lt;&lt; &quot; month &quot; &lt;&lt; month &lt;&lt; &quot; day &quot; &lt;&lt; day &lt;&lt; endl;
+}
+private:
+int year;
+int month;
+int day;
+};
+
+int main()
+{
+Data d(2016, 8, 8);   //普通数值构造
+d.dis();
+Data dd(d);  //拷贝构造
+dd.dis(); 
+cout &lt;&lt; sizeof(d) &lt;&lt; sizeof(dd) &lt;&lt; endl;
+return 0;
+}</code></pre><p>运行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200221222349843.png" alt="类生成对象的大小"></p>
+<p>我们可以看到两个类的大小都是12，也就是类的私有数据成员的大小。</p>
+<p>那么等位拷贝就是不包含类内函数的拷贝。</p>
+<p><strong>等位拷贝:直接把类的私有数据成员复制一份，我们可以开看到上面代码运行结果类大小相等均为12。</strong></p>
+<p><img src="https://img-blog.csdnimg.cn/202002212224442.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="等位拷贝"></p>
+<h3 id="构造特性"><a href="#构造特性" class="headerlink" title="构造特性"></a>构造特性</h3><h4 id="拷贝构造规则"><a href="#拷贝构造规则" class="headerlink" title="拷贝构造规则"></a>拷贝构造规则</h4><p><img src="https://img-blog.csdnimg.cn/20200327180127355.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="拷贝构造规则 "></p>
+<h3 id="浅-shallow-深-deep-拷贝"><a href="#浅-shallow-深-deep-拷贝" class="headerlink" title="浅(shallow)/深(deep)拷贝"></a>浅(shallow)/深(deep)拷贝</h3><p>系统提供的默认拷贝构造器是一种浅拷贝，浅拷贝就是如果对象中不含有堆上的空间，全部都是栈上的空间。此时浅拷贝可以满足需求。也就不需要自实现。</p>
+<p>系统提供默认的拷贝构造器，一经自实现系统将不再提供。但系统提供的默认拷贝构造器是等位拷贝，也就是通常意义上的浅(shallow)拷贝。</p>
+<p> 如果类中包含的数据元素全部在栈上，浅拷贝也可以满足需求的。但如果堆上的数据，此时浅拷贝不能满足需求，则需要自实现拷贝构造实现深拷贝。</p>
+<p><strong>那么浅拷贝不仅仅只是不能满足需求，并且会带来冲析构的问题，double_free。</strong></p>
+<h4 id="浅拷贝示例-class-Date"><a href="#浅拷贝示例-class-Date" class="headerlink" title="浅拷贝示例 class Date"></a>浅拷贝示例 class Date</h4><p>本例中典型的特点，就是数据全部在栈上，无论是否自实现拷贝构造，均可以达到拷贝的目的。 </p>
+<pre><code>#include &lt;iostream&gt; 
+using namespace std; 
+
+struct Date 
+{
+public: 
+Date(int y = 2016,int m =6 ,int d = 6) 
+:year(y),month(m),day(d){} 
+Date(const Date &amp;another) 
+{ 
+year = another.year; 
+month = another.month; 
+day 
+= another.day; 
+}
+void dis() 
+{ 
+cout&lt;&lt;&quot;year:&quot;&lt;&lt;year 
+&lt;&lt;&quot;month&quot;&lt;&lt;month 
+&lt;&lt;&quot;day&quot;&lt;&lt;day&lt;&lt;endl; 
+} 
+private: 
+int year; 
+int month; 
+int day; 
+};
+int main() 
+{ 
+Date d(2016,8,8); 
+d.dis(); 
+Date dd(d); 
+dd.dis(); 
+cout&lt;&lt;sizeof(d)&lt;&lt;sizeof(dd)&lt;&lt;endl;
+return 0; 
+}</code></pre><p>执行结果：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200327183251938.png" alt="浅拷贝执行结果"></p>
+<p>也就是我们上面实现等位拷贝的例子。</p>
+<p>如果对象中含有堆上的空间，此时浅拷贝不能满足需求，需要自实现。</p>
+<p>浅拷贝不能满足需求指的是浅拷贝会带来重析构，即double free</p>
+<h4 id="深拷贝示例-class-DataStr"><a href="#深拷贝示例-class-DataStr" class="headerlink" title="深拷贝示例 class DataStr"></a>深拷贝示例 class DataStr</h4><p>本例中典型的特点，就是数据包含在堆上的空间，必须要自实现拷贝构造，达到深拷贝的目的，不然则会造成重析构，double free 的现象。</p>
+<p>我们下面给出没有包含堆上的空间，但是没有自实现而使用系统默认的拷贝构造的情况。</p>
+<pre><code>#define _CRT_SECURE_NO_WARNINGS
+#include &lt;iostream&gt;
+#include &lt;string.h&gt;
+using namespace std;
+
+
+class DataStr
+{
+public:
+    DataStr()
+    {
+    _str = new char[1024];
+    strcpy(_str, &quot;C++ is th best language in the world\n&quot;);
+    }
+    ~DataStr()
+    {
+        delete[]_str;
+    }
+    void dos()
+    {
+        cout &lt;&lt; _str &lt;&lt; endl;
+    }
+private:
+        char* _str;
+};
+int main()
+{
+    DataStr ds;
+    ds.dos();
+    DataStr ds2(ds);
+    ds2.dos();
+    return 0;
+}</code></pre><p>运行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200221222653812.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="重析构错误"></p>
+<p>那么我们在linux平台出错会更加明显：</p>
+<p>运行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200221222707897.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="重析构错误"></p>
+<p>vs编译器也会直接报错：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200221222718191.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="VS编译器的重析构报错"></p>
+<p>我们可以看到出现了duoble   free。</p>
+<p><strong>为什么会出现重析构的现象呢？</strong></p>
+<p>本质还是因为等位拷贝：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200221222750543.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="出现重析构的原因"></p>
+<p>我们前面说过，拷贝的时候拷贝的内容不包含类成员函数，只包含类对象数据，那么上面例子拷贝的时候，只是把char* _str; 指针进行了拷贝，拷贝完成之后，两个指针指向了同一块堆空间，也就是说第一个char* _str; 析构一次，拷贝之后的char* _str; 再析构一次，就造成了重析构。那么系统此时提供的等位拷贝就有问题，所以就需要我们自实现。</p>
+<p><img src="https://img-blog.csdnimg.cn/2020032718594096.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="深拷贝原理"></p>
+<pre><code>#define _CRT_SECURE_NO_WARNINGS
+#include &lt;iostream&gt;
+#include &lt;string.h&gt;
+using namespace std;
+
+
+class DataStr
+{
+public:
+    DataStr()
+    {
+    _str = new char[1024];
+    strcpy(_str, &quot;C++ is th best language in the world\n&quot;);
+    }
+    DataStr(const DataStr&amp; another)
+    {
+        cout &lt;&lt; &quot;copy constractor&quot; &lt;&lt; endl;
+        _str = new char[strlen(another._str) + 1];
+        strcpy(_str,another._str);
+    }
+    ~DataStr()
+    {
+        delete[]_str;
+    }
+    void dos()
+    {
+        cout &lt;&lt; _str &lt;&lt; endl;
+    }
+private:
+        char* _str;
+};
+int main()
+{
+    DataStr ds;
+    ds.dos();
+    DataStr ds2(ds);
+    ds2.dos();
+    return 0;
+}</code></pre><p>运行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200221222823799.png" alt="自实现深拷贝"></p>
+<p>没有问题。<br>Linux平台运行当然也不会有问题：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200221222833578.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="自实现深拷贝"></p>
+<h4 id="浅拷贝-深拷贝图解说明"><a href="#浅拷贝-深拷贝图解说明" class="headerlink" title="浅拷贝/深拷贝图解说明"></a>浅拷贝/深拷贝图解说明</h4><p><img src="https://img-blog.csdnimg.cn/20200327185629120.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="浅拷图解说明"></p>
+<p><img src="https://img-blog.csdnimg.cn/20200327185258729.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="深拷贝图解说明"></p>
+<p><strong>同类之间无私处，异类之间有友元</strong></p>
+<p>意思就是说同类对象方法中进行传递参数，可以直接访问同类对象的私有成员，其他则不行。<br>关于友元在友元博客进行说明。<br>上面深拷贝代码中的主函数进行修改：</p>
+<pre><code>int main()
+{
+    DataStr ds;
+    ds.dos();
+    DataStr ds2(ds);
+    ds2.dos();
+    DataStr (ds);
+    return 0;
+}</code></pre><p>上面代码中：</p>
+<pre><code>DataStr (ds);</code></pre><p>会导致代码出现很多错误。</p>
+<p>DataStr ds2(ds);是使用同一类的对象进行拷贝构造，由一个对象创建另一个对象，相当于是同类之间发生关系。所以同类之间传递对象是可以直接访问的，之间访问类内的私有成员。</p>
+<p><strong>同类对象方法中进行传参可以访问其私有成员。其他则不可以。</strong></p>
+<h2 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h2><h3 id="函数传参"><a href="#函数传参" class="headerlink" title="函数传参"></a>函数传参</h3><pre><code>#include &lt;iostream&gt;
+
+using namespace std;
+class MyClass
+{
+public:
+    MyClass()
+    {
+        cout &lt;&lt; &quot;MyClass()&quot; &lt;&lt; endl;
+    }
+    ~MyClass()
+    {
+        cout &lt;&lt; &quot;~MyClass()&quot; &lt;&lt; endl;
+    }
+    MyClass(const MyClass &amp; another)
+    {
+        cout &lt;&lt; &quot;copy  constructor\n&quot; &lt;&lt; endl;
+    }
+private:
+
+};
+
+int main()
+{
+    MyClass a;
+    MyClass b(a);
+    return 0;
+}</code></pre><p>运行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200221222932334.png" alt="运行结果"></p>
+<p>以上进行两次构造两次析构。</p>
+<p>我们可以看到如果使用初始化进行拷贝构造结果也是一样的：</p>
+<pre><code>#include &lt;iostream&gt;
+
+using namespace std;
+class MyClass
+{
+public:
+    MyClass()
+    {
+        cout &lt;&lt; &quot;MyClass()&quot; &lt;&lt; endl;
+    }
+    ~MyClass()
+    {
+        cout &lt;&lt; &quot;~MyClass()&quot; &lt;&lt; endl;
+    }
+    MyClass(const MyClass&amp; another)
+    {
+        cout &lt;&lt; &quot;copy  constructor\n&quot; &lt;&lt; endl;
+    }
+private:
+
+};
+
+
+
+int main()
+{
+    MyClass a;
+    MyClass b = a;  //初始化  也是拷贝构造
+    return 0;
+}</code></pre><p>运行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/2020022122301382.png" alt="运行结果"></p>
+<p>我们是用函数传参：</p>
+<pre><code>#include &lt;iostream&gt;
+
+using namespace std;
+class MyClass
+{
+public:
+    MyClass()
+    {
+        cout &lt;&lt; &quot;MyClass()&quot; &lt;&lt; endl;
+    }
+    ~MyClass()
+    {
+        cout &lt;&lt; &quot;~MyClass()&quot; &lt;&lt; endl;
+    }
+    MyClass(const MyClass&amp; another)
+    {
+        cout &lt;&lt; &quot;copy  constructor\n&quot; &lt;&lt; endl;
+    }
+private:
+
+};
+
+void foo(MyClass a)
+{
+
 }
 
-return 0;
-}</code></pre><p>执行结果为：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200315002612951.png" alt="不写入任何内容的执行结果"></p>
-<p>小结：<br>当对于文件操作有写入操作时。</p>
-<p>我们可以看到执行之后ac.txt里面没有任何数据，也就是将文件清空。</p>
-<p>在读取文件的时候如果文件不存在则创建文件并且写入数据，</p>
-<p>如果文件存在且没有数据则直接给已经存在的文件写入数据。</p>
-<p>如果文件存在且有数据执行写数据操作时，原来文件的数据会被清空。</p>
-<h3 id="filea-操作"><a href="#filea-操作" class="headerlink" title="filea 操作"></a>filea 操作</h3><p><img src="https://img-blog.csdnimg.cn/2020012812172089.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="使用追加创建文件"></p>
-<p>执行结果为：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200128121738367.png" alt="使用追加创建文件成功"></p>
-<p>我们可以看到创建文件成功，里面之所以没有内容是因为我们没有写入数据。</p>
-<p>我们先给xx.txt写入一部分内容：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200128121746184.png" alt="给追加创建的文件写入数据"></p>
-<p>我们写完之后再次执行程序则不会清空：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200128121805389.png" alt="运行结果"></p>
-<p>接下来我们需要再引入一个fputs函数，fputs函数的功能就是给文件写入一段数据。</p>
-<p><img src="https://img-blog.csdnimg.cn/20200128121809555.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="fputs函数原型及参数说明"></p>
-<p>我们通过fputs函数进行写入：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200128121828743.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="使用fputs给文件写入数据"></p>
-<p>执行结果为:</p>
-<p><img src="https://img-blog.csdnimg.cn/20200128121838536.png" alt="运行结果"></p>
-<p>我们可以看到执行成功并且在文件原有数据后面追加了数据hello world<br>那么写入没问题，我们进行读取：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200128121858622.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="从追加创建的文件读取数据"></p>
-<p>执行结果为：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200128121909929.png" alt="读取失败"></p>
-<p>我们可以看到读取失败。</p>
-<h2 id="fclose函数"><a href="#fclose函数" class="headerlink" title="fclose函数"></a>fclose函数</h2><p><img src="https://img-blog.csdnimg.cn/20200315003659418.png" alt="fclose函数说明"></p>
-<p>fclose使用方法比较简单。参数直接写入文件描述符进行文件关闭。</p>
-<p>fclose可以刷新缓存。</p>
-<p>fclose会把内存中开辟的缓存的数据存放在磁盘缓冲区</p>
-<p>把开辟的缓存进行释放</p>
-<p>释放FILE * 结构体。</p>
-<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p><strong>r  以只读方式打开，如果文件不存在，则报错，文件不可写</strong></p>
-<p><strong>w  如果文件不存在则创建文件，如果文件存在则清空。文件不可读</strong></p>
-<p><strong>a   如果文件不存在则创建文件，文件存在，追加写，文件不可读。</strong></p>
-<p><strong>r+    可读可写</strong></p>
-<p><strong>w+   可读可写</strong></p>
-<p><strong>a+    可读可写</strong></p>
-<p><strong>后面的+表示缺什么加什么</strong></p>
-<p><strong>如果读写的是二进制文件，则还要加 b,比如 rb, r+b 等。 unix/linux 不区分文本和二进制文件。 文本文件和二进制文件都是二进制文件，但是windows里面编写会有所不同。那么在windows里面在进行二进制文件操作的时候就需要使用我们这里提到的用法</strong></p>
-<p><img src="https://img-blog.csdnimg.cn/20200315003531637.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="我们再次给出表格希望读者验证对比而不是看一遍记忆"></p>
+
+int main()
+{
+    MyClass a;
+    foo(a);
+    return 0;
+}</code></pre><p>运行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200221223035409.png" alt="拷贝构造传递对象参数"></p>
+<p>我们可以看到，上面过程MyClass a; 发生构造，foo(a);形参向实参传递会发生拷贝构造。<br>当然上面用法也可以使用引用，那么就只需要构造一次和析构一次就够了：</p>
+<pre><code>#include &lt;iostream&gt;
+
+using namespace std;
+class MyClass
+{
+public:
+    MyClass()
+    {
+        cout &lt;&lt; &quot;MyClass()&quot; &lt;&lt; endl;
+    }
+    ~MyClass()
+    {
+        cout &lt;&lt; &quot;~MyClass()&quot; &lt;&lt; endl;
+    }
+    MyClass(const MyClass&amp; another)
+    {
+        cout &lt;&lt; &quot;copy  constructor\n&quot; &lt;&lt; endl;
+    }
+private:
+
+};
+
+void foo(MyClass &amp; a)
+{
+
+}
+
+
+int main()
+{
+    MyClass a;
+    foo(a);
+    return 0;
+}</code></pre><p>运行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200221223101531.png" alt="拷贝构造引用对象参数"></p>
+<p>关于对象返回，我们在后面博客进行说明</p>
 
             </div>
             <hr/>
@@ -634,7 +984,7 @@ return 0;
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://www.teachermin.com/2020/03/15/C%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C%EF%BC%9A(FILE%E7%BB%93%E6%9E%84%E4%BD%93%EF%BC%8Cmode%E8%AF%A6%E8%A7%A3%EF%BC%8Cfopen%EF%BC%8Cfread%EF%BC%8Cfwrite%EF%BC%8Cfilea%EF%BC%8Cfclose)/">http://www.teachermin.com/2020/03/15/C%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C%EF%BC%9A(FILE%E7%BB%93%E6%9E%84%E4%BD%93%EF%BC%8Cmode%E8%AF%A6%E8%A7%A3%EF%BC%8Cfopen%EF%BC%8Cfread%EF%BC%8Cfwrite%EF%BC%8Cfilea%EF%BC%8Cfclose)/</a>
+                    <a href="http://www.teachermin.com/2020/03/27/C++%E6%8B%B7%E8%B4%9D%E6%9E%84%E9%80%A0%E8%AF%A6%E7%BB%86%E8%AF%B4%E6%98%8E%EF%BC%8C%E6%B5%85(shallow)%E6%B7%B1(deep)%E6%8B%B7%E8%B4%9D%EF%BC%8C%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF/">http://www.teachermin.com/2020/03/27/C++%E6%8B%B7%E8%B4%9D%E6%9E%84%E9%80%A0%E8%AF%A6%E7%BB%86%E8%AF%B4%E6%98%8E%EF%BC%8C%E6%B5%85(shallow)%E6%B7%B1(deep)%E6%8B%B7%E8%B4%9D%EF%BC%8C%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -672,8 +1022,8 @@ return 0;
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/C%E6%96%87%E4%BB%B6/">
-                                    <span class="chip bg-color">C文件</span>
+                                <a href="/tags/C-%E6%8B%B7%E8%B4%9D%E6%9E%84%E9%80%A0/">
+                                    <span class="chip bg-color">C++拷贝构造</span>
                                 </a>
                             
                         </div>
@@ -839,30 +1189,86 @@ return 0;
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2020/03/15/C++%E8%BF%90%E7%AE%97%E7%AC%A6%E9%87%8D%E8%BD%BD%E5%BC%95%E5%85%A5%E5%88%9D%E6%8E%A2%E8%BF%90%E7%AE%97%E7%AC%A6%E9%87%8D%E8%BD%BD%EF%BC%8C%E6%AF%94%E8%BE%83%E4%B8%A4%E4%B8%AA%E7%BB%93%E6%9E%84%E4%BD%93%E6%98%AF%E5%90%A6%E7%9B%B8%E7%AD%89%EF%BC%8C%E8%99%9A%E6%95%B0%E6%B1%82%E5%8A%A0%E6%B3%95%E8%BF%90%E7%AE%97(1)/">
+                <a href="/2020/03/27/C++%E6%8B%B7%E8%B4%9D%E6%9E%84%E9%80%A0%E8%AF%A6%E7%BB%86%E8%AF%B4%E6%98%8E%EF%BC%8C%E6%B5%85(shallow)%E6%B7%B1(deep)%E6%8B%B7%E8%B4%9D%EF%BC%8C%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="C++运算符重载引入:初探运算符重载，比较两个结构体是否相等，虚数求加法运算(1)">
+                        <img src="/medias/featureimages/3.jpg" class="responsive-img" alt="C++拷贝构造详细说明，浅(shallow)/深(deep)拷贝，应用场景">
                         
-                        <span class="card-title">C++运算符重载引入:初探运算符重载，比较两个结构体是否相等，虚数求加法运算(1)</span>
+                        <span class="card-title">C++拷贝构造详细说明，浅(shallow)/深(deep)拷贝，应用场景</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            运算符重载(Operator Overload)前面用到的运算符&lt;&lt;，本身在 C 语言中，是位操作中的左移运算符。现在又用作流插入运算符，这种一个运算符多种用处的现像叫作运算符重载。 
-在 C 语言中本身就有重载的现像，比如 &
+                            拷贝构造我们再次强调初始化与赋值的区别：
+int a = 0; //初始化
+a = 5; //赋值发生时机由己存在的对象，创建新对象。
+也就是说新对象，不由构造器来构造，而是由拷贝构造器来完成。
+拷贝构造器的格式是固定的。
+拷贝构造器和构造
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-03-15
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-03-27
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/C/" class="post-category">
+                                    C++
+                                </a>
+                            
+                            
                         </span>
+                    </div>
+                </div>
+
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/C-%E6%8B%B7%E8%B4%9D%E6%9E%84%E9%80%A0/">
+                        <span class="chip bg-color">C++拷贝构造</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2020/03/27/C++%E5%A4%9A%E6%80%81%E7%9A%84%E5%BC%95%E5%85%A5%E5%8F%8A%E7%AE%80%E5%8D%95%E7%90%86%E8%A7%A3/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/10.jpg" class="responsive-img" alt="C++多态的引入及简单理解">
+                        
+                        <span class="card-title">C++多态的引入及简单理解</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            多态什么算是多态生活中的多态如果有几个相似而不完全相同的对象，有时人们要求在向它们发出同一个消息时，它们的反应各不相同，分别执行不同的操作。这种情况就是多态现象。
+例如，甲乙丙3个班都是高二年级，他们有基本相同的属性和行为，在同时听到上课铃
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-03-27
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
@@ -878,57 +1284,8 @@ return 0;
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/%E8%BF%90%E7%AE%97%E7%AC%A6%E9%87%8D%E8%BD%BD/">
-                        <span class="chip bg-color">运算符重载</span>
-                    </a>
-                    
-                </div>
-                
-            </div>
-        </div>
-        
-        
-        <div class="article col s12 m6" data-aos="fade-up">
-            <div class="article-badge right-badge text-color">
-                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
-            </div>
-            <div class="card">
-                <a href="/2020/03/15/%E5%9B%BE%E8%A7%A3%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F(C%E8%AF%AD%E8%A8%80%E5%AE%9E%E7%8E%B0)/">
-                    <div class="card-image">
-                        
-                        
-                        <img src="/medias/featureimages/19.jpg" class="responsive-img" alt="图解归并排序(C语言实现)">
-                        
-                        <span class="card-title">图解归并排序(C语言实现)</span>
-                    </div>
-                </a>
-                <div class="card-content article-content">
-                    <div class="summary block-with-text">
-                        
-                            归并排序说明归并排序，简单理解就是先归再并，在归的时候，我们使用递归，并的时候类似于我们之前接触过的把两个有序数据进行合并，合并之后仍然有序的思想。归并排序（MERGE-SORT）是建立在归并操作上的一种有效的排序算法,该算法是采用分治法（
-                        
-                    </div>
-                    <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-03-15
-                            </span>
-                        <span class="publish-author">
-                            
-                            <i class="fas fa-bookmark fa-fw icon-category"></i>
-                            
-                            <a href="/categories/%E7%AE%97%E6%B3%95/" class="post-category">
-                                    算法
-                                </a>
-                            
-                            
-                        </span>
-                    </div>
-                </div>
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/%E6%8E%92%E5%BA%8F/">
-                        <span class="chip bg-color">排序</span>
+                    <a href="/tags/C-%E5%A4%9A%E6%80%81/">
+                        <span class="chip bg-color">C++多态</span>
                     </a>
                     
                 </div>

@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="C++引用的本质，大小，初始化， 汇编代码进行验证, SkilledBeginner">
+    <meta name="keywords" content="C++多态的引入及简单理解, SkilledBeginner">
     <meta name="description" content="努力做一个很厉害的人">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>C++引用的本质，大小，初始化， 汇编代码进行验证 | SkilledBeginner</title>
+    <title>C++多态的引入及简单理解 | SkilledBeginner</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -306,12 +306,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/11.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/10.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">C++引用的本质，大小，初始化， 汇编代码进行验证</h1>
+                    <h1 class="description center-align post-title">C++多态的引入及简单理解</h1>
                 </div>
             </div>
         </div>
@@ -428,8 +428,8 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/C-%E5%BC%95%E7%94%A8/">
-                                <span class="chip bg-color">C++引用</span>
+                            <a href="/tags/C-%E5%A4%9A%E6%80%81/">
+                                <span class="chip bg-color">C++多态</span>
                             </a>
                         
                     </div>
@@ -467,14 +467,14 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    470
+                    452
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    2 分
+                    1 分
                 </div>
                 
 
@@ -490,81 +490,13 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="引用的本质"><a href="#引用的本质" class="headerlink" title="引用的本质"></a>引用的本质</h2><p><strong>引用的本质是，C++对指针的包装，即引用即指针。</strong></p>
-<p>为引我们开始如下的探寻。先从引用的大小入手，然后再能通过编译的角度来剖析。</p>
-<h2 id="大小"><a href="#大小" class="headerlink" title="大小"></a>大小</h2><p>那么我们如果来证明引用即指针呢？</p>
-<p>我们设计下面代码进行证明：</p>
-<pre><code>#include &lt;iostream&gt;
-using namespace std;
-
-struct TypeP 
-{ 
-char* pc; 
-}; 
-struct TypeC 
-{ 
-char c; 
-}; 
-struct TypeR
-{
-char&amp; pr; //把引用单列出来，不与具体的对象发生关系
-};
-int main()
-{
-
-cout &lt;&lt; &quot;sizeof(TypeC)&quot; &lt;&lt; sizeof(TypeC) &lt;&lt; endl;
-cout &lt;&lt; &quot;sizeof(TypeP)&quot; &lt;&lt; sizeof(TypeP) &lt;&lt; endl;
-cout &lt;&lt; &quot;sizeof(TypeR)&quot; &lt;&lt; sizeof(TypeR) &lt;&lt; endl;
-return 0;
-}</code></pre><p>执行结果为：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200213230040723.png" alt="引用的大小"></p>
-<p>我们可以看到引用类型和指针类型大小相等，说明其地位的等价。</p>
-<h2 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h2><p>C++中只有 const 类型的数据，要求必须初始化。而引用也必须要初始化，所以引用是指针，还应该是 const 修饰的指针。 一经声明不可改变。</p>
-<p><strong>所以引用是一个   Int * const p  类型的指针</strong></p>
-<h2 id="汇编代码进行验证"><a href="#汇编代码进行验证" class="headerlink" title="汇编代码进行验证"></a>汇编代码进行验证</h2><pre><code>//void mySwap(int* pa, int* pb)
-//{
- //   int  t = *pa; 
-  //  *pa = *pb;
-   // *pb = t;
-//}
-void mySwap(int&amp; ra, int&amp; rb)
-{
-int t = ra;
-ra = rb;
-rb = t; 
-}   
-int main()
-{   
-int a = 3;
-int b = 5;
-   // mySwap(&amp;a, &amp;b);
-mySwap(a, b);
-return 0;
-}</code></pre><p>代码二：</p>
-<pre><code>void mySwap(int* pa, int* pb)
-{
-int  t = *pa; 
-*pa = *pb;
-*pb = t;
-}
-//void mySwap(int&amp; ra, int&amp; rb)
-//{
- //   int t = ra;
-  //  ra = rb;
-  //  rb = t; 
-//}   
-int main()
-{   
-int a = 3;
-int b = 5;
-mySwap(&amp;a, &amp;b);
-//mySwap(a, b);
-return 0;
-}</code></pre><p>我们使用两种方法来实现数据交换一组使用指针一组使用引用。</p>
-<p>我们在linux平台下把两个文件分别编译为汇编文件之后打开汇编文件。</p>
-<p><img src="https://img-blog.csdnimg.cn/20200213230142987.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="汇编代码分析"></p>
-<p><img src="https://img-blog.csdnimg.cn/20200213230149521.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="汇编代码分析"></p>
-<p>我们可以看到两个文件在会汇编文件里面代码完全相同。从而也证明了引用的本质即指针。</p>
+                <h2 id="多态"><a href="#多态" class="headerlink" title="多态"></a>多态</h2><h3 id="什么算是多态"><a href="#什么算是多态" class="headerlink" title="什么算是多态"></a>什么算是多态</h3><h4 id="生活中的多态"><a href="#生活中的多态" class="headerlink" title="生活中的多态"></a>生活中的多态</h4><p>如果有几个相似而不完全相同的对象，有时人们要求在向它们发出同一个消息时，它们的反应各不相同，分别执行不同的操作。这种情况就是多态现象。</p>
+<p>例如，甲乙丙3个班都是高二年级，他们有基本相同的属性和行为，在同时听到上课铃声的时候，他们会分别走向3个不同的教室，而不会走向同一个教室。</p>
+<p>同样，如果有两支军队，当在战场上听到同种号声，由于事先约定不同，A军队可能实施进攻，而B军队可能准备 kalalok。 </p>
+<p>又如在winows 环境下，用鼠标双击一个对象( 这就是向对象传递一个消息) 如果对象是一个可执行文件，则会执行此程序，如果对象是一个文本文件，则会启动文本编辑器并打开该文件。</p>
+<h4 id="C-中的多态"><a href="#C-中的多态" class="headerlink" title="C++ 中的多态"></a>C++ 中的多态</h4><p>C++中所谓的多态(polymorphism)是指，由继承而产生的相关的不同的类，其对象对同一消息会作出不同的响应。<br>比如，mspaint 中的单击不同图形，执行同一个拖动动作而绘制不同的图形，就是典型的多态应用。</p>
+<h2 id="多态的好处"><a href="#多态的好处" class="headerlink" title="多态的好处"></a>多态的好处</h2><p><strong>多态性是面向对象程序设计的一个重要特征，能增加程序的灵活性。可以 减轻系统升级，维护，调试的工作量和复杂度。</strong></p>
+<p><strong>我们知道在软件行业有一个很重要的概念叫做设计模式，90%的设计模式都与多态有直接关系。所谓的设计模式就是把多态的性能发挥到极致。</strong></p>
 
             </div>
             <hr/>
@@ -590,7 +522,7 @@ return 0;
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://www.teachermin.com/2020/03/27/C++%E5%BC%95%E7%94%A8%E7%9A%84%E6%9C%AC%E8%B4%A8%EF%BC%8C%E5%A4%A7%E5%B0%8F%EF%BC%8C%E5%88%9D%E5%A7%8B%E5%8C%96%EF%BC%8C%20%E6%B1%87%E7%BC%96%E4%BB%A3%E7%A0%81%E8%BF%9B%E8%A1%8C%E9%AA%8C%E8%AF%81/">http://www.teachermin.com/2020/03/27/C++%E5%BC%95%E7%94%A8%E7%9A%84%E6%9C%AC%E8%B4%A8%EF%BC%8C%E5%A4%A7%E5%B0%8F%EF%BC%8C%E5%88%9D%E5%A7%8B%E5%8C%96%EF%BC%8C%20%E6%B1%87%E7%BC%96%E4%BB%A3%E7%A0%81%E8%BF%9B%E8%A1%8C%E9%AA%8C%E8%AF%81/</a>
+                    <a href="http://www.teachermin.com/2020/03/27/C++%E5%A4%9A%E6%80%81%E7%9A%84%E5%BC%95%E5%85%A5%E5%8F%8A%E7%AE%80%E5%8D%95%E7%90%86%E8%A7%A3/">http://www.teachermin.com/2020/03/27/C++%E5%A4%9A%E6%80%81%E7%9A%84%E5%BC%95%E5%85%A5%E5%8F%8A%E7%AE%80%E5%8D%95%E7%90%86%E8%A7%A3/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -628,8 +560,8 @@ return 0;
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/C-%E5%BC%95%E7%94%A8/">
-                                    <span class="chip bg-color">C++引用</span>
+                                <a href="/tags/C-%E5%A4%9A%E6%80%81/">
+                                    <span class="chip bg-color">C++多态</span>
                                 </a>
                             
                         </div>
@@ -795,34 +727,34 @@ return 0;
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="far fa-dot-circle"></i>&nbsp;本篇
-            </div>
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2020/03/27/C++%E5%BC%95%E7%94%A8%E7%9A%84%E6%9C%AC%E8%B4%A8%EF%BC%8C%E5%A4%A7%E5%B0%8F%EF%BC%8C%E5%88%9D%E5%A7%8B%E5%8C%96%EF%BC%8C%20%E6%B1%87%E7%BC%96%E4%BB%A3%E7%A0%81%E8%BF%9B%E8%A1%8C%E9%AA%8C%E8%AF%81/">
+                <a href="/2020/03/27/C++%E6%8B%B7%E8%B4%9D%E6%9E%84%E9%80%A0%E8%AF%A6%E7%BB%86%E8%AF%B4%E6%98%8E%EF%BC%8C%E6%B5%85(shallow)%E6%B7%B1(deep)%E6%8B%B7%E8%B4%9D%EF%BC%8C%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/11.jpg" class="responsive-img" alt="C++引用的本质，大小，初始化， 汇编代码进行验证">
+                        <img src="/medias/featureimages/3.jpg" class="responsive-img" alt="C++拷贝构造详细说明，浅(shallow)/深(deep)拷贝，应用场景">
                         
-                        <span class="card-title">C++引用的本质，大小，初始化， 汇编代码进行验证</span>
+                        <span class="card-title">C++拷贝构造详细说明，浅(shallow)/深(deep)拷贝，应用场景</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            引用的本质引用的本质是，C++对指针的包装，即引用即指针。
-为引我们开始如下的探寻。先从引用的大小入手，然后再能通过编译的角度来剖析。
-大小那么我们如果来证明引用即指针呢？
-我们设计下面代码进行证明：
-#include &lt;iostre
+                            拷贝构造我们再次强调初始化与赋值的区别：
+int a = 0; //初始化
+a = 5; //赋值发生时机由己存在的对象，创建新对象。
+也就是说新对象，不由构造器来构造，而是由拷贝构造器来完成。
+拷贝构造器的格式是固定的。
+拷贝构造器和构造
                         
                     </div>
                     <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-03-27
-                            </span>
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2020-03-27
+                        </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
@@ -835,12 +767,11 @@ return 0;
                         </span>
                     </div>
                 </div>
-
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/C-%E5%BC%95%E7%94%A8/">
-                        <span class="chip bg-color">C++引用</span>
+                    <a href="/tags/C-%E6%8B%B7%E8%B4%9D%E6%9E%84%E9%80%A0/">
+                        <span class="chip bg-color">C++拷贝构造</span>
                     </a>
                     
                 </div>
@@ -854,19 +785,23 @@ return 0;
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/03/27/C++%E5%B8%B8%E5%BC%95%E7%94%A8%EF%BC%9A%E5%B8%B8%E5%BC%95%E7%94%A8%E7%9A%84%E7%89%B9%E6%80%A7%EF%BC%8C%E4%B8%B4%E6%97%B6%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%B8%B8%E5%BC%95%E7%94%A8%20%EF%BC%8C%E5%B8%B8%E5%BC%95%E7%94%A8%E7%9A%84%E6%9C%AC%E8%B4%A8%EF%BC%8CUse%20Const%20Whatever%20Possible(3)/">
+                <a href="/2020/03/27/C++%E5%BC%95%E7%94%A8%E7%9A%84%E6%9C%AC%E8%B4%A8%EF%BC%8C%E5%A4%A7%E5%B0%8F%EF%BC%8C%E5%88%9D%E5%A7%8B%E5%8C%96%EF%BC%8C%20%E6%B1%87%E7%BC%96%E4%BB%A3%E7%A0%81%E8%BF%9B%E8%A1%8C%E9%AA%8C%E8%AF%81(4)/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/4.jpg" class="responsive-img" alt="C++常引用：常引用的特性，临时对象的常引用 ，常引用的本质，Use Const Whatever Possible(3)">
+                        <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="C++引用的本质，大小，初始化， 汇编代码进行验证(4)">
                         
-                        <span class="card-title">C++常引用：常引用的特性，临时对象的常引用 ，常引用的本质，Use Const Whatever Possible(3)</span>
+                        <span class="card-title">C++引用的本质，大小，初始化， 汇编代码进行验证(4)</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            常引用const 的本意，即不可修改。所以，const 对象，只能声明为 const 引用，使其语义保持一致性。 non-const 对象，既可以声明为 const 引用，也可以声明为 no-const 引用。声明为 const 引用，则不
+                            引用的本质引用的本质是，C++对指针的包装，即引用即指针。
+为引我们开始如下的探寻。先从引用的大小入手，然后再能通过编译的角度来剖析。
+大小那么我们如果来证明引用即指针呢？
+我们设计下面代码进行证明：
+#include &lt;iostre
                         
                     </div>
                     <div class="publish-info">
@@ -1088,7 +1023,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">95.8k</span>&nbsp;字
+                class="white-color">98.8k</span>&nbsp;字
             
             
             
