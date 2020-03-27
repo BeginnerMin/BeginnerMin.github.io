@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="C文件操作：(FILE结构体，mode详解，fopen，fread，fwrite，filea，fclose), SkilledBeginner">
+    <meta name="keywords" content="LinuxC线程控制函数, SkilledBeginner">
     <meta name="description" content="努力做一个很厉害的人">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>C文件操作：(FILE结构体，mode详解，fopen，fread，fwrite，filea，fclose) | SkilledBeginner</title>
+    <title>LinuxC线程控制函数 | SkilledBeginner</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -306,12 +306,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/0.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/3.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">C文件操作：(FILE结构体，mode详解，fopen，fread，fwrite，filea，fclose)</h1>
+                    <h1 class="description center-align post-title">LinuxC线程控制函数</h1>
                 </div>
             </div>
         </div>
@@ -428,8 +428,8 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/C%E6%96%87%E4%BB%B6/">
-                                <span class="chip bg-color">C文件</span>
+                            <a href="/tags/LinuxC%E7%BA%BF%E7%A8%8B/">
+                                <span class="chip bg-color">LinuxC线程</span>
                             </a>
                         
                     </div>
@@ -440,8 +440,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/C%E5%9F%BA%E7%A1%80/" class="post-category">
-                                C基础
+                            <a href="/categories/Linux/" class="post-category">
+                                Linux
                             </a>
                         
                     </div>
@@ -453,28 +453,28 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-03-15
+                    2020-03-27
                 </div>
                 
 
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2020-03-25
+                    2020-03-27
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    1.8k
+                    4.5k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    6 分
+                    18 分
                 </div>
                 
 
@@ -490,125 +490,453 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="FILE-结构体"><a href="#FILE-结构体" class="headerlink" title="FILE 结构体"></a>FILE 结构体</h2><p><strong>FILE 结构体是对缓冲区和文件读写状态的记录者，所有对文件的操作，都是通过FILE 结构体完成的。</strong></p>
-<pre><code>typedef struct { 
-short level; /* 缓冲区满/空程度 */ 
-unsigned flags; /* 文件状态标志 */ 
-char fd; /* 文件描述符 */ 
-unsigned char hold; /* 若无缓冲区不读取字符 */ 
-short bsize; /* 缓冲区大小 */ 
-unsigned char *buffer; /* 数据传送缓冲区位置 */ 
-unsigned char *curp; /* 当前读写位置 */ 
-unsigned istemp; /* 临时文件指示 */ 
-short token; /* 用作无效检测 */ 
-} FILE ; /* 结构体类型名 FILE */</code></pre><p>当进行打开文件操作之后，我们打开的文件内容就会缓存到内存中，那么我们有一个疑问<strong>这里的FILE * 定义的pf是不是直接就指向这段缓冲了呢？那么FILE * 的结构体是什么呢？</strong>，我们接下来进行图解说明：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200128120929740.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="读取文件到内存缓冲区"></p>
-<p>我们平时如果要看一个电影，如果内存只有1G那么我们可以观看超过1G大小的影片，这个观看是没有问题的。但是如果要把整个影片缓存到内存肯定是不够的，所以缓存是部分缓存。那么硬盘上也有缓冲，那就把内存已经缓存之后的执行完的数据放到硬盘缓冲区。</p>
-<p>当我们把硬盘的内容缓存到内存的时候，我们需要记录什么时候缓存的部分执行完成之后将其放回硬盘缓冲区，内存缓冲区执行到了那个位置，缓冲区的大小，缓冲区有没有满/有没有空，等等很多信息我们都需要记录下来，所以当我们对于文件进行操作的时候，所以这些信息都要被记录下来，而记录者就是FILE *<br>所以当我们在打开文件到内存的时候，在底层系统为我们开了一个结构体，这个结构体就是记录当前文件的所有状态信息，所以FILE * 结构体并不是简单直接指向缓冲区。而是记录这段缓冲区内存的所有指标，指标包括FILE * 结构体中的所有成员。</p>
-<p>通常在windows中我们将pf称为句柄：我们可以理解为资源的把柄，有了句柄我们就可以操作文件，也是文件的核心。所以并不是简单的pf指向内存的缓冲区。<br>我们来举一个例子：例如门柄就是门把手，我们有了门柄就可以操作整个门。门把手就是这个门的核心和要害之处。</p>
-<p>在开始执行程序的时候，将自动打开 3 个文件和相关的流：标准输入流(stdin)、标准输出流(stdout)和标准错误(stderr)，它们都是 FIEL*型的指针。流提供了文件和程序的通信通道。</p>
-<h2 id="fopen函数"><a href="#fopen函数" class="headerlink" title="fopen函数"></a>fopen函数</h2><p><img src="https://img-blog.csdnimg.cn/20200128121002659.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="fopen函数"></p>
-<p><strong>要注意上面的file包括文件路径和文件名。</strong></p>
-<h3 id="mode-详解："><a href="#mode-详解：" class="headerlink" title="mode 详解："></a>mode 详解：</h3><p><img src="https://img-blog.csdnimg.cn/20200128121020485.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="mode详解"></p>
-<p><strong>如果读写的是二进制文件，则还要加 b,比如 rb, r+b 等。 unix/linux 不区分文本和二进制文件。</strong></p>
-<h3 id="读取文件操作"><a href="#读取文件操作" class="headerlink" title="读取文件操作"></a>读取文件操作</h3><p>我们来简单演示一下：</p>
+                <h2 id="pthread-create函数"><a href="#pthread-create函数" class="headerlink" title="pthread_create函数"></a>pthread_create函数</h2><h3 id="函数原型"><a href="#函数原型" class="headerlink" title="函数原型"></a>函数原型</h3><pre><code>#include &lt;pthread.h&gt;
+int pthread_create(pthread_t *thread, const pthread_attr_t *attr,
+void *(*start_routine) (void *), void *arg);</code></pre><h3 id="功能"><a href="#功能" class="headerlink" title="功能"></a>功能</h3><p>把void <em>(</em>start_routine) (void *)函数注册为一个线程函数，该函数一旦注册成功，这个函数就以次线程的方式开始并发运行起来，如果不注册的话，这个函数就是一个普通函数。凡是使用pthread_create注册的线程，都是次线程，次线程会和主线程一起并发运行。</p>
+<p>main函数的那条线就是主线程，如果一个次线程都没有创建的话，整个进程就只有一个主线程，这个主线程也是整个进程。</p>
+<h3 id="返回值"><a href="#返回值" class="headerlink" title="返回值"></a>返回值</h3><p>成功返回0，失败返回非零错误号。线程函数出现错误之后不会返回errno而是直接返回错误号以返回值方式返回。</p>
+<h3 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h3><h5 id="thread"><a href="#thread" class="headerlink" title="thread"></a>thread</h5><p>存放线程的TID。</p>
+<h5 id="attr"><a href="#attr" class="headerlink" title="attr"></a>attr</h5><p>结构体类型，用于设置线程属性，设置线程属性的目的是为了实现某些特殊功能，如果设置为NULL，表示不设置特有的属性，使用线程默认属性所提供的功能即可。<br>正常情况下，线程默认属性所提供的功能就已经够用了，所以这个参数我们都是设置为NULL。</p>
+<h5 id="start-routine"><a href="#start-routine" class="headerlink" title="start_routine"></a>start_routine</h5><p>要注册为线程的函数地址</p>
+<p>函数类型为void <em>(</em>) (void *)，pthread_create它会把这个函数注册为线程，如果不注册，线程函数就是一个普通的函数。</p>
+<p>线程函数需要我们自己定义，比如：</p>
+<pre><code>void *pth_fun(void *pth_arg)
+{
+...//线程要做的事情
+}</code></pre><p>pth_fun和pth_arg的命名由自己决定。</p>
+<h5 id="arg"><a href="#arg" class="headerlink" title="arg"></a>arg</h5><p>传递给线程函数的参数，这个参数会传递给pth_arg，如果参数很多的话，我们做成一个结构体，然后把结构体变量的地址传过去。</p>
+<p>如果你不想传递参数的话，你可以设置为NULL。</p>
+<h4 id="代码演示"><a href="#代码演示" class="headerlink" title="代码演示"></a>代码演示</h4><p>创建两个次线程，主线程和两个次线程一起并发的向同一个文件中写”hello ” “world\n”。</p>
 <pre><code>#include &lt;stdio.h&gt;
 #include &lt;stdlib.h&gt;
-int main()
+#include &lt;unistd.h&gt;
+#include &lt;pthread.h&gt;
+#include &lt;string.h&gt;
+#include &lt;errno.h&gt;
+#include &lt;sys/types.h&gt;
+#include &lt;sys/stat.h&gt;
+#include &lt;fcntl.h&gt;
+
+#define SECON_PTH_NUMS 2 //定义次线程数量
+
+typedef struct pthread_arg //传递给线程函数的参数
 {
-FILE * pf = fopen(&quot;./read.txt&quot;,&quot;r&quot;);
-if(NULL == pf)
+pthread_t tid;//线程PID
+int pthno;   //自定义线程编号
+int fd;  //打开文件的文件描述符
+}ptharg;
+
+
+void *pth_fun(void * pth_arg)//线程函数
 {
-printf(&quot;open fail\n&quot;);
+int fd = ((ptharg *)pth_arg)-&gt;fd;
+while(1)
+{
+write(fd,&quot;hello &quot;,6);
+write(fd,&quot;world\n&quot;,6);
+}
+return NULL;
+}
+
+void print_err(char * str,int line,int err_no)//报错函数
+{
+printf(&quot;%d,%s:%s&quot;,line,str,strerror(err_no));   //strerror函数：将错误号翻译为字符串
 exit(-1);
 }
-return 0;
-}</code></pre><p>运行结果为：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200315002202174.png" alt="打开文件运行结果"></p>
-<p>这个时候我们并没有创建出来ac.txt这个文件，但是我们给出了文件打开是否成功的判断结果。<br>我们可以看到打开文件失败，因为当前目录下并没有文件名为read.txt。<br>所以如果open函数以只读方式打开，如果文件不存在就会打开失败。<br>那么如果我们创建一个ac.txt文件，那么就会打开成功。</p>
-<p>我们先介绍一个我们接下来使用的向文件写入数据的fputs函数，有博客会进行详细说明，这里只是简单使用。</p>
-<p><strong>函数原型及参数说明</strong>：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200128121133165.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="函数原型及参数说明"></p>
-<p>我们通过上面函数进行文件写入数据操作：</p>
-<h2 id="写入文件操作"><a href="#写入文件操作" class="headerlink" title="写入文件操作"></a>写入文件操作</h2><p>我们让当前目录并没有ac.txt 文件<br>接下来我们进行写入文件操作：</p>
-<pre><code>#include &lt;stdio.h&gt;
-#include &lt;stdlib.h&gt;
 
 int main()
 {
-FILE * pf = fopen(&quot;ac.txt&quot;,&quot;w&quot;);
-if(pf == NULL)
-{
-printf(&quot;open fail\n&quot;);
-exit(-1);
-}
-if(fputc(&apos;a&apos;,pf)==EOF)
-fputc(&apos;a&apos;,pf);
-fputc(&apos;a&apos;,pf);
-fputc(&apos;a&apos;,pf);
-fputc(&apos;a&apos;,pf);
-fputc(&apos;a&apos;,pf);
-fputc(&apos;a&apos;,pf);
-return 0;
-}</code></pre><p>运行结果为：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200315002513935.png" alt="文件写入操作"></p>
-<p>我们可以看到创建了ac.txt文件并且写入成功。<br>那么如果文件存在呢？<br>接下来我们先给ac.txt写入一部分内容：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200315002535805.png" alt="给已经存在的文件写入内容"></p>
-<p>我们现在对于ac.txt还是以写入的方式打开，但是不写入任何内容。</p>
-<pre><code>#include &lt;stdio.h&gt;
-#include &lt;stdlib.h&gt;
+int i = 0;
+int ret = 0;   //存放pthread_create函数的返回值
+int fd = 0;
+//结构体数组，每个元素会被当做参数传递给对应的次线程
+ptharg pth_arg[SECON_PTH_NUMS]; 
+        //打开文件供多线程操作，所有的线程（函数）可以共享打开文件描述符
+fd = open(&quot;./file&quot;,O_RDWR|O_CREAT|O_TRUNC,0664);
+if(-1 == fd)print_err(&quot;open fail fail&quot;,__LINE__,errno);
 
-int main()
+for(int i = 0;i&lt;SECON_PTH_NUMS;i++)//使用同一个函数循环创建两个次线程
 {
-FILE * pf = fopen(&quot;ac.txt&quot;,&quot;w&quot;);
-if(pf == NULL)
+pth_arg[i].fd = fd;  //保存文件描述符
+pth_arg[i].pthno = i;  //自己设置的文件编号
+ret = pthread_create(&amp;pth_arg[i].tid,NULL,pth_fun,(void *)&amp;pth_arg[i]);
+if(ret != 0)print_err(&quot;pthread_create fail&quot;,__LINE__,ret);
+}
+
+while(1)
 {
-printf(&quot;open fail\n&quot;);
-exit(-1);
+write(fd,&quot;hello &quot;,6);
+write(fd,&quot;world\n&quot;,6);
 }
 
 return 0;
 }</code></pre><p>执行结果为：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200315002612951.png" alt="不写入任何内容的执行结果"></p>
-<p>小结：<br>当对于文件操作有写入操作时。</p>
-<p>我们可以看到执行之后ac.txt里面没有任何数据，也就是将文件清空。</p>
-<p>在读取文件的时候如果文件不存在则创建文件并且写入数据，</p>
-<p>如果文件存在且没有数据则直接给已经存在的文件写入数据。</p>
-<p>如果文件存在且有数据执行写数据操作时，原来文件的数据会被清空。</p>
-<h3 id="filea-操作"><a href="#filea-操作" class="headerlink" title="filea 操作"></a>filea 操作</h3><p><img src="https://img-blog.csdnimg.cn/2020012812172089.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="使用追加创建文件"></p>
-<p>执行结果为：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200128121738367.png" alt="使用追加创建文件成功"></p>
-<p>我们可以看到创建文件成功，里面之所以没有内容是因为我们没有写入数据。</p>
-<p>我们先给xx.txt写入一部分内容：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200128121746184.png" alt="给追加创建的文件写入数据"></p>
-<p>我们写完之后再次执行程序则不会清空：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200128121805389.png" alt="运行结果"></p>
-<p>接下来我们需要再引入一个fputs函数，fputs函数的功能就是给文件写入一段数据。</p>
-<p><img src="https://img-blog.csdnimg.cn/20200128121809555.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="fputs函数原型及参数说明"></p>
-<p>我们通过fputs函数进行写入：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200128121828743.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="使用fputs给文件写入数据"></p>
-<p>执行结果为:</p>
-<p><img src="https://img-blog.csdnimg.cn/20200128121838536.png" alt="运行结果"></p>
-<p>我们可以看到执行成功并且在文件原有数据后面追加了数据hello world<br>那么写入没问题，我们进行读取：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200128121858622.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="从追加创建的文件读取数据"></p>
-<p>执行结果为：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200128121909929.png" alt="读取失败"></p>
-<p>我们可以看到读取失败。</p>
-<h2 id="fclose函数"><a href="#fclose函数" class="headerlink" title="fclose函数"></a>fclose函数</h2><p><img src="https://img-blog.csdnimg.cn/20200315003659418.png" alt="fclose函数说明"></p>
-<p>fclose使用方法比较简单。参数直接写入文件描述符进行文件关闭。</p>
-<p>fclose可以刷新缓存。</p>
-<p>fclose会把内存中开辟的缓存的数据存放在磁盘缓冲区</p>
-<p>把开辟的缓存进行释放</p>
-<p>释放FILE * 结构体。</p>
-<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p><strong>r  以只读方式打开，如果文件不存在，则报错，文件不可写</strong></p>
-<p><strong>w  如果文件不存在则创建文件，如果文件存在则清空。文件不可读</strong></p>
-<p><strong>a   如果文件不存在则创建文件，文件存在，追加写，文件不可读。</strong></p>
-<p><strong>r+    可读可写</strong></p>
-<p><strong>w+   可读可写</strong></p>
-<p><strong>a+    可读可写</strong></p>
-<p><strong>后面的+表示缺什么加什么</strong></p>
-<p><strong>如果读写的是二进制文件，则还要加 b,比如 rb, r+b 等。 unix/linux 不区分文本和二进制文件。 文本文件和二进制文件都是二进制文件，但是windows里面编写会有所不同。那么在windows里面在进行二进制文件操作的时候就需要使用我们这里提到的用法</strong></p>
-<p><img src="https://img-blog.csdnimg.cn/20200315003531637.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="我们再次给出表格希望读者验证对比而不是看一遍记忆"></p>
+<p><img src="https://img-blog.csdnimg.cn/2020032723041849.png" alt="运行结果"></p>
+<p>打开file文件：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200327230434518.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="打开file文件"></p>
+<p>也会出现在在线程切换的时候出现hello  hello  的问题。</p>
+<p>同一个函数可以被多次注册为多个次线程。</p>
+<p>把上面的线程函数进行修改，打印fd，pthno ，tid：</p>
+<pre><code>void *pth_fun(void * pth_arg)//线程函数
+{
+int fd = ((ptharg *)pth_arg)-&gt;fd;
+int pthno = ((ptharg *)pth_arg)-&gt;pthno;
+pthread_t tid = ((ptharg *)pth_arg)-&gt;tid;
+
+printf(&quot;pthno = %d,pthread_id = %lu\n&quot;,pthno,tid);
+sleep(5);
+while(1)
+{
+write(fd,&quot;hello &quot;,6);
+write(fd,&quot;world\n&quot;,6);
+}
+return NULL;
+}</code></pre><p>运行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200327230511710.png" alt="运行结果"></p>
+<h4 id="需要强调的地方"><a href="#需要强调的地方" class="headerlink" title="需要强调的地方"></a>需要强调的地方</h4><p> gcc编译时，必须跟-pthread选项，因为像线程库这类的不常用库，gcc不会默认链接，需要我们明确指定链接，如果不明确指定链接，编译链接时会报找不到线程函数的错误。</p>
+<p>main函数调用子函数时，子函数属于主线程这条线，次线程调用子函数时，子函数属于次线程这条线。</p>
+<p>次线程结束了，对整个进程没有任何影响，但是主线程代表了整个进程的存在，如果主线程结束了，整个进程也就结束了，进程都没了线程自然也没了，所以主线程一定不能死。</p>
+<p> C线程函数的启动与c++/java线程函数启动的略微有所不同。</p>
+<p> c++/java的线程函数被注册为线程后不会立即启动，需要单独调用某个启动函数来启动，而c线程函数一旦被pthread_create注册为线程后会立即被启动运行。</p>
+<p> c++、java等面向对象的函数，都被封装在类里面，包括线程函数也是如此，而c这种面向过程语言的函数，全部都裸露在外的。</p>
+<h2 id="pthread-cancel函数"><a href="#pthread-cancel函数" class="headerlink" title="pthread_cancel函数"></a>pthread_cancel函数</h2><h3 id="函数原型-1"><a href="#函数原型-1" class="headerlink" title="函数原型"></a>函数原型</h3><pre><code>#include &lt;pthread.h&gt;
+int pthread_cancel(pthread_t thread);</code></pre><h3 id="功能-1"><a href="#功能-1" class="headerlink" title="功能"></a>功能</h3><p>当次线程是死循环时，可以调动这个函数主动取消该线程。</p>
+<h4 id="返回值-1"><a href="#返回值-1" class="headerlink" title="返回值"></a>返回值</h4><p>成功返回0，失败返回非零错误号。</p>
+<h4 id="参数-1"><a href="#参数-1" class="headerlink" title="参数"></a>参数</h4><p>thread：要取消线程的TID</p>
+<p>使用全局变量的时候使用结构体避免全局变量和局部变量重名带来的程序干扰。</p>
+<p>例如：如果全局变量和局部变量重名，当把局部变量删除时，会直接使用同名的全局变量。</p>
+<h3 id="代码演示-1"><a href="#代码演示-1" class="headerlink" title="代码演示"></a>代码演示</h3><p>设置5秒钟倒计时取消次线程。            </p>
+<pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;pthread.h&gt;
+#include &lt;string.h&gt;
+#include &lt;errno.h&gt;
+#include &lt;sys/types.h&gt;
+#include &lt;sys/stat.h&gt;
+#include &lt;fcntl.h&gt;
+#include &lt;signal.h&gt;
+
+#define SECON_PTH_NUMS 2 //定义次线程数量
+#define PTHEXIT  -1//次线程退出状态
+typedef struct pthread_arg //传递给线程函数的参数
+{
+pthread_t tid;//线程PID
+int pthno;   //自定义线程编号
+int fd;  //打开文件的文件描述符
+}ptharg;
+
+struct globle_val//封装全局变量为结构体
+{
+ptharg pth_arg[SECON_PTH_NUMS];//结构体数组，每个元素会被当做参数传递给对应的次线程
+int pth_exit_flg[SECON_PTH_NUMS]; //每一个元素存放对应编号次线程的退出状态
+}glbva;
+
+
+void *pth_fun(void * pth_arg)//线程函数
+{
+int fd = ((ptharg *)pth_arg)-&gt;fd;
+int pthno = ((ptharg *)pth_arg)-&gt;pthno;
+pthread_t tid = ((ptharg *)pth_arg)-&gt;tid;
+
+printf(&quot;pthno = %d,pthread_id = %lu\n&quot;,pthno,tid);
+while(1)
+{
+write(fd,&quot;hello &quot;,6);
+write(fd,&quot;world\n&quot;,6);
+printf(&quot;~~~~~~~\n&quot;);
+//检测退出状态
+if(glbva.pth_exit_flg[pthno] == PTHEXIT) break;
+}
+return NULL;
+}
+
+void print_err(char * str,int line,int err_no)//报错函数
+{
+printf(&quot;%d,%s:%s&quot;,line,str,strerror(err_no));   //strerror函数：将错误号翻译为字符串
+exit(-1);
+}
+
+void signal_fun(int signo)  //信号捕捉函数，捕捉SIGALRM进行处理
+{
+if(SIGALRM == signo)
+{
+int i = 0;
+for(int i = 0;i&lt;SECON_PTH_NUMS;i++) //循环取消两个次线程
+{
+//pthread_cancel(glbva.pth_arg[i].tid);
+glbva.pth_exit_flg[i] = PTHEXIT;//设置为退出状态
+}
+}
+}
+
+int main()
+{
+int i = 0;
+int ret = 0;   //存放pthread_create函数的返回值
+int fd = 0;   
+
+fd = open(&quot;./file&quot;,O_RDWR|O_CREAT|O_TRUNC,0664);
+if(-1 == fd)print_err(&quot;open fail fail&quot;,__LINE__,errno);
+
+for(int i = 0;i&lt;SECON_PTH_NUMS;i++)//使用同一个函数创建两个次线程
+{
+glbva.pth_arg[i].fd = fd;
+glbva.pth_arg[i].pthno = i;
+   ret=pthread_create(&amp;glbva.pth_arg[i].tid,NULL,pth_fun,(void *)&amp;glbva.pth_arg[i]);
+if(ret != 0)print_err(&quot;pthread_create fail&quot;,__LINE__,ret);
+}
+
+//定时5秒时间到之后取消线程
+signal(SIGALRM,signal_fun);
+alarm(5);
+
+while(1)
+{
+write(fd,&quot;hello &quot;,6);
+write(fd,&quot;world\n&quot;,6);
+}
+
+return 0;
+}        </code></pre><p>运行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200327230724187.png" alt="运行结果"></p>
+<p>5秒之后自动退出</p>
+<h2 id="pthread-exit函数"><a href="#pthread-exit函数" class="headerlink" title="pthread_exit函数"></a>pthread_exit函数</h2><h3 id="函数原型-2"><a href="#函数原型-2" class="headerlink" title="函数原型"></a>函数原型</h3><pre><code>#include &lt;pthread.h&gt;
+void pthread_exit(void *retval); </code></pre><h3 id="功能-2"><a href="#功能-2" class="headerlink" title="功能"></a>功能</h3><p>线程调用这个函数时，可以主动退出（终止）。</p>
+<p>这类似于exit函数，不过exit是终止整个进程的，而pthread_exit是终止次线程的。</p>
+<p>如果你在次线程里面调用错误，调用的是exit，整个进程就终止了。</p>
+<p>事实上线程也可以通过调动return来退出（终止），不过return和pthread_exit之间有一定的区别，具体有什么区别，我们后面进行说明。 </p>
+<h3 id="返回值-2"><a href="#返回值-2" class="headerlink" title="返回值"></a>返回值</h3><p>成功返回0，失败返回非零错误号。</p>
+<h4 id="参数-2"><a href="#参数-2" class="headerlink" title="参数"></a>参数</h4><p>retval：线程结束时的返回值。</p>
+<p>如果返回值很多时，就封装成一个结构体，返回结构体变量的地址即可。    </p>
+<h3 id="代码演示-2"><a href="#代码演示-2" class="headerlink" title="代码演示"></a>代码演示</h3><p>上面pthread_cancle函数代码中线程函数改为:</p>
+<pre><code>void *pth_fun(void * pth_arg)//线程函数
+{
+int fd = ((ptharg *)pth_arg)-&gt;fd;
+int pthno = ((ptharg *)pth_arg)-&gt;pthno;
+pthread_t tid = ((ptharg *)pth_arg)-&gt;tid;
+
+printf(&quot;pthno = %d,pthread_id = %lu\n&quot;,pthno,tid);
+while(1)
+{
+write(fd,&quot;hello &quot;,6);
+write(fd,&quot;world\n&quot;,6);
+printf(&quot;~~~~~~~\n&quot;);
+//检测退出状态
+if(glbva.pth_exit_flg[pthno] == PTHEXIT) break;
+}
+//return NULL;
+pthread_exit(NULL); 
+}</code></pre><h2 id="pthread-self函数"><a href="#pthread-self函数" class="headerlink" title="pthread_self函数"></a>pthread_self函数</h2><h3 id="函数原型-3"><a href="#函数原型-3" class="headerlink" title="函数原型"></a>函数原型</h3><pre><code>#include &lt;pthread.h&gt;
+pthread_t pthread_self(void);</code></pre><h3 id="功能-3"><a href="#功能-3" class="headerlink" title="功能"></a>功能</h3><p>线程获取自己的TID，类似于进程调用getpid()获取自己的PID一样。</p>
+<h3 id="返回值-3"><a href="#返回值-3" class="headerlink" title="返回值"></a>返回值</h3><p>成功返回线程TID，失败返回非零错误号。</p>
+<h2 id="pthread-join函数"><a href="#pthread-join函数" class="headerlink" title="pthread_join函数"></a>pthread_join函数</h2><h3 id="函数原型-4"><a href="#函数原型-4" class="headerlink" title="函数原型"></a>函数原型</h3><pre><code>#include &lt;pthread.h&gt;
+int pthread_join(pthread_t thread, void **retval);</code></pre><h3 id="功能-4"><a href="#功能-4" class="headerlink" title="功能"></a>功能</h3><p>阻塞等待tid为thread的次线程结束，结束时该函数会回收次线程所占用的所有资源（存储空间）。</p>
+<p>这个函数只对次线程有意义，对主线程没有意义，因为主线程结束时真个进程就结束了，整个进程资源会由父进程回收。</p>
+<p>线程所用内存资源本身就是来自于进程空间，既然进程结束后，整个进程的资源都会被回收掉，次线程结束时干嘛要回收资源，等进程结束后一并回收不就得了吗？</p>
+<p>答：有些程序（进程）一旦运行后将会长期运行，不会结束，所以次线程在结束时必须回收资源，如果不回收，每结束一个次线程就导致一部分资源被占用，慢慢累积会使得整个进程资源越用越少，最好导致进程崩溃，所以次线程结束时，必须回收次线程资源。<br>这个函数一般都是由主线程调用，以回收相关次线程的资源，当然次线程也是可以调用这个函数来回收其它次线程资源的。</p>
+<h3 id="返回值-4"><a href="#返回值-4" class="headerlink" title="返回值"></a>返回值</h3><p>成功返回0，失败返回错误号。</p>
+<h3 id="参数-3"><a href="#参数-3" class="headerlink" title="参数"></a>参数</h3><h4 id="thread-1"><a href="#thread-1" class="headerlink" title="thread"></a>thread</h4><p>指定要回收次线程的TID</p>
+<h4 id="retval"><a href="#retval" class="headerlink" title="retval"></a>retval</h4><p>次线程函数返回的返回值</p>
+<p><strong>如果线程是被pthread_cancel取消掉的，自动返回-1。</strong></p>
+<h2 id="pthread-detach-函数"><a href="#pthread-detach-函数" class="headerlink" title="pthread_detach    函数"></a>pthread_detach    函数</h2><h3 id="函数原型-5"><a href="#函数原型-5" class="headerlink" title="函数原型"></a>函数原型</h3><pre><code>#include &lt;pthread.h&gt;
+int pthread_detach(pthread_t thread);</code></pre><h3 id="功能-5"><a href="#功能-5" class="headerlink" title="功能"></a>功能</h3><p>如果次线程的资源不希望别人调用pthread_join函数来回收的话，而是希望自己在结束时，自动回收资源的话，就可以调用这个函数。</p>
+<p>这个函数的功能就是分离次线程，让次线程在结束时自动回收资源。</p>
+<h3 id="返回值-5"><a href="#返回值-5" class="headerlink" title="返回值"></a>返回值</h3><p>成功返回0，失败返回错误号。</p>
+<h3 id="参数-4"><a href="#参数-4" class="headerlink" title="参数"></a>参数</h3><h4 id="thread-2"><a href="#thread-2" class="headerlink" title="thread"></a>thread</h4><p>你要分离的那个次线程的TID。</p>
+<p><strong>pthread_join和pthread_detach作为两种不同的线程资源回收方式，我们只能二选择其一。</strong></p>
+<h2 id="注册线程退出处理函数"><a href="#注册线程退出处理函数" class="headerlink" title="注册线程退出处理函数"></a>注册线程退出处理函数</h2><p>可以注册进程退出处理函数，同样可以注册线程退出处理函数，线程在退出时会自动调用，实现线程的扫尾处理。</p>
+<p>atexit();</p>
+<p>exit</p>
+<h3 id="注册函数"><a href="#注册函数" class="headerlink" title="注册函数"></a>注册函数</h3><pre><code>void pthread_cleanup_push(void (*routine)(void *), void *arg);
+void pthread_cleanup_pop(int execute);</code></pre><h4 id="功能-6"><a href="#功能-6" class="headerlink" title="功能"></a>功能</h4><h5 id="pthread-cleanup-push"><a href="#pthread-cleanup-push" class="headerlink" title="pthread_cleanup_push"></a>pthread_cleanup_push</h5><p>将类型为void (*routine)(void *)函数注册为“线程退出处理函数”，arg为传递给退出处理函数的参数。</p>
+<p>注册的原理就是将处理函数地址压入线程栈。</p>
+<p>我们可以反复调用该函数注册多个退出处理函数，但是一般一个就够了。</p>
+<h5 id="pthread-cleanup-pop"><a href="#pthread-cleanup-pop" class="headerlink" title="pthread_cleanup_pop"></a>pthread_cleanup_pop</h5><p>执行这个函数时，如果参数写!0：会将压入栈中的推出处理函数地址弹出，然后调用退出函数进行线程的扫尾处理。</p>
+<p>如果参数写0：不弹出调用。</p>
+<p>如果注册了多个线程退出处理函数的话，由于栈先进后出的特点，所以注册压栈的顺序与弹栈调动的顺序刚好相反。</p>
+<p>这个函数必须和pthread_cleanup_push配对出现，有一个pthread_cleanup_push，就必须要对应有一个pthread_cleanup_pop，就算这个函数调用不到也必须写，否者编译时不通过，这就好比{}是成对出现的，缺一个都会报错。</p>
+<h4 id="弹栈线程退出处理函数的几种条件"><a href="#弹栈线程退出处理函数的几种条件" class="headerlink" title="弹栈线程退出处理函数的几种条件"></a>弹栈线程退出处理函数的几种条件</h4><h5 id="调用thread-cleanup-pop-0-，主动弹栈"><a href="#调用thread-cleanup-pop-0-，主动弹栈" class="headerlink" title="调用thread_cleanup_pop(!0)，主动弹栈"></a>调用thread_cleanup_pop(!0)，主动弹栈</h5><h5 id="如果线程是被别人调用pthread-cancel取消的，也会弹栈"><a href="#如果线程是被别人调用pthread-cancel取消的，也会弹栈" class="headerlink" title="如果线程是被别人调用pthread_cancel取消的，也会弹栈"></a>如果线程是被别人调用pthread_cancel取消的，也会弹栈</h5><h5 id="如果线程是调用pthread-exit函数退出的，也会弹栈"><a href="#如果线程是调用pthread-exit函数退出的，也会弹栈" class="headerlink" title="如果线程是调用pthread_exit函数退出的，也会弹栈"></a>如果线程是调用pthread_exit函数退出的，也会弹栈</h5><p>注意，如果线程时调用return退出的话，是不会自动弹栈的，要弹栈的话，必须主动调动thread_cleanup_pop(!0)。</p>
+<h2 id="线程的属性设置"><a href="#线程的属性设置" class="headerlink" title="线程的属性设置"></a>线程的属性设置</h2><p>可以设置的线程属性有</p>
+<p>· 设置绑定属性</p>
+<p>· 设置分离属性</p>
+<p>· 设置线程堆栈属性</p>
+<p>· 设置线程调度优先级属性</p>
+<p>等等</p>
+<p>如果我们什么属性都不设置，那么线程使用的就是默认属性，事实上默认属性所提供的功能就已经足够我们使用了，因此一般不需要设置什么特别的属性。</p>
+<p>C线程中设置属性的函数非常多，基本每一种属性都有独立的设置函数，由于很少进行属性设置，因此我们这里就不做详细讲解，这里只举一个设置分离属性来实现线程分离的例子。</p>
+<h3 id="将线程分离有两种方法："><a href="#将线程分离有两种方法：" class="headerlink" title="将线程分离有两种方法："></a>将线程分离有两种方法：</h3><p>· 调用pthread_detach函数实现</p>
+<p>· 通过设置分离属性实现</p>
+<p>事实上使用pthread_detach更方便些，不过我们这里还是要介绍第二种方式，主要是想向大家演示一下是如何来设置C线程属性，你把这个例子理解了，实际上其它属性的设置都是类似的操作，自己上网查阅资料就能实现。</p>
+<h3 id="分离属性设置的步骤"><a href="#分离属性设置的步骤" class="headerlink" title="分离属性设置的步骤"></a>分离属性设置的步骤</h3><h4 id="定义一个变量来存放新属性"><a href="#定义一个变量来存放新属性" class="headerlink" title="定义一个变量来存放新属性"></a>定义一个变量来存放新属性</h4><pre><code>pthread_attr_t attr;</code></pre><p>pthread_attr_t 这个类型实际上是一个结构体，被typedef重命名了。</p>
+<h4 id="调用int-pthread-attr-init-pthread-attr-t-attr-初始化一下attr结构体变量"><a href="#调用int-pthread-attr-init-pthread-attr-t-attr-初始化一下attr结构体变量" class="headerlink" title="调用int pthread_attr_init(pthread_attr_t *attr); 初始化一下attr结构体变量"></a>调用int pthread_attr_init(pthread_attr_t *attr); 初始化一下attr结构体变量</h4><p>pthread_attr_init(&amp;attr);</p>
+<p>成功返回0，失败返回错误号。</p>
+<h4 id="调用int-pthread-attr-setdetachstate-pthread-attr-t-attr-int-detachstate"><a href="#调用int-pthread-attr-setdetachstate-pthread-attr-t-attr-int-detachstate" class="headerlink" title="调用int pthread_attr_setdetachstate(pthread_attr_t *attr, int detachstate);"></a>调用int pthread_attr_setdetachstate(pthread_attr_t *attr, int detachstate);</h4><p>预设分离属性。</p>
+<pre><code>pthread_attr_setdetachstate(&amp;attr, PTHREAD_CREATE_DETACHED);</code></pre><p>指定PTHREAD_CREATE_DETACHED宏后，pthread_attr_setdetachstate函数会自动的将分离属性相关的数据设置到attr结构体变量的各个成员中。</p>
+<p>如果想要预设其它属性，就必须调用其它属性相关的函数来实现，这里不再举例。</p>
+<h4 id="调动pthread-create创建线程时，将attr传递给pthread-create，将线程分离"><a href="#调动pthread-create创建线程时，将attr传递给pthread-create，将线程分离" class="headerlink" title="调动pthread_create创建线程时，将attr传递给pthread_create，将线程分离"></a>调动pthread_create创建线程时，将attr传递给pthread_create，将线程分离</h4><p>pthread_create(&amp;pth, &amp;attr, pth_fun, &amp;arg);</p>
+<h4 id="删除属性设置"><a href="#删除属性设置" class="headerlink" title="删除属性设置"></a>删除属性设置</h4><pre><code>int pthread_attr_destroy(pthread_attr_t *attr);
+pthread_attr_destroy(&amp;attr);</code></pre><p>成功返回0，失败返回错误号。</p>
+<h2 id="综合代码演示"><a href="#综合代码演示" class="headerlink" title="综合代码演示"></a>综合代码演示</h2><pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;pthread.h&gt;
+#include &lt;string.h&gt;
+#include &lt;errno.h&gt;
+#include &lt;sys/types.h&gt;
+#include &lt;sys/stat.h&gt;
+#include &lt;fcntl.h&gt;
+#include &lt;signal.h&gt;
+
+
+#define SECON_PTH_NUMS     2  //次线程数量
+#define PTHEXIT     -1    
+
+
+/* 传递给线程的参数 */
+typedef struct pthread_arg 
+{
+    pthread_t tid;//存放线程tid
+    int pthno;//自己定义的编号
+    int fd;//文件描述符
+}ptharg;
+
+
+
+struct gloable_va
+{
+    ptharg pth_arg[SECON_PTH_NUMS];//结构体数组,每个元素会被当做参数传递给对应的次线程
+    int pth_exit_flg[SECON_PTH_NUMS];//每个元素存放对应编号线程的退出状态
+    pthread_attr_t attr;//存放线程新属性
+}glbva;
+
+void print_err(char *str, int line, int err_no)
+{
+    printf(&quot;%d, %s:%s&quot;, line, str, strerror(err_no));
+    exit(-1);
+}
+
+/* 线程退出处理函数 */
+void pth_exit_deal(void *arg)
+{
+    pthread_t tid = ((ptharg *)arg)-&gt;tid;    
+
+    printf(&quot;!!! pthread %lu exit\n&quot;, tid);
+}
+
+void *pth_fun(void *pth_arg)
+{    
+    int fd = ((ptharg *)pth_arg)-&gt;fd;
+    int pthno = ((ptharg *)pth_arg)-&gt;pthno;
+    pthread_t tid = ((ptharg *)pth_arg)-&gt;tid;    
+
+    pthread_detach(pthread_self());//线程把自己分离出去
+
+    //注册线程退出处理函数
+    pthread_cleanup_push(pth_exit_deal, pth_arg);
+
+    printf(&quot;pthno=%d, pthread_id=%lu\n&quot;, pthno, tid);
+
+    while(1)
+    {
+        write(fd, &quot;hello &quot;, 6);
+        write(fd, &quot;world\n&quot;, 6);
+        //检测退出状态
+        if(glbva.pth_exit_flg[pthno] == PTHEXIT) break;
+    }
+
+
+    pthread_cleanup_pop(!0);    
+    return NULL;
+    pthread_exit((void *)10);     
+}
+
+void signal_fun(int signo)
+{
+    if(SIGALRM == signo)
+    {
+        int i = 0;
+        for(i=0; i&lt;SECON_PTH_NUMS; i++)
+        {
+            //pthread_cancel(glbva.pth_arg[i].tid);//取消次线程
+            glbva.pth_exit_flg[i] = PTHEXIT;//设置为退出状态
+        }
+    }
+    else if(SIGINT == signo)
+    {
+        exit(0);
+    }
+}
+
+void process_exit_deal(void)
+{
+    /* 销毁线程的属性设置 */
+    int ret = 0;
+    ret = pthread_attr_destroy(&amp;glbva.attr);
+    if(ret != 0) print_err(&quot;pthread_attr_destroy fail&quot;, __LINE__, ret);
+
+    printf(&quot;\nprocess exit\n&quot;);
+}
+
+int main(void)
+{
+    int fd = 0;
+    int i = 0;
+    int ret = 0;
+
+    //注册进程退出处理函数,exit正常终止进程时弹栈调用
+    atexit(process_exit_deal);
+
+    //打开文件,供线程操作,所有的线程(函数)可以共享打开的文件描述符
+    fd = open(&quot;./file&quot;, O_RDWR|O_CREAT|O_TRUNC, 0664);
+    if(fd == -1) print_err(&quot;open ./file fail&quot;, __LINE__, errno);
+
+    /* 初始化护attr, 设置一些基本的初始值 */
+    ret = pthread_attr_init(&amp;glbva.attr);
+    if(ret != 0) print_err(&quot;pthread_attr_init fail&quot;, __LINE__, ret);
+
+    /* 设置分离属性 */
+    ret = pthread_attr_setdetachstate(&amp;glbva.attr, PTHREAD_CREATE_DETACHED);
+    if(ret != 0) print_err(&quot;pthread_attr_setdetachstate fail&quot;, __LINE__, ret);
+
+    /* 通过循环创建两个次线程 */
+    for(i=0; i&lt;SECON_PTH_NUMS; i++)
+    {
+        glbva.pth_arg[i].fd = fd;//保存文件描述符
+        glbva.pth_arg[i].pthno = i; //我自己给的线程编号
+                           //创建好次线程后,讲次线程分离
+        ret = pthread_create(&amp;glbva.pth_arg[i].tid, &amp;glbva.attr, pth_fun, (void *)&amp;glbva.pth_arg[i]);    
+        if(ret != 0) print_err(&quot;pthread_create fail&quot;, __LINE__, ret);
+    }
+
+    printf(&quot;main tid = %lu\n&quot;, pthread_self());
+
+    signal(SIGINT, signal_fun);
+
+    /* 定时5秒,时间到后取消次线程 */
+    signal(SIGALRM, signal_fun);
+    alarm(5);    
+
+    #if 0
+    void *retval = NULL;
+    for(i=0; i&lt;SECON_PTH_NUMS; i++)
+    {
+        //阻塞等待此线程结束,回收次线程资源,并通过第二个参数接受返回值
+        pthread_join(glbva.pth_arg[i].tid, &amp;retval);
+        printf(&quot;@@ %ld\n&quot;, (long)retval);
+    }
+    #endif
+
+
+    while(1)
+    {
+        write(fd, &quot;hello &quot;, 6);
+        write(fd, &quot;world\n&quot;, 6);
+    }        
+
+    return 0;
+}</code></pre><p>运行结果：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200327231937277.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="综合代码运行结果"></p>
 
             </div>
             <hr/>
@@ -634,7 +962,7 @@ return 0;
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://www.teachermin.com/2020/03/15/C%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C%EF%BC%9A(FILE%E7%BB%93%E6%9E%84%E4%BD%93%EF%BC%8Cmode%E8%AF%A6%E8%A7%A3%EF%BC%8Cfopen%EF%BC%8Cfread%EF%BC%8Cfwrite%EF%BC%8Cfilea%EF%BC%8Cfclose)/">http://www.teachermin.com/2020/03/15/C%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C%EF%BC%9A(FILE%E7%BB%93%E6%9E%84%E4%BD%93%EF%BC%8Cmode%E8%AF%A6%E8%A7%A3%EF%BC%8Cfopen%EF%BC%8Cfread%EF%BC%8Cfwrite%EF%BC%8Cfilea%EF%BC%8Cfclose)/</a>
+                    <a href="http://www.teachermin.com/2020/03/27/LinuxC%E7%BA%BF%E7%A8%8B%E6%8E%A7%E5%88%B6%E5%87%BD%E6%95%B0/">http://www.teachermin.com/2020/03/27/LinuxC%E7%BA%BF%E7%A8%8B%E6%8E%A7%E5%88%B6%E5%87%BD%E6%95%B0/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -672,8 +1000,8 @@ return 0;
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/C%E6%96%87%E4%BB%B6/">
-                                    <span class="chip bg-color">C文件</span>
+                                <a href="/tags/LinuxC%E7%BA%BF%E7%A8%8B/">
+                                    <span class="chip bg-color">LinuxC线程</span>
                                 </a>
                             
                         </div>
@@ -843,25 +1171,24 @@ return 0;
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2020/03/15/C++%E8%BF%90%E7%AE%97%E7%AC%A6%E9%87%8D%E8%BD%BD%E5%BC%95%E5%85%A5%E5%88%9D%E6%8E%A2%E8%BF%90%E7%AE%97%E7%AC%A6%E9%87%8D%E8%BD%BD%EF%BC%8C%E6%AF%94%E8%BE%83%E4%B8%A4%E4%B8%AA%E7%BB%93%E6%9E%84%E4%BD%93%E6%98%AF%E5%90%A6%E7%9B%B8%E7%AD%89%EF%BC%8C%E8%99%9A%E6%95%B0%E6%B1%82%E5%8A%A0%E6%B3%95%E8%BF%90%E7%AE%97(1)/">
+                <a href="/2020/03/27/C++%E5%B8%B8%E5%BC%95%E7%94%A8%EF%BC%9A%E5%B8%B8%E5%BC%95%E7%94%A8%E7%9A%84%E7%89%B9%E6%80%A7%EF%BC%8C%E4%B8%B4%E6%97%B6%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%B8%B8%E5%BC%95%E7%94%A8%20%EF%BC%8C%E5%B8%B8%E5%BC%95%E7%94%A8%E7%9A%84%E6%9C%AC%E8%B4%A8%EF%BC%8CUse%20Const%20Whatever%20Possible(3)/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="C++运算符重载引入:初探运算符重载，比较两个结构体是否相等，虚数求加法运算(1)">
+                        <img src="/medias/featureimages/4.jpg" class="responsive-img" alt="C++常引用：常引用的特性，临时对象的常引用 ，常引用的本质，Use Const Whatever Possible(3)">
                         
-                        <span class="card-title">C++运算符重载引入:初探运算符重载，比较两个结构体是否相等，虚数求加法运算(1)</span>
+                        <span class="card-title">C++常引用：常引用的特性，临时对象的常引用 ，常引用的本质，Use Const Whatever Possible(3)</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            运算符重载(Operator Overload)前面用到的运算符&lt;&lt;，本身在 C 语言中，是位操作中的左移运算符。现在又用作流插入运算符，这种一个运算符多种用处的现像叫作运算符重载。 
-在 C 语言中本身就有重载的现像，比如 &
+                            常引用const 的本意，即不可修改。所以，const 对象，只能声明为 const 引用，使其语义保持一致性。 non-const 对象，既可以声明为 const 引用，也可以声明为 no-const 引用。声明为 const 引用，则不
                         
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-03-15
+                            <i class="far fa-clock fa-fw icon-date"></i>2020-03-27
                         </span>
                         <span class="publish-author">
                             
@@ -878,8 +1205,8 @@ return 0;
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/%E8%BF%90%E7%AE%97%E7%AC%A6%E9%87%8D%E8%BD%BD/">
-                        <span class="chip bg-color">运算符重载</span>
+                    <a href="/tags/C-%E5%BC%95%E7%94%A8/">
+                        <span class="chip bg-color">C++引用</span>
                     </a>
                     
                 </div>
@@ -893,31 +1220,36 @@ return 0;
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/03/15/%E5%9B%BE%E8%A7%A3%E5%BD%92%E5%B9%B6%E6%8E%92%E5%BA%8F(C%E8%AF%AD%E8%A8%80%E5%AE%9E%E7%8E%B0)/">
+                <a href="/2020/03/27/C++%E5%BC%95%E7%94%A8%E6%8F%90%E9%AB%98(2)/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/19.jpg" class="responsive-img" alt="图解归并排序(C语言实现)">
+                        <img src="/medias/featureimages/15.jpg" class="responsive-img" alt="C++引用提高(2)">
                         
-                        <span class="card-title">图解归并排序(C语言实现)</span>
+                        <span class="card-title">C++引用提高(2)</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            归并排序说明归并排序，简单理解就是先归再并，在归的时候，我们使用递归，并的时候类似于我们之前接触过的把两个有序数据进行合并，合并之后仍然有序的思想。归并排序（MERGE-SORT）是建立在归并操作上的一种有效的排序算法,该算法是采用分治法（
+                            我们再次说明说很重要的一点：只有完全等价才能使用引用。
+指针数据交换接下来我们再看一个例子实现平级操作：
+我们先给出在C语言中不能实现的一种情况
+先给出代码：
+#include &lt;iostream&gt;
+using namespac
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-03-15
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-03-27
                             </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/%E7%AE%97%E6%B3%95/" class="post-category">
-                                    算法
+                            <a href="/categories/C/" class="post-category">
+                                    C++
                                 </a>
                             
                             
@@ -927,8 +1259,8 @@ return 0;
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/%E6%8E%92%E5%BA%8F/">
-                        <span class="chip bg-color">排序</span>
+                    <a href="/tags/C-%E5%BC%95%E7%94%A8/">
+                        <span class="chip bg-color">C++引用</span>
                     </a>
                     
                 </div>
