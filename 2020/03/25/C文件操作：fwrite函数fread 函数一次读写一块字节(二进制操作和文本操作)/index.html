@@ -845,23 +845,25 @@ return 0;
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2020/03/25/C%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C%EF%BC%9AC%E9%A1%B9%E7%9B%AE%EF%BC%88%E6%96%87%E4%BB%B6%E9%93%BE%E8%A1%A8%E5%AE%9E%E7%8E%B0%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%EF%BC%89/">
+                <a href="/2020/03/25/C%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C%EF%BC%9Afreadfwrite%E4%BD%BF%E7%94%A8%E4%BA%8C%E8%BF%9B%E5%88%B6%E8%AF%BB%E5%86%99%E8%AF%BB%E5%86%99%E7%BB%93%E6%9E%84%E4%BD%93/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/20.jpg" class="responsive-img" alt="C文件操作：C项目（文件链表实现管理系统）">
+                        <img src="/medias/featureimages/19.jpg" class="responsive-img" alt="C文件操作：fread/fwrite使用二进制读写读写结构体">
                         
-                        <span class="card-title">C文件操作：C项目（文件链表实现管理系统）</span>
+                        <span class="card-title">C文件操作：fread/fwrite使用二进制读写读写结构体</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            项目核心管理系统的三大块：内存模型，数据库模型，人机交互界面。
-将链表作为内存数据模型，将文件作为数据库，将终端作为交互界面。读文件生成链表，修改链表写入文件。
-初始化数据库     此时数据库是文件
-读取数据库，生成内存数据模型
-增，删，
+                            我们给出一个代码，这次我们读取的时候把块的大小设置为1024，每次读取一个块长度
+#define _CRT_SECURE_NO_WARNINGS
+#include &lt;stdio.h&gt;
+
+int main()
+{
+    FILE
                         
                     </div>
                     <div class="publish-info">
@@ -887,10 +889,6 @@ return 0;
                         <span class="chip bg-color">C文件</span>
                     </a>
                     
-                    <a href="/tags/C%E9%A1%B9%E7%9B%AE/">
-                        <span class="chip bg-color">C项目</span>
-                    </a>
-                    
                 </div>
                 
             </div>
@@ -902,25 +900,22 @@ return 0;
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/03/25/C%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C%EF%BC%9Afreadfwrite%E4%BD%BF%E7%94%A8%E4%BA%8C%E8%BF%9B%E5%88%B6%E8%AF%BB%E5%86%99%E8%AF%BB%E5%86%99%E7%BB%93%E6%9E%84%E4%BD%93/">
+                <a href="/2020/03/25/LinuxC%E7%BA%BF%E7%A8%8B%E8%AF%B4%E6%98%8E/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/19.jpg" class="responsive-img" alt="C文件操作：fread/fwrite使用二进制读写读写结构体">
+                        <img src="/medias/featureimages/13.jpg" class="responsive-img" alt="LinuxC线程说明">
                         
-                        <span class="card-title">C文件操作：fread/fwrite使用二进制读写读写结构体</span>
+                        <span class="card-title">LinuxC线程说明</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            我们给出一个代码，这次我们读取的时候把块的大小设置为1024，每次读取一个块长度
-#define _CRT_SECURE_NO_WARNINGS
-#include &lt;stdio.h&gt;
-
-int main()
-{
-    FILE
+                            线程所有的线程实现方式都是类似的，只不过使用的语言不同。一个函数当我们直接调用的时候就是普通函数，但是如果注册为线程函数就能够以线程方式来运行。
+我们先来简单了解一下，后面博客中会有更加详细的说明：
+当作普通函数调用：
+#include &
                         
                     </div>
                     <div class="publish-info">
@@ -931,8 +926,8 @@ int main()
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/C%E5%9F%BA%E7%A1%80/" class="post-category">
-                                    C基础
+                            <a href="/categories/Linux/" class="post-category">
+                                    Linux
                                 </a>
                             
                             
@@ -942,8 +937,8 @@ int main()
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/C%E6%96%87%E4%BB%B6/">
-                        <span class="chip bg-color">C文件</span>
+                    <a href="/tags/LinuxC%E7%BA%BF%E7%A8%8B/">
+                        <span class="chip bg-color">LinuxC线程</span>
                     </a>
                     
                 </div>
