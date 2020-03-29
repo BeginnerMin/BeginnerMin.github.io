@@ -490,7 +490,7 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="静多态"><a href="#静多态" class="headerlink" title="静多态"></a>静多态</h2><p>静多态，也就是我们说的函数重载。表面来看，是由重载规则来限定的，内部实现却<br>是 Namemangling。</p>
+                <h2 id="静多态"><a href="#静多态" class="headerlink" title="静多态"></a>静多态</h2><p>静多态，也就是我们说的函数重载。表面来看，是由重载规则来限定的，内部实现却是 Namemangling。</p>
 <p>同名函数会根据参数的不同调用不同的函数。</p>
 <p>此种行为，发生在编译期，故称为静多态。</p>
 <h2 id="多态"><a href="#多态" class="headerlink" title="多态"></a>多态</h2><p>(动)多态，不是在编译器阶段决定，而是在运行阶段决定，故称为动多态。动多态行成<br>的条件如下:</p>
@@ -634,7 +634,7 @@ protected:
 int main()
 {
     Circle c(4, 5, 6);
-    Shape* ps = NULL;
+    Shape* ps = nullptr;
     Rect r(7, 8, 9, 10);
 
     while (1)
@@ -980,33 +980,33 @@ int main()
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="far fa-dot-circle"></i>&nbsp;本篇
-            </div>
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2020/03/29/C++%E5%A4%9A%E6%80%81%EF%BC%9A%E5%A4%9A%E6%80%81%E5%BD%A2%E6%88%90%E7%9A%84%E6%9D%A1%E4%BB%B6%EF%BC%8C%E9%9D%99%E5%A4%9A%E6%80%81%EF%BC%8C%E5%A4%9A%E6%80%81%EF%BC%8C%E8%99%9A%E5%87%BD%E6%95%B0(3)/">
+                <a href="/2020/03/29/C++%E5%A4%9A%E6%80%81%EF%BC%9A%E7%BA%AF%E8%99%9A%E5%87%BD%E6%95%B0%E4%B8%8E%E8%99%9A%E6%9E%90%E6%9E%84(4)/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/10.jpg" class="responsive-img" alt="C++多态:多态形成的条件，静多态，多态，虚函数(3)">
+                        <img src="/medias/featureimages/15.jpg" class="responsive-img" alt="C++多态:纯虚函数与虚析构(4)">
                         
-                        <span class="card-title">C++多态:多态形成的条件，静多态，多态，虚函数(3)</span>
+                        <span class="card-title">C++多态:纯虚函数与虚析构(4)</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            静多态静多态，也就是我们说的函数重载。表面来看，是由重载规则来限定的，内部实现却是 Namemangling。
-同名函数会根据参数的不同调用不同的函数。
-此种行为，发生在编译期，故称为静多态。
-多态(动)多态，不是在编译器阶段决定，而是在运
+                            纯虚函数纯虚函数，是一种虚函数，virutal 修饰，没有实现体，且被”初始化”为零的函数。纯虚函数存在的意义在于，提供族类接口使用。
+格式class 类名
+{
+virtual 函数声明 = 0;
+}实践Shape 提供的仅是 virtua
                         
                     </div>
                     <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-03-29
-                            </span>
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2020-03-29
+                        </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
@@ -1019,7 +1019,6 @@ int main()
                         </span>
                     </div>
                 </div>
-
                 
                 <div class="card-action article-tags">
                     
@@ -1276,7 +1275,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">106.6k</span>&nbsp;字
+                class="white-color">108.3k</span>&nbsp;字
             
             
             
