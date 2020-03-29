@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="C++拷贝构造详细说明，浅(shallow)/深(deep)拷贝，应用场景, SkilledBeginner">
+    <meta name="keywords" content="C++多态：赋值兼容，详细实现，转化安全(2), SkilledBeginner">
     <meta name="description" content="努力做一个很厉害的人">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>C++拷贝构造详细说明，浅(shallow)/深(deep)拷贝，应用场景 | SkilledBeginner</title>
+    <title>C++多态：赋值兼容，详细实现，转化安全(2) | SkilledBeginner</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -306,12 +306,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/3.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/6.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">C++拷贝构造详细说明，浅(shallow)/深(deep)拷贝，应用场景</h1>
+                    <h1 class="description center-align post-title">C++多态：赋值兼容，详细实现，转化安全(2)</h1>
                 </div>
             </div>
         </div>
@@ -428,8 +428,8 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/C-%E6%8B%B7%E8%B4%9D%E6%9E%84%E9%80%A0/">
-                                <span class="chip bg-color">C++拷贝构造</span>
+                            <a href="/tags/C-%E5%A4%9A%E6%80%81/">
+                                <span class="chip bg-color">C++多态</span>
                             </a>
                         
                     </div>
@@ -453,28 +453,28 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-03-27
+                    2020-03-29
                 </div>
                 
 
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2020-03-27
+                    2020-03-29
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    2.6k
+                    1.7k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    11 分
+                    7 分
                 </div>
                 
 
@@ -490,475 +490,283 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="拷贝构造"><a href="#拷贝构造" class="headerlink" title="拷贝构造"></a>拷贝构造</h2><p>我们再次强调初始化与赋值的区别：</p>
-<pre><code>int a = 0; //初始化
-a = 5; //赋值</code></pre><h3 id="发生时机"><a href="#发生时机" class="headerlink" title="发生时机"></a>发生时机</h3><p><strong>由己存在的对象，创建新对象。</strong></p>
-<p><strong>也就是说新对象，不由构造器来构造，而是由拷贝构造器来完成</strong>。</p>
-<p><strong>拷贝构造器的格式是固定的。</strong></p>
-<p><strong>拷贝构造器和构造器的地位是一样的。</strong></p>
-<h3 id="语法定义"><a href="#语法定义" class="headerlink" title="语法定义"></a>语法定义</h3><pre><code>class 类名 
-{ 
-类名(const 类名 &amp; another) 
-拷贝构造体 
-}
+                <h2 id="赋值兼容"><a href="#赋值兼容" class="headerlink" title="赋值兼容"></a>赋值兼容</h2><p>赋值兼容是多态的前提条件。</p>
+<h3 id="赋值兼容规则"><a href="#赋值兼容规则" class="headerlink" title="赋值兼容规则"></a>赋值兼容规则</h3><p>把子类对象赋给父类对象的现象就是赋值兼容。</p>
+<p>赋值兼容规则是指，在需要基类对象的任何地方，都可以使用公有派生类的对象来替代。</p>
+<p>公有派生是赋值兼容的前提，赋值兼容是多态的前提。</p>
+<p>只有在公有派生类中才有赋值兼容，赋值兼容是一种默认行为，不需要任何的显示的转化步骤。并且是安全的。</p>
+<h4 id="赋值兼容的表现"><a href="#赋值兼容的表现" class="headerlink" title="赋值兼容的表现"></a>赋值兼容的表现</h4><p><img src="https://img-blog.csdnimg.cn/20200329105747739.png" alt="赋值兼容的表现"></p>
+<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><h3 id="派生类的对象可以赋值给基类的对象"><a href="#派生类的对象可以赋值给基类的对象" class="headerlink" title="派生类的对象可以赋值给基类的对象"></a>派生类的对象可以赋值给基类的对象</h3><pre><code>#include &lt;iostream&gt;
+using namespace  std;
 
-
-
-class A 
-{ 
-A(const A &amp; another) 
-{} 
-} </code></pre><p><strong>由普通数值作参数完成的构造，调用构造器。</strong></p>
-<p><strong>由同类对象做参数完成构造就是拷贝构造。</strong></p>
-<p>普通数值参数完成构造说明如下：</p>
-<pre><code>#include &lt;iostream&gt;
-using namespace std;
-
-struct Data
+class Shape
 {
 public:
-Data(int y = 2016, int m = 6, int d = 6)
-:year(y), month(m), day(d) 
-{}
-void dis()
-{
-cout &lt;&lt; &quot; year &quot; &lt;&lt; year &lt;&lt; &quot; month &quot; &lt;&lt; month &lt;&lt; &quot; day &quot; &lt;&lt; day &lt;&lt; endl;
-}
-private:
-int year;
-int month;
-int day;
-};
+    Shape(int x = 0,int y = 0)
+        :_x(x),_y(y){}
 
-int main()
-{
-Data d(2016, 8, 8);   //普通数值构造
-d.dis();
-return 0;
-}</code></pre><p>运行结果为：</p>
-<p><img src="https://img-blog.csdnimg.cn/2020022122213774.png" alt="普通数值做参数完成对象构造"></p>
-<p>```c<br>    #include <iostream><br>    using namespace std;</p>
-<pre><code>struct Data
-{
-public:
-Data(int y = 2016, int m = 6, int d = 6)
-:year(y), month(m), day(d) 
-{}
-void dis()
-{
-cout &lt;&lt; &quot; year &quot; &lt;&lt; year &lt;&lt; &quot; month &quot; &lt;&lt; month &lt;&lt; &quot; day &quot; &lt;&lt; day &lt;&lt; endl;
-}
-private:
-int year;
-int month;
-int day;
-};
-
-int main()
-{
-Data d(2016, 8, 8);   //普通数值构造
-d.dis();
-Data dd(d);  //同类对象拷贝构造
-dd.dis(); 
-return 0;
-}</code></pre><p>运行结果为：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200221222201222.png" alt="同类对象拷贝构造"></p>
-<p><strong>系统提供了默认的拷贝构造器</strong></p>
-<p>例如上面的代码演示就是系统提供的拷贝构造器，格式固定。一经实现系统提供拷贝构造器的将不复存在。</p>
-<p>上面我们说过如果我们自己实现拷贝构造器那么系统默认提供的就不存在，我们通过下面的代码进验证。</p>
-<pre><code>#include &lt;iostream&gt;
-using namespace std;
-
-struct Data
-{
-public:
-Data(int y = 2016, int m = 6, int d = 6)
-:year(y), month(m), day(d) 
-{}
-Data(const Data&amp; another)  //此拷贝构造器不是空的，C++只是提供提供了等位拷贝机制
-{
-
-}
-void dis()
-{
-cout &lt;&lt; &quot; year &quot; &lt;&lt; year &lt;&lt; &quot; month &quot; &lt;&lt; month &lt;&lt; &quot; day &quot; &lt;&lt; day &lt;&lt; endl;
-}
-private:
-int year;
-int month;
-int day;
-};
-
-int main()
-{
-Data d(2016, 8, 8);   //普通数值构造
-d.dis();
-Data dd(d);  //拷贝构造
-dd.dis(); 
-return 0;
-}</code></pre><p>运行结果为：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200221222240341.png" alt="空体拷贝构造器"></p>
-<p>我们可以看到，系统默认的拷贝构造器会打印出来和构造器相同的内容，而我们实现一个空的构造器，打印出来就是随机值，可见系统默认的拷贝构造器不是空的拷贝构造器。</p>
-<p>编译器只是提供一种等位拷贝机制。那么我们可以在拷贝构造器里面进行自实现等位拷贝：</p>
-<pre><code>#include &lt;iostream&gt;
-using namespace std;
-
-struct Data
-{
-public:
-Data(int y = 2016, int m = 6, int d = 6)
-:year(y), month(m), day(d) 
-{}
-Data(const Data&amp; another)  //此拷贝构造器不是空的，C++编译器提供了等位拷贝机制
-{
-year = another.year;
-month = another.month;
-day = another.day;
-}
-void dis()
-{
-cout &lt;&lt; &quot; year &quot; &lt;&lt; year &lt;&lt; &quot; month &quot; &lt;&lt; month &lt;&lt; &quot; day &quot; &lt;&lt; day &lt;&lt; endl;
-}
-private:
-int year;
-int month;
-int day;
-};
-
-int main()
-{
-Data d(2016, 8, 8);   //普通数值构造
-d.dis();
-Data dd(d);  //同类对象拷贝构造
-dd.dis(); 
-return 0;
-}</code></pre><p>运行结果为：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200221222312550.png" alt="自实现拷贝构造器"></p>
-<p><strong>我们来说明类对象成员中是不包含函数:</strong></p>
-<pre><code>#include &lt;iostream&gt;
-using namespace std;
-
-struct Data
-{
-public:
-Data(int y = 2016, int m = 6, int d = 6)
-:year(y), month(m), day(d) 
-{}
-Data(const Data&amp; another)  //此拷贝构造器不是空的，C++编译器提供了等位拷贝机制
-{
-year = another.year;
-month = another.month;
-day = another.day;
-}
-void dis()
-{
-cout &lt;&lt; &quot; year &quot; &lt;&lt; year &lt;&lt; &quot; month &quot; &lt;&lt; month &lt;&lt; &quot; day &quot; &lt;&lt; day &lt;&lt; endl;
-}
-private:
-int year;
-int month;
-int day;
-};
-
-int main()
-{
-Data d(2016, 8, 8);   //普通数值构造
-d.dis();
-Data dd(d);  //拷贝构造
-dd.dis(); 
-cout &lt;&lt; sizeof(d) &lt;&lt; sizeof(dd) &lt;&lt; endl;
-return 0;
-}</code></pre><p>运行结果为：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200221222349843.png" alt="类生成对象的大小"></p>
-<p>我们可以看到两个类的大小都是12，也就是类的私有数据成员的大小。</p>
-<p>那么等位拷贝就是不包含类内函数的拷贝。</p>
-<p><strong>等位拷贝:直接把类的私有数据成员复制一份，我们可以开看到上面代码运行结果类大小相等均为12。</strong></p>
-<p><img src="https://img-blog.csdnimg.cn/202002212224442.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="等位拷贝"></p>
-<h3 id="构造特性"><a href="#构造特性" class="headerlink" title="构造特性"></a>构造特性</h3><h4 id="拷贝构造规则"><a href="#拷贝构造规则" class="headerlink" title="拷贝构造规则"></a>拷贝构造规则</h4><p><img src="https://img-blog.csdnimg.cn/20200327180127355.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="拷贝构造规则 "></p>
-<h3 id="浅-shallow-深-deep-拷贝"><a href="#浅-shallow-深-deep-拷贝" class="headerlink" title="浅(shallow)/深(deep)拷贝"></a>浅(shallow)/深(deep)拷贝</h3><p>系统提供的默认拷贝构造器是一种浅拷贝，浅拷贝就是如果对象中不含有堆上的空间，全部都是栈上的空间。此时浅拷贝可以满足需求。也就不需要自实现。</p>
-<p>系统提供默认的拷贝构造器，一经自实现系统将不再提供。但系统提供的默认拷贝构造器是等位拷贝，也就是通常意义上的浅(shallow)拷贝。</p>
-<p> 如果类中包含的数据元素全部在栈上，浅拷贝也可以满足需求的。但如果堆上的数据，此时浅拷贝不能满足需求，则需要自实现拷贝构造实现深拷贝。</p>
-<p><strong>那么浅拷贝不仅仅只是不能满足需求，并且会带来冲析构的问题，double_free。</strong></p>
-<h4 id="浅拷贝示例-class-Date"><a href="#浅拷贝示例-class-Date" class="headerlink" title="浅拷贝示例 class Date"></a>浅拷贝示例 class Date</h4><p>本例中典型的特点，就是数据全部在栈上，无论是否自实现拷贝构造，均可以达到拷贝的目的。 </p>
-<pre><code>#include &lt;iostream&gt; 
-using namespace std; 
-
-struct Date 
-{
-public: 
-Date(int y = 2016,int m =6 ,int d = 6) 
-:year(y),month(m),day(d){} 
-Date(const Date &amp;another) 
-{ 
-year = another.year; 
-month = another.month; 
-day 
-= another.day; 
-}
-void dis() 
-{ 
-cout&lt;&lt;&quot;year:&quot;&lt;&lt;year 
-&lt;&lt;&quot;month&quot;&lt;&lt;month 
-&lt;&lt;&quot;day&quot;&lt;&lt;day&lt;&lt;endl; 
-} 
-private: 
-int year; 
-int month; 
-int day; 
-};
-int main() 
-{ 
-Date d(2016,8,8); 
-d.dis(); 
-Date dd(d); 
-dd.dis(); 
-cout&lt;&lt;sizeof(d)&lt;&lt;sizeof(dd)&lt;&lt;endl;
-return 0; 
-}</code></pre><p>执行结果：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200327183251938.png" alt="浅拷贝执行结果"></p>
-<p>也就是我们上面实现等位拷贝的例子。</p>
-<p>如果对象中含有堆上的空间，此时浅拷贝不能满足需求，需要自实现。</p>
-<p>浅拷贝不能满足需求指的是浅拷贝会带来重析构，即double free</p>
-<h4 id="深拷贝示例-class-DataStr"><a href="#深拷贝示例-class-DataStr" class="headerlink" title="深拷贝示例 class DataStr"></a>深拷贝示例 class DataStr</h4><p>本例中典型的特点，就是数据包含在堆上的空间，必须要自实现拷贝构造，达到深拷贝的目的，不然则会造成重析构，double free 的现象。</p>
-<p>我们下面给出没有包含堆上的空间，但是没有自实现而使用系统默认的拷贝构造的情况。</p>
-<pre><code>#define _CRT_SECURE_NO_WARNINGS
-#include &lt;iostream&gt;
-#include &lt;string.h&gt;
-using namespace std;
-
-
-class DataStr
-{
-public:
-    DataStr()
+    void Draw()
     {
-    _str = new char[1024];
-    strcpy(_str, &quot;C++ is th best language in the world\n&quot;);
+        cout &lt;&lt; &quot;Draw shape from&quot; &lt;&lt; &quot;(&quot; &lt;&lt; _x &lt;&lt; &quot;,&quot; &lt;&lt; _y &lt;&lt; &quot;)&quot; &lt;&lt; endl;
     }
-    ~DataStr()
-    {
-        delete[]_str;
-    }
-    void dos()
-    {
-        cout &lt;&lt; _str &lt;&lt; endl;
-    }
-private:
-        char* _str;
+protected:
+    int _x;
+    int _y;
 };
+
+class Circle :public Shape
+{
+public:
+    Circle(int x = 0, int y = 0, int r = 0)
+        :Shape(x,y), _radius(r){}
+
+    void Draw()
+    {
+        cout &lt;&lt; &quot;Draw class Circle :public Shape from&quot; 
+            &lt;&lt; &quot;(&quot; &lt;&lt; _x &lt;&lt; &quot;,&quot;&lt;&lt; _y &lt;&lt; &quot;)&quot;
+            &lt;&lt;&quot;radius&quot;&lt;&lt;_radius&lt;&lt; endl;
+    }
+protected:
+    int _radius;
+};
+
 int main()
 {
-    DataStr ds;
-    ds.dos();
-    DataStr ds2(ds);
-    ds2.dos();
+    Shape s(1, 2);
+    s.Draw();
+
+    Circle c(4, 5, 6);
+    c.Draw();
+
+    //1 派生类的对象可以赋值给基类对象。
+    s = c;
+    s.Draw();
     return 0;
 }</code></pre><p>运行结果为：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200221222653812.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="重析构错误"></p>
-<p>那么我们在linux平台出错会更加明显：</p>
-<p>运行结果为：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200221222707897.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="重析构错误"></p>
-<p>vs编译器也会直接报错：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200221222718191.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="VS编译器的重析构报错"></p>
-<p>我们可以看到出现了duoble   free。</p>
-<p><strong>为什么会出现重析构的现象呢？</strong></p>
-<p>本质还是因为等位拷贝：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200221222750543.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="出现重析构的原因"></p>
-<p>我们前面说过，拷贝的时候拷贝的内容不包含类成员函数，只包含类对象数据，那么上面例子拷贝的时候，只是把char* _str; 指针进行了拷贝，拷贝完成之后，两个指针指向了同一块堆空间，也就是说第一个char* _str; 析构一次，拷贝之后的char* _str; 再析构一次，就造成了重析构。那么系统此时提供的等位拷贝就有问题，所以就需要我们自实现。</p>
-<p><img src="https://img-blog.csdnimg.cn/2020032718594096.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="深拷贝原理"></p>
-<pre><code>#define _CRT_SECURE_NO_WARNINGS
-#include &lt;iostream&gt;
-#include &lt;string.h&gt;
-using namespace std;
+<p><img src="https://img-blog.csdnimg.cn/20200329105845337.png" alt="派生类的对象赋值给基类的对象"></p>
+<h3 id="派生类的对象可以初始化基类的引用。"><a href="#派生类的对象可以初始化基类的引用。" class="headerlink" title="派生类的对象可以初始化基类的引用。"></a>派生类的对象可以初始化基类的引用。</h3><pre><code>#include &lt;iostream&gt;
 
 
-class DataStr
+using namespace  std;
+
+class Shape
 {
 public:
-    DataStr()
+    Shape(int x = 0,int y = 0)
+        :_x(x),_y(y){}
+
+    void Draw()
     {
-    _str = new char[1024];
-    strcpy(_str, &quot;C++ is th best language in the world\n&quot;);
+        cout &lt;&lt; &quot;Draw shape from&quot; &lt;&lt; &quot;(&quot; &lt;&lt; _x &lt;&lt; &quot;,&quot; &lt;&lt; _y &lt;&lt; &quot;)&quot; &lt;&lt; endl;
     }
-    DataStr(const DataStr&amp; another)
-    {
-        cout &lt;&lt; &quot;copy constractor&quot; &lt;&lt; endl;
-        _str = new char[strlen(another._str) + 1];
-        strcpy(_str,another._str);
-    }
-    ~DataStr()
-    {
-        delete[]_str;
-    }
-    void dos()
-    {
-        cout &lt;&lt; _str &lt;&lt; endl;
-    }
-private:
-        char* _str;
+protected:
+    int _x;
+    int _y;
 };
-int main()
-{
-    DataStr ds;
-    ds.dos();
-    DataStr ds2(ds);
-    ds2.dos();
-    return 0;
-}</code></pre><p>运行结果为：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200221222823799.png" alt="自实现深拷贝"></p>
-<p>没有问题。<br>Linux平台运行当然也不会有问题：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200221222833578.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="自实现深拷贝"></p>
-<h4 id="浅拷贝-深拷贝图解说明"><a href="#浅拷贝-深拷贝图解说明" class="headerlink" title="浅拷贝/深拷贝图解说明"></a>浅拷贝/深拷贝图解说明</h4><p><img src="https://img-blog.csdnimg.cn/20200327185629120.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="浅拷图解说明"></p>
-<p><img src="https://img-blog.csdnimg.cn/20200327185258729.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="深拷贝图解说明"></p>
-<p><strong>同类之间无私处，异类之间有友元</strong></p>
-<p>意思就是说同类对象方法中进行传递参数，可以直接访问同类对象的私有成员，其他则不行。<br>关于友元在友元博客进行说明。<br>上面深拷贝代码中的主函数进行修改：</p>
-<pre><code>int main()
-{
-    DataStr ds;
-    ds.dos();
-    DataStr ds2(ds);
-    ds2.dos();
-    DataStr (ds);
-    return 0;
-}</code></pre><p>上面代码中：</p>
-<pre><code>DataStr (ds);</code></pre><p>会导致代码出现很多错误。</p>
-<p>DataStr ds2(ds);是使用同一类的对象进行拷贝构造，由一个对象创建另一个对象，相当于是同类之间发生关系。所以同类之间传递对象是可以直接访问的，之间访问类内的私有成员。</p>
-<p><strong>同类对象方法中进行传参可以访问其私有成员。其他则不可以。</strong></p>
-<h2 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h2><h3 id="函数传参"><a href="#函数传参" class="headerlink" title="函数传参"></a>函数传参</h3><pre><code>#include &lt;iostream&gt;
 
-using namespace std;
-class MyClass
+class Circle :public Shape
 {
 public:
-    MyClass()
-    {
-        cout &lt;&lt; &quot;MyClass()&quot; &lt;&lt; endl;
-    }
-    ~MyClass()
-    {
-        cout &lt;&lt; &quot;~MyClass()&quot; &lt;&lt; endl;
-    }
-    MyClass(const MyClass &amp; another)
-    {
-        cout &lt;&lt; &quot;copy  constructor\n&quot; &lt;&lt; endl;
-    }
-private:
+    Circle(int x = 0, int y = 0, int r = 0)
+        :Shape(x,y), _radius(r){}
 
+    void Draw()
+    {
+        cout &lt;&lt; &quot;Draw class Circle :public Shape from&quot; 
+            &lt;&lt; &quot;(&quot; &lt;&lt; _x &lt;&lt; &quot;,&quot;&lt;&lt; _y &lt;&lt; &quot;)&quot;
+            &lt;&lt;&quot;radius&quot;&lt;&lt;_radius&lt;&lt; endl;
+    }
+protected:
+    int _radius;
 };
 
 int main()
 {
-    MyClass a;
-    MyClass b(a);
+    Shape s(1, 2);
+    s.Draw();
+
+    Circle c(4, 5, 6);
+    c.Draw();
+
+    //2 派生类的对象可以初始化基类的引用。
+    Shape&amp; rs = c;
+    rs.Draw();
     return 0;
 }</code></pre><p>运行结果为：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200221222932334.png" alt="运行结果"></p>
-<p>以上进行两次构造两次析构。</p>
-<p>我们可以看到如果使用初始化进行拷贝构造结果也是一样的：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200329105933386.png" alt="派生类的对象可以初始化基类的引用"></p>
+<h3 id="派生类对象的地址可以赋给指向基类的指针。"><a href="#派生类对象的地址可以赋给指向基类的指针。" class="headerlink" title="派生类对象的地址可以赋给指向基类的指针。"></a>派生类对象的地址可以赋给指向基类的指针。</h3><pre><code>#include &lt;iostream&gt;
+using namespace  std;
+
+class Shape
+{
+public:
+    Shape(int x = 0,int y = 0)
+        :_x(x),_y(y){}
+
+    void Draw()
+    {
+        cout &lt;&lt; &quot;Draw shape from&quot; &lt;&lt; &quot;(&quot; &lt;&lt; _x &lt;&lt; &quot;,&quot; &lt;&lt; _y &lt;&lt; &quot;)&quot; &lt;&lt; endl;
+    }
+protected:
+    int _x;
+    int _y;
+};
+
+class Circle :public Shape
+{
+public:
+    Circle(int x = 0, int y = 0, int r = 0)
+        :Shape(x,y), _radius(r){}
+
+    void Draw()
+    {
+        cout &lt;&lt; &quot;Draw class Circle :public Shape from&quot; 
+            &lt;&lt; &quot;(&quot; &lt;&lt; _x &lt;&lt; &quot;,&quot;&lt;&lt; _y &lt;&lt; &quot;)&quot;
+            &lt;&lt;&quot;radius&quot;&lt;&lt;_radius&lt;&lt; endl;
+    }
+protected:
+    int _radius;
+};
+
+
+int main()
+{
+    Shape s(1, 2);
+    s.Draw();
+
+    Circle c(4, 5, 6);
+    c.Draw();
+
+    //3 派生类对象的地址可以赋给指向基类的指针。
+    Shape* ps = &amp;c;
+    ps-&gt;Draw();
+    return 0;
+}</code></pre><p>运行结果:</p>
+<p><img src="https://img-blog.csdnimg.cn/20200329110022705.png" alt="派生类对象的地址可以赋给指向基类的指针"></p>
+<p>在多态中我们使用到的主要就是第三种：</p>
+<p>上面三种赋值兼容都可以实现，为什么我们使用第三种呢？</p>
+<p>我们先来看第一种直接赋值和引用情况：<br>继承的图解：</p>
+<p><img src="https://img-blog.csdnimg.cn/2020032911004377.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="继承图解"></p>
+<p>上面的过程派生类继承基类，就相当于把基类完全复制一份给派生类。</p>
+<p>当生成派生类对象赋值给基类的时候，相当于把派生类中继承基类的部分复制一份然后使用复制之后的基类创建对象。</p>
+<p>那么对于第一种情况的直接赋值和第二种情况的引用本质可以理解如下：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200329110105526.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="前两种复制兼容的图解分析"></p>
+<p>我们可以理解为在派生类中把继承的基类复制一份然后创建基类对象。那么复制基类的过程中就会存在一个浅拷贝的问题。这种等位拷贝方式就可能存在浅拷贝。所以在多态中我们使用第三种：派生类对象的地址可以赋给指向基类的指针。</p>
+<p>首先继承的过程是一样的：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200329110141154.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="继承图解"></p>
+<p>但是对于第三种赋值兼容我们给出图解说明：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200329110157626.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="派生类对象的地址可以赋给指向基类的指针图解说明"></p>
+<p>那么在创建对象的时候就会根据指针类型的不同来决定生成基类对象还是派生类对象。</p>
+<p>那么通过上面理解我们可以得出，如果使用第三种赋值兼容，那么我们基类和派生类在生成对象的时候this指针应该是同一个地址，只是指针类型不一样，我们进行代码验证：</p>
 <pre><code>#include &lt;iostream&gt;
+#include &lt;typeinfo&gt;
 
-using namespace std;
-class MyClass
+
+using namespace  std;
+
+class Shape
 {
 public:
-    MyClass()
+    Shape(int x = 0,int y = 0)
+        :_x(x),_y(y)
     {
-        cout &lt;&lt; &quot;MyClass()&quot; &lt;&lt; endl;
+        cout &lt;&lt; &quot;Shape---&gt;&quot; &lt;&lt; this &lt;&lt; endl;
+        cout &lt;&lt; typeid(this).name() &lt;&lt; endl;
     }
-    ~MyClass()
-    {
-        cout &lt;&lt; &quot;~MyClass()&quot; &lt;&lt; endl;
-    }
-    MyClass(const MyClass&amp; another)
-    {
-        cout &lt;&lt; &quot;copy  constructor\n&quot; &lt;&lt; endl;
-    }
-private:
 
+    void Draw()
+    {
+        cout &lt;&lt; &quot;Draw shape from&quot; &lt;&lt; &quot;(&quot; &lt;&lt; _x &lt;&lt; &quot;,&quot; &lt;&lt; _y &lt;&lt; &quot;)&quot; &lt;&lt; endl;
+    }
+protected:
+    int _x;
+    int _y;
 };
 
+class Circle :public Shape
+{
+public:
+    Circle(int x = 0, int y = 0, int r = 0)
+        :Shape(x,y), _radius(r)
+    {
+        cout &lt;&lt; &quot;Shape---&gt;&quot; &lt;&lt; this &lt;&lt; endl;
+        cout &lt;&lt; typeid(this).name() &lt;&lt; endl;
+    }
+
+    void Draw()
+    {
+        cout &lt;&lt; &quot;Draw class Circle :public Shape from&quot; 
+            &lt;&lt; &quot;(&quot; &lt;&lt; _x &lt;&lt; &quot;,&quot;&lt;&lt; _y &lt;&lt; &quot;)&quot;
+            &lt;&lt;&quot;radius&quot;&lt;&lt;_radius&lt;&lt; endl;
+    }
+protected:
+    int _radius;
+};
 
 
 int main()
 {
-    MyClass a;
-    MyClass b = a;  //初始化  也是拷贝构造
+    Circle c(4, 5, 6);
+    c.Draw();
+
+    //3 派生类对象的地址可以赋给指向基类的指针。
+    Shape* ps = &amp;c;
+    ps-&gt;Draw();
     return 0;
 }</code></pre><p>运行结果为：</p>
-<p><img src="https://img-blog.csdnimg.cn/2020022122301382.png" alt="运行结果"></p>
-<p>我们是用函数传参：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200329110243821.png" alt="派生类对象的地址可以赋给指向基类的指针代码验证"></p>
+<p>从基类继承的内容全部都带有基类的命名空间，如果派生类中没有重名的成员，就可以通过派生类的指针直接访问，如果派生类中有重名的成员，那么基类的成员在使用的时候就需要加上基类的命名空间。</p>
+<p>并且我们强调在继承的时候必须是public 才可以。如果是private或者protected就会直接出错。</p>
+<h2 id="转化安全"><a href="#转化安全" class="headerlink" title="转化安全"></a>转化安全</h2><p>赋值兼容是安全的。</p>
+<p>子类对象初始化的时候，调用父类的构造器，也是发生了赋值兼容的问题。除此之外，<br>其它任何父类成员调用，均是如此。</p>
+<p>大范围的指针向小范围的指针转化是安全的。反之，不亦然。</p>
 <pre><code>#include &lt;iostream&gt;
-
+#include &lt;typeinfo&gt;
 using namespace std;
-class MyClass
+class A
 {
 public:
-    MyClass()
+    A()
     {
-        cout &lt;&lt; &quot;MyClass()&quot; &lt;&lt; endl;
+        cout &lt;&lt; this &lt;&lt; endl;
+        cout &lt;&lt; typeid(this).name() &lt;&lt; endl;
+        this-&gt;_a = 10;
     }
-    ~MyClass()
-    {
-        cout &lt;&lt; &quot;~MyClass()&quot; &lt;&lt; endl;
-    }
-    MyClass(const MyClass&amp; another)
-    {
-        cout &lt;&lt; &quot;copy  constructor\n&quot; &lt;&lt; endl;
-    }
-private:
-
+protected:
+    int _a;
 };
-
-void foo(MyClass a)
-{
-
-}
-
-
-int main()
-{
-    MyClass a;
-    foo(a);
-    return 0;
-}</code></pre><p>运行结果为：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200221223035409.png" alt="拷贝构造传递对象参数"></p>
-<p>我们可以看到，上面过程MyClass a; 发生构造，foo(a);形参向实参传递会发生拷贝构造。<br>当然上面用法也可以使用引用，那么就只需要构造一次和析构一次就够了：</p>
-<pre><code>#include &lt;iostream&gt;
-
-using namespace std;
-class MyClass
+class B :public A
 {
 public:
-    MyClass()
+    B()
     {
-        cout &lt;&lt; &quot;MyClass()&quot; &lt;&lt; endl;
+        cout &lt;&lt; this &lt;&lt; endl;
+        cout &lt;&lt; typeid(this).name() &lt;&lt; endl;
+        this-&gt;_b = 20;
     }
-    ~MyClass()
-    {
-        cout &lt;&lt; &quot;~MyClass()&quot; &lt;&lt; endl;
-    }
-    MyClass(const MyClass&amp; another)
-    {
-        cout &lt;&lt; &quot;copy  constructor\n&quot; &lt;&lt; endl;
-    }
-private:
-
+protected:
+    int _b;
 };
-
-void foo(MyClass &amp; a)
+class C : public B
 {
-
-}
-
-
+public:
+    C()
+    {
+        cout &lt;&lt; this &lt;&lt; endl;
+        cout &lt;&lt; typeid(this).name() &lt;&lt; endl;
+        this-&gt;_c = 30;
+    }
+protected:
+    int _c;
+};
 int main()
 {
-    MyClass a;
-    foo(a);
+    C c;
+    cout &lt;&lt; &amp;c &lt;&lt; endl;
     return 0;
 }</code></pre><p>运行结果为：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200221223101531.png" alt="拷贝构造引用对象参数"></p>
-<p>关于对象返回，我们在后面博客进行说明</p>
+<p><img src="https://img-blog.csdnimg.cn/2020032911032579.png" alt="转化安全"></p>
+<p>父类也可以通过强转的方式转化为子类。 父类对象强转为子类对象后，访问从父类继<br>承下来的部分是可以的，但访问子类的部分，则会发生越界的风险，越界的结果是未知的，<br>也应当是避免的。</p>
 
             </div>
             <hr/>
@@ -984,7 +792,7 @@ int main()
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://www.teachermin.com/2020/03/27/C++%E6%8B%B7%E8%B4%9D%E6%9E%84%E9%80%A0%E8%AF%A6%E7%BB%86%E8%AF%B4%E6%98%8E%EF%BC%8C%E6%B5%85(shallow)%E6%B7%B1(deep)%E6%8B%B7%E8%B4%9D%EF%BC%8C%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF/">http://www.teachermin.com/2020/03/27/C++%E6%8B%B7%E8%B4%9D%E6%9E%84%E9%80%A0%E8%AF%A6%E7%BB%86%E8%AF%B4%E6%98%8E%EF%BC%8C%E6%B5%85(shallow)%E6%B7%B1(deep)%E6%8B%B7%E8%B4%9D%EF%BC%8C%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF/</a>
+                    <a href="http://www.teachermin.com/2020/03/29/C++%E5%A4%9A%E6%80%81%EF%BC%9A%E8%B5%8B%E5%80%BC%E5%85%BC%E5%AE%B9%EF%BC%8C%E8%AF%A6%E7%BB%86%E5%AE%9E%E7%8E%B0%EF%BC%8C%E8%BD%AC%E5%8C%96%E5%AE%89%E5%85%A8(2)/">http://www.teachermin.com/2020/03/29/C++%E5%A4%9A%E6%80%81%EF%BC%9A%E8%B5%8B%E5%80%BC%E5%85%BC%E5%AE%B9%EF%BC%8C%E8%AF%A6%E7%BB%86%E5%AE%9E%E7%8E%B0%EF%BC%8C%E8%BD%AC%E5%8C%96%E5%AE%89%E5%85%A8(2)/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -1022,8 +830,8 @@ int main()
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/C-%E6%8B%B7%E8%B4%9D%E6%9E%84%E9%80%A0/">
-                                    <span class="chip bg-color">C++拷贝构造</span>
+                                <a href="/tags/C-%E5%A4%9A%E6%80%81/">
+                                    <span class="chip bg-color">C++多态</span>
                                 </a>
                             
                         </div>
@@ -1189,9 +997,10 @@ int main()
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
                 <a href="/2020/03/29/C++%E5%A4%9A%E6%80%81%EF%BC%9A%E8%B5%8B%E5%80%BC%E5%85%BC%E5%AE%B9%EF%BC%8C%E8%AF%A6%E7%BB%86%E5%AE%9E%E7%8E%B0%EF%BC%8C%E8%BD%AC%E5%8C%96%E5%AE%89%E5%85%A8(2)/">
                     <div class="card-image">
@@ -1213,9 +1022,9 @@ int main()
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-03-29
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-03-29
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
@@ -1228,6 +1037,7 @@ int main()
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
@@ -1246,20 +1056,24 @@ int main()
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/03/27/C++%E5%A4%9A%E6%80%81%E7%9A%84%E5%BC%95%E5%85%A5%E5%8F%8A%E7%AE%80%E5%8D%95%E7%90%86%E8%A7%A3(1)/">
+                <a href="/2020/03/27/C++%E6%8B%B7%E8%B4%9D%E6%9E%84%E9%80%A0%E8%AF%A6%E7%BB%86%E8%AF%B4%E6%98%8E%EF%BC%8C%E6%B5%85(shallow)%E6%B7%B1(deep)%E6%8B%B7%E8%B4%9D%EF%BC%8C%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/2.jpg" class="responsive-img" alt="C++多态的引入及简单理解(1)">
+                        <img src="/medias/featureimages/3.jpg" class="responsive-img" alt="C++拷贝构造详细说明，浅(shallow)/深(deep)拷贝，应用场景">
                         
-                        <span class="card-title">C++多态的引入及简单理解(1)</span>
+                        <span class="card-title">C++拷贝构造详细说明，浅(shallow)/深(deep)拷贝，应用场景</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            多态什么算是多态生活中的多态如果有几个相似而不完全相同的对象，有时人们要求在向它们发出同一个消息时，它们的反应各不相同，分别执行不同的操作。这种情况就是多态现象。
-例如，甲乙丙3个班都是高二年级，他们有基本相同的属性和行为，在同时听到上课铃
+                            拷贝构造我们再次强调初始化与赋值的区别：
+int a = 0; //初始化
+a = 5; //赋值发生时机由己存在的对象，创建新对象。
+也就是说新对象，不由构造器来构造，而是由拷贝构造器来完成。
+拷贝构造器的格式是固定的。
+拷贝构造器和构造
                         
                     </div>
                     <div class="publish-info">
@@ -1281,8 +1095,8 @@ int main()
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/C-%E5%A4%9A%E6%80%81/">
-                        <span class="chip bg-color">C++多态</span>
+                    <a href="/tags/C-%E6%8B%B7%E8%B4%9D%E6%9E%84%E9%80%A0/">
+                        <span class="chip bg-color">C++拷贝构造</span>
                     </a>
                     
                 </div>

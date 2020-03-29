@@ -357,6 +357,53 @@
             
             <div class="article col s12 m6 l4" data-aos="zoom-in">
                 <div class="card">
+                    <a href="/2020/03/27/C++%E6%B4%BE%E7%94%9F%E7%B1%BB%E7%9A%84%E5%8F%8B%E5%85%83%E4%B8%8E%E6%9E%90%E6%9E%84/">
+                        <div class="card-image">
+                            
+                            
+                            <img src="/medias/featureimages/11.jpg" class="responsive-img" alt="C++派生类的友元与析构">
+                            
+                            <span class="card-title">C++派生类的友元与析构</span>
+                        </div>
+                    </a>
+
+                    <div class="card-content article-content">
+                        <div class="summary block-with-text">
+                            
+                                派生类的友元函数说明由于友元函数并非类成员，因引不能被继承，在某种需求下，可能希望派生类的友元函数能够使用基类中的友元函数。为此可以通过强制类型转换，将派生类的指针或是引用强转为其父类的引用或是指针，然后使用转换后的引用或是指针来调用基类中
+                            
+                        </div>
+                        <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-03-27
+                            </span>
+                            <span class="publish-author">
+                                
+                                <i class="fas fa-bookmark fa-fw icon-category"></i>
+                                
+                                <a href="/categories/C/" class="post-category">
+                                    C++
+                                </a>
+                                
+                                
+                            </span>
+                        </div>
+                    </div>
+
+                    
+                    <div class="card-action article-tags">
+                        
+                        <a href="/tags/C-%E7%BB%A7%E6%89%BF/">
+                            <span class="chip bg-color">C++继承</span>
+                        </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+            
+            <div class="article col s12 m6 l4" data-aos="zoom-in">
+                <div class="card">
                     <a href="/2020/03/25/C%E4%BD%8D%E6%93%8D%E4%BD%9C%E5%BA%94%E7%94%A8%EF%BC%9A%E6%8E%A9%E7%A0%81/">
                         <div class="card-image">
                             
@@ -816,111 +863,6 @@ int main()
             
             <div class="article col s12 m6 l4" data-aos="zoom-in">
                 <div class="card">
-                    <a href="/2020/03/17/C%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C%EF%BC%9A%E4%B8%80%E6%AC%A1%E8%AF%BB%E5%86%99%E4%B8%80%E8%A1%8C%E6%96%87%E6%9C%AC%E5%AD%97%E7%AC%A6fputs%EF%BC%8Cfgets%EF%BC%8C%E5%85%B8%E5%9E%8B%E9%97%AE%E9%A2%98%E5%88%86%E6%9E%90/">
-                        <div class="card-image">
-                            
-                            
-                            <img src="/medias/featureimages/22.jpg" class="responsive-img" alt="C文件操作：一次读写一行文本字符fputs，fgets，典型问题分析">
-                            
-                            <span class="card-title">C文件操作：一次读写一行文本字符fputs，fgets，典型问题分析</span>
-                        </div>
-                    </a>
-
-                    <div class="card-content article-content">
-                        <div class="summary block-with-text">
-                            
-                                fputs函数
-我们给出使用的测试代码：
-#define _CRT_SECURE_NO_WARNINGS
-#include &lt;stdio.h&gt;
-#include &lt;stdlib.h&gt;
-#define F_PRINTF
-                            
-                        </div>
-                        <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-03-17
-                            </span>
-                            <span class="publish-author">
-                                
-                                <i class="fas fa-bookmark fa-fw icon-category"></i>
-                                
-                                <a href="/categories/C%E5%9F%BA%E7%A1%80/" class="post-category">
-                                    C基础
-                                </a>
-                                
-                                
-                            </span>
-                        </div>
-                    </div>
-
-                    
-                    <div class="card-action article-tags">
-                        
-                        <a href="/tags/C%E6%96%87%E4%BB%B6/">
-                            <span class="chip bg-color">C文件</span>
-                        </a>
-                        
-                    </div>
-                    
-                </div>
-            </div>
-            
-            <div class="article col s12 m6 l4" data-aos="zoom-in">
-                <div class="card">
-                    <a href="/2020/03/17/C%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C%EF%BC%9A%E6%96%87%E4%BB%B6%E6%8C%87%E9%92%88%E5%81%8F%E7%A7%BB,%20rewind%E5%87%BD%E6%95%B0,ftell%E5%87%BD%E6%95%B0%20,%20fseek%E5%87%BD%E6%95%B0/">
-                        <div class="card-image">
-                            
-                            
-                            <img src="/medias/featureimages/18.jpg" class="responsive-img" alt="C文件操作：文件指针偏移, rewind函数,ftell函数 , fseek函数">
-                            
-                            <span class="card-title">C文件操作：文件指针偏移, rewind函数,ftell函数 , fseek函数</span>
-                        </div>
-                    </a>
-
-                    <div class="card-content article-content">
-                        <div class="summary block-with-text">
-                            
-                                rewind 函数
-如果一个文件具有读写属性，当我们写完文件，需要读的时候，此时会遇到文件结尾现象。此时就需要 rewind。
-ftell 函数
-#include &lt;stdio.h&gt;
-int main()
-{
-    FILE*
-                            
-                        </div>
-                        <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-03-17
-                            </span>
-                            <span class="publish-author">
-                                
-                                <i class="fas fa-bookmark fa-fw icon-category"></i>
-                                
-                                <a href="/categories/C%E5%9F%BA%E7%A1%80/" class="post-category">
-                                    C基础
-                                </a>
-                                
-                                
-                            </span>
-                        </div>
-                    </div>
-
-                    
-                    <div class="card-action article-tags">
-                        
-                        <a href="/tags/C%E6%96%87%E4%BB%B6/">
-                            <span class="chip bg-color">C文件</span>
-                        </a>
-                        
-                    </div>
-                    
-                </div>
-            </div>
-            
-            <div class="article col s12 m6 l4" data-aos="zoom-in">
-                <div class="card">
                     <a href="/2020/03/17/C%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C%EF%BC%9A%E4%B8%80%E6%AC%A1%E8%AF%BB%E5%86%99%E4%B8%80%E4%B8%AA%E6%96%87%E6%9C%AC%E5%AD%97%E7%AC%A6fputc%EF%BC%8Cfgetc%EF%BC%8Cfeof/">
                         <div class="card-image">
                             
@@ -941,6 +883,58 @@ int main()
 #define _CRT_SECURE_NO_WARNINGS
 #include &lt;stdio.h&gt;
 #include &lt;
+                            
+                        </div>
+                        <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-03-17
+                            </span>
+                            <span class="publish-author">
+                                
+                                <i class="fas fa-bookmark fa-fw icon-category"></i>
+                                
+                                <a href="/categories/C%E5%9F%BA%E7%A1%80/" class="post-category">
+                                    C基础
+                                </a>
+                                
+                                
+                            </span>
+                        </div>
+                    </div>
+
+                    
+                    <div class="card-action article-tags">
+                        
+                        <a href="/tags/C%E6%96%87%E4%BB%B6/">
+                            <span class="chip bg-color">C文件</span>
+                        </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+            
+            <div class="article col s12 m6 l4" data-aos="zoom-in">
+                <div class="card">
+                    <a href="/2020/03/17/C%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C%EF%BC%9A%E4%B8%80%E6%AC%A1%E8%AF%BB%E5%86%99%E4%B8%80%E8%A1%8C%E6%96%87%E6%9C%AC%E5%AD%97%E7%AC%A6fputs%EF%BC%8Cfgets%EF%BC%8C%E5%85%B8%E5%9E%8B%E9%97%AE%E9%A2%98%E5%88%86%E6%9E%90/">
+                        <div class="card-image">
+                            
+                            
+                            <img src="/medias/featureimages/22.jpg" class="responsive-img" alt="C文件操作：一次读写一行文本字符fputs，fgets，典型问题分析">
+                            
+                            <span class="card-title">C文件操作：一次读写一行文本字符fputs，fgets，典型问题分析</span>
+                        </div>
+                    </a>
+
+                    <div class="card-content article-content">
+                        <div class="summary block-with-text">
+                            
+                                fputs函数
+我们给出使用的测试代码：
+#define _CRT_SECURE_NO_WARNINGS
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#define F_PRINTF
                             
                         </div>
                         <div class="publish-info">
@@ -1064,7 +1058,7 @@ int main()
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">103.3k</span>&nbsp;字
+                class="white-color">105k</span>&nbsp;字
             
             
             
