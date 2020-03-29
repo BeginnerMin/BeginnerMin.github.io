@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="C文件操作：C项目（文件链表实现管理系统）, SkilledBeginner">
+    <meta name="keywords" content="C++多态:多态形成的条件，静多态，多态，虚函数(3), SkilledBeginner">
     <meta name="description" content="努力做一个很厉害的人">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>C文件操作：C项目（文件链表实现管理系统） | SkilledBeginner</title>
+    <title>C++多态:多态形成的条件，静多态，多态，虚函数(3) | SkilledBeginner</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -306,12 +306,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/20.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/10.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">C文件操作：C项目（文件链表实现管理系统）</h1>
+                    <h1 class="description center-align post-title">C++多态:多态形成的条件，静多态，多态，虚函数(3)</h1>
                 </div>
             </div>
         </div>
@@ -428,12 +428,8 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/C%E6%96%87%E4%BB%B6/">
-                                <span class="chip bg-color">C文件</span>
-                            </a>
-                        
-                            <a href="/tags/C%E9%A1%B9%E7%9B%AE/">
-                                <span class="chip bg-color">C项目</span>
+                            <a href="/tags/C-%E5%A4%9A%E6%80%81/">
+                                <span class="chip bg-color">C++多态</span>
                             </a>
                         
                     </div>
@@ -444,8 +440,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/C%E5%9F%BA%E7%A1%80/" class="post-category">
-                                C基础
+                            <a href="/categories/C/" class="post-category">
+                                C++
                             </a>
                         
                     </div>
@@ -457,28 +453,28 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-03-25
+                    2020-03-29
                 </div>
                 
 
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2020-03-25
+                    2020-03-29
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    928
+                    1.5k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    5 分
+                    7 分
                 </div>
                 
 
@@ -494,264 +490,265 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="项目核心"><a href="#项目核心" class="headerlink" title="项目核心"></a>项目核心</h2><p><strong>管理系统的三大块：内存模型，数据库模型，人机交互界面。</strong></p>
-<p><strong>将链表作为内存数据模型，将文件作为数据库，将终端作为交互界面。读文件生成链表，修改链表写入文件。</strong></p>
-<p><strong>初始化数据库     此时数据库是文件</strong></p>
-<p><strong>读取数据库，生成内存数据模型</strong></p>
-<p><strong>增，删，改，查，排序</strong></p>
-<p><strong>更新数据库，退出程序</strong></p>
-<h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><pre><code>#define  _CRT_SECURE_NO_WARNINGS
-#include &lt;stdio.h&gt;
-#include &lt;stdlib.h&gt;
-#include &lt;malloc.h&gt;
-#include &lt;string.h&gt;
-
-
-
-typedef struct student  //数据节点
+                <h2 id="静多态"><a href="#静多态" class="headerlink" title="静多态"></a>静多态</h2><p>静多态，也就是我们说的函数重载。表面来看，是由重载规则来限定的，内部实现却<br>是 Namemangling。</p>
+<p>同名函数会根据参数的不同调用不同的函数。</p>
+<p>此种行为，发生在编译期，故称为静多态。</p>
+<h2 id="多态"><a href="#多态" class="headerlink" title="多态"></a>多态</h2><p>(动)多态，不是在编译器阶段决定，而是在运行阶段决定，故称为动多态。动多态行成<br>的条件如下:</p>
+<p><img src="https://img-blog.csdnimg.cn/20200329134038415.png" alt="多态实现的条件"></p>
+<h2 id="虚函数"><a href="#虚函数" class="headerlink" title="虚函数"></a>虚函数</h2><h3 id="格式"><a href="#格式" class="headerlink" title="格式"></a>格式</h3><pre><code>class 类名
 {
-    char name[30];
-    char sex;
-    int age;
-    float score;
-}Stu;
+virtual 函数声明;
+}</code></pre><h3 id="多态三要素实践"><a href="#多态三要素实践" class="headerlink" title="多态三要素实践"></a>多态三要素实践</h3><p>代码演示：</p>
+<pre><code>#include &lt;iostream&gt;
+using namespace  std;
 
-typedef struct _StuNode  //链表节点
-{
-    Stu data;   // 数据域
-    struct _StuNode* next;  // 指针域
-}StuNode;
 
-void InitData2File() //初始化数据库 此时数据库是文件
+//多态形成的条件有3个：
+//1，父类中有虚函数。加virtual 声明型关键字
+//2，子类覆写了父类的虚函数。覆写：子类中同名，同参，同返回。才能构成覆写。
+//3，子类对象赋给了父类的指针，通过父类的指针，调用虚函数，形成多态。
+class Shape
 {
-    Stu s[4] =
+public:
+    Shape(int x = 0, int y = 0)
+        :_x(x), _y(y) {}
+
+    virtual void Draw()  //父类中有虚函数。加virtual  声明型关键字
     {
-        &quot;liudehua&quot;,&apos;x&apos;,50,100,
-        &quot;zhangxueyou&quot;,&apos;x&apos;, 60,89,
-        &quot;guofucheng&quot;,&apos;m&apos;,50,88,
-        &quot;liming&quot;,&apos;f&apos;,50,90,
-    };
-    FILE* pf = fopen(&quot;stu.data&quot;, &quot;w+&quot;);
-    if (NULL == pf)
-        exit(-1);
-    fwrite((void*)s, sizeof(s), 1, pf);
-    fclose(pf);
-    return;
-}
-
-StuNode* CreatListFronFile(const char* filePath) //创建文件链表
-{
-    FILE* pf = fopen(filePath, &quot;r+&quot;);
-    if (NULL == pf)
-        exit(-1);
-    StuNode* head = (StuNode*)malloc(sizeof(StuNode));
-    head-&gt;next = NULL;
-    StuNode* tmp = (StuNode*)malloc(sizeof(StuNode));
-    while (fread((void*)&amp;tmp-&gt;data, sizeof(Stu), 1, pf)) //10
-    {
-        tmp-&gt;next = head-&gt;next;
-        head-&gt;next = tmp;
-        tmp = (StuNode*)malloc(sizeof(StuNode));
+        cout &lt;&lt; &quot;Draw shape from&quot; &lt;&lt; &quot;(&quot; &lt;&lt; _x &lt;&lt; &quot;,&quot; &lt;&lt; _y &lt;&lt; &quot;)&quot; &lt;&lt; endl;
     }
-    free(tmp);
-    return head;
-}
+protected:
+    int _x;
+    int _y;
+};
 
-void TraverseStuList(StuNode* head)   //遍历链表
+class Circle :public Shape
 {
-    printf(&quot;\n\t\t\t========================================================\n&quot;);
-    printf(&quot;\t\t\tname\t\tsex\t\tage\t\tscore\n&quot;);
-    head = head-&gt;next;
-    while (head)
-    {
-        printf(&quot;\t\t\t%-10s\t%c\t\t%d\t\t%.2f\n&quot;, head-&gt;data.name, head-&gt;data.sex, head-&gt;data.age, head-&gt;data.score);
-        head = head-&gt;next;
-    }
-    printf(&quot;\n\t\t\t========================================================\n&quot;);
-}
+public:
+    Circle(int x = 0, int y = 0, int r = 0)
+        :Shape(x, y), _radius(r) {}
 
-void addListStuNode(StuNode* head)   //增加链表节点
+    virtual void Draw()  //覆写了父类的虚函数
+    {
+        cout &lt;&lt; &quot;Draw class Circle :public Shape from&quot;
+            &lt;&lt; &quot;(&quot; &lt;&lt; _x &lt;&lt; &quot;,&quot; &lt;&lt; _y &lt;&lt; &quot;)&quot;
+            &lt;&lt; &quot;radius&quot; &lt;&lt; _radius &lt;&lt; endl;
+    }
+protected:
+    int _radius;
+};
+
+class Rect :public Shape
 {
-    StuNode* tmp = (StuNode*)malloc(sizeof(StuNode));
-    printf(&quot;name :&quot;);
-    scanf(&quot;%s&quot;, tmp-&gt;data.name);
+public:
+    Rect(int x = 0, int y = 0, int w = 0, int l = 0)
+    :Shape(x,y),_width(w),_lenth(l){}
 
-    getchar();
-    printf(&quot;sex  :&quot;);
-    scanf(&quot;%c&quot;, &amp;tmp-&gt;data.sex);
-
-    getchar();
-    printf(&quot;age  :&quot;);
-    scanf(&quot;%d&quot;, &amp;tmp-&gt;data.age);
-
-    getchar();
-    printf(&quot;score:&quot;);
-    scanf(&quot;%f&quot;, &amp;tmp-&gt;data.score);
-
-    tmp-&gt;next = head-&gt;next;
-    head-&gt;next = tmp;
-}
-
-StuNode* SearchStuNode(StuNode* head)   //查找链表节点
-{
-    printf(&quot;please input search name:&quot;);
-    char name[30];
-    scanf(&quot;%s&quot;, name);
-    head = head-&gt;next;
-    while (head)
+    virtual void Draw()  //覆写了父类的虚函数
     {
-        if (strcmp(head-&gt;data.name, name) == 0)
-        break;
-        head = head-&gt;next;
+        cout &lt;&lt; &quot;Draw class Circle :public Shape from&quot;
+            &lt;&lt; &quot;(&quot; &lt;&lt; _x &lt;&lt; &quot;,&quot; &lt;&lt; _y &lt;&lt; &quot;)&quot;
+            &lt;&lt; &quot;width:&quot; &lt;&lt;_width&lt;&lt;&quot;lenth:&quot;&lt;&lt; _lenth &lt;&lt; endl;
     }
-    return head;
-}
+protected:
+    int _width;
+    int _lenth;
+};
 
-
-void DeleteListStuNode(StuNode* head)  //删除链表节点
-{
-    StuNode* tmp = SearchStuNode(head);
-    if (!tmp)
-    {
-        printf(&quot;删除的用户不存在\n&quot;);
-        printf(&quot;按任意键返回!\n&quot;);
-        getchar();
-        getchar();
-    }
-    else
-    {
-        StuNode* deletePrior = head;
-        while (deletePrior-&gt;next != tmp)
-        {
-            deletePrior = deletePrior-&gt;next;
-        }
-        deletePrior-&gt;next = tmp-&gt;next;
-        free(tmp);
-    }
-}
-
-
-int lenListStu(StuNode* head)//求链表长度
-{
-    int len = 0;
-    head = head-&gt;next;
-    while (head)
-    {
-        len++;
-        head = head-&gt;next;
-    }
-    return len;
-}
-void SortListStu(StuNode* head)//链表排序
-{
-    int len = lenListStu(head);
-    StuNode* prep, * p, * q;
-    for (int i = 0; i &lt; len - 1; i++)
-    {
-        prep = head;
-        p = prep-&gt;next;
-        q = p-&gt;next;
-        for (int j = 0; j &lt; len - 1 - i; j++)
-        {
-            if (strcmp(p-&gt;data.name,q-&gt;data.name)&gt;0)
-            {
-                prep-&gt;next = q;
-                p-&gt;next = q-&gt;next;
-                q-&gt;next = p;
-
-                prep = q;
-                q = p-&gt;next;
-                continue;
-            }
-            prep = prep-&gt;next;
-            p = p-&gt;next;
-            q = q-&gt;next;
-        }
-    }
-}
-
-void SaveList2File(StuNode* head,const char * filePath) //更新数据库
-{
-    FILE * pf = fopen(filePath, &quot;w+&quot;);
-    if (NULL == pf)
-        exit(-1);
-    head = head-&gt;next;
-    while (head)
-    {
-        fwrite((void *)&amp;head-&gt;data,sizeof(Stu),1,pf);
-        head = head-&gt;next;
-    }
-    fclose(pf);
-}
-void DestroyListStu(StuNode* head)   //销毁链表
-{
-    StuNode* tmp;
-    while (head)
-    {
-        tmp = head;
-        head = head-&gt;next;
-        free(tmp);
-    }
-}
 int main()
 {
-    //InitData2File();
-    StuNode* head = CreatListFronFile(&quot;stu.data&quot;);
+    Circle c(4, 5, 6);
+    Shape* ps = &amp;c;
+    ps-&gt;Draw();
+
+    Rect r(7, 8, 9, 10);
+    ps = &amp;r;
+    ps-&gt;Draw();
+    return 0;
+}</code></pre><p>运行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200329134130116.png" alt="多态三要素实践"></p>
+<p>我们可以看到父类的指针指向子类的对象。</p>
+<p>在实现的时候实现的是子类的Draw。</p>
+<p>Shape * 对于Rect类的Draw函数的覆写。</p>
+<p>动多态的体现：Rect类覆写了父类的虚函数。</p>
+<p>子类对于父类虚函数的覆写要求同名，同参，同返回。</p>
+<p>子类在覆写了父类的虚函数之后仍然是一个虚函数。</p>
+<p>上面我们还是可以直接看到ps指针的指向。</p>
+<p>我们接下来彻底的实现动多态：就是在编译的时候也不知道ps指针指向谁。</p>
+<pre><code>#include &lt;iostream&gt;
+using namespace  std;
+
+
+//多态形成的条件有3个：
+//1，父类中有虚函数。加virtual 声明型关键字
+//2，子类覆写了父类的虚函数。覆写：子类中同名，同参，同返回。才能构成覆写。
+//3，子类对象赋给了父类的指针，通过父类的指针，调用虚函数，形成多态。
+class Shape
+{
+public:
+    Shape(int x = 0, int y = 0)
+        :_x(x), _y(y) {}
+
+    virtual void Draw()  //父类中有虚函数。加virtual  声明型关键字
+    {
+        cout &lt;&lt; &quot;Draw shape from&quot; &lt;&lt; &quot;(&quot; &lt;&lt; _x &lt;&lt; &quot;,&quot; &lt;&lt; _y &lt;&lt; &quot;)&quot; &lt;&lt; endl;
+    }
+protected:
+    int _x;
+    int _y;
+};
+
+class Circle :public Shape
+{
+public:
+    Circle(int x = 0, int y = 0, int r = 0)
+        :Shape(x, y), _radius(r) {}
+
+    virtual void Draw()  //覆写了父类的虚函数
+    {
+        cout &lt;&lt; &quot;Draw class Circle :public Shape from&quot;
+            &lt;&lt; &quot;(&quot; &lt;&lt; _x &lt;&lt; &quot;,&quot; &lt;&lt; _y &lt;&lt; &quot;)&quot;
+            &lt;&lt; &quot;radius&quot; &lt;&lt; _radius &lt;&lt; endl;
+    }
+protected:
+    int _radius;
+};
+
+class Rect :public Shape
+{
+public:
+    Rect(int x = 0, int y = 0, int w = 0, int l = 0)
+    :Shape(x,y),_width(w),_lenth(l){}
+
+    virtual void Draw()  //覆写了父类的虚函数
+    {
+        cout &lt;&lt; &quot;Draw class Circle :public Shape from&quot;
+            &lt;&lt; &quot;(&quot; &lt;&lt; _x &lt;&lt; &quot;,&quot; &lt;&lt; _y &lt;&lt; &quot;)&quot;
+            &lt;&lt; &quot;width:&quot; &lt;&lt;_width&lt;&lt;&quot;lenth:&quot;&lt;&lt; _lenth &lt;&lt; endl;
+    }
+protected:
+    int _width;
+    int _lenth;
+};
+
+int main()
+{
+    Circle c(4, 5, 6);
+    Shape* ps = NULL;
+    Rect r(7, 8, 9, 10);
+
     while (1)
     {
-        system(&quot;cls&quot;);
-        TraverseStuList(head);
-        printf(&quot;\n1--&gt;add\t\t2--&gt;search\t3--&gt;delete\t4--&gt;sort\t5--&gt;exit\n&quot;);
         int choice;
-        printf(&quot;please input choice:&quot;);
-        scanf(&quot;%d&quot;, &amp;choice);
-        StuNode* FindNode;
+        cin &gt;&gt; choice;
         switch (choice)
         {
         case 1:
-            addListStuNode(head);
+            ps = &amp;c;
             break;
         case 2:
-
-            if (FindNode = SearchStuNode(head))
-            {
-                printf(&quot;find success\n&quot;);
-                printf(&quot;\t\t\t%-10s\t%c\t\t%d\t\t%.2f\n&quot;, FindNode-&gt;data.name,
-                    FindNode-&gt;data.sex, FindNode-&gt;data.age, FindNode-&gt;data.score);
-            }
-            else
-            {
-                printf(&quot;no find&quot;);
-            }
-            printf(&quot;按任意键返回!\n&quot;);
-            getchar();
-            getchar();
-
+            ps = &amp;r;
             break;
-        case 3:
-            DeleteListStuNode(head);
-
-            break;
-        case 4:
-            SortListStu(head);
-            break;
-        case 5:
-            SaveList2File(head,&quot;stu.data&quot;);
-            DestroyListStu(head);
-            return 0;
-        default:
-            printf(&quot;输入错误\n&quot;);
         }
+        ps-&gt;Draw();
     }
     return 0;
-}</code></pre><h2 id="测试结果"><a href="#测试结果" class="headerlink" title="测试结果"></a>测试结果</h2><p><img src="https://img-blog.csdnimg.cn/20200325174606844.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="初始页面"></p>
-<p><img src="https://img-blog.csdnimg.cn/20200325174924412.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="添加数据"></p>
-<p><img src="https://img-blog.csdnimg.cn/20200325174959572.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="添加数据结果"></p>
-<p><img src="https://img-blog.csdnimg.cn/2020032518030978.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="查找数据结果"></p>
-<p><img src="https://img-blog.csdnimg.cn/20200325180410129.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="删除数据操作"></p>
-<p><img src="https://img-blog.csdnimg.cn/20200325180432465.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="删除数据结果"></p>
-<p><img src="https://img-blog.csdnimg.cn/20200325180509669.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="排序后的结果"></p>
-<p><img src="https://img-blog.csdnimg.cn/20200325180541792.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="更新数据库，销毁链表并且退出程序"></p>
+}</code></pre><p>运行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/2020032913422126.png" alt="实现动多态"></p>
+<p>通过父类的指针实现父类的接口实际上指向了本应该指向的对象。</p>
+<p>那么我们前面说明的多态：对于一种行为呈现出不同的形态，上面代码ps-&gt;Draw();</p>
+<p>根据给出的条件，ps-&gt;Draw();一个接口呈现出不同的行为及就是多态。</p>
+<h3 id="多态语法细节"><a href="#多态语法细节" class="headerlink" title="多态语法细节"></a>多态语法细节</h3><pre><code>#include &lt;iostream&gt;
+
+using namespace std;
+
+class A
+{
+public:
+    virtual void foo()//virtual 声明型关键字，用于声明一个函数。子类覆写的函数也是虚函数
+    {
+        cout &lt;&lt; &quot;A : foo&quot; &lt;&lt; endl;
+    }
+};
+
+class B :public A  
+{
+public://继承覆写的类型不影响多态，及就是public可以改为private或者protected
+       //但是上面操作之后通过B生成的对象就不能调用覆写的虚函数，所以根据具体情况而定。
+
+    virtual void foo()  //覆写：同名，同参，同返回。
+    {
+        cout &lt;&lt; &quot;B : foo&quot; &lt;&lt; endl;
+    }
+};
+
+int main() 
+{
+    B b;
+    A* pa = &amp;b;
+    pa-&gt;foo();
+    return 0;
+}</code></pre><p>运行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200329134337532.png" alt="运行结果"></p>
+<h3 id="覆写关键字-override-C-11"><a href="#覆写关键字-override-C-11" class="headerlink" title="覆写关键字 override (C++11)"></a>覆写关键字 override (C++11)</h3><p>override 是 C++11 中引入的关键字，用于修饰覆写的虚函数。表明父类中有此虚函数.</p>
+<p>同名，同参，同返回中有一样不满足，则会报错。</p>
+<p>这样的好处是，假设在覆写中，写错了，比如，作不到同名，同参，同返中的任一样，</p>
+<p>编译器都会给出提示。</p>
+<pre><code>#include &lt;iostream&gt;
+using namespace std;
+class Shape
+{
+public:
+    virtual void draw() {}
+};
+class Rect :public Shape
+{
+public:
+    // void drawx() override
+    // {}
+    // void draw(int a) override
+    // {}
+    // int draw() override
+    // {}
+    // void draw() const override
+    // {}
+    void draw() override
+    {}
+};
+int main() {
+    return 0;
+}</code></pre><h3 id="虚函数在多继承中"><a href="#虚函数在多继承中" class="headerlink" title="虚函数在多继承中"></a>虚函数在多继承中</h3><p>class B 中虽然没有覆写，但 void foo()在其中依然是虚函数。</p>
+<p>class C 中覆写了虚函数，多态依然是成立的。并且此时，用祖父类的指针 A*指向 C 类的对象，依然是可以实现多态的。</p>
+<pre><code>#include &lt;iostream&gt;
+using namespace std;
+class A
+{
+public:
+    virtual void foo()
+    {
+        cout &lt;&lt; &quot;A::foo&quot; &lt;&lt; endl;
+    }
+};
+class B :public A
+{
+};
+class C :public B
+{
+public:
+    virtual void foo()
+    {
+        cout &lt;&lt; &quot;C::foo&quot; &lt;&lt; endl;
+    }
+};
+int main()
+{
+    C c;
+    B* pb = &amp;c;
+    pb-&gt;foo();
+    return 0;
+}</code></pre><p>运行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200329134420386.png" alt="运行结果"></p>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p><img src="https://img-blog.csdnimg.cn/20200329134435762.png" alt="虚函数与多态"></p>
 
             </div>
             <hr/>
@@ -777,7 +774,7 @@ int main()
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://www.teachermin.com/2020/03/25/C%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C%EF%BC%9AC%E9%A1%B9%E7%9B%AE%EF%BC%88%E6%96%87%E4%BB%B6%E9%93%BE%E8%A1%A8%E5%AE%9E%E7%8E%B0%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%EF%BC%89/">http://www.teachermin.com/2020/03/25/C%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C%EF%BC%9AC%E9%A1%B9%E7%9B%AE%EF%BC%88%E6%96%87%E4%BB%B6%E9%93%BE%E8%A1%A8%E5%AE%9E%E7%8E%B0%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%EF%BC%89/</a>
+                    <a href="http://www.teachermin.com/2020/03/29/C++%E5%A4%9A%E6%80%81%EF%BC%9A%E5%A4%9A%E6%80%81%E5%BD%A2%E6%88%90%E7%9A%84%E6%9D%A1%E4%BB%B6%EF%BC%8C%E9%9D%99%E5%A4%9A%E6%80%81%EF%BC%8C%E5%A4%9A%E6%80%81%EF%BC%8C%E8%99%9A%E5%87%BD%E6%95%B0(3)/">http://www.teachermin.com/2020/03/29/C++%E5%A4%9A%E6%80%81%EF%BC%9A%E5%A4%9A%E6%80%81%E5%BD%A2%E6%88%90%E7%9A%84%E6%9D%A1%E4%BB%B6%EF%BC%8C%E9%9D%99%E5%A4%9A%E6%80%81%EF%BC%8C%E5%A4%9A%E6%80%81%EF%BC%8C%E8%99%9A%E5%87%BD%E6%95%B0(3)/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -815,12 +812,8 @@ int main()
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/C%E6%96%87%E4%BB%B6/">
-                                    <span class="chip bg-color">C文件</span>
-                                </a>
-                            
-                                <a href="/tags/C%E9%A1%B9%E7%9B%AE/">
-                                    <span class="chip bg-color">C项目</span>
+                                <a href="/tags/C-%E5%A4%9A%E6%80%81/">
+                                    <span class="chip bg-color">C++多态</span>
                                 </a>
                             
                         </div>
@@ -986,51 +979,51 @@ int main()
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2020/03/25/C%E4%BD%8D%E6%93%8D%E4%BD%9C%E5%BA%94%E7%94%A8%EF%BC%9A%E6%8E%A9%E7%A0%81/">
+                <a href="/2020/03/29/C++%E5%A4%9A%E6%80%81%EF%BC%9A%E5%A4%9A%E6%80%81%E5%BD%A2%E6%88%90%E7%9A%84%E6%9D%A1%E4%BB%B6%EF%BC%8C%E9%9D%99%E5%A4%9A%E6%80%81%EF%BC%8C%E5%A4%9A%E6%80%81%EF%BC%8C%E8%99%9A%E5%87%BD%E6%95%B0(3)/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/3.jpg" class="responsive-img" alt="C位操作应用：掩码">
+                        <img src="/medias/featureimages/10.jpg" class="responsive-img" alt="C++多态:多态形成的条件，静多态，多态，虚函数(3)">
                         
-                        <span class="card-title">C位操作应用：掩码</span>
+                        <span class="card-title">C++多态:多态形成的条件，静多态，多态，虚函数(3)</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            掩码(mask)掩盖掉一些东西，然后，留下一些东西，就是掩码存在的意义。
-
-
-功能①  打开位（位置 1） flag |= MASK;
-② 关闭位（位置 0） flag &amp;= ~MASK;
-③ 转置位（位反转） flag ^= MA
+                            静多态静多态，也就是我们说的函数重载。表面来看，是由重载规则来限定的，内部实现却是 Namemangling。
+同名函数会根据参数的不同调用不同的函数。
+此种行为，发生在编译期，故称为静多态。
+多态(动)多态，不是在编译器阶段决定，而是在运
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-03-25
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-03-29
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/C%E5%9F%BA%E7%A1%80/" class="post-category">
-                                    C基础
+                            <a href="/categories/C/" class="post-category">
+                                    C++
                                 </a>
                             
                             
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/C%E4%BD%8D%E6%93%8D%E4%BD%9C/">
-                        <span class="chip bg-color">C位操作</span>
+                    <a href="/tags/C-%E5%A4%9A%E6%80%81/">
+                        <span class="chip bg-color">C++多态</span>
                     </a>
                     
                 </div>
@@ -1044,32 +1037,35 @@ int main()
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/03/25/C%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C%EF%BC%9Afwrite%E5%87%BD%E6%95%B0fread%20%E5%87%BD%E6%95%B0%E4%B8%80%E6%AC%A1%E8%AF%BB%E5%86%99%E4%B8%80%E5%9D%97%E5%AD%97%E8%8A%82(%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%93%8D%E4%BD%9C%E5%92%8C%E6%96%87%E6%9C%AC%E6%93%8D%E4%BD%9C)/">
+                <a href="/2020/03/29/C++%E5%A4%9A%E6%80%81%EF%BC%9A%E8%B5%8B%E5%80%BC%E5%85%BC%E5%AE%B9%EF%BC%8C%E8%AF%A6%E7%BB%86%E5%AE%9E%E7%8E%B0%EF%BC%8C%E8%BD%AC%E5%8C%96%E5%AE%89%E5%85%A8(2)/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/14.jpg" class="responsive-img" alt="C文件操作：fwrite / fread 函数，一次读写一块字节（二进制操作和文本操作）">
+                        <img src="/medias/featureimages/6.jpg" class="responsive-img" alt="C++多态：赋值兼容，详细实现，转化安全(2)">
                         
-                        <span class="card-title">C文件操作：fwrite / fread 函数，一次读写一块字节（二进制操作和文本操作）</span>
+                        <span class="card-title">C++多态：赋值兼容，详细实现，转化安全(2)</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            fwrite / fread 函数C 语言己经从接口的层面区分了，文本的读写方式和二进制的读写方式。对于文本文件来说：
-所有的文件接口函数，要么以 ‘\0’，表示输入结束，要么以 ‘\n’， EOF(0xFF)表示 读取结束。 ‘\0’ ‘
+                            赋值兼容赋值兼容是多态的前提条件。
+赋值兼容规则把子类对象赋给父类对象的现象就是赋值兼容。
+赋值兼容规则是指，在需要基类对象的任何地方，都可以使用公有派生类的对象来替代。
+公有派生是赋值兼容的前提，赋值兼容是多态的前提。
+只有在公有派生类中
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-03-25
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-03-29
                             </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/C%E5%9F%BA%E7%A1%80/" class="post-category">
-                                    C基础
+                            <a href="/categories/C/" class="post-category">
+                                    C++
                                 </a>
                             
                             
@@ -1079,8 +1075,8 @@ int main()
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/C%E6%96%87%E4%BB%B6/">
-                        <span class="chip bg-color">C文件</span>
+                    <a href="/tags/C-%E5%A4%9A%E6%80%81/">
+                        <span class="chip bg-color">C++多态</span>
                     </a>
                     
                 </div>
