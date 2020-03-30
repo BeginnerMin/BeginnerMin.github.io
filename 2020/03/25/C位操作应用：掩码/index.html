@@ -460,14 +460,14 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2020-03-25
+                    2020-03-29
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    983
+                    989
                 </div>
                 
 
@@ -646,12 +646,10 @@ void dis32bin(int data)
     }</code></pre><p>执行结果为：</p>
 <p><img src="https://img-blog.csdnimg.cn/2020032522303399.png" alt="查看某一位的值"></p>
 <h2 id="实战训练"><a href="#实战训练" class="headerlink" title="实战训练"></a>实战训练</h2><p>输出位数</p>
-<p>题目：从键盘上输入 1 个正整数给 int 变量 num，输出由 3～6 位构成的数（从低 0<br>号开始编号）</p>
+<p>题目：从键盘上输入 1 个正整数给 int 变量 num，输出由 3至6 位构成的数（从低 0<br>号开始编号）</p>
 <p>基本思路：</p>
-<ol>
-<li>截取 3<del>6 位的数，位移到 0</del>3 位</li>
-<li>a)构建 3~6 位不变，其余为 0 的数</li>
-</ol>
+<p>1.截取 3至6 位的数，位移到 0至3 位</p>
+<p>2.<br>a)构建 3至6 位不变，其余为 0 的数</p>
 <p>b)右移3位 </p>
 <pre><code>#include &lt;stdio.h&gt;
 
@@ -688,9 +686,9 @@ void dis32bin(int data)
         return 0;
     }</code></pre><p>执行结果为：</p>
 <p><img src="https://img-blog.csdnimg.cn/20200325223116697.png" alt="运行结果"></p>
-<p>2.先将 3<del>6 位移到 0</del>3 位，截取 0~3 位</p>
+<p>2.先将 3至6 位移到 0至3 位，截取 0至3 位</p>
 <p>a)输入数右移 3 位</p>
-<p>b)构建 0~3 位不变 其余为 0 的数</p>
+<p>b)构建 0至3 位不变 其余为 0 的数</p>
 <pre><code>#include &lt;stdio.h&gt;
 
 void dis32bin(int data)
@@ -1253,7 +1251,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">108.3k</span>&nbsp;字
+                class="white-color">113.1k</span>&nbsp;字
             
             
             

@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="C++派生类的继承方式, SkilledBeginner">
+    <meta name="keywords" content="线程的资源（数据）保护：简单说明, SkilledBeginner">
     <meta name="description" content="努力做一个很厉害的人">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>C++派生类的继承方式 | SkilledBeginner</title>
+    <title>线程的资源（数据）保护：简单说明 | SkilledBeginner</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -306,12 +306,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/21.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/3.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">C++派生类的继承方式</h1>
+                    <h1 class="description center-align post-title">线程的资源（数据）保护：简单说明</h1>
                 </div>
             </div>
         </div>
@@ -428,8 +428,8 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/C-%E7%BB%A7%E6%89%BF/">
-                                <span class="chip bg-color">C++继承</span>
+                            <a href="/tags/LinuxC%E7%BA%BF%E7%A8%8B/">
+                                <span class="chip bg-color">LinuxC线程</span>
                             </a>
                         
                     </div>
@@ -440,8 +440,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/C/" class="post-category">
-                                C++
+                            <a href="/categories/Linux/" class="post-category">
+                                Linux
                             </a>
                         
                     </div>
@@ -453,28 +453,28 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-03-27
+                    2020-03-30
                 </div>
                 
 
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2020-03-27
+                    2020-03-30
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    1.1k
+                    734
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    4 分
+                    2 分
                 </div>
                 
 
@@ -490,120 +490,23 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="类别"><a href="#类别" class="headerlink" title="类别"></a>类别</h2><h3 id="public"><a href="#public" class="headerlink" title="public"></a>public</h3><p>当类的继承方式为公有继承时，基类的公有和保护成员的访问属性在派生类中不变，而基类的私有成员不可访问。即基类的公有成员和保护成员被继承到派生类中仍作为派生类的公有成员和保护成员。派生类的其他成员可以直接访问它们。无论派生类的成员还是派生类的对象都无法访问基类的私有成员。</p>
-<h3 id="protected"><a href="#protected" class="headerlink" title="protected"></a>protected</h3><p>保护继承中，基类的公有成员和保护成员都以保护成员的身份出现在派生类中，而基类的私有成员不可访问。派生类的其他成员可以直接访问从基类继承来的公有和保护成员，但是类外部通过派生类的对象无法访问它们，无论派生类的成员还是派生类的对象，都无法访问基类的私有成员。</p>
-<h3 id="private"><a href="#private" class="headerlink" title="private"></a>private</h3><p>当类的继承方式为私有继承时，基类中的公有成员和保护成员都以私有成员身份出现在派生类中，而基类的私有成员在派生类中不可访问。基类的公有成员和保护成员被继承后作为派生类的私有成员，派生类的其他成员可以直接访问它们，但是在类外部通过派生类的对象无法访问。无论是派生类的成员还是通过派生类的对象，都无法访问从基类继承的私有成员。通过多次私有继承后，对于基类的成员都会成为不可访问。因此私有继承比较少用。</p>
-<h3 id="派生类成员标识"><a href="#派生类成员标识" class="headerlink" title="派生类成员标识"></a>派生类成员标识</h3><h4 id="图示-表格-图"><a href="#图示-表格-图" class="headerlink" title="图示(表格/图)"></a>图示(表格/图)</h4><p><img src="https://img-blog.csdnimg.cn/20200327090020650.png" alt="派生类成员标识表格"></p>
-<p><img src="https://img-blog.csdnimg.cn/20200327090036228.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="派生类成员标识图"></p>
-<h2 id="分类-四类访问"><a href="#分类-四类访问" class="headerlink" title="分类(四类访问)"></a>分类(四类访问)</h2><p>公有成员；保护成员；私有成员；不可访问的成员；</p>
-<pre><code>#include &lt;iostream&gt;
-using namespace std;
-class Base
-{
-public:
-    int pub;
-protected:
-    int pro;
-private:
-    int pri;
-};
-
-class Drive :public Base
-{
-public:
-    void func()
-    {
-        pub = 10;
-        pro = 100;
-        pri = 1000;
-    }
-};
-
-int main()
-{
-    Base b;
-    b.pub = 10;
-    b.pro = 100;
-    b.pri = 1000;
-    return 0;
-}</code></pre><p>上面代码会出现如下错误：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200327090123891.png" alt="代码出错"></p>
-<h2 id="类的作用域运算"><a href="#类的作用域运算" class="headerlink" title="类的作用域运算"></a>类的作用域运算</h2><h3 id="Shadow"><a href="#Shadow" class="headerlink" title="Shadow"></a>Shadow</h3><p>如果某派生类的多个基类拥有同名的成员，同时，派生类又新增这样的同名成员，在这种情况下，派生类成员将 shadow(隐藏)所有基类的同名成员。这时就需要基类名+作用域运算符的方式才能调用基类的同名成员。</p>
-<h3 id="作用域运算符"><a href="#作用域运算符" class="headerlink" title="作用域运算符::"></a>作用域运算符::</h3><pre><code>#include &lt;iostream&gt;
-using namespace std;    
-class Base
-{
-public:
-    void func()
-        {
-        cout &lt;&lt; &quot;Base func()&quot; &lt;&lt; endl;
-        }
-    };
-    class Drive :public Base
-    {
-    public:
-        void func()
-        {
-            //func(); // this-&gt;func() 死循环
-            Base::func(); //被 shadow 的成员，可以这样访问
-            cout &lt;&lt; &quot;Drive func()&quot; &lt;&lt; endl;
-        }
-    };
-    int main()
-    {
-    Drive d;
-    d.func(); // 访问派生类成员
-        d.Base::func(); //访问基类成员
-        return 0;
-}</code></pre><p>执行结果为：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200327090308951.png" alt="执行结果"></p>
-<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>hadow在父子类中出现了同名的标识符（函数成员，数据成员），就会构成shadow现象，如果像访问被shadow的成员，加上父类的命名空间。Shadow的条件只有一个就是重名。</p>
-<p><img src="https://img-blog.csdnimg.cn/20200327090334282.png" alt="shadow与重载对比"></p>
-<h2 id="why-public"><a href="#why-public" class="headerlink" title="why public?"></a>why public?</h2><p>所有继承必须是 public 的，如果想私有继承的话，应该采用将基类实例作为成员的<br>方式作为替代。(引自 Google C++ 编程规范)。</p>
-<h3 id="继承方式"><a href="#继承方式" class="headerlink" title="继承方式"></a>继承方式</h3><p><img src="https://img-blog.csdnimg.cn/20200327090356766.png" alt="继承方式"></p>
-<h3 id="继承测试"><a href="#继承测试" class="headerlink" title="继承测试"></a>继承测试</h3><pre><code>#include &lt;iostream&gt;
-using namespace std;
-class Base
-{
-public:
-    int pub;
-protected:
-    int pro;
-private:
-    int pri;
-};
-class Drive :public Base
-{
-public:
-};</code></pre><p><img src="https://img-blog.csdnimg.cn/20200327090421587.png" alt="多级public继承"></p>
-<p>如果多级派生当中，均采用 public,直到最后一级，派生类中均可访问基类的public,protected 成员。</p>
-<p><img src="https://img-blog.csdnimg.cn/20200327090442299.png" alt="多级protected继承"></p>
-<p>如果多级派生当中，均采用 protected，直到最后一级，派生类的基类的所有成员即使<br>可见，也均不可被类外调用。</p>
-<p><img src="https://img-blog.csdnimg.cn/20200327090511508.png" alt="多级private继承"></p>
-<p>如果多级派生当中，均采用 private，直到最后一级,派生类中基类的所有成员均变为不<br>可见。</p>
-<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p><img src="https://img-blog.csdnimg.cn/20200327090543875.png" alt="继承方式定论"></p>
-<p>综上所述，记住 public 继承足矣。</p>
-<h3 id="案例public-QMainWindow"><a href="#案例public-QMainWindow" class="headerlink" title="案例public QMainWindow"></a>案例public QMainWindow</h3><p>使用三方库，比如 QT，往往遵循这样一个原则，先继承，后添加新元素，体现子类的<br>个性需求。</p>
-<p>继承–&gt;组合–&gt;使用</p>
-<pre><code>#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
-#include &lt;QMainWindow&gt;
-class MainWindow : public / protected / private QMainWindow
-{
-Q_OBJECT
-public:
-MainWindow(QWidget * parent = 0);
-~MainWindow();
-};
-class MyWindow : private MainWindow
-{
-public:
-    MyWindow(QWidget* parent = 0)
-    {
-        this-&gt;setGeometry(1, 1, 1, 1);
-    }
-};
-#endif // MAINWINDOW_H</code></pre><p>QMainWindow 是 QT 框架，中的一个窗口 widget，通常情况下会对其采用先继承的<br>方式，然后再添加成员的组合方式来使用，如果，不采用 public 继承，后继工作将无法开<br>展。</p>
+                <h2 id="线程的资源（数据）保护"><a href="#线程的资源（数据）保护" class="headerlink" title="线程的资源（数据）保护"></a>线程的资源（数据）保护</h2><p>线程的资源，进程的资源表示数据资源，是软件层面的资源。</p>
+<h2 id="进程的资源保护"><a href="#进程的资源保护" class="headerlink" title="进程的资源保护"></a>进程的资源保护</h2><p>对于进程来说，由于每个进程空间是完全独立的，相互间不可能篡改对方进程空间的数据，所以进程空间内部的数据（资源）保护的非常到位，不需要加什么额外的保护机制。</p>
+<p>只有当它们共享操作第三方资源时才会涉及到资源保护问题，比如共享操作第三方文件（或者共享内存）的数据时，才会使用到进程信号量这样的资源保护机制。</p>
+<p>我们说明进程IPC的时候就说过，虽然进程信号量被划到“IPC”中，但是进程信号量的作用实际上是借助通信来实现资源（数据）保护。</p>
+<p>对于进程来说，因为进程空间的独立性，因此进程资源的保护很到位，反倒是进程间共享数据很困难，因此OS提供了管道、消息队列等进程间通信机制。</p>
+<p>这就好比两人闹矛盾，老死不相往来，相互间完全隔绝，各自的私人秘密保护的很好，但是相互间通信反倒成了难事。</p>
+<h2 id="线程的资源保护"><a href="#线程的资源保护" class="headerlink" title="线程的资源保护"></a>线程的资源保护</h2><p>对于线程来说，由于进程内部的所有线程共享进程空间，因此线程间使用全局变量即可实现数据共享，数据通信的实现非常容易，不过数据共享越是容易，数据相互篡改的危险性就越高，因此对于线程来说，需要重点考虑如何保护资源（数据），防止相互篡改。</p>
+<p>这就好比两个人关系非常好，好到穿一条裤子，好到什么秘密都分享，相互间共享秘密不是问题了，但是各自秘密的保护反倒成了问题。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p><strong>（1）进程：进程空间天然是独立的，因此进程间资源的保护是天然的（现成的），需要重点关心的进程间的通信。</strong></p>
+<p><strong>（2）线程：多线程天然的共享进程空间，因此线程数据共享是天然的（现成的），需要重点关心的是资源的保护，防止数据被线程相互篡改。</strong></p>
+<p>线程的资源保护机制</p>
+<p>C线程的资源保护机制有</p>
+<p>· 互斥锁</p>
+<p>· 信号量</p>
+<p>· 条件变量<br>等</p>
+<p>我们这里重点说明的是互斥锁、信号量、条件变量。</p>
+<p>这三种资源保护机制，不仅在C线程里面有，在c++、java等的线程里面同样有，它们的实现原理和工作目的都是类似的，所以学习c线程的资源保护机制，非常有利于读者理解c++/java等线程的资源保护机制。</p>
 
             </div>
             <hr/>
@@ -629,7 +532,7 @@ public:
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://www.teachermin.com/2020/03/27/C++%E6%B4%BE%E7%94%9F%E7%B1%BB%E7%9A%84%E7%BB%A7%E6%89%BF%E6%96%B9%E5%BC%8F/">http://www.teachermin.com/2020/03/27/C++%E6%B4%BE%E7%94%9F%E7%B1%BB%E7%9A%84%E7%BB%A7%E6%89%BF%E6%96%B9%E5%BC%8F/</a>
+                    <a href="http://www.teachermin.com/2020/03/30/%E7%BA%BF%E7%A8%8B%E7%9A%84%E8%B5%84%E6%BA%90%EF%BC%88%E6%95%B0%E6%8D%AE%EF%BC%89%E4%BF%9D%E6%8A%A4%EF%BC%9A%E7%AE%80%E5%8D%95%E8%AF%B4%E6%98%8E/">http://www.teachermin.com/2020/03/30/%E7%BA%BF%E7%A8%8B%E7%9A%84%E8%B5%84%E6%BA%90%EF%BC%88%E6%95%B0%E6%8D%AE%EF%BC%89%E4%BF%9D%E6%8A%A4%EF%BC%9A%E7%AE%80%E5%8D%95%E8%AF%B4%E6%98%8E/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -667,8 +570,8 @@ public:
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/C-%E7%BB%A7%E6%89%BF/">
-                                    <span class="chip bg-color">C++继承</span>
+                                <a href="/tags/LinuxC%E7%BA%BF%E7%A8%8B/">
+                                    <span class="chip bg-color">LinuxC线程</span>
                                 </a>
                             
                         </div>
@@ -838,32 +741,37 @@ public:
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2020/03/27/C++%E5%A4%9A%E7%BB%A7%E6%89%BF/">
+                <a href="/2020/03/30/LinuxC%E7%BA%BF%E7%A8%8B%E6%95%B0%E6%8D%AE%E8%B5%84%E6%BA%90%E4%BF%9D%E6%8A%A4%EF%BC%9A%E4%BA%92%E6%96%A5%E9%94%81/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/7.jpg" class="responsive-img" alt="C++多继承">
+                        <img src="/medias/featureimages/19.jpg" class="responsive-img" alt="LinuxC线程数据资源">
                         
-                        <span class="card-title">C++多继承</span>
+                        <span class="card-title">LinuxC线程数据资源</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            多继承 Multiple Inheritance从继承类别上分，继承可分为单继承和多继承，多继承即父类不止一个。
-多继承意义俗话讲，鱼与熊掌不可兼得，而在计算机就可以实现，生成一种新的对象，叫熊掌鱼，多继承自鱼和熊掌即可。还比如生活中”兼”
+                            互斥锁互斥锁的作用就是用来实现数据资源互斥的。
+尽管一个进程的互斥，另一个是线程的互斥，但是它们的原理都是一样的。
+互斥锁使用的步骤
+1）定义一个互斥锁（定义变量）    
+2）初始化互斥锁：预设互斥锁的初始值
+3）加锁解锁
+4）进程退出时
                         
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-03-27
+                            <i class="far fa-clock fa-fw icon-date"></i>2020-03-30
                         </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/C/" class="post-category">
-                                    C++
+                            <a href="/categories/Linux/" class="post-category">
+                                    Linux
                                 </a>
                             
                             
@@ -873,8 +781,8 @@ public:
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/C-%E7%BB%A7%E6%89%BF/">
-                        <span class="chip bg-color">C++继承</span>
+                    <a href="/tags/LinuxC%E7%BA%BF%E7%A8%8B/">
+                        <span class="chip bg-color">LinuxC线程</span>
                     </a>
                     
                 </div>
@@ -888,24 +796,26 @@ public:
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/03/27/C++%E6%B4%BE%E7%94%9F%E7%B1%BB%E7%9A%84%E5%8F%8B%E5%85%83%E4%B8%8E%E6%9E%90%E6%9E%84/">
+                <a href="/2020/03/29/C++%E5%A4%9A%E6%80%81%EF%BC%9A%E4%BE%9D%E8%B5%96%E5%80%92%E7%BD%AE(5)/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/11.jpg" class="responsive-img" alt="C++派生类的友元与析构">
+                        <img src="/medias/featureimages/23.jpg" class="responsive-img" alt="C++多态：依赖倒置(5)">
                         
-                        <span class="card-title">C++派生类的友元与析构</span>
+                        <span class="card-title">C++多态：依赖倒置(5)</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            派生类的友元函数说明由于友元函数并非类成员，因引不能被继承，在某种需求下，可能希望派生类的友元函数能够使用基类中的友元函数。为此可以通过强制类型转换，将派生类的指针或是引用强转为其父类的引用或是指针，然后使用转换后的引用或是指针来调用基类中
+                            设计模式之依赖倒置原则计模式中有一种很重要的原则之一，叫依赖倒置(Dependency Inversion Principle),简称 DIP。也是基于多态的。
+
+依赖倒置原则基于这样一个事实：相对于细节的多变性，抽象的东西要稳定的多。以抽
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-03-27
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-03-29
                             </span>
                         <span class="publish-author">
                             
@@ -922,8 +832,8 @@ public:
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/C-%E7%BB%A7%E6%89%BF/">
-                        <span class="chip bg-color">C++继承</span>
+                    <a href="/tags/C-%E5%A4%9A%E6%80%81/">
+                        <span class="chip bg-color">C++多态</span>
                     </a>
                     
                 </div>
