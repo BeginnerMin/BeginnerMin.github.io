@@ -1,0 +1,1517 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="keywords" content="C++多态：多态实现原理剖析(7), SkilledBeginner">
+    <meta name="description" content="努力做一个很厉害的人">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="renderer" content="webkit|ie-stand|ie-comp">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+
+
+    <title>C++多态：多态实现原理剖析(7) | SkilledBeginner</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+
+    <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
+    <link rel="stylesheet" type="text/css" href="/libs/materialize/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/aos/aos.css">
+    <link rel="stylesheet" type="text/css" href="/libs/animate/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/libs/lightGallery/css/lightgallery.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/matery.css">
+    <link rel="stylesheet" type="text/css" href="/css/my.css">
+
+    <script src="/libs/jquery/jquery.min.js"></script>
+    
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+
+<body>
+    <header class="navbar-fixed">
+    <nav id="headNav" class="bg-color nav-transparent">
+        <div id="navContainer" class="nav-wrapper container">
+            <div class="brand-logo">
+                <a href="/" class="waves-effect waves-light">
+                    
+                    <img src="/medias/logo.png" class="logo-img" alt="LOGO">
+                    
+                    <span class="logo-span">SkilledBeginner</span>
+                </a>
+            </div>
+            
+
+<a href="#" data-target="mobile-nav" class="sidenav-trigger button-collapse"><i class="fas fa-bars"></i></a>
+<ul class="right nav-menu">
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/" class="waves-effect waves-light">
+      
+      <i class="fas fa-home" style="zoom: 0.6;"></i>
+      
+      <span>首页</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/tags" class="waves-effect waves-light">
+      
+      <i class="fas fa-tags" style="zoom: 0.6;"></i>
+      
+      <span>标签</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/categories" class="waves-effect waves-light">
+      
+      <i class="fas fa-bookmark" style="zoom: 0.6;"></i>
+      
+      <span>分类</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/archives" class="waves-effect waves-light">
+      
+      <i class="fas fa-archive" style="zoom: 0.6;"></i>
+      
+      <span>归档</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/about" class="waves-effect waves-light">
+      
+      <i class="fas fa-user-circle" style="zoom: 0.6;"></i>
+      
+      <span>关于</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/contact" class="waves-effect waves-light">
+      
+      <i class="fas fa-comments" style="zoom: 0.6;"></i>
+      
+      <span>留言板</span>
+    </a>
+    
+  </li>
+  
+  <li class="hide-on-med-and-down nav-item">
+    
+    <a href="/friends" class="waves-effect waves-light">
+      
+      <i class="fas fa-address-book" style="zoom: 0.6;"></i>
+      
+      <span>友情链接</span>
+    </a>
+    
+  </li>
+  
+  <li>
+    <a href="#searchModal" class="modal-trigger waves-effect waves-light">
+      <i id="searchIcon" class="fas fa-search" title="搜索" style="zoom: 0.85;"></i>
+    </a>
+  </li>
+</ul>
+
+<div id="mobile-nav" class="side-nav sidenav">
+
+    <div class="mobile-head bg-color">
+        
+        <img src="/medias/logo.png" class="logo-img circle responsive-img">
+        
+        <div class="logo-name">SkilledBeginner</div>
+        <div class="logo-desc">
+            
+            努力做一个很厉害的人
+            
+        </div>
+    </div>
+
+    
+
+    <ul class="menu-list mobile-menu-list">
+        
+        <li class="m-nav-item">
+	  
+		<a href="/" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-home"></i>
+			
+			首页
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/tags" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-tags"></i>
+			
+			标签
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/categories" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-bookmark"></i>
+			
+			分类
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/archives" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-archive"></i>
+			
+			归档
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/about" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-user-circle"></i>
+			
+			关于
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/contact" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-comments"></i>
+			
+			留言板
+		</a>
+          
+        </li>
+        
+        <li class="m-nav-item">
+	  
+		<a href="/friends" class="waves-effect waves-light">
+			
+			    <i class="fa-fw fas fa-address-book"></i>
+			
+			友情链接
+		</a>
+          
+        </li>
+        
+        
+        <li><div class="divider"></div></li>
+        <li>
+            <a href="https://github.com/BeginnerMin" class="waves-effect waves-light" target="_blank">
+                <i class="fab fa-github-square fa-fw"></i>Fork Me
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+        </div>
+
+        
+            <style>
+    .nav-transparent .github-corner {
+        display: none !important;
+    }
+
+    .github-corner {
+        position: absolute;
+        z-index: 10;
+        top: 0;
+        right: 0;
+        border: 0;
+        transform: scale(1.1);
+    }
+
+    .github-corner svg {
+        color: #0f9d58;
+        fill: #fff;
+        height: 64px;
+        width: 64px;
+    }
+
+    .github-corner:hover .octo-arm {
+        animation: a 0.56s ease-in-out;
+    }
+
+    .github-corner .octo-arm {
+        animation: none;
+    }
+
+    @keyframes a {
+        0%,
+        to {
+            transform: rotate(0);
+        }
+        20%,
+        60% {
+            transform: rotate(-25deg);
+        }
+        40%,
+        80% {
+            transform: rotate(10deg);
+        }
+    }
+</style>
+
+<a href="https://github.com/BeginnerMin" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+   data-tooltip="Fork Me" data-position="left" data-delay="50">
+    <svg viewBox="0 0 250 250" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+              fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+              fill="currentColor" class="octo-body"></path>
+    </svg>
+</a>
+        
+    </nav>
+
+</header>
+
+    
+
+
+
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/0.jpg')">
+    <div class="container" style="right: 0px;left: 0px;">
+        <div class="row">
+            <div class="col s12 m12 l12">
+                <div class="brand">
+                    <h1 class="description center-align post-title">C++多态：多态实现原理剖析(7)</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<main class="post-container content">
+
+    
+    <link rel="stylesheet" href="/libs/tocbot/tocbot.css">
+<style>
+    #articleContent h1::before,
+    #articleContent h2::before,
+    #articleContent h3::before,
+    #articleContent h4::before,
+    #articleContent h5::before,
+    #articleContent h6::before {
+        display: block;
+        content: " ";
+        height: 100px;
+        margin-top: -100px;
+        visibility: hidden;
+    }
+
+    #articleContent :focus {
+        outline: none;
+    }
+
+    .toc-fixed {
+        position: fixed;
+        top: 64px;
+    }
+
+    .toc-widget {
+        width: 345px;
+        padding-left: 20px;
+    }
+
+    .toc-widget .toc-title {
+        margin: 35px 0 15px 0;
+        padding-left: 17px;
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1.5rem;
+    }
+
+    .toc-widget ol {
+        padding: 0;
+        list-style: none;
+    }
+
+    #toc-content {
+        height: calc(100vh - 250px);
+        overflow: auto;
+    }
+
+    #toc-content ol {
+        padding-left: 10px;
+    }
+
+    #toc-content ol li {
+        padding-left: 10px;
+    }
+
+    #toc-content .toc-link:hover {
+        color: #42b983;
+        font-weight: 700;
+        text-decoration: underline;
+    }
+
+    #toc-content .toc-link::before {
+        background-color: transparent;
+        max-height: 25px;
+    }
+
+    #toc-content .is-active-link {
+        color: #42b983;
+    }
+
+    #toc-content .is-active-link::before {
+        background-color: #42b983;
+    }
+
+    #floating-toc-btn {
+        position: fixed;
+        right: 15px;
+        bottom: 76px;
+        padding-top: 15px;
+        margin-bottom: 0;
+        z-index: 998;
+    }
+
+    #floating-toc-btn .btn-floating {
+        width: 48px;
+        height: 48px;
+    }
+
+    #floating-toc-btn .btn-floating i {
+        line-height: 48px;
+        font-size: 1.4rem;
+    }
+</style>
+<div class="row">
+    <div id="main-content" class="col s12 m12 l9">
+        <!-- 文章内容详情 -->
+<div id="artDetail">
+    <div class="card">
+        <div class="card-content article-info">
+            <div class="row tag-cate">
+                <div class="col s7">
+                    
+                    <div class="article-tag">
+                        
+                            <a href="/tags/C-%E5%A4%9A%E6%80%81/">
+                                <span class="chip bg-color">C++多态</span>
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+                <div class="col s5 right-align">
+                    
+                    <div class="post-cate">
+                        <i class="fas fa-bookmark fa-fw icon-category"></i>
+                        
+                            <a href="/categories/C/" class="post-category">
+                                C++
+                            </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="post-info">
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
+                    2020-04-03
+                </div>
+                
+
+                
+                <div class="post-date info-break-policy">
+                    <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
+                    2020-04-03
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
+                    3.6k
+                </div>
+                
+
+                
+                <div class="info-break-policy">
+                    <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
+                    14 分
+                </div>
+                
+
+                
+                    <div id="busuanzi_container_page_pv" class="info-break-policy">
+                        <i class="far fa-eye fa-fw"></i>阅读次数:&nbsp;&nbsp;
+                        <span id="busuanzi_value_page_pv"></span>
+                    </div>
+				
+            </div>
+
+        </div>
+        <hr class="clearfix">
+        <div class="card-content article-card-content">
+            <div id="articleContent">
+                <h2 id="虚函数表"><a href="#虚函数表" class="headerlink" title="虚函数表"></a>虚函数表</h2><p>C++的多态是通过一张虚函数表（l Virtual Table）来实现的，简称为 V-Table。在这个表中，主要是一个类的虚函数的地址表，这张表解决了继承、覆写的问题，保证其真实反应实际的函数。这样， 在有虚函数的类的实例中这个表被分配在了这个实例的内存中，定义类的时候是没有的，所以，当我们用父类的指针来操作一个子类的时候，这张虚函数表就显得由为重要了，它就像一个地图一样，指明了实际所应该调用的函数。</p>
+<p>这里我们着重看一下这张虚函数表。C++的编译器应该是保证虚函数表的指针存在于对象 实例中最前面的位置（这是为了保证取到虚函数表的有最高的性能——如果有多层继承或是多重继承的情况下）。 这意味着我们通过对象实例的地址得到这张虚函数表，然后就可以遍历其中函数指针，并调用相应的函数。</p>
+<p>假设我们有这样的一个类：</p>
+<pre><code>#include &lt;iostream&gt;
+
+using namespace std;
+
+class Base {
+public:
+     void f() { cout &lt;&lt; &quot;Base::f&quot; &lt;&lt; endl; }
+     void g() { cout &lt;&lt; &quot;Base::g&quot; &lt;&lt; endl; }
+     void h() { cout &lt;&lt; &quot;Base::h&quot; &lt;&lt; endl; }
+    int a;
+};
+
+int main()
+{
+    cout &lt;&lt; &quot;Base size:&quot; &lt;&lt; sizeof(Base) &lt;&lt; endl;
+    return 0;
+}</code></pre><p>运行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/2020040309573072.png" alt="运行结果"></p>
+<p>我们对于代码进行修改：给类内第一个函数加上virtual</p>
+<pre><code>#include &lt;iostream&gt;
+
+using namespace std;
+
+class Base {
+public:
+     virtual void f() { cout &lt;&lt; &quot;Base::f&quot; &lt;&lt; endl; }
+     void g() { cout &lt;&lt; &quot;Base::g&quot; &lt;&lt; endl; }
+     void h() { cout &lt;&lt; &quot;Base::h&quot; &lt;&lt; endl; }
+    int a;
+};
+
+int main()
+{
+    cout &lt;&lt; &quot;Base size:&quot; &lt;&lt; sizeof(Base) &lt;&lt; endl;
+    return 0;
+}</code></pre><p>运行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200403095750154.png" alt="运行结果"></p>
+<p>我们把类内所有的函数都加上virtual</p>
+<pre><code>#include &lt;iostream&gt;
+
+using namespace std;
+
+class Base {
+public:
+     virtual void f() { cout &lt;&lt; &quot;Base::f&quot; &lt;&lt; endl; }
+     virtual void g() { cout &lt;&lt; &quot;Base::g&quot; &lt;&lt; endl; }
+     virtual void h() { cout &lt;&lt; &quot;Base::h&quot; &lt;&lt; endl; }
+    int a;
+};
+
+int main()
+{
+    cout &lt;&lt; &quot;Base size:&quot; &lt;&lt; sizeof(Base) &lt;&lt; endl;
+    return 0;
+}</code></pre><p>运行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200403095814790.png" alt="运行结果"></p>
+<p>按照上面的说法，我们可以通过 Base 的实例来得到虚函数表。</p>
+<p>图解说明：</p>
+<p><img src="https://img-blog.csdnimg.cn/2020040309582799.png" alt="虚函数表图解说明"></p>
+<p>上面的0x4042f8地址放在实例的最前面，效率比较高，一进来就能够找得到。0x4042f8是V-t的入口地址。所有的虚函数都在这个表里面进行排位，函数的本质就是地址，上面三个函数就代表三个地址。</p>
+<pre><code>#include &lt;iostream&gt;
+using namespace std;
+class Base {
+public:
+    virtual void f() { cout &lt;&lt; &quot;Base::f&quot; &lt;&lt; endl; }
+    virtual void g() { cout &lt;&lt; &quot;Base::g&quot; &lt;&lt; endl; }
+    virtual void h() { cout &lt;&lt; &quot;Base::h&quot; &lt;&lt; endl; }
+};
+typedef void (*FUNC)();
+int main()
+{
+    cout &lt;&lt; &quot;Base size:&quot; &lt;&lt; sizeof(Base) &lt;&lt; endl;
+    Base b;
+    cout &lt;&lt; &quot;对象的起始地址：&quot; &lt;&lt; &amp;b &lt;&lt; endl;
+    cout &lt;&lt; &quot;虚函数表的地址：&quot; &lt;&lt; (int**)*(int*)&amp;b &lt;&lt; endl;
+    cout &lt;&lt; &quot;虚函数表第一个函数的地址:&quot; &lt;&lt; *((int**)*(int*)&amp;b) &lt;&lt; endl;
+    cout &lt;&lt; &quot;虚函数表第二个函数的地址:&quot; &lt;&lt; *((int**)*(int*)&amp;b + 1) &lt;&lt; endl;
+    //注意不要转为 FUNC 来打印，cout 没有重载
+    FUNC pf = (FUNC)(*((char**)*(int*)&amp;b));
+    pf();
+    pf = (FUNC)(*((void**)*(int*)&amp;b + 1));
+    pf();
+    pf = (FUNC)(*((void**)*(int*)&amp;b + 2));
+    pf();
+    return 0;
+}</code></pre><p>运行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200403095857198.png" alt="运行结果"></p>
+<p>通过这个示例，我们可以看到，我们可以通过强行把&amp;b 转成 int* ，取得虚函数表的地址，然后，再次取址就可以得到第一个虚函数的地址了，也就是 Base::f()，这在上面的程序中得到了验证（把 int* 强制转成了函数指针）。</p>
+<p>画个图解释一下。如下所示：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200403095933843.png" alt="图解说明"></p>
+<p>注意：在上面这个图中，我在虚函数表的最后多加了一个结点，这是虚函数表的结束结点，就像字符串的结束符’\0’一样，其标志了虚函数表的结束。这个结束标志的值在不同的编译器下是不同的。</p>
+<p>下面，我将分别说明”无覆写”和”有覆写”时的虚函数表的样子。没有覆写父类的虚函数是毫无意义的。我之所以要说明没有覆写的情况，主要目的是为了给一个对比。在比较之下，我们可以更加清楚地知道其内部的具体实现。</p>
+<h2 id="一般继承（无虚函数覆写）"><a href="#一般继承（无虚函数覆写）" class="headerlink" title="一般继承（无虚函数覆写）"></a>一般继承（无虚函数覆写）</h2><p>下面，再让我们来看看继承时的虚函数表是什么样的。假设有如下所示的一个继承关系：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200403100019846.png" alt="一般继承"></p>
+<p>请注意，在这个继承关系中，子类没有重载任何父类的函数。那么，在派生类的实例中，其虚函数表如下所示：</p>
+<p>代码演示：</p>
+<pre><code>#include &lt;iostream&gt;
+using namespace std;
+class Base {
+public:
+    virtual void f() { cout &lt;&lt; &quot;Base::f&quot; &lt;&lt; endl; }
+    virtual void g() { cout &lt;&lt; &quot;Base::g&quot; &lt;&lt; endl; }
+    virtual void h() { cout &lt;&lt; &quot;Base::h&quot; &lt;&lt; endl; }
+};
+class Derive :public Base {
+public:
+    virtual void f1() { cout &lt;&lt; &quot;Derive::f1&quot; &lt;&lt; endl; }
+    virtual void g2() { cout &lt;&lt; &quot;Derive::g1&quot; &lt;&lt; endl; }
+    virtual void h2() { cout &lt;&lt; &quot;Derive::h1&quot; &lt;&lt; endl; }
+};
+typedef void (*FUNC)();
+int main()
+{
+    cout &lt;&lt; &quot;Base size:&quot; &lt;&lt; sizeof(Base) &lt;&lt; endl;
+    Derive d;
+    cout &lt;&lt; &quot;对象的起始地址：&quot; &lt;&lt; &amp;d &lt;&lt; endl;
+    cout &lt;&lt; &quot;虚函数表的地址：&quot; &lt;&lt; (int**)*(int*)&amp;d &lt;&lt; endl;
+    cout &lt;&lt; &quot;虚函数表第一个函数的地址：&quot; &lt;&lt; *((void**)*(int*)&amp;d) &lt;&lt; endl;
+    cout &lt;&lt; &quot;虚函数表第二个函数的地址：&quot; &lt;&lt; *((void**)*(int*)&amp;d + 1) &lt;&lt; endl;
+    FUNC pf = (FUNC)(*((char**)*(int*)&amp;d));
+    pf();
+    pf = (FUNC)(*((void**)*(int*)&amp;d + 1));
+    pf();
+    pf = (FUNC)(*((void**)*(int*)&amp;d + 2));
+    pf();
+    pf = (FUNC)(*((void**)*(int*)&amp;d + 3));
+    pf();
+    pf = (FUNC)(*((void**)*(int*)&amp;d + 4));
+    pf();
+    pf = (FUNC)(*((void**)*(int*)&amp;d + 5));
+    pf();
+    return 0;
+}</code></pre><p>运行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200403100043374.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="运行结果"></p>
+<p>对于实例：Derive d; 的虚函数表如下：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200403100055781.png" alt="Derive d; 的虚函数表"></p>
+<p>我们可以看到下面几点：</p>
+<p><strong>1）虚函数按照其声明顺序放于表中。</strong></p>
+<p><strong>2）父类的虚函数在子类的虚函数前面。</strong></p>
+<h2 id="一般继承-有虚函数覆写"><a href="#一般继承-有虚函数覆写" class="headerlink" title="一般继承( 有虚函数覆写)"></a>一般继承( 有虚函数覆写)</h2><p>覆盖父类的虚函数是很显然的事情，不然，虚函数就变得毫无意义。下面，我们来看一下，如果子类中有虚函数重载了父类的虚函数，会是一个什么样子？假设，我们有下面这样的一个继承关系。</p>
+<p><img src="https://img-blog.csdnimg.cn/20200403100131935.png" alt="有虚函数覆写的继承"></p>
+<p>为了让大家看到被继承过后的效果，在这个类的设计中，我只覆盖了父类的一个函数：</p>
+<p>f()。那么，对于派生类的实例，其虚函数表会是下面的一个样子.</p>
+<p>我们对于代码进行修改：让子类的覆写一个父类的虚函数：</p>
+<pre><code>#include &lt;iostream&gt;
+using namespace std;
+class Base {
+public:
+    virtual void f() { cout &lt;&lt; &quot;Base::f&quot; &lt;&lt; endl; }
+    virtual void g() { cout &lt;&lt; &quot;Base::g&quot; &lt;&lt; endl; }
+    virtual void h() { cout &lt;&lt; &quot;Base::h&quot; &lt;&lt; endl; }
+};
+class Derive :public Base {
+public:
+    virtual void f() { cout &lt;&lt; &quot;Derive::f1&quot; &lt;&lt; endl; }
+    virtual void g2() { cout &lt;&lt; &quot;Derive::g1&quot; &lt;&lt; endl; }
+    virtual void h2() { cout &lt;&lt; &quot;Derive::h1&quot; &lt;&lt; endl; }
+};
+typedef void (*FUNC)();
+int main()
+{
+    cout &lt;&lt; &quot;Base size:&quot; &lt;&lt; sizeof(Base) &lt;&lt; endl;
+    Derive d;
+    cout &lt;&lt; &quot;对象的起始地址：&quot; &lt;&lt; &amp;d &lt;&lt; endl;
+    cout &lt;&lt; &quot;虚函数表的地址：&quot; &lt;&lt; (int**)*(int*)&amp;d &lt;&lt; endl;
+    cout &lt;&lt; &quot;虚函数表第一个函数的地址：&quot; &lt;&lt; *((void**)*(int*)&amp;d) &lt;&lt; endl;
+    cout &lt;&lt; &quot;虚函数表第二个函数的地址：&quot; &lt;&lt; *((void**)*(int*)&amp;d + 1) &lt;&lt; endl;
+    FUNC pf = (FUNC)(*((char**)*(int*)&amp;d));
+    pf();
+    pf = (FUNC)(*((void**)*(int*)&amp;d + 1));
+    pf();
+    pf = (FUNC)(*((void**)*(int*)&amp;d + 2));
+    pf();
+    pf = (FUNC)(*((void**)*(int*)&amp;d + 3));
+    pf();
+    pf = (FUNC)(*((void**)*(int*)&amp;d + 4));
+    pf();
+pf = (FUNC)(*((void**)*(int*)&amp;d + 5));
+    pf();
+
+    return 0;
+}</code></pre><p>运行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200403100206607.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="运行结果"></p>
+<p>图解说明：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200403100218245.png" alt="图解说明"></p>
+<p>我们从表中可以看到下面几点：</p>
+<p><strong>1）覆写的 f()函数被放到了虚表中原来父类虚函数的位置。</strong></p>
+<p><strong>2）没有被覆盖的函数依旧存在。</strong></p>
+<p>这样，我们就可以看到对于下面这样的程序：</p>
+<pre><code>Base *b = new Derive();
+b-&gt;f();</code></pre><p>由 b 所指的内存中的虚函数表的 f() 的位置已经被 Derive::f() 函数地址所取代，于是在实际调用发生时，是 Derive::f()被调用了。这就实现了多态。</p>
+<h2 id="静态代码发生了什么"><a href="#静态代码发生了什么" class="headerlink" title="静态代码发生了什么"></a>静态代码发生了什么</h2><p>当编译器看到这段代码的时候，并不知道 b 真实身份。编译器能作的就是用一段代码代替这段语句。</p>
+<pre><code>Base *b = new Derive();
+b-&gt;f();</code></pre><p><strong>1，明确 b 类型。</strong></p>
+<p><strong>2，然后通过指针虚函数表的指针 vptr 和偏移量,匹配虚函数的入口。</strong></p>
+<p><strong>3，根据入口地址调用虚函数。</strong></p>
+<p>一旦发生多态就会去首先遍历虚函数表，如果符合虚函数覆写，那么子类将会覆写父类的虚函数。如果符合虚函数覆写，那么子类只是简单的实现对于父类的继承关系。</p>
+<h2 id="评价多态"><a href="#评价多态" class="headerlink" title="评价多态"></a>评价多态</h2><p><strong>1，实现了动态绑定。</strong></p>
+<p><strong>2，牺牲了一些空间和效率，每次new虚函数表，并且每次调用需要遍历虚函数表，但也是值重的。</strong></p>
+<h2 id="常见问答与实战"><a href="#常见问答与实战" class="headerlink" title="常见问答与实战"></a>常见问答与实战</h2><h3 id="问答"><a href="#问答" class="headerlink" title="问答"></a>问答</h3><h4 id="为什么虚函数必须是类的成员函数？"><a href="#为什么虚函数必须是类的成员函数？" class="headerlink" title="为什么虚函数必须是类的成员函数？"></a>为什么虚函数必须是类的成员函数？</h4><p>虚函数诞生的目的就是为了实现多态，多态发生在父子类中，在类外定义虚函数毫无实际用处，编译不过。</p>
+<h4 id="为什么类的静态成员函数不能为虚函数？"><a href="#为什么类的静态成员函数不能为虚函数？" class="headerlink" title="为什么类的静态成员函数不能为虚函数？"></a>为什么类的静态成员函数不能为虚函数？</h4><p>如果定义为虚函数，那么它就是动态绑定的，也就是在派生类中可以被覆盖的，这与静态成员函数的定义（在内存中只有一份拷贝；通过类名或对象引用访问静态成员）本身<br>就是相矛盾的。 编译不过。</p>
+<h4 id="为什么构造函数不能为虚函数？"><a href="#为什么构造函数不能为虚函数？" class="headerlink" title="为什么构造函数不能为虚函数？"></a>为什么构造函数不能为虚函数？</h4><p>因为如果构造函数为虚函数的话，它将在执行期间被构造，而执行期则需要对象已经建立，构造函数所完成的工作就是为了建立合适的对象，因此在没有构建好的对象上不可能执行多态（虚函数的目的就在于实现多态性）的工作。在继承体系中，构造的顺序就是从基类到派生类，其目的就在于确保对象能够成功地构建。构造函数同时承担着虚函数表的建立，如果它本身都是虚函数的话，如何确保 vtbl 的构建成功呢？编译不过。注意：当基类的构造函数内部有虚函数时，会出现什么情况呢？结果是在构造函数中，虚函数机制不起作用了，调用虚函数如同调用一般的成员函数一样。当基类的析构函数内部有虚函数时，又如何工作呢？与构造函数相同，只有”局部”的版本被调用。但是，行为相同，原因是不一样的。构造函数只能调用”局部”版本，是因为调用时还没有派生类版本的信息。析构函数则是因为派生类版本的信息已经不可靠了。我们知道，析构函数的调用顺序与构造函数相反，是从派生类的析构函数到基类的析构函数。当某个类的析构函数被调用时，其派生类的析构函数已经被调用了，相应的数据也已被丢失，如果再调用虚函数的派生类的版本，就相当于对一些不可靠的数据进行操作，这是非常危险的。因此，在析构函数中，虚函数机制也是不起作用的。</p>
+<h2 id="问答实战"><a href="#问答实战" class="headerlink" title="问答实战"></a>问答实战</h2><h3 id="基类构造中的虚函数"><a href="#基类构造中的虚函数" class="headerlink" title="基类构造中的虚函数"></a>基类构造中的虚函数</h3><p>如下代码输出什么？</p>
+<pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+class A
+{
+public:
+    A() {
+        p = this;   //子类的对象赋值给父类的指针
+        p-&gt;func();  //发生了调用
+    }
+    virtual void func()   //父类中有虚函数 
+    {
+        cout &lt;&lt; &quot;aaaaaaaaaaaaaaaa&quot; &lt;&lt; endl;
+    }
+private:
+    A* p;
+};
+
+class B :public A
+{
+public:
+    virtual void func()  //子类覆写父类的虚函数
+    {
+        cout &lt;&lt; &quot;bbbbbbbbbbbbbbbbb&quot; &lt;&lt; endl;
+    }
+};
+
+int main()
+{
+    B b;
+    return 0;
+}</code></pre><p>运行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200403100511183.png" alt="运行结果"></p>
+<p>我们进行解释说明：要实现多态首先建立在构造结束。构造结束意味着虚函数表生成了。虚函数表在构造彻底结束之后生成。那么也就是说B b;在创建对象的时候先执行：</p>
+<pre><code>class A
+{
+public:
+    A() {
+        p = this;   //子类的对象赋值给父类的指针
+        p-&gt;func();  //发生了调用
+    }
+    virtual void func()   //父类中有虚函数 
+    {
+        cout &lt;&lt; &quot;aaaaaaaaaaaaaaaa&quot; &lt;&lt; endl;
+    }
+private:
+    A* p;
+};</code></pre><p>生成对象之后先调用父类A的构造器，这个时候子类B的构造器没有完成，那么徐汉萨胡表就没有生成那么这个时候调用func( ) 只能就近原则，不能形成多态。所以就有了上面的打印结果。</p>
+<p>那么接下来我们给出另一种情况：让生成的对象构造完成，代码演示：</p>
+<pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+class A
+{
+public:
+    A() {
+
+    }
+    virtual void func()   //父类中有虚函数 
+    {
+        cout &lt;&lt; &quot;aaaaaaaaaaaaaaaa&quot; &lt;&lt; endl;
+    }
+    ~A()
+    {
+        p = this;   //子类的对象赋值给父类的指针
+        p-&gt;func();  //发生了调用
+    }
+private:
+    A* p;
+};
+
+class B :public A
+{
+public:
+    virtual void func()  //子类覆写父类的虚函数
+    {
+        cout &lt;&lt; &quot;bbbbbbbbbbbbbbbbb&quot; &lt;&lt; endl;
+    }
+};
+
+int main()
+{
+    B b;
+    return 0;
+}</code></pre><p>运行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200403100556845.png" alt="运行结果"></p>
+<p>我们进行解释说明：</p>
+<p>构造的时候先构造类A，再构造类B，但是在析构的时候先析构类B在析构类A。那么在析构的时候类B已经析构完毕。所以类B的存在就没有意义了，所以唯一存在有意义的就是类A。</p>
+<h3 id="父类指针间接调用"><a href="#父类指针间接调用" class="headerlink" title="父类指针间接调用"></a>父类指针间接调用</h3><pre><code>#include &lt;iostream&gt;
+
+using namespace std;
+
+class Base
+{
+public:
+    void foo() 
+{
+        this-&gt;func();
+    }
+    virtual void func() {
+        cout &lt;&lt; &quot;Base&quot; &lt;&lt; endl;
+    }
+};
+
+class Derive :public Base 
+{
+public:
+    void func() {
+        cout &lt;&lt; &quot;Derive&quot; &lt;&lt; endl;
+    }
+};
+
+int main()
+{
+    Derive d;
+    d.foo();
+    return 0;
+}</code></pre><p>运行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200403100646571.png" alt="运行结果"></p>
+
+            </div>
+            <hr/>
+
+            
+
+    <div class="reprint" id="reprint-statement">
+        
+            <div class="reprint__author">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-user">
+                        文章作者:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="http://www.teachermin.com" rel="external nofollow noreferrer">MinWengang</a>
+                </span>
+            </div>
+            <div class="reprint__type">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-link">
+                        文章链接:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    <a href="http://www.teachermin.com/2020/04/03/C++%E5%A4%9A%E6%80%81%EF%BC%9A%E5%A4%9A%E6%80%81%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86%E5%89%96%E6%9E%90(7)/">http://www.teachermin.com/2020/04/03/C++%E5%A4%9A%E6%80%81%EF%BC%9A%E5%A4%9A%E6%80%81%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86%E5%89%96%E6%9E%90(7)/</a>
+                </span>
+            </div>
+            <div class="reprint__notice">
+                <span class="reprint-meta" style="font-weight: bold;">
+                    <i class="fas fa-copyright">
+                        版权声明:
+                    </i>
+                </span>
+                <span class="reprint-info">
+                    本博客所有文章除特別声明外，均采用
+                    <a href="https://creativecommons.org/licenses/by/4.0/deed.zh" rel="external nofollow noreferrer" target="_blank">CC BY 4.0</a>
+                    许可协议。转载请注明来源
+                    <a href="http://www.teachermin.com" target="_blank">MinWengang</a>
+                    !
+                </span>
+            </div>
+        
+    </div>
+
+    <script async defer>
+      document.addEventListener("copy", function (e) {
+        let toastHTML = '<span>复制成功，请遵循本文的转载规则</span><button class="btn-flat toast-action" onclick="navToReprintStatement()" style="font-size: smaller">查看</a>';
+        M.toast({html: toastHTML})
+      });
+
+      function navToReprintStatement() {
+        $("html, body").animate({scrollTop: $("#reprint-statement").offset().top - 80}, 800);
+      }
+    </script>
+
+
+
+            <div class="tag_share" style="display: block;">
+                <div class="post-meta__tag-list" style="display: inline-block;">
+                    
+                        <div class="article-tag">
+                            
+                                <a href="/tags/C-%E5%A4%9A%E6%80%81/">
+                                    <span class="chip bg-color">C++多态</span>
+                                </a>
+                            
+                        </div>
+                    
+                </div>
+                <div class="post_share" style="zoom: 80%; width: fit-content; display: inline-block; float: right; margin: -0.15rem 0;">
+                    <link rel="stylesheet" type="text/css" href="/libs/share/css/share.min.css">
+
+<div id="article-share">
+    
+    
+    <div class="social-share" data-sites="twitter,facebook,google,qq,qzone,wechat,weibo,douban,linkedin" data-wechat-qrcode-helper="<p>微信扫一扫即可分享！</p>"></div>
+    <script src="/libs/share/js/social-share.min.js"></script>
+    
+
+    
+
+</div>
+
+                </div>
+            </div>
+            
+                <style>
+    #reward {
+        margin: 40px 0;
+        text-align: center;
+    }
+
+    #reward .reward-link {
+        font-size: 1.4rem;
+        line-height: 38px;
+    }
+
+    #reward .btn-floating:hover {
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    #rewardModal {
+        width: 320px;
+        height: 350px;
+    }
+
+    #rewardModal .reward-title {
+        margin: 15px auto;
+        padding-bottom: 5px;
+    }
+
+    #rewardModal .modal-content {
+        padding: 10px;
+    }
+
+    #rewardModal .close {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 1.3rem;
+        line-height: 20px;
+        cursor: pointer;
+    }
+
+    #rewardModal .close:hover {
+        color: #ef5350;
+        transform: scale(1.3);
+        -moz-transform:scale(1.3);
+        -webkit-transform:scale(1.3);
+        -o-transform:scale(1.3);
+    }
+
+    #rewardModal .reward-tabs {
+        margin: 0 auto;
+        width: 210px;
+    }
+
+    .reward-tabs .tabs {
+        height: 38px;
+        margin: 10px auto;
+        padding-left: 0;
+    }
+
+    .reward-content ul {
+        padding-left: 0 !important;
+    }
+
+    .reward-tabs .tabs .tab {
+        height: 38px;
+        line-height: 38px;
+    }
+
+    .reward-tabs .tab a {
+        color: #fff;
+        background-color: #ccc;
+    }
+
+    .reward-tabs .tab a:hover {
+        background-color: #ccc;
+        color: #fff;
+    }
+
+    .reward-tabs .wechat-tab .active {
+        color: #fff !important;
+        background-color: #22AB38 !important;
+    }
+
+    .reward-tabs .alipay-tab .active {
+        color: #fff !important;
+        background-color: #019FE8 !important;
+    }
+
+    .reward-tabs .reward-img {
+        width: 210px;
+        height: 210px;
+    }
+</style>
+
+<div id="reward">
+    <a href="#rewardModal" class="reward-link modal-trigger btn-floating btn-medium waves-effect waves-light red">赏</a>
+
+    <!-- Modal Structure -->
+    <div id="rewardModal" class="modal">
+        <div class="modal-content">
+            <a class="close modal-close"><i class="fas fa-times"></i></a>
+            <h4 class="reward-title">你的赏识是我前进的动力</h4>
+            <div class="reward-content">
+                <div class="reward-tabs">
+                    <ul class="tabs row">
+                        <li class="tab col s6 alipay-tab waves-effect waves-light"><a href="#alipay">支付宝</a></li>
+                        <li class="tab col s6 wechat-tab waves-effect waves-light"><a href="#wechat">微 信</a></li>
+                    </ul>
+                    <div id="alipay">
+                        <img src="/medias/reward/alipay.jpg" class="reward-img" alt="支付宝打赏二维码">
+                    </div>
+                    <div id="wechat">
+                        <img src="/medias/reward/wechat.png" class="reward-img" alt="微信打赏二维码">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.tabs').tabs();
+    });
+</script>
+            
+        </div>
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+<article id="prenext-posts" class="prev-next articles">
+    <div class="row article-row">
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge left-badge text-color">
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+            <div class="card">
+                <a href="/2020/04/03/C++%E6%A8%A1%E6%9D%BF%EF%BC%9A%E6%A8%A1%E6%9D%BF%E7%AE%80%E8%BF%B0%EF%BC%8C%E5%87%BD%E6%95%B0%E6%A8%A1%E6%9D%BF%E8%AF%A6%E7%BB%86%E8%AF%B4%E6%98%8E/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/8.jpg" class="responsive-img" alt="C++模板：模板简述，函数模板详细说明">
+                        
+                        <span class="card-title">C++模板：模板简述，函数模板详细说明</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            模板语义泛型，即是指具有在多种数据类型上皆可操作的含意。
+泛型编程的代表作品 STL 是一种高效、泛型、可交互操作的软件组件。
+泛型编程最初诞生于 C++中，目的是为了实现 C++的 STL（标准模板库）。其语言支持机制就是模板（Templ
+                        
+                    </div>
+                    <div class="publish-info">
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2020-04-03
+                        </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/C/" class="post-category">
+                                    C++
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/C-%E6%A8%A1%E6%9D%BF/">
+                        <span class="chip bg-color">C++模板</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2020/04/02/C++%E5%A4%9A%E6%80%81%EF%BC%9A%E8%BF%90%E8%A1%8C%E6%97%B6%E7%B1%BB%E5%9E%8B%E4%BF%A1%E6%81%AF(RTTI)(6)/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/23.jpg" class="responsive-img" alt="C++多态：运行时类型信息(RTTI)(6)">
+                        
+                        <span class="card-title">C++多态：运行时类型信息(RTTI)(6)</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            运行时类型信息(RTTI)语义RTTI(run time type identificaiton)，允许程序员在运行时进行对象信息识别。typeid/dynamic_cast 是 C++ 运行时类型信息重要组成部分。
+运行时信息，来自于多态
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-04-02
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/C/" class="post-category">
+                                    C++
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/C-%E5%A4%9A%E6%80%81/">
+                        <span class="chip bg-color">C++多态</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+    </div>
+</article>
+
+</div>
+
+
+
+<!-- 代码块功能依赖 -->
+<script type="text/javascript" src="/libs/codeBlock/codeBlockFuction.js"></script>
+
+<!-- 代码语言 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeLang.js"></script>
+
+
+<!-- 代码块复制 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeCopy.js"></script>
+
+
+<!-- 代码块收缩 -->
+
+<script type="text/javascript" src="/libs/codeBlock/codeShrink.js"></script>
+
+
+<!-- 代码块折行 -->
+
+<style type="text/css">
+code[class*="language-"], pre[class*="language-"] { white-space: pre !important; }
+</style>
+
+
+    </div>
+    <div id="toc-aside" class="expanded col l3 hide-on-med-and-down">
+        <div class="toc-widget">
+            <div class="toc-title"><i class="far fa-list-alt"></i>&nbsp;&nbsp;目录</div>
+            <div id="toc-content"></div>
+        </div>
+    </div>
+</div>
+
+<!-- TOC 悬浮按钮. -->
+
+<div id="floating-toc-btn" class="hide-on-med-and-down">
+    <a class="btn-floating btn-large bg-color">
+        <i class="fas fa-list-ul"></i>
+    </a>
+</div>
+
+
+<script src="/libs/tocbot/tocbot.min.js"></script>
+<script>
+    $(function () {
+        tocbot.init({
+            tocSelector: '#toc-content',
+            contentSelector: '#articleContent',
+            headingsOffset: -($(window).height() * 0.4 - 45),
+            collapseDepth: Number('0'),
+            headingSelector: 'h2, h3, h4'
+        });
+
+        // modify the toc link href to support Chinese.
+        let i = 0;
+        let tocHeading = 'toc-heading-';
+        $('#toc-content a').each(function () {
+            $(this).attr('href', '#' + tocHeading + (++i));
+        });
+
+        // modify the heading title id to support Chinese.
+        i = 0;
+        $('#articleContent').children('h2, h3, h4').each(function () {
+            $(this).attr('id', tocHeading + (++i));
+        });
+
+        // Set scroll toc fixed.
+        let tocHeight = parseInt($(window).height() * 0.4 - 64);
+        let $tocWidget = $('.toc-widget');
+        $(window).scroll(function () {
+            let scroll = $(window).scrollTop();
+            /* add post toc fixed. */
+            if (scroll > tocHeight) {
+                $tocWidget.addClass('toc-fixed');
+            } else {
+                $tocWidget.removeClass('toc-fixed');
+            }
+        });
+
+        
+        /* 修复文章卡片 div 的宽度. */
+        let fixPostCardWidth = function (srcId, targetId) {
+            let srcDiv = $('#' + srcId);
+            if (srcDiv.length === 0) {
+                return;
+            }
+
+            let w = srcDiv.width();
+            if (w >= 450) {
+                w = w + 21;
+            } else if (w >= 350 && w < 450) {
+                w = w + 18;
+            } else if (w >= 300 && w < 350) {
+                w = w + 16;
+            } else {
+                w = w + 14;
+            }
+            $('#' + targetId).width(w);
+        };
+
+        // 切换TOC目录展开收缩的相关操作.
+        const expandedClass = 'expanded';
+        let $tocAside = $('#toc-aside');
+        let $mainContent = $('#main-content');
+        $('#floating-toc-btn .btn-floating').click(function () {
+            if ($tocAside.hasClass(expandedClass)) {
+                $tocAside.removeClass(expandedClass).hide();
+                $mainContent.removeClass('l9');
+            } else {
+                $tocAside.addClass(expandedClass).show();
+                $mainContent.addClass('l9');
+            }
+            fixPostCardWidth('artDetail', 'prenext-posts');
+        });
+        
+    });
+</script>
+
+    
+
+</main>
+
+
+
+    <footer class="page-footer bg-color">
+    
+        <link rel="stylesheet" href="/libs/aplayer/APlayer.min.css">
+<style>
+    .aplayer .aplayer-lrc p {
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 16px !important;
+    }
+
+    .aplayer .aplayer-lrc p.aplayer-lrc-current {
+        font-size: 15px;
+        color: #42b983;
+    }
+
+    
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body {
+        left: -66px !important;
+    }
+
+    .aplayer.aplayer-fixed.aplayer-narrow .aplayer-body:hover {
+        left: 0px !important;
+    }
+
+    
+</style>
+<div class="">
+    
+    <div class="row">
+        <meting-js class="col l8 offset-l2 m10 offset-m1 s12"
+                   server="netease"
+                   type="playlist"
+                   id="503838841"
+                   fixed='true'
+                   autoplay='false'
+                   theme='#42b983'
+                   loop='all'
+                   order='random'
+                   preload='auto'
+                   volume='0.7'
+                   list-folded='true'
+        >
+        </meting-js>
+    </div>
+</div>
+
+<script src="/libs/aplayer/APlayer.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script>
+    
+    <div class="container row center-align" style="margin-bottom: 15px !important;">
+        <div class="col s12 m8 l8 copy-right">
+            Copyright&nbsp;&copy;
+            <span id="year">2019</span>
+            <a href="http://www.teachermin.com" target="_blank">MinWengang</a>
+            |&nbsp;Powered by&nbsp;<a href="https://hexo.io/" target="_blank">Hexo</a>
+            |&nbsp;Theme&nbsp;<a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank">Matery</a>
+            <br>
+            
+            &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
+                class="white-color">126k</span>&nbsp;字
+            
+            
+            
+            
+            
+            
+            <span id="busuanzi_container_site_pv">
+                |&nbsp;<i class="far fa-eye"></i>&nbsp;总访问量:&nbsp;<span id="busuanzi_value_site_pv"
+                    class="white-color"></span>&nbsp;次
+            </span>
+            
+            
+            <span id="busuanzi_container_site_uv">
+                |&nbsp;<i class="fas fa-users"></i>&nbsp;总访问人数:&nbsp;<span id="busuanzi_value_site_uv"
+                    class="white-color"></span>&nbsp;人
+            </span>
+            
+            <br>
+            
+            <span id="sitetime">载入运行时间...</span>
+            <script>
+                function siteTime() {
+                    var seconds = 1000;
+                    var minutes = seconds * 60;
+                    var hours = minutes * 60;
+                    var days = hours * 24;
+                    var years = days * 365;
+                    var today = new Date();
+                    var startYear = "2019";
+                    var startMonth = "6";
+                    var startDate = "28";
+                    var startHour = "0";
+                    var startMinute = "0";
+                    var startSecond = "0";
+                    var todayYear = today.getFullYear();
+                    var todayMonth = today.getMonth() + 1;
+                    var todayDate = today.getDate();
+                    var todayHour = today.getHours();
+                    var todayMinute = today.getMinutes();
+                    var todaySecond = today.getSeconds();
+                    var t1 = Date.UTC(startYear, startMonth, startDate, startHour, startMinute, startSecond);
+                    var t2 = Date.UTC(todayYear, todayMonth, todayDate, todayHour, todayMinute, todaySecond);
+                    var diff = t2 - t1;
+                    var diffYears = Math.floor(diff / years);
+                    var diffDays = Math.floor((diff / days) - diffYears * 365);
+                    var diffHours = Math.floor((diff - (diffYears * 365 + diffDays) * days) / hours);
+                    var diffMinutes = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours) /
+                        minutes);
+                    var diffSeconds = Math.floor((diff - (diffYears * 365 + diffDays) * days - diffHours * hours -
+                        diffMinutes * minutes) / seconds);
+                    if (startYear == todayYear) {
+                        document.getElementById("year").innerHTML = todayYear;
+                        document.getElementById("sitetime").innerHTML = "本站已安全运行 " + diffDays + " 天 " + diffHours +
+                            " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+                    } else {
+                        document.getElementById("year").innerHTML = startYear + " - " + todayYear;
+                        document.getElementById("sitetime").innerHTML = "本站已安全运行 " + diffYears + " 年 " + diffDays +
+                            " 天 " + diffHours + " 小时 " + diffMinutes + " 分钟 " + diffSeconds + " 秒";
+                    }
+                }
+                setInterval(siteTime, 1000);
+            </script>
+            
+            <br>
+            
+        </div>
+        <div class="col s12 m4 l4 social-link social-statis">
+    <a href="https://github.com/BeginnerMin" class="tooltipped" target="_blank" data-tooltip="访问我的GitHub" data-position="top" data-delay="50">
+        <i class="fab fa-github"></i>
+    </a>
+
+
+
+    <a href="mailto:451859114@qq.com" class="tooltipped" target="_blank" data-tooltip="邮件联系我" data-position="top" data-delay="50">
+        <i class="fas fa-envelope-open"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=451859114" class="tooltipped" target="_blank" data-tooltip="QQ联系我: 451859114" data-position="top" data-delay="50">
+        <i class="fab fa-qq"></i>
+    </a>
+
+
+
+
+
+
+
+    <a href="/atom.xml" class="tooltipped" target="_blank" data-tooltip="RSS 订阅" data-position="top" data-delay="50">
+        <i class="fas fa-rss"></i>
+    </a>
+
+</div>
+    </div>
+</footer>
+
+<div class="progress-bar"></div>
+
+
+    <!-- 搜索遮罩框 -->
+<div id="searchModal" class="modal">
+    <div class="modal-content">
+        <div class="search-header">
+            <span class="title"><i class="fas fa-search"></i>&nbsp;&nbsp;搜索</span>
+            <input type="search" id="searchInput" name="s" placeholder="请输入搜索的关键字"
+                   class="search-input">
+        </div>
+        <div id="searchResult"></div>
+    </div>
+</div>
+
+<script src="/js/search.js"></script>
+<script type="text/javascript">
+$(function () {
+    searchFunc("/" + "search.xml", 'searchInput', 'searchResult');
+});
+</script>
+    <!-- 回到顶部按钮 -->
+<div id="backTop" class="top-scroll">
+    <a class="btn-floating btn-large waves-effect waves-light" href="#!">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+</div>
+
+
+    <script src="/libs/materialize/materialize.min.js"></script>
+    <script src="/libs/masonry/masonry.pkgd.min.js"></script>
+    <script src="/libs/aos/aos.js"></script>
+    <script src="/libs/scrollprogress/scrollProgress.min.js"></script>
+    <script src="/libs/lightGallery/js/lightgallery-all.min.js"></script>
+    <script src="/js/matery.js"></script>
+
+    <!-- Baidu Analytics -->
+
+    <!-- Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+    
+    <script src="/libs/others/clicklove.js" async="async"></script>
+    
+    
+    <script async src="/libs/others/busuanzi.pure.mini.js"></script>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+    
+    <script src="/libs/instantpage/instantpage.js" type="module"></script>
+    
+
+</body>
+
+</html>
