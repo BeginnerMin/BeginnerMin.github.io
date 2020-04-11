@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="C文件操作：fwrite / fread 函数，一次读写一块字节（二进制操作和文本操作）, SkilledBeginner">
+    <meta name="keywords" content="C++IO流：IO流类，istream status(状态位)，cout，cin，if(!fs)/while(cin), SkilledBeginner">
     <meta name="description" content="努力做一个很厉害的人">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>C文件操作：fwrite / fread 函数，一次读写一块字节（二进制操作和文本操作） | SkilledBeginner</title>
+    <title>C++IO流：IO流类，istream status(状态位)，cout，cin，if(!fs)/while(cin) | SkilledBeginner</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -306,12 +306,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/14.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/10.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">C文件操作：fwrite / fread 函数，一次读写一块字节（二进制操作和文本操作）</h1>
+                    <h1 class="description center-align post-title">C++IO流：IO流类，istream status(状态位)，cout，cin，if(!fs)/while(cin)</h1>
                 </div>
             </div>
         </div>
@@ -428,8 +428,8 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/C%E6%96%87%E4%BB%B6/">
-                                <span class="chip bg-color">C文件</span>
+                            <a href="/tags/C-%E6%B5%81/">
+                                <span class="chip bg-color">C++流</span>
                             </a>
                         
                     </div>
@@ -440,8 +440,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/C%E5%9F%BA%E7%A1%80/" class="post-category">
-                                C基础
+                            <a href="/categories/C/" class="post-category">
+                                C++
                             </a>
                         
                     </div>
@@ -453,28 +453,28 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-03-25
+                    2020-04-11
                 </div>
                 
 
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2020-03-25
+                    2020-04-11
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    899
+                    3.2k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    4 分
+                    15 分
                 </div>
                 
 
@@ -490,127 +490,378 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="fwrite-fread-函数"><a href="#fwrite-fread-函数" class="headerlink" title="fwrite / fread 函数"></a>fwrite / fread 函数</h2><p>C 语言己经从接口的层面区分了，文本的读写方式和二进制的读写方式。<br>对于文本文件来说：</p>
-<p><strong>所有的文件接口函数，要么以 ‘\0’，表示输入结束，要么以 ‘\n’， EOF(0xFF)表示 读取结束。 ‘\0’ ‘\n’ 等都是文本文件的重要标识。</strong></p>
-<p><strong>而二进制文件，则以块的形式写入或读出</strong>。 </p>
-<p><strong>而所有的二进制接口对于这些标识，是不敏感的。</strong></p>
-<p><img src="https://img-blog.csdnimg.cn/20200205200804347.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="fwrite / fread 函数说明"></p>
-<p>试读文本文件</p>
-<p>我们给出代码：</p>
-<pre><code>#define _CRT_SECURE_NO_WARNINGS
-#include&lt;stdio.h&gt;
+                <h2 id="IO流"><a href="#IO流" class="headerlink" title="IO流"></a>IO流</h2><p>目前为止，cin 和 cout 充当了 scanf 和 printf 的功能。</p>
+<p>但他们并不是函数，而是类对象，</p>
+<p>那么我们就有必要了解一下，他们是哪些类的对象。</p>
+<h2 id="IO流类"><a href="#IO流类" class="headerlink" title="IO流类"></a>IO流类</h2><h3 id="Hierarchy-层次架构"><a href="#Hierarchy-层次架构" class="headerlink" title="Hierarchy(层次架构)"></a>Hierarchy(层次架构)</h3><p><img src="https://img-blog.csdnimg.cn/20200411231518310.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="ios层次框架"></p>
+<p><strong>cin是isream的对象，cout是ostream的对象。</strong></p>
+<h3 id="流类特性-从ios继承下来的共有的特性"><a href="#流类特性-从ios继承下来的共有的特性" class="headerlink" title="流类特性(从ios继承下来的共有的特性)"></a>流类特性(从ios继承下来的共有的特性)</h3><h4 id="不可赋值和复制"><a href="#不可赋值和复制" class="headerlink" title="不可赋值和复制"></a>不可赋值和复制</h4><p>fstream也是上面类中继承的一种。</p>
+<p>我们之前使用</p>
+<pre><code>ostream &amp; &lt;&lt;(ostream &amp; out ,xxx)</code></pre><p><code>ostream &amp; out</code> 这里是&amp;因为cin和cout都是全局的，所以我们在博客中说是没有必要赋值一份，实际上想要复制也是不能实现的，因为是不能赋值和复制的。</p>
+<p>凡是上面给出的继承ios体系结构，都遵循不能赋值不能复制的规则</p>
+<pre><code>#include &lt;iostream&gt;
+using namespace std;
 
-int main()
+void foo(fstream fd) 
 {
-char buf[1024] = { &quot;abcde\0fghij&quot; };
-FILE* pfa = fopen(&quot;xx.txt&quot;, &quot;w+&quot;);
-fputs(buf,pfa);
-fclose(pfa);
-FILE* pfb = fopen(&quot;yy.txt&quot;, &quot;wb&quot;);
-fwrite((void *)buf,1,11,pfb);
-fclose(pfb);
-return 0;
-}</code></pre><p>执行结果为:</p>
-<p><img src="https://img-blog.csdnimg.cn/20200205211450330.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="使用fwrite函数写入文件"></p>
-<p><strong>我们可以看到xx里面只能写到\0就会结束，但是yy里面会把buf中所有的数据写入。</strong></p>
-<p>我们用UE打开两个文件进行查看：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200205211506531.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="UE编辑器查看"></p>
-<p><img src="https://img-blog.csdnimg.cn/20200205211527835.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="UE编辑器查看"></p>
-<p>通过查看两个文件内容的16进制形式我们也可以看到xx和yy里面所写入的内容。</p>
-<p>除了写入\0写入\n也是没有任何问题的：</p>
-<pre><code>#define _CRT_SECURE_NO_WARNINGS
-#include&lt;stdio.h&gt;
 
-int main()
-{
-char buf[1024] = { &quot;abc\ndef\nghij&quot; };
-FILE* pfa = fopen(&quot;xx.txt&quot;, &quot;w+&quot;);
-fputs(buf,pfa);
-fclose(pfa);
-FILE* pfb = fopen(&quot;yy.txt&quot;, &quot;wb&quot;);
-fwrite((void *)buf,1,11,pfb);
-fclose(pfb);
-return 0;
-}</code></pre><p>执行结果为：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200205211558561.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="使用fwrite函数写入文件"></p>
-<p>我们可以看到两个文件都写入成功。</p>
-<p>但是我们在读取的时候就不一样二进制方式和文本方式就不一样了。</p>
-<pre><code>#define _CRT_SECURE_NO_WARNINGS
-#include&lt;stdio.h&gt;
-
-int main()
-{
-char buf[1024] = { &quot;abc\ndef\nghij&quot; };
-FILE* pfa = fopen(&quot;xx.txt&quot;, &quot;w+&quot;);
-fputs(buf,pfa);
-char readArr[1024] = {0};
-rewind(pfa);
-fgets(readArr, 1024, pfa);
-printf(&quot;%s&quot;,readArr);
-fclose(pfa);
-
-
-FILE* pfb = fopen(&quot;yy.txt&quot;, &quot;wb+&quot;);
-fwrite((char *)buf,1,12,pfb);
-rewind(pfb);
-fread((char *)readArr, 1, 12, pfb);
-for (int i = 0; i &lt; 12; i++)
-{
-printf(&quot;%x-&gt;%c\n&quot;, readArr[i],readArr[i]);
 }
-fclose(pfb);
-return 0;
-}</code></pre><p>我们直接打印了读取到的数据，执行结果为：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200205211638158.png" alt="执行结果"></p>
-<p>我们可以看到使用fgets函数读取到的只有abc后面遇到\n读取到\n之后会自动加上\0然后结束。从结果为我们也可以看出来xx.txt文件读取到了\n打印结果abc后面出现了换行。</p>
-<p><strong>最重要的是，fgets  只能读取到一部分，但是fread函数可以到所有数据。</strong></p>
-<p>我们再说明一种情况：</p>
-<pre><code>#include&lt;stdio.h&gt;
-
 int main()
 {
-FILE* pf = fopen(&quot;cc.txt&quot;,&quot;w+&quot;);
-int arr[10] = {0,1,0xffffffff,0,1,2,3,4,5};
-fputs((char *)arr,pf);
-fclose(pf);
-return 0;
-}</code></pre><p>我们直接给出说明，上面这种方式无法将数据写入文件，因为arr[0]的四个字节都是0，fputs在遇到0的时候直接结束。fputs是写入文本的，arr数组是数值。</p>
-<p><img src="https://img-blog.csdnimg.cn/20200205211819802.png" alt="使用fputs函数写入int类型数组"></p>
-<p><strong>我们可以看到cc的大小为0字节。</strong></p>
-<p>我们使用二进制写入方式：</p>
-<pre><code>#include&lt;stdio.h&gt;
+    fstream fs1, fs2;
+    fs1 = fs2; //报错,不允许赋值
+    foo(fs);  //报错，不允许复制
+    return 0;
+}</code></pre><p>上面赋值运算符重载和拷贝构造成员被private私有化，所以不允许使用。</p>
+<p>不同于标准库其他 class 的”值语意”，iostream 是”对象语意”，即 iostream 是non-copyable。这是正确的，因为如果 fstream 代表一个文件的话，拷贝一个 fstream 对象意味着什么呢？表示打开了两个文件吗？如果销毁一个 fstream 对象，它会关闭文件句柄，那么另一个 fstream copy 对象会因此受影响吗？</p>
+<p>C++ 同时支持”数据抽象”和”面向对象编程”，其实主要就是”值语意”与”对象语意”的区别，标准库里的 complex&lt;&gt; 、pair&lt;&gt;、vector&lt;&gt;、 string 等等都是值语意，拷贝之后就与原对象脱离关系，就跟拷贝一个 int 一样。而我们自己写的 Employee class、TcpConnection class 通常是对象语意，拷贝一个 Employee 对象是没有意义的，一个雇员不会变成两个雇员，他也不会领两份薪水。拷贝 TcpConnection 对象也没有意义，系统里边只有一个 TCP 连接，拷贝 TcpConnection 对象不会让我们拥有两个连接。因此如果在 C++ 里做面向对象编程，写的 class 通常应该禁用 copy constructor 和 assignment  operator。</p>
+<h4 id="缓冲"><a href="#缓冲" class="headerlink" title="缓冲"></a>缓冲</h4><p>下面几种情况会导致刷缓冲</p>
+<p><strong>1，程序正常结束，作为 main 函数结束的一部分，将清空所有缓冲区。</strong></p>
+<p><strong>2，缓冲区满，则会刷缓冲。</strong></p>
+<p><strong>3，endl, flush 也会刷缓冲。</strong></p>
+<p>对比C语言printf函数刷新缓冲进行理解。</p>
+<h4 id="重载了-lt-lt-gt-gt"><a href="#重载了-lt-lt-gt-gt" class="headerlink" title="重载了&lt;&lt; &gt;&gt;"></a>重载了&lt;&lt; &gt;&gt;</h4><pre><code>#include &lt;iostream&gt;
+#include &lt;fstream&gt;
+using namespace std;
 int main()
 {
-int arr[10] = { 0,1,0xffffffff,0,1,2,3,4,5 };
-FILE* pfb = fopen(&quot;gg.txt&quot;, &quot;wb+&quot;);
-fwrite((void*)arr, 4, 10, pfb);
- fclose(pfb);
-return 0;
-}</code></pre><p>执行结果为：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200205212128952.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="使用fwrite函数写入int类型数组"></p>
-<p>我们可以看到打开为乱码，是因为存放的是二进制数据，数据是可以写入的。</p>
-<p>以二进制形式写入在读取的时候也要以二进制形式读取：</p>
-<pre><code>#define _CRT_SECURE_NO_WARNINGS
-#include&lt;stdio.h&gt;
-
-
+    fstream fs(&quot;abc.txt&quot;, ios::in | ios::out | ios::trunc); //trunc等价于C语言文件操作w+
+    if (!fs)
+    cout &lt;&lt; &quot;open error&quot; &lt;&lt; endl;
+    fs &lt;&lt; 1 &lt;&lt; &quot; &quot; &lt;&lt; 2 &lt;&lt; &quot; &quot; &lt;&lt; 3;
+    fs.seekg(0, ios::beg);
+    int x, y, z;
+    fs &gt;&gt; x &gt;&gt; y &gt;&gt; z;
+    cout &lt;&lt; x &lt;&lt; y &lt;&lt; z;
+    return 0;
+}</code></pre><p>运行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200411231854289.png" alt="重载&lt;&lt;&gt;&gt;运行结果"></p>
+<p><img src="https://img-blog.csdnimg.cn/20200411231904967.png" alt="打开文件"></p>
+<p><strong>所有的流类都重载了&lt;&lt;和&gt;&gt;</strong></p>
+<h2 id="istream-status-状态位"><a href="#istream-status-状态位" class="headerlink" title="istream status(状态位)"></a>istream status(状态位)</h2><h3 id="状态位的意义"><a href="#状态位的意义" class="headerlink" title="状态位的意义"></a>状态位的意义</h3><p>大部分情况下，我们可能并不关心这些标志状态位，比如我们以前用到的 cin/cout。</p>
+<p>但是在循环读写中，这些标志位确实有大用途。比如，用于判断文件结束标志的位。</p>
+<h3 id="ios-base-h-中的状态位"><a href="#ios-base-h-中的状态位" class="headerlink" title="ios_base.h 中的状态位"></a>ios_base.h 中的状态位</h3><pre><code>/// Indicates a loss of integrity in an input or output sequence (such
+/// as an irrecoverable read error from a file).
+static const iostate t badbit = _S_badbit;
+/// Indicates that an input operation reached the end of an input sequence.
+static const iostate t eofbit = _S_eofbit;
+/// Indicates that an input operation failed to read the expected
+/// characters, or that an output operation failed to generate the
+/// desired characters.
+static const iostate t failbit = _S_failbit;
+/// Indicates all is well.
+static const iostate t goodbit = _S_goodbit;</code></pre><h3 id="状态位操作函数"><a href="#状态位操作函数" class="headerlink" title="状态位操作函数"></a>状态位操作函数</h3><p><img src="https://img-blog.csdnimg.cn/20200411232031889.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="状态位操作函数"></p>
+<h3 id="测试与结论"><a href="#测试与结论" class="headerlink" title="测试与结论"></a>测试与结论</h3><p>测试(通过成员函数来访问)</p>
+<pre><code>#include &lt;iostream&gt;
+using namespace std;
 int main()
 {
-int arr[10] = { 0,1,0xffffffff,0,1,2,3,4,5 };
-FILE* pfb = fopen(&quot;gg.txt&quot;, &quot;wb+&quot;);
-fwrite((void*)arr, 4, 10, pfb);
-rewind(pfb);
-int arrCpy[10];
-fread((int *)arrCpy,4,10,pfb);
-for (int i = 0; i &lt; 10; i++)
+    int val;
+    cout &lt;&lt; &quot;Before a bad input operation:&quot;
+        &lt;&lt; &quot;\n cin.eof() : &quot; &lt;&lt; cin.eof()
+        &lt;&lt; &quot;\n cin.fail(): &quot; &lt;&lt; cin.fail()
+        &lt;&lt; &quot;\n cin.bad() : &quot; &lt;&lt; cin.bad()
+        &lt;&lt; &quot;\n cin.good(): &quot; &lt;&lt; cin.good() &lt;&lt; endl;
+    cin &gt;&gt; val; // control + D/Z or &apos;a&apos;
+    cout &lt;&lt; &quot;After a bad input operation:&quot;
+        &lt;&lt; &quot;\n cin.eof() : &quot; &lt;&lt; cin.eof()
+        &lt;&lt; &quot;\n cin.fail(): &quot; &lt;&lt; cin.fail()
+        &lt;&lt; &quot;\n cin.bad() : &quot; &lt;&lt; cin.bad()
+        &lt;&lt; &quot;\n cin.good(): &quot; &lt;&lt; cin.good() &lt;&lt; endl;
+    cin.clear();//标志位清空
+    cout &lt;&lt; &quot;\n cin.eof() : &quot; &lt;&lt; cin.eof()
+        &lt;&lt; &quot;\n cin.fail(): &quot; &lt;&lt; cin.fail()
+        &lt;&lt; &quot;\n cin.bad() : &quot; &lt;&lt; cin.bad()
+        &lt;&lt; &quot;\n cin.good(): &quot; &lt;&lt; cin.good() &lt;&lt; endl;
+    return 0;
+}</code></pre><p>运行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/2020041123211023.png" alt="运行结果"></p>
+<p>我们进行其他输入测试：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200411232124120.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="运行结果"></p>
+<p><strong>输入浮点类型数据没有问题。因为读取到的也是4个字节没有问题。</strong></p>
+<p><img src="https://img-blog.csdnimg.cn/20200411232142481.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="运行结果"></p>
+<p><strong>输入字符出现错误。字符所占1个字节，读取的时候读取4个字节，发生越界。</strong></p>
+<h3 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h3><p><img src="https://img-blog.csdnimg.cn/20200411232213463.png" alt="结论"></p>
+<p><strong>bad 一般指的是硬件错误，不常用。</strong></p>
+<h2 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h2><pre><code>#include &lt;iostream&gt;
+using namespace std;
+int main()
 {
-printf(&quot;%d\n&quot;,arrCpy[i]);
+char ch;
+while(cin.get(ch),!cin.eof())
+{
+cout&lt;&lt;ch&lt;&lt;endl;
 }
- fclose(pfb);
 return 0;
-}</code></pre><p>执行结果为：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200205212208671.png" alt=" 使用fread函数读取int类型数组"></p>
-<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p><img src="https://img-blog.csdnimg.cn/20200205214533957.png" alt="文件操作函数小结"></p>
+}</code></pre><p>运行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200411232248189.png" alt="运行结果"></p>
+<h2 id="cout"><a href="#cout" class="headerlink" title="cout"></a>cout</h2><h3 id="格式输出"><a href="#格式输出" class="headerlink" title="格式输出"></a>格式输出</h3><p><img src="https://img-blog.csdnimg.cn/20200411232320196.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="格式输出"></p>
+<h3 id="成员函数"><a href="#成员函数" class="headerlink" title="成员函数"></a>成员函数</h3><p><img src="https://img-blog.csdnimg.cn/20200411232339441.png" alt="成员函数"></p>
+<pre><code>#include &lt;iostream&gt;
+#include &lt;fstream&gt;
+using namespace std;
+int main()
+{
+    cout.put(&apos;a&apos;);
+    cout.write(&quot;abcd&quot;, 2) &lt;&lt; endl; //里面数字不能越界
+    cout &lt;&lt; &apos;a&apos; &lt;&lt; &quot;abcd&quot; &lt;&lt; endl;
+    return 0;
+}</code></pre><p>运行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200411232401980.png" alt="运行结果"></p>
+<p>上面函数基本不会使用到，我们更多的会直接使用cin</p>
+<h2 id="cin"><a href="#cin" class="headerlink" title="cin"></a>cin</h2><h3 id="gt-gt"><a href="#gt-gt" class="headerlink" title="&gt;&gt;"></a>&gt;&gt;</h3><pre><code>#include &lt;iostream&gt;
+using namespace std;
+int main()
+{
+    char ch;
+    while (cin &gt;&gt; ch)  //通过返回值判断真假
+    {
+        cout &lt;&lt; ch &lt;&lt; endl;
+    }
+    return 0;
+}</code></pre><p>运行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200411232451475.png" alt="运行结果"></p>
+<h3 id="get"><a href="#get" class="headerlink" title="get"></a>get</h3><h4 id="声明"><a href="#声明" class="headerlink" title="声明"></a>声明</h4><p><img src="https://img-blog.csdnimg.cn/20200411232512327.png" alt="get声明"></p>
+<h3 id="get-get-amp"><a href="#get-get-amp" class="headerlink" title="get()/get(&amp;)"></a>get()/get(&amp;)</h3><pre><code>#include &lt;iostream&gt;
+using namespace std;
+int main()
+{
+    char ch;
+    while ((ch = cin.get()) != EOF)
+    {
+        cout &lt;&lt; ch &lt;&lt; endl;
+    }
+    while (cin.get(ch))
+    {
+        cout &lt;&lt; ch &lt;&lt; endl;
+    }
+    return 0;
+}</code></pre><p>运行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200411232549802.png" alt="运行结果"></p>
+<h4 id="get-s-n-get-s-n-d"><a href="#get-s-n-get-s-n-d" class="headerlink" title="get(s,n)/get(s,n,d)"></a>get(s,n)/get(s,n,d)</h4><pre><code>#include &lt;iostream&gt;
+using namespace std;
+int main()
+{
+    char buf[10];
+    while (cin.get(buf, 2))  //终止符为’\n’
+    {
+        cout &lt;&lt; buf &lt;&lt; endl;
+    }
+    return 0;
+}</code></pre><p>运行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200411232616195.png" alt="运行结果"></p>
+<pre><code>#include &lt;iostream&gt;
+using namespace std;
+int main()
+{
+    char buf[10];
+    while (cin.get(buf, 20, &apos;x&apos;))//以字符’x’为结束标记
+    {
+        cout &lt;&lt; buf &lt;&lt; endl;
+    }
+    return 0;
+}</code></pre><p>运行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200411232638537.png" alt="运行结果"></p>
+<h4 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h4><p>get 读取字符，遇到 eof 则退出。get 最多读到 n-1 个字符，遇到标志位或 eof，则退出。 越不过标志位。</p>
+<p>上面两个设置结束标志’\n’和’x’的函数遇到\n和x会直接退出，不会再次循环。所以我们引入下面函数。</p>
+<h3 id="getline"><a href="#getline" class="headerlink" title="getline"></a>getline</h3><h4 id="声明-1"><a href="#声明-1" class="headerlink" title="声明"></a>声明</h4><p><img src="https://img-blog.csdnimg.cn/20200411232729825.png" alt="getline声明"></p>
+<h4 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h4><pre><code>#include &lt;iostream&gt;
+using namespace std;
+int main()
+{
+    char buf[10];
+    while (cin.getline(buf, 10,&apos;x&apos;))
+    {
+        cout &lt;&lt; buf &lt;&lt; endl;
+    }
+    cout &lt;&lt; &quot;\ncin.eof() : &quot; &lt;&lt; cin.eof()
+        &lt;&lt; &quot;\ncin.fail(): &quot; &lt;&lt; cin.fail()
+        &lt;&lt; &quot;\ncin.bad() : &quot; &lt;&lt; cin.bad()
+        &lt;&lt; &quot;\ncin.good(): &quot; &lt;&lt; cin.good() &lt;&lt; endl;
+    return 0;
+}</code></pre><p>运行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200411232758990.png" alt="运行结果"></p>
+<p>上面代码运行过程中，如果输入标志位之前的数据个数小于设置读取的最小个数，则会读取输入的数据并且跳过标志位继续读取，如果输入标志位之前的数据个数大于设置读取的最大个数，则会直接退出程序。</p>
+<pre><code>#include &lt;iostream&gt;
+using namespace std;
+int main()
+{
+    char buf[10];
+    while (cin.getline(buf, 10))
+    {
+        cout &lt;&lt; buf &lt;&lt; endl;
+    }
+    cout &lt;&lt; &quot;\ncin.eof() : &quot; &lt;&lt; cin.eof()
+        &lt;&lt; &quot;\ncin.fail(): &quot; &lt;&lt; cin.fail()
+        &lt;&lt; &quot;\ncin.bad() : &quot; &lt;&lt; cin.bad()
+        &lt;&lt; &quot;\ncin.good(): &quot; &lt;&lt; cin.good() &lt;&lt; endl;
+    return 0;
+}</code></pre><p>运行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200411232821907.png" alt="运行结果"></p>
+<p>在读取 n-1 个字符前，遇到标志位，则会读到标志位前的字符。然后越过标志位继续读取。</p>
+<p>若在读到 n-1 个字符前没有遇到标志位，则会退出。</p>
+<p>也就说如果输入的字符个数小于读取的字符个数那么就会直接读取读取并且跳过标志位，如果输入的字符多于读取的个数则会退出。</p>
+<h4 id="cin输入字符串中的空格"><a href="#cin输入字符串中的空格" class="headerlink" title="cin输入字符串中的空格"></a>cin输入字符串中的空格</h4><p>之前我们使用cin输入字符串就会出现这样的问题：</p>
+<pre><code>#include &lt;iostream&gt;
+using namespace std;
+int main()
+{
+    char buf[10];
+    cin &gt;&gt; buf;
+cout &lt;&lt; buf &lt;&lt; endl;
+    return 0;
+}</code></pre><p>运行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200411232903509.png" alt="运行结果"></p>
+<p>但是如果使用下面方式：</p>
+<pre><code>#include &lt;iostream&gt;
+using namespace std;
+int main()
+{
+    char buf[10];
+    cin.getline(buf,10);
+    cout &lt;&lt; buf &lt;&lt; endl;
+    return 0;
+}</code></pre><p>运行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200411232918753.png" alt="运行结果"></p>
+<h3 id="other"><a href="#other" class="headerlink" title="other"></a>other</h3><h4 id="声明-2"><a href="#声明-2" class="headerlink" title="声明"></a>声明</h4><p><img src="https://img-blog.csdnimg.cn/20200411232954623.png" alt="声明"></p>
+<h4 id="测试-1"><a href="#测试-1" class="headerlink" title="测试"></a>测试</h4><pre><code>#include &lt;iostream&gt;
+using namespace std;
+int main()
+{
+    char ch[20];
+    cin.get(ch, 20, &apos;/&apos;); // i like c/ i like C++ also/
+    cout &lt;&lt; &quot;the first part is :&quot; &lt;&lt; ch &lt;&lt; endl;
+
+
+    cin.get(ch, 20, &apos;/&apos;); // i like c/ i like C++ also/
+    cout &lt;&lt; &quot;this second part is :&quot; &lt;&lt; ch &lt;&lt; endl;
+
+    return 0;
+}</code></pre><p>运行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200411233019212.png" alt="运行结果"></p>
+<p><strong>我们可以看到get遇到/会直接结束。</strong></p>
+<pre><code>#include &lt;iostream&gt;
+using namespace std;
+int main()
+{
+    char ch[20];
+    cin.getline(ch, 20, &apos;/&apos;); // i like c/ i like C++ also/
+    cout &lt;&lt; &quot;the first part is :&quot; &lt;&lt; ch &lt;&lt; endl;
+
+    cin.getline(ch, 20, &apos;/&apos;); // i like c/ i like C++ also/
+    cout &lt;&lt; &quot;this second part is :&quot; &lt;&lt; ch &lt;&lt; endl;
+
+    return 0;
+}</code></pre><p>运行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200411233054388.png" alt="运行结果"></p>
+<p>get 越不过去的截止字符，getline 越过丢弃的截止字符，如何作一些，补偿措施呢？</p>
+<pre><code>#include &lt;iostream&gt;
+using namespace std;
+int main()
+{
+    char ch[20];
+    cin.get(ch, 20, &apos;/&apos;); // i like c/ i like C++ also/
+    cout &lt;&lt; &quot;the first part is :&quot; &lt;&lt; ch &lt;&lt; endl;
+    cin.ignore(10, &apos;i&apos;);  //第一次读取到/之后，忽略，直到遇到i位置没并且连i也忽略掉。
+    cin.get(ch, 20, &apos;/&apos;); // i like c/ i like C++ also/
+    cout &lt;&lt; &quot;this second part is:&quot; &lt;&lt; ch &lt;&lt; endl;
+    return 0;
+}</code></pre><p>运行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200411233115757.png" alt="运行结果"></p>
+<pre><code>#include &lt;iostream&gt;
+using namespace std;
+int main()
+{
+    char ch[20];
+    cin.get(ch, 20, &apos;/&apos;); // i like c/ i like C++ also/
+    cout &lt;&lt; &quot;the first part is :&quot; &lt;&lt; ch &lt;&lt; endl;
+    cin.ignore(10, &apos;i&apos;); 
+ //第一次读取到/之后，往后忽略10个字节，直到遇到i位置没并且连i也忽略掉。
+    cin.putback(&apos;i&apos;);
+//忽略i之后再使用cin.putback(&apos;i&apos;);把忽略的i推进去。
+    char peek = cin.peek(); //窥探一下，不影响底层指针的走动
+    cout &lt;&lt; &quot;peek is :&quot; &lt;&lt; peek &lt;&lt; endl; //打印窥探结果
+    cin.get(ch, 20, &apos;/&apos;);
+    cout &lt;&lt; &quot;this second part is:&quot; &lt;&lt; ch &lt;&lt; endl;
+    return 0;
+}</code></pre><p>运行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200411233134233.png" alt="运行结果"></p>
+<h2 id="if-fs-while-cin"><a href="#if-fs-while-cin" class="headerlink" title="if(!fs)/while(cin)"></a>if(!fs)/while(cin)</h2><pre><code>#include &lt;iostream&gt;
+#include&lt;fstream&gt;
+using namespace std;
+int main()
+{
+    fstream fs(&quot;cc.txt&quot;,ios::in); //只有读取文件的权限，没有创建文件的权限
+    if (!fs)  //!重载  等价于fs.operator!()
+    {
+        cout &lt;&lt; &quot;open error&quot; &lt;&lt; endl;
+    }
+    return 0;
+}</code></pre><p>运行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200411233214978.png" alt="运行结果"></p>
+<pre><code>#include &lt;iostream&gt;
+#include&lt;fstream&gt;
+using namespace std;
+int main()
+{
+    char ch;
+    while (cin &gt;&gt; ch) //等价于while(cin&gt;&gt;ch,!cin.fail())  也等价于while(cin)
+    {
+        cout &lt;&lt; ch &lt;&lt; endl;
+    }
+    return 0;
+}</code></pre><p>运行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200411233233400.png" alt="运行结果"></p>
+<p>上面代码中，体现出cin可以转化为bool，int，void * 等类型。对象自身发生转化。</p>
+<p>当是一个对象的时候就会根据已经自身发生一个转化，转化函数，重载都要根据语境调用发生适当的转化。</p>
+<h3 id="合法性"><a href="#合法性" class="headerlink" title="合法性"></a>合法性</h3><p>在判断文件打开成功与否或是连续从流中读取数据时，就要用到对流对象的操作，比如 if(!fs)和 while(cin&gt;&gt;val)，我们都知道 cin 是一个流对象，而&gt;&gt;运算符返回左边的流对象，也就是说 cin&gt;&gt;val 返回 cin，于是 while(cin&gt;&gt;val)就变成了 while(cin)，问题就变成了一个流对象在判断语句中的合法性。</p>
+<p>不管是 while(cin)还是 if(!fs)，都是合法的，为什么呢？</p>
+<p>我们自己定义一个类，然后定义该类的对象，然后使用 if 语句来判断它是不合法的。</p>
+<p>这说明，流对象具有某种转换函数，可以将一个流对象转换成判断语句可以识别的类型</p>
+<h3 id="operator-void-与-与-operator"><a href="#operator-void-与-与-operator" class="headerlink" title="operator void*()与 与 operator!()"></a>operator void*()与 与 operator!()</h3><p>打开 iostream.h 文件，找到 cin 的定义，发现是来自于 istream.h，其中的模板类basic_istream 继承自 basic_ios，打开 basic_ios 的定义,发现它有两个重载函数。 operator void  *()  const 和<br>operator!() const。这两个函数使得流对象可作为判断语句的内容。</p>
+<pre><code>/**
+* @brief The quick-and-easy status check.
+*
+* This allows you to write constructs such as
+* &lt;code&gt;if (!a_stream) ...&lt;/code&gt; and
+&lt;code&gt;while(a_stream) ...&lt;/code&gt;
+*/
+operator void*() const //数 转化函数 A A 类对象&gt; -&gt; d void * * 对象
+{
+return this-&gt;) fail() ? 0 : const_cast&lt;basic_ios*&gt;(this);
+}
+bool operator! !() const // 运算符重载数 函数 用 对象调用 operator!()
+{
+return this-&gt; fail();
+}</code></pre><h3 id="常见策略"><a href="#常见策略" class="headerlink" title="常见策略"></a>常见策略</h3><p>while(cin) = =&gt; while(!cin.fail()) //while the stream is OK</p>
+<p>if(!cin) = =&gt; if(cin.fail()) //if the stream is NOT OK</p>
+<h3 id="自测"><a href="#自测" class="headerlink" title="自测"></a>自测</h3><pre><code>#include&lt;iostream&gt;
+using namespace std;
+
+class A
+{
+public:
+    A() {}
+    ~A() {}
+    operator void* ()const   //转化函数  A类对象 void * 对象
+    {
+        cout &lt;&lt; &quot;operator void* () cast to void*; &quot;;
+        return (void*)this;
+    }
+    bool operator!() const   //运算符重载函数   对象调用 operator!()
+    {
+        cout &lt;&lt; &quot;bool operator!() return bool; &quot;;
+        return true;
+    }
+};
+int main()
+{
+    A a;
+    if (a) cout &lt;&lt; &quot;first&quot; &lt;&lt; endl;
+    if (!a) cout &lt;&lt; &quot;second&quot; &lt;&lt; endl;
+    return 0;
+}</code></pre><p>运行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200411233355909.png" alt="运行结果"></p>
 
             </div>
             <hr/>
@@ -636,7 +887,7 @@ return 0;
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://www.teachermin.com/2020/03/25/C%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C%EF%BC%9Afwrite%E5%87%BD%E6%95%B0fread%20%E5%87%BD%E6%95%B0%E4%B8%80%E6%AC%A1%E8%AF%BB%E5%86%99%E4%B8%80%E5%9D%97%E5%AD%97%E8%8A%82(%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%93%8D%E4%BD%9C%E5%92%8C%E6%96%87%E6%9C%AC%E6%93%8D%E4%BD%9C)/">http://www.teachermin.com/2020/03/25/C%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C%EF%BC%9Afwrite%E5%87%BD%E6%95%B0fread%20%E5%87%BD%E6%95%B0%E4%B8%80%E6%AC%A1%E8%AF%BB%E5%86%99%E4%B8%80%E5%9D%97%E5%AD%97%E8%8A%82(%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%93%8D%E4%BD%9C%E5%92%8C%E6%96%87%E6%9C%AC%E6%93%8D%E4%BD%9C)/</a>
+                    <a href="http://www.teachermin.com/2020/04/11/C++IO%E6%B5%81/">http://www.teachermin.com/2020/04/11/C++IO%E6%B5%81/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -674,8 +925,8 @@ return 0;
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/C%E6%96%87%E4%BB%B6/">
-                                    <span class="chip bg-color">C文件</span>
+                                <a href="/tags/C-%E6%B5%81/">
+                                    <span class="chip bg-color">C++流</span>
                                 </a>
                             
                         </div>
@@ -845,37 +1096,35 @@ return 0;
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2020/03/25/C%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C%EF%BC%9Afreadfwrite%E4%BD%BF%E7%94%A8%E4%BA%8C%E8%BF%9B%E5%88%B6%E8%AF%BB%E5%86%99%E8%AF%BB%E5%86%99%E7%BB%93%E6%9E%84%E4%BD%93/">
+                <a href="/2020/04/11/C++%E6%A8%A1%E6%9D%BF%EF%BC%9A%E7%B1%BB%E6%A8%A1%E6%9D%BF%E5%92%8C%E7%B1%BB%E6%A8%A1%E6%9D%BF%E7%9A%84%E5%8F%8B%E5%85%83/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/19.jpg" class="responsive-img" alt="C文件操作：fread/fwrite使用二进制读写读写结构体">
+                        <img src="/medias/featureimages/9.jpg" class="responsive-img" alt="C++模板：类模板和类模板的友元">
                         
-                        <span class="card-title">C文件操作：fread/fwrite使用二进制读写读写结构体</span>
+                        <span class="card-title">C++模板：类模板和类模板的友元</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            我们给出一个代码，这次我们读取的时候把块的大小设置为1024，每次读取一个块长度
-#define _CRT_SECURE_NO_WARNINGS
+                            类模板Stack 类我们先给出我们之前实现的栈结构：
+#include &lt;iostream&gt;
+#include &lt;stdlib.h&gt;
 #include &lt;stdio.h&gt;
-
-int main()
-{
-    FILE
+#include &lt;str
                         
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-03-25
+                            <i class="far fa-clock fa-fw icon-date"></i>2020-04-11
                         </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/C%E5%9F%BA%E7%A1%80/" class="post-category">
-                                    C基础
+                            <a href="/categories/C/" class="post-category">
+                                    C++
                                 </a>
                             
                             
@@ -885,8 +1134,8 @@ int main()
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/C%E6%96%87%E4%BB%B6/">
-                        <span class="chip bg-color">C文件</span>
+                    <a href="/tags/C-%E6%A8%A1%E6%9D%BF/">
+                        <span class="chip bg-color">C++模板</span>
                     </a>
                     
                 </div>
@@ -900,34 +1149,33 @@ int main()
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/03/25/LinuxC%E7%BA%BF%E7%A8%8B%E8%AF%B4%E6%98%8E/">
+                <a href="/2020/04/03/C++%E6%A8%A1%E6%9D%BF%EF%BC%9A%E6%A8%A1%E6%9D%BF%E7%AE%80%E8%BF%B0%EF%BC%8C%E5%87%BD%E6%95%B0%E6%A8%A1%E6%9D%BF%E8%AF%A6%E7%BB%86%E8%AF%B4%E6%98%8E/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/13.jpg" class="responsive-img" alt="LinuxC线程说明">
+                        <img src="/medias/featureimages/8.jpg" class="responsive-img" alt="C++模板：模板简述，函数模板详细说明">
                         
-                        <span class="card-title">LinuxC线程说明</span>
+                        <span class="card-title">C++模板：模板简述，函数模板详细说明</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            线程所有的线程实现方式都是类似的，只不过使用的语言不同。一个函数当我们直接调用的时候就是普通函数，但是如果注册为线程函数就能够以线程方式来运行。
-我们先来简单了解一下，后面博客中会有更加详细的说明：
-当作普通函数调用：
-#include &
+                            模板语义泛型，即是指具有在多种数据类型上皆可操作的含意。
+泛型编程的代表作品 STL 是一种高效、泛型、可交互操作的软件组件。
+泛型编程最初诞生于 C++中，目的是为了实现 C++的 STL（标准模板库）。其语言支持机制就是模板（Templ
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-03-25
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-04-03
                             </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/Linux/" class="post-category">
-                                    Linux
+                            <a href="/categories/C/" class="post-category">
+                                    C++
                                 </a>
                             
                             
@@ -937,8 +1185,8 @@ int main()
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/LinuxC%E7%BA%BF%E7%A8%8B/">
-                        <span class="chip bg-color">LinuxC线程</span>
+                    <a href="/tags/C-%E6%A8%A1%E6%9D%BF/">
+                        <span class="chip bg-color">C++模板</span>
                     </a>
                     
                 </div>

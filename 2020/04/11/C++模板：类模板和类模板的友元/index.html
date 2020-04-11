@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="C文件操作：fwrite / fread 函数，一次读写一块字节（二进制操作和文本操作）, SkilledBeginner">
+    <meta name="keywords" content="C++模板：类模板和类模板的友元, SkilledBeginner">
     <meta name="description" content="努力做一个很厉害的人">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>C文件操作：fwrite / fread 函数，一次读写一块字节（二进制操作和文本操作） | SkilledBeginner</title>
+    <title>C++模板：类模板和类模板的友元 | SkilledBeginner</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -306,12 +306,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/14.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/9.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">C文件操作：fwrite / fread 函数，一次读写一块字节（二进制操作和文本操作）</h1>
+                    <h1 class="description center-align post-title">C++模板：类模板和类模板的友元</h1>
                 </div>
             </div>
         </div>
@@ -428,8 +428,8 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/C%E6%96%87%E4%BB%B6/">
-                                <span class="chip bg-color">C文件</span>
+                            <a href="/tags/C-%E6%A8%A1%E6%9D%BF/">
+                                <span class="chip bg-color">C++模板</span>
                             </a>
                         
                     </div>
@@ -440,8 +440,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/C%E5%9F%BA%E7%A1%80/" class="post-category">
-                                C基础
+                            <a href="/categories/C/" class="post-category">
+                                C++
                             </a>
                         
                     </div>
@@ -453,28 +453,28 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-03-25
+                    2020-04-11
                 </div>
                 
 
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2020-03-25
+                    2020-04-11
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    899
+                    2.7k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    4 分
+                    13 分
                 </div>
                 
 
@@ -490,127 +490,627 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="fwrite-fread-函数"><a href="#fwrite-fread-函数" class="headerlink" title="fwrite / fread 函数"></a>fwrite / fread 函数</h2><p>C 语言己经从接口的层面区分了，文本的读写方式和二进制的读写方式。<br>对于文本文件来说：</p>
-<p><strong>所有的文件接口函数，要么以 ‘\0’，表示输入结束，要么以 ‘\n’， EOF(0xFF)表示 读取结束。 ‘\0’ ‘\n’ 等都是文本文件的重要标识。</strong></p>
-<p><strong>而二进制文件，则以块的形式写入或读出</strong>。 </p>
-<p><strong>而所有的二进制接口对于这些标识，是不敏感的。</strong></p>
-<p><img src="https://img-blog.csdnimg.cn/20200205200804347.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="fwrite / fread 函数说明"></p>
-<p>试读文本文件</p>
-<p>我们给出代码：</p>
-<pre><code>#define _CRT_SECURE_NO_WARNINGS
-#include&lt;stdio.h&gt;
-
+                <h2 id="类模板"><a href="#类模板" class="headerlink" title="类模板"></a>类模板</h2><h3 id="Stack-类"><a href="#Stack-类" class="headerlink" title="Stack 类"></a>Stack 类</h3><p>我们先给出我们之前实现的栈结构：</p>
+<pre><code>#include &lt;iostream&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+using namespace std;
+class Stack
+{
+public:
+    Stack(int size = 1024)
+    {
+        space = new int[size];
+        top = 0;
+    }
+    ~Stack() {
+        delete[]space;
+    }
+    bool isEmpty() {
+        return top == 0;
+    }
+    bool isFull() {
+        return top == 1024;
+    }
+    void push(int data) {
+        space[top++] = data;
+    }
+    int pop() {
+        return space[--top];
+    }
+private:
+    int* space;
+    int top;
+};
 int main()
 {
-char buf[1024] = { &quot;abcde\0fghij&quot; };
-FILE* pfa = fopen(&quot;xx.txt&quot;, &quot;w+&quot;);
-fputs(buf,pfa);
-fclose(pfa);
-FILE* pfb = fopen(&quot;yy.txt&quot;, &quot;wb&quot;);
-fwrite((void *)buf,1,11,pfb);
-fclose(pfb);
-return 0;
-}</code></pre><p>执行结果为:</p>
-<p><img src="https://img-blog.csdnimg.cn/20200205211450330.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="使用fwrite函数写入文件"></p>
-<p><strong>我们可以看到xx里面只能写到\0就会结束，但是yy里面会把buf中所有的数据写入。</strong></p>
-<p>我们用UE打开两个文件进行查看：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200205211506531.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="UE编辑器查看"></p>
-<p><img src="https://img-blog.csdnimg.cn/20200205211527835.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="UE编辑器查看"></p>
-<p>通过查看两个文件内容的16进制形式我们也可以看到xx和yy里面所写入的内容。</p>
-<p>除了写入\0写入\n也是没有任何问题的：</p>
-<pre><code>#define _CRT_SECURE_NO_WARNINGS
-#include&lt;stdio.h&gt;
+    Stack s(100);
+    for (int i = 0; i &lt; 10; ++i) {
+        if (!s.isFull())
+            s.push(i);
+    }
+    while (!s.isEmpty())
+        cout &lt;&lt; s.pop() &lt;&lt; endl;
+    return 0;
+}</code></pre><p>运行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200406204553375.png" alt="运行结果"></p>
+<p>上面代码中如果我们要对于栈结构进行泛化，最主要的就是对于int * space 存储空间的泛化。</p>
+<p>Stack 类模板化，可以 push 和 pop 不同的数据类型。主要由几个因素需要把控。</p>
+<p>那么只需要保持栈中的空间元素类型，压入元素类型，弹出元素类型，三者保持一致就能够实现泛化。</p>
+<p>我们在函数模板中使用的时候先写函数模板，然后进行函数模板的实例化形成模板函数，然后对于实例化之后的模板函数进行调用。</p>
+<p>myswap()      –&gt;    myswap()<int>        –&gt; myswap()<int>(a,b)</p>
+<p>函数模板       –&gt;      模板函数             –&gt;   函数调用</p>
+<p>对比到类模板就是：</p>
+<p>类模板        –&gt;        模板类        –&gt;          类对象的创建</p>
+<p>stack          –&gt;       stack<int>     –&gt;            stack<int>  s(100)    </p>
+<h3 id="类模板格式"><a href="#类模板格式" class="headerlink" title="类模板格式"></a>类模板格式</h3><pre><code>template&lt;typename T&gt; class ClassName
+{
+    void func(T );
+};
+template&lt;typename T&gt; void ClassName&lt;T&gt;::func(T)
+{
 
+}</code></pre><h3 id="类模板的应用"><a href="#类模板的应用" class="headerlink" title="类模板的应用"></a>类模板的应用</h3><p>我们现在对于上面的栈类进行泛化：</p>
+<pre><code>#include &lt;iostream&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+using namespace std;
+
+template &lt;typename T&gt;
+
+class Stack
+{
+public:
+    Stack(int size = 1024)
+    {
+        space = new T[size];
+        top = 0;
+    }
+    ~Stack() {
+        delete[]space;
+    }
+    bool isEmpty() {
+        return top == 0;
+    }
+    bool isFull() {
+        return top == 1024;
+    }
+    void push(T data) {
+        space[top++] = data;
+    }
+    T pop() {
+        return space[--top];
+    }
+private:
+    T* space;
+    int top;
+};
 int main()
 {
-char buf[1024] = { &quot;abc\ndef\nghij&quot; };
-FILE* pfa = fopen(&quot;xx.txt&quot;, &quot;w+&quot;);
-fputs(buf,pfa);
-fclose(pfa);
-FILE* pfb = fopen(&quot;yy.txt&quot;, &quot;wb&quot;);
-fwrite((void *)buf,1,11,pfb);
-fclose(pfb);
-return 0;
-}</code></pre><p>执行结果为：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200205211558561.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="使用fwrite函数写入文件"></p>
-<p>我们可以看到两个文件都写入成功。</p>
-<p>但是我们在读取的时候就不一样二进制方式和文本方式就不一样了。</p>
-<pre><code>#define _CRT_SECURE_NO_WARNINGS
-#include&lt;stdio.h&gt;
+    Stack&lt;int&gt;  s;//类模板的实例化   生成模板类  并且创建类对象
+    for (int i = 0; i &lt; 10; i++)
+    {
+        if (!s.isFull())
+            s.push(i * 11);
+    }
 
-int main()
+    while(!s.isEmpty())
+    {
+        cout &lt;&lt; s.pop() &lt;&lt; endl;
+    }
+    return 0;
+}</code></pre><p>运行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/2020040620480611.png" alt="类模板的应用"></p>
+<p>类内函数的声明和定义分开的实现：</p>
+<pre><code>#include &lt;iostream&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+using namespace std;
+
+template &lt;typename T&gt;  //类模板
+class Stack
 {
-char buf[1024] = { &quot;abc\ndef\nghij&quot; };
-FILE* pfa = fopen(&quot;xx.txt&quot;, &quot;w+&quot;);
-fputs(buf,pfa);
-char readArr[1024] = {0};
-rewind(pfa);
-fgets(readArr, 1024, pfa);
-printf(&quot;%s&quot;,readArr);
-fclose(pfa);
+public:
+    Stack(int size = 1024);
+    ~Stack();
+    bool isEmpty();
+    bool isFull();
+    void push(T data);
+    T pop();
 
 
-FILE* pfb = fopen(&quot;yy.txt&quot;, &quot;wb+&quot;);
-fwrite((char *)buf,1,12,pfb);
-rewind(pfb);
-fread((char *)readArr, 1, 12, pfb);
-for (int i = 0; i &lt; 12; i++)
+private:
+    T* space;
+    int top;
+};
+
+template &lt;typename T&gt;
+Stack&lt;T&gt;::Stack(int size)
 {
-printf(&quot;%x-&gt;%c\n&quot;, readArr[i],readArr[i]);
+    space = new T[size];
+    top = 0;
+    void push(T data);
 }
-fclose(pfb);
-return 0;
-}</code></pre><p>我们直接打印了读取到的数据，执行结果为：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200205211638158.png" alt="执行结果"></p>
-<p>我们可以看到使用fgets函数读取到的只有abc后面遇到\n读取到\n之后会自动加上\0然后结束。从结果为我们也可以看出来xx.txt文件读取到了\n打印结果abc后面出现了换行。</p>
-<p><strong>最重要的是，fgets  只能读取到一部分，但是fread函数可以到所有数据。</strong></p>
-<p>我们再说明一种情况：</p>
-<pre><code>#include&lt;stdio.h&gt;
 
-int main()
+template &lt;typename T&gt;
+Stack&lt;T&gt;::~Stack()
 {
-FILE* pf = fopen(&quot;cc.txt&quot;,&quot;w+&quot;);
-int arr[10] = {0,1,0xffffffff,0,1,2,3,4,5};
-fputs((char *)arr,pf);
-fclose(pf);
-return 0;
-}</code></pre><p>我们直接给出说明，上面这种方式无法将数据写入文件，因为arr[0]的四个字节都是0，fputs在遇到0的时候直接结束。fputs是写入文本的，arr数组是数值。</p>
-<p><img src="https://img-blog.csdnimg.cn/20200205211819802.png" alt="使用fputs函数写入int类型数组"></p>
-<p><strong>我们可以看到cc的大小为0字节。</strong></p>
-<p>我们使用二进制写入方式：</p>
-<pre><code>#include&lt;stdio.h&gt;
-int main()
-{
-int arr[10] = { 0,1,0xffffffff,0,1,2,3,4,5 };
-FILE* pfb = fopen(&quot;gg.txt&quot;, &quot;wb+&quot;);
-fwrite((void*)arr, 4, 10, pfb);
- fclose(pfb);
-return 0;
-}</code></pre><p>执行结果为：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200205212128952.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="使用fwrite函数写入int类型数组"></p>
-<p>我们可以看到打开为乱码，是因为存放的是二进制数据，数据是可以写入的。</p>
-<p>以二进制形式写入在读取的时候也要以二进制形式读取：</p>
-<pre><code>#define _CRT_SECURE_NO_WARNINGS
-#include&lt;stdio.h&gt;
-
-
-int main()
-{
-int arr[10] = { 0,1,0xffffffff,0,1,2,3,4,5 };
-FILE* pfb = fopen(&quot;gg.txt&quot;, &quot;wb+&quot;);
-fwrite((void*)arr, 4, 10, pfb);
-rewind(pfb);
-int arrCpy[10];
-fread((int *)arrCpy,4,10,pfb);
-for (int i = 0; i &lt; 10; i++)
-{
-printf(&quot;%d\n&quot;,arrCpy[i]);
+    delete[]space;
 }
- fclose(pfb);
-return 0;
-}</code></pre><p>执行结果为：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200205212208671.png" alt=" 使用fread函数读取int类型数组"></p>
-<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p><img src="https://img-blog.csdnimg.cn/20200205214533957.png" alt="文件操作函数小结"></p>
+
+template &lt;typename T&gt;
+bool Stack&lt;T&gt;::isEmpty()
+{
+    return top == 0;
+}
+
+template &lt;typename T&gt;
+bool Stack&lt;T&gt;::isFull()
+{
+    return top == 1024;
+}
+
+template &lt;typename T&gt;
+void Stack&lt;T&gt;::push(T data)
+{
+    space[top++] = data;
+}
+
+template &lt;typename T&gt;
+T Stack&lt;T&gt;::pop() {
+    return space[--top];
+}
+
+int main()
+{
+    Stack&lt;int&gt;  s;//类模板的实例化   生成模板类  并且创建类对象
+    for (int i = 0; i &lt; 10; i++)
+    {
+        if (!s.isFull())
+            s.push(i * 10);
+    }
+
+    while (!s.isEmpty())
+    {
+        cout &lt;&lt; s.pop() &lt;&lt; endl;
+    }
+    return 0;
+}</code></pre><p>运行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/2020040620485121.png" alt="类内声明与定义的分开实现"></p>
+<h3 id="类模板的多文件实现"><a href="#类模板的多文件实现" class="headerlink" title="类模板的多文件实现"></a>类模板的多文件实现</h3><p><strong>main.cpp</strong></p>
+<pre><code>#include &lt;iostream&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+#include &quot;mystack.h&quot;
+#include &quot;mystack.cpp&quot;
+using namespace std;
+
+int main()
+{
+    Stack&lt;int&gt;  s;//类模板的实例化   生成模板类  并且创建类对象
+    for (int i = 0; i &lt; 10; i++)
+    {
+        if (!s.isFull())
+            s.push(i * 10);
+    }
+
+    while (!s.isEmpty())
+    {
+        cout &lt;&lt; s.pop() &lt;&lt; endl;
+    }
+    return 0;
+}</code></pre><p><strong>mystack.cpp</strong></p>
+<pre><code>#include &quot;mystack.h&quot;
+
+template &lt;typename T&gt;
+Stack&lt;T&gt;::Stack(int size)
+{
+    space = new T[size];
+    top = 0;
+    void push(T data);
+}
+
+template &lt;typename T&gt;
+Stack&lt;T&gt;::~Stack()
+{
+    delete[]space;
+}
+
+template &lt;typename T&gt;
+bool Stack&lt;T&gt;::isEmpty()
+{
+    return top == 0;
+}
+
+template &lt;typename T&gt;
+bool Stack&lt;T&gt;::isFull()
+{
+    return top == 1024;
+}
+
+template &lt;typename T&gt;
+void Stack&lt;T&gt;::push(T data)
+{
+    space[top++] = data;
+}
+
+template &lt;typename T&gt;
+T Stack&lt;T&gt;::pop() {
+    return space[--top];
+}</code></pre><p><strong>mystack.h</strong></p>
+<pre><code>#pragma once
+template &lt;typename T&gt;  //类模板
+class Stack
+{
+public:
+    Stack(int size = 1024);
+    ~Stack();
+    bool isEmpty();
+    bool isFull();
+    void push(T data);
+    T pop();
+
+
+private:
+    T* space;
+    int top;
+};</code></pre><p>运行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200406205204883.png" alt="类模板的多文件实现"></p>
+<p><strong>这里需要强调的是，我们在实现多文件变成的时候并不是简单的把之前类内函数的定义和实现分开，然后在多文件中编写，而是需要注意需要在main函数中加入#include “mystack.cpp”才能够编译成功和运行。</strong></p>
+<p>那么为什么是需要加上#include “mystack.cpp”</p>
+<p>我们在类模板的友元中进行说明。</p>
+<h2 id="类模板的友元"><a href="#类模板的友元" class="headerlink" title="类模板的友元"></a>类模板的友元</h2><h3 id="类模板中的友元在-h"><a href="#类模板中的友元在-h" class="headerlink" title="类模板中的友元在.h"></a>类模板中的友元在.h</h3><p>友元函数，实现在.h 文件中并不多见，但在模板中这样使用友元，就是一种常规则用法。</p>
+<p><strong>main.cpp</strong></p>
+<pre><code>#include &lt;iostream&gt;
+#include &quot;mylist.h&quot;
+#include &quot;mylist.cpp&quot;
+
+using namespace std;
+using namespace listspace;
+int main()
+{
+    GenericList&lt;int&gt; first_list(2);
+    first_list.add(1);
+    first_list.add(2);
+
+    cout &lt;&lt;&quot;first_list&quot;&lt;&lt; first_list &lt;&lt; endl;
+    GenericList&lt;char&gt; second_list(10);
+    second_list.add(&apos;A&apos;);
+    second_list.add(&apos;B&apos;);
+    second_list.add(&apos;C&apos;);
+    cout &lt;&lt; second_list&lt;&lt;second_list &lt;&lt; endl;
+    return 0;
+}</code></pre><p><strong>mylist.cpp</strong></p>
+<pre><code>#ifndef __MYLIST_ CPP__
+#define __MYLIST_ CPP__
+#include &lt;iostream&gt;
+#include &lt;cstdlib&gt;
+#include &quot;mylist.h&quot;
+
+using namespace std;
+namespace listspace {
+    template&lt;class ItemType&gt;
+    GenericList&lt;ItemType&gt;::GenericList(int max)
+        : _maxLength(max), _curIdx(0)
+    {
+        _item = new ItemType[max];
+    }
+    template&lt;class ItemType&gt;
+    GenericList&lt;ItemType&gt;::~GenericList()
+    {
+        delete[] _item;
+    }
+    template&lt;class ItemType&gt;
+    int GenericList&lt;ItemType&gt;::length() const
+    {
+        return (_curIdx);
+    }
+    template&lt;class ItemType&gt;
+    void GenericList&lt;ItemType&gt;::add(ItemType new_item)
+    {
+        if (full())
+        {
+            cout &lt;&lt; &quot;Error: adding to a full list.\n&quot;;
+            exit(1);
+        }
+        else
+        {
+            _item[_curIdx] = new_item;
+            _curIdx = _curIdx + 1;
+        }
+    }
+    template&lt;class ItemType&gt;
+    bool GenericList&lt;ItemType&gt;::full() const
+    {
+        return (_curIdx == _maxLength);
+    }
+    template&lt;class ItemType&gt;
+    void GenericList&lt;ItemType&gt;::erase()
+    {
+        _curIdx = 0;
+    }
+}
+#endif</code></pre><p><strong>mylist.h</strong></p>
+<pre><code>#ifndef __MYLIST_H H__
+#define __MYLIST_H H__
+#include &lt;iostream&gt;
+#include &lt;ostream&gt;
+using namespace std;
+namespace listspace 
+{
+
+template&lt;class ItemType&gt;
+class GenericList
+{
+public:
+        GenericList(int max);
+        ~GenericList();
+        int length() const;
+        void add(ItemType new_item);
+        bool full() const;
+        void erase();
+        friend ostream&amp;  operator&lt;&lt;(ostream &amp; out,GenericList&lt;ItemType&gt;&amp; list)
+        {
+            for (int i = 0; i &lt; list._curIdx; i++)
+            {
+                out &lt;&lt; list._item[i];
+            }
+            return out;
+        }
+    private:
+        ItemType* _item;
+        int _maxLength;
+        int _curIdx;
+    };
+}//listspace
+#endif //__MYLIST_H__</code></pre><p>运行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200406205436542.png" alt="类模板的友元在.h中实现的运行结果"></p>
+<h3 id="类模板中的友元在-cpp"><a href="#类模板中的友元在-cpp" class="headerlink" title="类模板中的友元在.cpp"></a>类模板中的友元在.cpp</h3><p>友元函数，实现在.cpp 中，需要在类模板前声明，其前还需要类模板的声明。类内用&lt;&gt;将其声明为空。<br><strong>mylist.cpp</strong></p>
+<pre><code>#ifndef __MYLIST_ CPP__
+#define __MYLIST_ CPP__
+#include &lt;iostream&gt;
+#include &lt;cstdlib&gt;
+#include &quot;mylist.h&quot;
+
+using namespace std;
+namespace listspace {
+    template&lt;class ItemType&gt;
+    GenericList&lt;ItemType&gt;::GenericList(int max)
+        : _maxLength(max), _curIdx(0)
+    {
+        _item = new ItemType[max];
+    }
+    template&lt;class ItemType&gt;
+    GenericList&lt;ItemType&gt;::~GenericList()
+    {
+        delete[] _item;
+    }
+    template&lt;class ItemType&gt;
+    int GenericList&lt;ItemType&gt;::length() const
+    {
+        return (_curIdx);
+    }
+    template&lt;class ItemType&gt;
+    void GenericList&lt;ItemType&gt;::add(ItemType new_item)
+    {
+        if (full())
+        {
+            cout &lt;&lt; &quot;Error: adding to a full list.\n&quot;;
+            exit(1);
+        }
+        else
+        {
+            _item[_curIdx] = new_item;
+            _curIdx = _curIdx + 1;
+        }
+    }
+    template&lt;class ItemType&gt;
+    bool GenericList&lt;ItemType&gt;::full() const
+    {
+        return (_curIdx == _maxLength);
+    }
+    template&lt;class ItemType&gt;
+    void GenericList&lt;ItemType&gt;::erase()
+    {
+        _curIdx = 0;
+    }
+
+    template&lt;class ItemType&gt;
+     ostream&amp; operator&lt;&lt; (ostream&amp; out, GenericList&lt;ItemType&gt; &amp; list)
+    {
+        for (int i = 0; i &lt; list._curIdx; i++)
+        {
+            out &lt;&lt; list._item[i];
+        }
+        return out;
+    }
+}
+#endif</code></pre><p><strong>mylist.h</strong></p>
+<pre><code>#ifndef __MYLIST_H H__
+#define __MYLIST_H H__
+#include &lt;iostream&gt;
+#include &lt;ostream&gt;
+using namespace std;
+namespace listspace 
+{
+
+    template&lt;class ItemType&gt;
+    class GenericList;
+
+    template&lt;class ItemType&gt;
+    ostream&amp; operator&lt;&lt;(ostream&amp; out, GenericList&lt;ItemType&gt;&amp; list);
+
+template&lt;class ItemType&gt;
+class GenericList
+{
+public:
+        GenericList(int max);
+        ~GenericList();
+        int length() const;
+        void add(ItemType new_item);
+        bool full() const;
+        void erase();
+        friend ostream&amp; operator&lt;&lt; &lt;&gt;(ostream&amp; out, GenericList&lt;ItemType&gt;&amp; list);
+    private:
+        ItemType* _item;
+        int _maxLength;
+        int _curIdx;
+    };
+}//listspace
+#endif //__MYLIST_H__</code></pre><p><strong>main.cpp</strong></p>
+<pre><code>#include &lt;iostream&gt;
+#include &quot;mylist.h&quot;
+#include &quot;mylist.cpp&quot;
+
+using namespace std;
+using namespace listspace;
+int main()
+{
+    GenericList&lt;int&gt; first_list(2);
+    first_list.add(1);
+    first_list.add(2);
+
+    cout &lt;&lt;&quot;first_list&quot;&lt;&lt; first_list &lt;&lt; endl;
+    GenericList&lt;char&gt; second_list(10);
+    second_list.add(&apos;A&apos;);
+    second_list.add(&apos;B&apos;);
+    second_list.add(&apos;C&apos;);
+    cout &lt;&lt; second_list&lt;&lt;second_list &lt;&lt; endl;
+    return 0;
+}</code></pre><p>运行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200406210738362.png" alt="类模板中的友元在.cpp运行结果"></p>
+<p>在类完中的cpp实现的时候需要进行以下操作：</p>
+<p><strong>①    在类中声明&lt;&gt;   表明是一个空体声明</strong></p>
+<p><strong>②    在类外实现     和其他函数实现相同  需要加上类型模板</strong></p>
+<p><strong>③    在类的声明的前面，对类模板的友元函数作前向声明。并且在其前面作类的前向声明</strong></p>
+<p><strong>所以一般建议读者在.h文件中实现类模板的友元</strong></p>
+<p>但是呢，我们平时在使用到时候很少会有#include “mylist.cpp”这样的操作，所以我们引入hpp</p>
+<h3 id="hpp"><a href="#hpp" class="headerlink" title="hpp"></a>hpp</h3><p>由于编译器需要通过这些”模板”为实例化类型生成实际的方法代码，因此任何使用了模板的源代码文件中，编译器都应该能同时访问类模板定义和方法定义。</p>
+<p>C++中的编译是以文件为单位的，然后链接阶段完成链接。如果模板的声明与实现分开，这种机制显然会导致看不到模板的全貌，而致编译失败。所以常将类模板定义和方法定义放到一起，该类模板文件的后缀常为.hpp，以示与普通文件的区别。在使用的时候，#include”xx.hpp”。</p>
+<p>代码演示：</p>
+<p><strong>mylist.hpp</strong></p>
+<pre><code>#ifndef __MYLIST_H H__
+#define __MYLIST_H H__
+#include &lt;iostream&gt;
+#include &lt;ostream&gt;
+using namespace std;
+namespace listspace
+{
+
+    template&lt;class ItemType&gt;
+    class GenericList;
+
+    template&lt;class ItemType&gt;
+    ostream&amp; operator&lt;&lt;(ostream&amp; out, GenericList&lt;ItemType&gt;&amp; list);
+
+    template&lt;class ItemType&gt;
+    class GenericList
+    {
+    public:
+        GenericList(int max);
+        ~GenericList();
+        int length() const;
+        void add(ItemType new_item);
+        bool full() const;
+        void erase();
+        friend ostream&amp; operator&lt;&lt; &lt;&gt;(ostream&amp; out, GenericList&lt;ItemType&gt;&amp; list);
+    private:
+        ItemType* _item;
+        int _maxLength;
+        int _curIdx;
+    };
+}//listspace
+#endif //__MYLIST_H__
+
+#ifndef __MYLIST_ CPP__
+#define __MYLIST_ CPP__
+#include &lt;iostream&gt;
+#include &lt;cstdlib&gt;
+#include &quot;mylist.h&quot;
+
+using namespace std;
+namespace listspace {
+template&lt;class ItemType&gt;
+GenericList&lt;ItemType&gt;::GenericList(int max)
+    : _maxLength(max), _curIdx(0)
+{
+    _item = new ItemType[max];
+}
+template&lt;class ItemType&gt;
+GenericList&lt;ItemType&gt;::~GenericList()
+{
+    delete[] _item;
+}
+template&lt;class ItemType&gt;
+int GenericList&lt;ItemType&gt;::length() const
+{
+    return (_curIdx);
+}
+template&lt;class ItemType&gt;
+void GenericList&lt;ItemType&gt;::add(ItemType new_item)
+{
+    if (full())
+    {
+        cout &lt;&lt; &quot;Error: adding to a full list.\n&quot;;
+        exit(1);
+    }
+    else
+    {
+        _item[_curIdx] = new_item;
+        _curIdx = _curIdx + 1;
+    }
+}
+template&lt;class ItemType&gt;
+bool GenericList&lt;ItemType&gt;::full() const
+{
+    return (_curIdx == _maxLength);
+}    
+
+template&lt;class ItemType&gt;
+void GenericList&lt;ItemType&gt;::erase()
+{
+    _curIdx = 0;
+}
+
+template&lt;class ItemType&gt;
+ostream&amp; operator&lt;&lt; (ostream&amp; out, GenericList&lt;ItemType&gt;&amp; list)
+{
+    for (int i = 0; i &lt; list._curIdx; i++)
+    {
+        out &lt;&lt; list._item[i];
+    }
+    return out;
+}
+}
+#endif</code></pre><p><strong>main.cpp</strong></p>
+<pre><code>#include &lt;iostream&gt;
+#include &quot;mylist.hpp&quot;
+
+using namespace std;
+using namespace listspace;
+int main()
+{
+    GenericList&lt;int&gt; first_list(2);
+    first_list.add(1);
+    first_list.add(2);
+
+    cout &lt;&lt;&quot;first_list&quot;&lt;&lt; first_list &lt;&lt; endl;
+    GenericList&lt;char&gt; second_list(10);
+    second_list.add(&apos;A&apos;);
+    second_list.add(&apos;B&apos;);
+    second_list.add(&apos;C&apos;);
+    cout &lt;&lt; second_list&lt;&lt;second_list &lt;&lt; endl;
+    return 0;
+}</code></pre><p>运行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200406211144785.png" alt="使用.hpp实现类模板的友元"></p>
+<p>模板通过会将声明和实现放在一个文件中，及就是.hpp中。这样做的原因就是，C语言和C++的编译模式是按照文件进行编译的。模板在进行实例化的时候，是需要看到整个模板的，及就是模板的定义和实现的全部代码。所以如果只有.h的话，实例化的时候仅仅只是看到模板的声明，并不能看到模板的实现，所以需要使用.hpp来实现。把模板的声明和实现放在一起。</p>
+<p><strong>也就是说在任何需要实例化的地方，都需要看看到模板的全部的声明和定义。</strong></p>
 
             </div>
             <hr/>
@@ -636,7 +1136,7 @@ return 0;
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://www.teachermin.com/2020/03/25/C%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C%EF%BC%9Afwrite%E5%87%BD%E6%95%B0fread%20%E5%87%BD%E6%95%B0%E4%B8%80%E6%AC%A1%E8%AF%BB%E5%86%99%E4%B8%80%E5%9D%97%E5%AD%97%E8%8A%82(%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%93%8D%E4%BD%9C%E5%92%8C%E6%96%87%E6%9C%AC%E6%93%8D%E4%BD%9C)/">http://www.teachermin.com/2020/03/25/C%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C%EF%BC%9Afwrite%E5%87%BD%E6%95%B0fread%20%E5%87%BD%E6%95%B0%E4%B8%80%E6%AC%A1%E8%AF%BB%E5%86%99%E4%B8%80%E5%9D%97%E5%AD%97%E8%8A%82(%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%93%8D%E4%BD%9C%E5%92%8C%E6%96%87%E6%9C%AC%E6%93%8D%E4%BD%9C)/</a>
+                    <a href="http://www.teachermin.com/2020/04/11/C++%E6%A8%A1%E6%9D%BF%EF%BC%9A%E7%B1%BB%E6%A8%A1%E6%9D%BF%E5%92%8C%E7%B1%BB%E6%A8%A1%E6%9D%BF%E7%9A%84%E5%8F%8B%E5%85%83/">http://www.teachermin.com/2020/04/11/C++%E6%A8%A1%E6%9D%BF%EF%BC%9A%E7%B1%BB%E6%A8%A1%E6%9D%BF%E5%92%8C%E7%B1%BB%E6%A8%A1%E6%9D%BF%E7%9A%84%E5%8F%8B%E5%85%83/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -674,8 +1174,8 @@ return 0;
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/C%E6%96%87%E4%BB%B6/">
-                                    <span class="chip bg-color">C文件</span>
+                                <a href="/tags/C-%E6%A8%A1%E6%9D%BF/">
+                                    <span class="chip bg-color">C++模板</span>
                                 </a>
                             
                         </div>
@@ -841,52 +1341,52 @@ return 0;
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2020/03/25/C%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C%EF%BC%9Afreadfwrite%E4%BD%BF%E7%94%A8%E4%BA%8C%E8%BF%9B%E5%88%B6%E8%AF%BB%E5%86%99%E8%AF%BB%E5%86%99%E7%BB%93%E6%9E%84%E4%BD%93/">
+                <a href="/2020/04/11/C++%E6%A8%A1%E6%9D%BF%EF%BC%9A%E7%B1%BB%E6%A8%A1%E6%9D%BF%E5%92%8C%E7%B1%BB%E6%A8%A1%E6%9D%BF%E7%9A%84%E5%8F%8B%E5%85%83/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/19.jpg" class="responsive-img" alt="C文件操作：fread/fwrite使用二进制读写读写结构体">
+                        <img src="/medias/featureimages/9.jpg" class="responsive-img" alt="C++模板：类模板和类模板的友元">
                         
-                        <span class="card-title">C文件操作：fread/fwrite使用二进制读写读写结构体</span>
+                        <span class="card-title">C++模板：类模板和类模板的友元</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            我们给出一个代码，这次我们读取的时候把块的大小设置为1024，每次读取一个块长度
-#define _CRT_SECURE_NO_WARNINGS
+                            类模板Stack 类我们先给出我们之前实现的栈结构：
+#include &lt;iostream&gt;
+#include &lt;stdlib.h&gt;
 #include &lt;stdio.h&gt;
-
-int main()
-{
-    FILE
+#include &lt;str
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-03-25
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-04-11
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/C%E5%9F%BA%E7%A1%80/" class="post-category">
-                                    C基础
+                            <a href="/categories/C/" class="post-category">
+                                    C++
                                 </a>
                             
                             
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/C%E6%96%87%E4%BB%B6/">
-                        <span class="chip bg-color">C文件</span>
+                    <a href="/tags/C-%E6%A8%A1%E6%9D%BF/">
+                        <span class="chip bg-color">C++模板</span>
                     </a>
                     
                 </div>
@@ -900,34 +1400,35 @@ int main()
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/03/25/LinuxC%E7%BA%BF%E7%A8%8B%E8%AF%B4%E6%98%8E/">
+                <a href="/2020/04/11/C++IO%E6%B5%81/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/13.jpg" class="responsive-img" alt="LinuxC线程说明">
+                        <img src="/medias/featureimages/10.jpg" class="responsive-img" alt="C++IO流：IO流类，istream status(状态位)，cout，cin，if(!fs)/while(cin)">
                         
-                        <span class="card-title">LinuxC线程说明</span>
+                        <span class="card-title">C++IO流：IO流类，istream status(状态位)，cout，cin，if(!fs)/while(cin)</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            线程所有的线程实现方式都是类似的，只不过使用的语言不同。一个函数当我们直接调用的时候就是普通函数，但是如果注册为线程函数就能够以线程方式来运行。
-我们先来简单了解一下，后面博客中会有更加详细的说明：
-当作普通函数调用：
-#include &
+                            IO流目前为止，cin 和 cout 充当了 scanf 和 printf 的功能。
+但他们并不是函数，而是类对象，
+那么我们就有必要了解一下，他们是哪些类的对象。
+IO流类Hierarchy(层次架构)
+cin是isream的对象，cou
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-03-25
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-04-11
                             </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/Linux/" class="post-category">
-                                    Linux
+                            <a href="/categories/C/" class="post-category">
+                                    C++
                                 </a>
                             
                             
@@ -937,8 +1438,8 @@ int main()
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/LinuxC%E7%BA%BF%E7%A8%8B/">
-                        <span class="chip bg-color">LinuxC线程</span>
+                    <a href="/tags/C-%E6%B5%81/">
+                        <span class="chip bg-color">C++流</span>
                     </a>
                     
                 </div>
