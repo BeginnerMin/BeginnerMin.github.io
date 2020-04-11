@@ -460,7 +460,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2020-04-03
+                    2020-04-06
                 </div>
                 
 
@@ -554,7 +554,7 @@ int main() {
     return 0;
 }</code></pre><p>运行结果为：</p>
 <p><img src="https://img-blog.csdnimg.cn/2020040313213171.png" alt="运行结果"></p>
-<p>那么我们就思考一下，模板是不是悄悄的把我学习过的所有类型都重载了一遍呢？</p>
+<p>那么我们就思考一下，模板是不是悄悄的把我们学习过的所有类型都重载了一遍呢？</p>
 <p>我们通过自实现类型进行验证。<br>代码演示：</p>
 <pre><code>#include &lt;iostream&gt;
 using namespace std;
@@ -596,7 +596,7 @@ int main() {
     return 0;
 }</code></pre><p>运行结果为：</p>
 <p><img src="https://img-blog.csdnimg.cn/2020040313215868.png" alt="运行结果"></p>
-<p>那么自定义类型实现交换也是没有问题的。那么上面的使用方法直接结局了函数重载会出现二义性的问题，上面的方法解决了所有类型的交换。</p>
+<p>那么自定义类型实现交换也是没有问题的。那么上面的使用方法直接解决了函数重载会出现二义性的问题，上面的方法解决了所有类型的交换。</p>
 <p><strong>其过程，相当于经历了两次编译，先依据实参类型，实例化函数，然后再将实例化的函数，参与编译。</strong></p>
 <p>上面代码相当于：</p>
 <pre><code>#include &lt;iostream&gt;
@@ -647,13 +647,14 @@ void myswap(T&amp; a, T&amp; b) {
     b = t;
 }</code></pre><p><strong>②    实例化为模板函数</strong></p>
 <pre><code>Myswap&lt;int&gt;</code></pre><p><strong>③    模板函数的调用</strong></p>
-<pre><code>Myswap&lt;int&gt;(1,2);</code></pre><p>模板经历的第一个过程：检查函数模板的语法特性：</p>
+<pre><code>Myswap&lt;int&gt;(1,2);</code></pre><p>函数模板经历的第一个过程：检查函数模板的语法特性：</p>
 <pre><code>template&lt;typename T&gt;
 void myswap(T&amp; a, T&amp; b) {
     T t = a;
     a = b;
     b = t;
-}</code></pre><p>第二个过程：<br>当发生具体的调用的时候，根据参数类型，或者在调用函数时通过myswap&lt;类型&gt;方式直接进行说明，也可以通过自动类型推导获得T的类型。那么就是用myswap&lt;类型&gt;给的类型或者自动推导的类型来取代T，然后产生用myswap&lt;类型&gt;给的类型或者自动推导的类型所生成的函数版本。然后供myswap&lt;类型&gt;(形参列表)调用。自动类型同理。</p>
+}</code></pre><p>函数模板第二个过程：</p>
+<p>当发生具体的调用的时候，根据参数类型，或者在调用函数时通过myswap&lt;类型&gt;方式直接进行说明，也可以通过自动类型推导获得T的类型。那么就是用myswap&lt;类型&gt;给的类型或者自动推导的类型来取代T，然后产生用myswap&lt;类型&gt;给的类型或者自动推导的类型所生成的函数版本。然后供myswap&lt;类型&gt;(形参列表)调用。自动类型同理。</p>
 <p><strong>类型参数化：也就说函数可以设置默认类型：</strong></p>
 <pre><code>template&lt;typename T = int&gt;
 void myswap(T&amp; a, T&amp; b) {
@@ -725,7 +726,7 @@ void myswap(T1 &amp; a, T2 &amp; b)
 {
 
 }</code></pre><h2 id="编译原理"><a href="#编译原理" class="headerlink" title="编译原理"></a>编译原理</h2><p>编译器并不是把函数模板处理成能够处理任意类的函数，也就是说并不是把所有的类型都重载。比如，自定义类型，如何处理呢？</p>
-<p>编译器遇到模板方法定义时，会进行语法检查，但是并不编译模板。编译器无法编译模板定义，因为它不知道使用什么类型。比如 T a,b; 在 不知晓 T 具体类型时，是无法分配内存，更无从谈编译 a = b;</p>
+<p>编译器遇到模板方法定义时，会进行语法检查，但是并不编译模板。编译器无法编译模板定义，因为编译器不知道使用什么类型。比如 T a,b; 在 不知晓 T 具体类型时，是无法分配内存，更无从谈编译 a = b;</p>
 <p>T 获取类型的过程，称为模板的实例化，函数模板通过具体类型产生不同的函数；编译器会对函数模板进行两次编译：在声明的地方对模板代码本身进行编译(类型检查)，在调用的地方对参数替换后的代码进行编译(代码生成)。</p>
 <h2 id="函数模板应用"><a href="#函数模板应用" class="headerlink" title="函数模板应用"></a>函数模板应用</h2><h3 id="算法抽象"><a href="#算法抽象" class="headerlink" title="算法抽象"></a>算法抽象</h3><p>例如我之前要把东西从一个地方搬到另一个地方，我需要考虑搬的是怎么搬更省力，并且考虑搬的是什么东西，但是一但类型泛化之后，我就不再考虑搬什么东西，只是考虑搬什么更省力。</p>
 <p>数据类型的泛化，使的模板特别适合于作算法的抽象。STL 中的 algorithm 就是典型的代表。比如，算法 sort 就是支持类型泛化的代表排序算法。</p>
@@ -772,7 +773,7 @@ int main()
 <pre><code>char array[10] = { &apos;d&apos;,&apos;s&apos;,&apos;a&apos;,&apos;q&apos;,&apos;w&apos;,&apos;y&apos;,&apos;i&apos;,&apos;h&apos;,&apos;g&apos;,&apos;f&apos; };</code></pre><p>运行结果为：</p>
 <p><img src="https://img-blog.csdnimg.cn/20200403132617886.png" alt="运行结果"></p>
 <p>写模板之前先用基本类型写出来，再用模板套用，再去测试。</p>
-<h2 id="函数模板默认参数"><a href="#函数模板默认参数" class="headerlink" title="函数模板默认参数"></a>函数模板默认参数</h2><p>重在理解，类型参数化，此时的默认参数，不再是一数值，就是类型。</p>
+<h2 id="函数模板默认参数"><a href="#函数模板默认参数" class="headerlink" title="函数模板默认参数"></a>函数模板默认参数</h2><p>重在理解，类型参数化，此时的默认参数，不再是一数值，而是类型。</p>
 <p>函数模板，在调用时，先实例化为模板函数，然后再调用。当然也可以设置默认类型的默认值。由于系统强大的自动推导能力，有时默认也没有太大的意义。</p>
 <pre><code>template&lt;typename T = int&gt;
 void quickSort(T * array,int left, int right)</code></pre><h2 id="函数模板的特化"><a href="#函数模板的特化" class="headerlink" title="函数模板的特化"></a>函数模板的特化</h2><p>Template Specialization，函数模板的特化，即函数模板的特性情况，个例行为。</p>
