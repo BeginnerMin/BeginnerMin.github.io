@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="实现带头结点的单链表及常见算法, SkilledBeginner">
+    <meta name="keywords" content="C：简单了解C语言和linux, SkilledBeginner">
     <meta name="description" content="努力做一个很厉害的人">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>实现带头结点的单链表及常见算法 | SkilledBeginner</title>
+    <title>C：简单了解C语言和linux | SkilledBeginner</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -306,12 +306,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/0.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/11.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">实现带头结点的单链表及常见算法</h1>
+                    <h1 class="description center-align post-title">C：简单了解C语言和linux</h1>
                 </div>
             </div>
         </div>
@@ -426,13 +426,9 @@
             <div class="row tag-cate">
                 <div class="col s7">
                     
-                    <div class="article-tag">
-                        
-                            <a href="/tags/%E9%93%BE%E8%A1%A8/">
-                                <span class="chip bg-color">链表</span>
-                            </a>
-                        
-                    </div>
+                          <div class="article-tag">
+                            <span class="chip bg-color">无标签</span>
+                          </div>
                     
                 </div>
                 <div class="col s5 right-align">
@@ -440,8 +436,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/%E7%AE%97%E6%B3%95/" class="post-category">
-                                算法
+                            <a href="/categories/C/" class="post-category">
+                                C
                             </a>
                         
                     </div>
@@ -453,28 +449,28 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-03-16
+                    2020-04-27
                 </div>
                 
 
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2020-03-25
+                    2020-04-27
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    2.7k
+                    1.8k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    13 分
+                    6 分
                 </div>
                 
 
@@ -490,655 +486,114 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="main-cpp"><a href="#main-cpp" class="headerlink" title="main.cpp"></a>main.cpp</h2><pre><code>#include &quot;LinkList.h&quot;
-#include &lt;stdio.h&gt;
-
-int main()
+                <h1 id="hello-world"><a href="#hello-world" class="headerlink" title="hello world"></a>hello world</h1><p>这个世界，几乎每个程序员入门的第一段代码都是 Hello world。原因是当年 C 语言的作者，Dennis Ritchie（丹尼斯·里奇）在他的名著 《C 程序设计语言（The C ProgrammingLanguage）》中第一次引入，传为后世经典，其它语言亦争相效仿，以示致敬。</p>
+<p><img src="https://img-blog.csdnimg.cn/20200427105123384.png" alt="C语言作者及其名著"></p>
+<p>需要这本书的读者可留言，互相分享。</p>
+<h1 id="打印helloworld的源程序"><a href="#打印helloworld的源程序" class="headerlink" title="打印helloworld的源程序"></a>打印helloworld的源程序</h1><p>我们先给出C语言和C++语言编写打印的第一个程序“打印hello world</p>
+<h2 id="C-语言版"><a href="#C-语言版" class="headerlink" title="C 语言版"></a>C 语言版</h2><pre><code>#include &lt;stdio.h&gt; //程序中因为用到了 printf 库函数，所以要包含 printf 所在的头文件
+int main() //程序的入口，表示计算机从哪里开始执行此程序，有且，只有一个
 {
-    Node Link;
-    InitList(&amp;Link);
-    for (int i = 0; i &lt; 10; i++)
-    {
-        ListInsertHead(&amp;Link,i);
-    }
-    Show(&amp;Link);
-    printf(&quot;%d\n&quot;, ListLength(&amp;Link));
-    printf(&quot;%d\n&quot;, GetElem(&amp;Link,3));
-    printf(&quot;%d\n&quot;,LocateElem(&amp;Link,5));
-    Node * _5PosPrior = GetPosPrior(&amp;Link, 5);
-    printf(&quot;pos 5 prior node data : %d\n&quot;,(*_5PosPrior).data);
-    ListInsert(&amp;Link,4,999);
-    Show(&amp;Link);
-    ListInsertTail(&amp;Link,666);
-    Show(&amp;Link);
-    ListDeletePos(&amp;Link,4);
-    Show(&amp;Link);
-    ListDeleteHead(&amp;Link);
-    Show(&amp;Link);
-    ListDeleteTail(&amp;Link);
-    Show(&amp;Link);
-    ListInsert(&amp;Link, 5,1024);
-    Show(&amp;Link);
-    ListDeleteData(&amp;Link,1024);
-    Show(&amp;Link);
-    Node* kToLast = Find_k_to_last(&amp;Link,5);
-    printf(&quot;linklist %d to last is %d\n&quot;,5,kToLast-&gt;data);
-    Node * tmp =GetPosPrior(&amp;Link,2);//获得pos位置节点的前驱节点
-    DeleteP(&amp;Link, tmp);
-    Show(&amp;Link);
-    reverse(&amp;Link);
-    Show(&amp;Link);
-    return 0;
-}</code></pre><h2 id="LinkList-h"><a href="#LinkList-h" class="headerlink" title="LinkList.h"></a>LinkList.h</h2><pre><code>#pragma 
-
-/*------------------------------------------------------------
-// 链表结构的定义
-------------------------------------------------------------*/
-
-typedef int ElemType;
-
-
-typedef struct _Node
+    printf(&quot;Hello World!\n&quot;); //调用库函数，向屏幕打印 Hello World!
+    return 0; // main 函数的返回值
+}</code></pre><h2 id="C-版"><a href="#C-版" class="headerlink" title="C++ 版"></a>C++ 版</h2><pre><code>#include &lt;iostream&gt; //程序中因为用到了 cout 库函数，所以要包含 cout 所在的头文件
+using namespace std; //用到的命名空间
+int main() //程序的入口，表示计算机从哪里开始执行此程序，有且，只有一个
 {
-    ElemType data;                // 元素数据
-    struct _Node* next;            // 链表中结点元素的指针
-}Node, *LinkList;
+    cout &lt;&lt; &quot;Hello World!&quot; &lt;&lt; endl; //通过类对象 cout 向屏幕输出 Hello World!
+    return 0; //main 函数的返回值
+}</code></pre><p><a href="http://helloworldcollection.de/" target="_blank" rel="noopener"> 链接里面有几乎所有语言语言版本的hello world</a></p>
+<p>丹尼斯里奇和肯汤姆森并称C语言和unix作者。</p>
+<p>C语言是第一门具备现代性质的高级语言。</p>
+<p>unix是现代操作系统的始祖。</p>
+<p>最早写操作系统是为了写一款《星际旅行》的游戏</p>
+<p>一个程序中有多个函数，并且所有函数之间是平行关系。</p>
+<p>main函数必须要有,<br>源文件编译为可执行程序之后在操作系统上运行时，会找到入口函数，就是main函数。</p>
+<p>文件名设置为main.c能够帮助我们更快的找到main函数的位置。没有必然内在联系。</p>
+<p><strong>强调：写代码的过程中解决掉所有的错误和警告。</strong>   </p>
+<p>C语言当中  所有的函数要求先声明，后使用。所以通过#include 包含头文件，就是包含函数的声明。</p>
+<h1 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h1><p>上面的两个C和C++写的hello world 代码中，//后面的语句，表示程序的注释，用来注解的作用，不参于编译，以便后期的维护和管理。</p>
+<p>注释是给开发者看的</p>
+<h2 id="单行注释"><a href="#单行注释" class="headerlink" title="单行注释"></a>单行注释</h2><pre><code>//单行注释   </code></pre><h2 id="多行注释"><a href="#多行注释" class="headerlink" title="多行注释"></a>多行注释</h2><h3 id="方法一"><a href="#方法一" class="headerlink" title="方法一"></a>方法一</h3><p>注释多个单行实现注释多行</p>
+<pre><code>//单行注释  
 
-/*------------------------------------------------------------
-// 链表的基本操作
-------------------------------------------------------------*/
+//单行注释  
 
-void InitList(LinkList head); //初始化
-void DestroyList(LinkList head);  //销毁
-bool IsListEmpty(LinkList head);//判空
-int  ListLength(LinkList head);//求链表长度
-ElemType GetElem(LinkList head, int pos); //得到链表的第pos个元素
-int LocateElem(LinkList head, ElemType data);  //得到链表指定元素的位置
-Node* GetPosPrior(LinkList head, int pos);//获得pos位置节点的前驱节点
-void Show(LinkList head);  //打印单链表
-void ListInsert(LinkList head, int pos, ElemType data);//在指定位置插入元素
-void ListInsertHead(LinkList head,ElemType data);  //在链表的头部插入元素
-void ListInsertTail(LinkList head, ElemType data); //在链表的尾部插入元素
-void ListDeletePos(LinkList head, int pos);//删除指定位置的元素
-void ListDeleteHead(LinkList head);//删除单链表的第一个元素
-void ListDeleteTail(LinkList head);//删除单链表的最后一个元素
-void ListDeleteData(LinkList head, ElemType data);  ////删除与data相等数据的元素
-/*面经题
-1、找倒数第k个结点O(n)
-2、O(1)删除结点p（不是尾结点）
-3、单链表的原地逆置
-4、判断两个单链表是否相交，找到相交的一个结点
-5、判断单链表是否有环，找到入环的第一个结点
-*/
-Node* Find_k_to_last(LinkList head, int k);  //查找到链表中的倒数第K个节点O(n)
-void DeleteP(LinkList head, Node* pfind);   //O(1)删除结点p（不是尾结点）
-LinkList reverse(LinkList head); //单链表的原地逆置
-Node* IsIntersect(LinkList head1, LinkList head2);//判断两个单链表是否相交，找到相交的一个结点
-Node* IsLoop(LinkList head);  //判断单链表是否有环,找到入环的第一个结点</code></pre><h2 id="LinkList-cpp"><a href="#LinkList-cpp" class="headerlink" title="LinkList.cpp"></a>LinkList.cpp</h2><pre><code>#include &quot;LinkList.h&quot;
-#include &lt;stdio.h&gt;
-#include &lt;stdlib.h&gt;
-#include &lt;malloc.h&gt;
-#include &lt;memory.h&gt;
-#include &lt;assert.h&gt;
+//单行注释   </code></pre><h3 id="方法二"><a href="#方法二" class="headerlink" title="方法二"></a>方法二</h3><p>使用/ * * / 注释的时候有效范围是第一个/ * 到 第一个 * /  </p>
+<pre><code>/*
 
+被注释的内容
 
-/*------------------------------------------------------------
-操作目的：    初始化链表
-初始条件：    无
-操作结果：    构造一个空的线性表
-函数参数：
-        LinkList head    待初始化的线性表
-返回值：
-        void    
-------------------------------------------------------------*/
-void InitList(LinkList head)
-{
-    if(head == NULL)
-        exit(-1);
-    head-&gt;next = NULL;
-    head-&gt;data = 0;
-}
+*/</code></pre><p><strong>不支持嵌套</strong></p>
+<h3 id="方法三"><a href="#方法三" class="headerlink" title="方法三"></a>方法三</h3><p>使用条件编译，通过条件编译的方法实现多行注释</p>
+<pre><code>#if 0
 
-/*------------------------------------------------------------
-操作目的：    销毁链表
-初始条件：    线性表head已存在
-操作结果：    线性表head不存在
-函数参数：
-        LinkList head    待销毁的线性表
-返回值：
-        无
-------------------------------------------------------------*/
-void DestroyList(LinkList head)
-{
-    assert(head != NULL);
-    if (head == NULL)
-    {
-        printf(&quot;%s %d error&quot;, __FUNCTION__, __LINE__);
-        exit(0);
-    }
-    while (head-&gt;next)
-    ListDeleteHead(head);
-}
+被注释的内容
 
-/*------------------------------------------------------------
-操作目的：    判断链表是否为空
-初始条件：    线性表head已存在
-操作结果：    若head为空表，则返回true，否则返回false
-函数参数：
-        LinkList head    待判断的线性表
-返回值：
-        bool        是否为空
-------------------------------------------------------------*/
-bool IsListEmpty(LinkList head)
-{
-    assert(head != NULL);
-    if (head == NULL)
-    {
-        printf(&quot;%s %d error&quot;, __FUNCTION__, __LINE__);
-        exit(0);
-    }
-    return head-&gt;next == NULL ? true : false;
-
-}
-
-/*------------------------------------------------------------
-操作目的：    得到链表的长度
-初始条件：    线性表head已存在
-操作结果：    返回L中数据元素的个数
-函数参数：
-        LinkList head    线性表head
-返回值：
-        int            数据元素的个数
-------------------------------------------------------------*/
-int  ListLength(LinkList head)
-{
-    assert(head != NULL);
-    if (head == NULL)
-    {
-        printf(&quot;%s %d error&quot;, __FUNCTION__, __LINE__);
-        exit(0);
-    }
-    return head-&gt;data;
-}
-
-
-
-
-/*------------------------------------------------------------
-操作目的：    得到链表的pos位置元素
-初始条件：    线性表L已存在，0&lt;=i&lt;=ListLength(head)
-操作结果：    返回找打的元素
-函数参数：
-        LinkList head    线性表head
-        int i        数据元素的位置
-返回值：
-        ElemType 返回元素数据
-------------------------------------------------------------*/
-ElemType GetElem(LinkList head, int pos)
-{
-    assert(head != NULL);
-    if (head == NULL)
-    {
-        printf(&quot;%s %d error&quot;, __FUNCTION__, __LINE__);
-        exit(0);
-    }
-    Node* tmp = head-&gt;next;
-    while (pos &gt; 0)
-    {
-        tmp = tmp-&gt;next;
-        pos--;
-    }
-    return tmp-&gt;data;
-}
-
-/*------------------------------------------------------------
-操作目的：    得到链表指定元素的位置
-初始条件：    线性表head已存在
-操作结果：    返回查找到的和指定data相等的元素的下标
-            若这样的元素不存在则返回0。
-函数参数：
-        LinkList head    线性表head
-        ElemType data    查找的元素
-返回值：
-        int   返回元素的位置
-------------------------------------------------------------*/
-int LocateElem(LinkList head, ElemType data)
-{
-    assert(head != NULL);
-    if (head == NULL)
-    {
-        printf(&quot;%s %d error&quot;, __FUNCTION__, __LINE__);
-        exit(0);
-    }
-    Node* tmp = head-&gt;next;
-    unsigned count = 0;
-    while (tmp)
-    {
-        if(data == tmp-&gt;data)
-            return count;
-        else
-        {
-            count++;
-            tmp = tmp-&gt;next;
-        }    
-    }
-    return -1;
-}
-
-/*------------------------------------------------------------
-操作目的：    返回链表中pos位置的前驱节点
-初始条件：    线性表head已存在
-操作结果：    返回链表中pos位置的前驱节点的地址
-函数参数：
-        LinkList head        线性表head
-int pos           链表位置
-返回值：
-        返回前驱节点
-------------------------------------------------------------*/
-Node* GetPosPrior(LinkList head, int pos)
-{
-    assert(head != NULL);
-    if (head == NULL)
-    {
-        printf(&quot;%s %d error&quot;, __FUNCTION__, __LINE__);
-        exit(0);
-    }
-    if (pos&lt;0 || pos&gt;head-&gt;data)
-    {
-        printf(&quot;pos error&quot;);
-        exit(0);
-    }
-    Node* tmp = head;
-    while (pos &gt; 0)
-    {
-        tmp = tmp-&gt;next;
-        pos--;
-    }
-    return tmp;
-}
-/*------------------------------------------------------------
-操作目的：    打印链表
-初始条件：    线性表head已存在
-操作结果：    依次打印链表中所有元素的数据域
-函数参数：
-        LinkList head        线性表head
-返回值：
-        void
-------------------------------------------------------------*/
-void Show(LinkList head)
-{
-    assert(head != NULL);
-    if (head == NULL)
-    {
-        printf(&quot;%s %d error&quot;, __FUNCTION__, __LINE__);
-        exit(0);
-    }
-    Node* tmp = head-&gt;next;
-    while (tmp)
-    {
-        printf(&quot;%d\t&quot;, tmp-&gt;data);
-        tmp = tmp-&gt;next;
-    }
-    printf(&quot;\n&quot;);
-
-}
-
-
-/*------------------------------------------------------------
-操作目的：    在链表的指定位置插入结点，插入位置i表示在第i个
-            元素之前插入
-初始条件：    线性表head已存在，0&lt;=i&lt;=ListLength(head)
-操作结果：    在head中第pos个位置插入新的数据元素data，head的长度加1
-函数参数：
-        LinkList head    线性表head
-        int pos        插入位置
-        ElemType data    待插入的数据元素
-返回值：
-        void
-------------------------------------------------------------*/
-void ListInsert(LinkList head, int pos, ElemType data)
-{
-    assert(head != NULL);
-    if (head == NULL)
-    {
-        printf(&quot;%s %d error&quot;, __FUNCTION__, __LINE__);
-        exit(0);
-    }
-    if (pos&lt;0 || pos&gt;head-&gt;data)
-    {
-        printf(&quot;pos error&quot;);
-        exit(0);
-    }
-    Node* tmp = (Node *)malloc(sizeof(Node));
-    if (tmp == NULL)
-    {
-        printf(&quot;apply fail&quot;);
-        exit(-1);
-    }
-    tmp-&gt;data = data;
-    Node * PosPrior = GetPosPrior(head,pos);
-    tmp-&gt;next = PosPrior-&gt;next;
-    PosPrior-&gt;next = tmp;
-    head-&gt;data++;
-}
-
-
-/*------------------------------------------------------------
-操作目的：    在链表的头部插入元素
-初始条件：    线性表L已存在
-操作结果：    在链表的头部插入元素，head的长度加1
-函数参数：
-        LinkList head    线性表head
-        ElemType data    待插入的数据元素
-返回值：
-        bool        操作是否成功
-------------------------------------------------------------*/
-void ListInsertHead(LinkList head, ElemType data)
-{
-
-    assert(head != NULL);
-    if (head == NULL)
-    {
-        printf(&quot;%s %d error&quot;, __FUNCTION__, __LINE__);
-        exit(0);
-    }
-    ListInsert(head, 0, data);
-}
-
-
-/*------------------------------------------------------------
-操作目的：    在链表的尾部位置插入节点
-初始条件：    线性表head已存在
-操作结果：    在L中尾部插入节点，head的长度加1
-函数参数：
-        LinkList head    线性表head
-        ElemType data    待插入的数据元素
-返回值：
-        无
-------------------------------------------------------------*/
-void ListInsertTail(LinkList head, ElemType data)
-{
-
-    assert(head != NULL);
-    if (head == NULL)
-    {
-        printf(&quot;%s %d error&quot;, __FUNCTION__, __LINE__);
-        exit(0);
-    }
-    ListInsert(head, head-&gt;data, data);
-}
-
-
-
-
-/*------------------------------------------------------------
-操作目的：    删除链表的第i个结点
-初始条件：    链表存在
-操作结果：    删除head的第i个数据元素
-函数参数：
-        LinkList head    线性表head
-        int pos       删除位置
-
-返回值：
-        无返回值
-------------------------------------------------------------*/
-void ListDeletePos(LinkList head, int pos)
-{
-    assert(head != NULL);
-    if (head == NULL)
-    {
-        printf(&quot;%s %d error&quot;, __FUNCTION__, __LINE__);
-        exit(0);
-    }
-    if (pos&lt;0 || pos&gt;head-&gt;data)
-        exit(0);
-    Node * tmp = GetPosPrior(head,pos);
-    Node* PosNode = tmp-&gt;next;
-    tmp-&gt;next = PosNode-&gt;next;
-    free(PosNode);
-    head-&gt;data--;
-}
-
-/*------------------------------------------------------------
-操作目的：    删除链表的头节点
-初始条件：    线性表head已存在且非空
-操作结果：    删除head的头节点
-函数参数：
-        LinkList head    线性表head
-返回值：
-        无返回值
-------------------------------------------------------------*/
-void ListDeleteHead(LinkList head)
-{
-    assert(head != NULL);
-    if (head == NULL)
-    {
-        printf(&quot;%s %d error&quot;, __FUNCTION__, __LINE__);
-        exit(0);
-    }
-    ListDeletePos(head, 0);
-}
-
-
-/*------------------------------------------------------------
-操作目的：    删除链表的尾节点
-初始条件：    线性表head已存在且非空
-操作结果：    删除head的尾节点
-函数参数：
-        LinkList head    线性表head
-返回值：
-        无返回值
-------------------------------------------------------------*/
-void ListDeleteTail(LinkList head)
-{
-    assert(head != NULL);
-    if (head == NULL)
-    {
-        printf(&quot;%s %d error&quot;, __FUNCTION__, __LINE__);
-        exit(0);
-    }
-    ListDeletePos(head, head-&gt;data - 1);
-
-}
-
-
-/*------------------------------------------------------------
-操作目的：    删除链表数据域为data的节点
-初始条件：    线性表head已存在且非空
-操作结果：    删除链表数据域为data的节点
-函数参数：
-        LinkList head    线性表head
-        ElemType data    被删除的数据元素值
-返回值：
-        无返回值
-------------------------------------------------------------*/
-void ListDeleteData(LinkList head, ElemType data)   //删除与data相等数据的元素
-{
-    assert(head != NULL);
-    if (head == NULL)
-    {
-        printf(&quot;%s %d error&quot;, __FUNCTION__, __LINE__);
-        exit(0);
-    }
-    Node* tmp = head-&gt;next;
-    int count = 0;
-    while (tmp)
-    {
-        if (tmp-&gt;data == data)
-        {
-            Node* tmp = GetPosPrior(head,count);
-            Node* PosNode = tmp-&gt;next;
-            tmp-&gt;next = PosNode-&gt;next;
-            free(PosNode);
-            return;
-        }
-        else
-        {
-            tmp = tmp-&gt;next;
-            count++;
-        }    
-    }
-}
-
-/*------------------------------------------------------------
-操作目的：    查找链表中倒数第k和节点
-初始条件：    线性表head已存在且非空
-操作结果：    查找链表中倒数第k和节点
-函数参数：
-        LinkList head    线性表head
-        int  k  倒数第k个元素
-返回值：
-        无返回值
-------------------------------------------------------------*/
-Node* Find_k_to_last(LinkList head, int k)
-{
-    assert(head != NULL);
-    if (head == NULL)
-    {
-        printf(&quot;%s %d error&quot;, __FUNCTION__, __LINE__);
-        exit(0);
-    }
-    if (k &lt; 1)
-    {
-        printf(&quot;pos error&quot;);
-        exit(0);
-    }
-    Node* fast = head-&gt;next;
-    Node* slow = head-&gt;next;
-    while (k &gt; 0 &amp;&amp; fast)
-    {
-        fast = fast-&gt;next;
-        k--;
-    }
-
-    while (fast)
-    {
-        fast = fast-&gt;next;
-        slow = slow-&gt;next;
-    }
-    return slow;
-
-}
-
-void DeleteP(LinkList head,Node * pfind)
-{
-    assert(head != NULL);
-    if (head == NULL)
-    {
-        printf(&quot;%s %d error&quot;, __FUNCTION__, __LINE__);
-        exit(0);
-    }
-    if (pfind-&gt;next == NULL)
-    {
-        while (head-&gt;next != pfind)
-            head = head-&gt;next;
-        head-&gt;next = pfind-&gt;next;
-        free(pfind);
-        pfind = NULL;
-    }
-    else
-    {
-        Node* p = pfind-&gt;next;
-        pfind-&gt;data = pfind-&gt;next-&gt;data;
-        pfind-&gt;next = pfind-&gt;next-&gt;next;
-        free(p);
-        pfind = NULL;
-    }
-}
-
-LinkList reverse(LinkList head) //单链表的原地逆置
-{
-    assert(head != NULL);
-    if (head == NULL)
-    {
-        printf(&quot;%s %d error&quot;, __FUNCTION__, __LINE__);
-        exit(0);
-    }
-    Node* p;
-    Node* s;
-    p = head-&gt;next;
-    s = p-&gt;next;
-    head-&gt;next = NULL;
-    while (p)
-    {
-        p-&gt;next = head-&gt;next;
-        head-&gt;next = p;
-        p = s;
-        if (p != NULL)
-            s = p-&gt;next;
-    }
-    return head;
-}
-
-Node* IsIntersect(LinkList head1, LinkList head2)//判断两个单链表是否相交，找到相交的一个结点
-{
-    if (head1 == NULL || head2 == NULL)  return NULL;
-    int distance = 0;
-    Node* p = head1-&gt;next;
-    Node* q = head2-&gt;next;
-    distance = head1-&gt;data &gt; head2-&gt;data ? head1-&gt;data - head2-&gt;data : head2-&gt;data - head1-&gt;data;
-    if (head1-&gt;data &gt; head2-&gt;data)
-    {
-        while (distance)
-        {
-            p = p-&gt;next;
-            distance--;
-        }
-        while (p)
-        {
-            if (p == q)  return p;
-            p = p-&gt;next;
-            q = q-&gt;next;
-        }
-    }
-    if(head1-&gt;data &lt;= head2-&gt;data)
-    {
-        while (distance)
-        {
-            q = q-&gt;next;
-            distance--;
-        }
-        while (q)
-        {
-            if (p == q)  return p;
-            p = p-&gt;next;
-            q = q-&gt;next;
-        }
-    }
-    return NULL;
-}
-
-Node* IsLoop(LinkList head)//判断单链表是否有环，找到入环的第一个结点
-{
-    assert(head != NULL);
-    if (head == NULL)
-    {
-        printf(&quot;%s %d error&quot;, __FUNCTION__, __LINE__);
-        exit(0);
-    }
-    Node* p = head;
-    Node* q = head;
-    while (1)
-    {
-        p = p-&gt;next;
-        if (q == NULL || q-&gt;next == NULL)
-            break;
-        q = q-&gt;next-&gt;next;
-        if (p == q)
-            break;
-    }
-    if (p != q)
-        return NULL;
-    else
-        p = head-&gt;next;
-    while (p != q)
-    {
-        p = p-&gt;next;
-        q = q-&gt;next;
-    }
-    return p;
-}</code></pre><h3 id="判断单链表是否有环，找到入环的第一个结点（图解分析）"><a href="#判断单链表是否有环，找到入环的第一个结点（图解分析）" class="headerlink" title="判断单链表是否有环，找到入环的第一个结点（图解分析）"></a>判断单链表是否有环，找到入环的第一个结点（图解分析）</h3><p><img src="https://img-blog.csdnimg.cn/20200325093644501.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="判断单链表是否有环，找到入环的第一个结点"></p>
-<h2 id="测试结果"><a href="#测试结果" class="headerlink" title="测试结果"></a>测试结果</h2><p><img src="https://img-blog.csdnimg.cn/20200325093532627.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="测试结果"></p>
+#endif</code></pre><h1 id="从源文件到可执行文件经历了什么？"><a href="#从源文件到可执行文件经历了什么？" class="headerlink" title="从源文件到可执行文件经历了什么？"></a>从源文件到可执行文件经历了什么？</h1><p>IDE继承开发环境：Qt  vs   </p>
+<p>IDE一般引入工程概念</p>
+<p>从源文件到可执行文件经历了什么？</p>
+<p>linux    main.c–&gt;a.out</p>
+<p>windows  main.c –&gt;xx.exe</p>
+<p>源文件(文本文件)–&gt; 预处理（文本文件） –&gt; 编译（汇编程序） –&gt;汇编（二进制程序）–&gt;链接（可执行目标程序） –&gt; 可执行文件</p>
+<p><strong>预处理：gcc- E main.c -o main.i   //处理文件包含，宏和注释等，     结果生成文本文件</strong></p>
+<p><strong>编译：gcc - S -main.i -o main.s  //编译为汇编文件，               结果生成.s为汇编语言</strong></p>
+<p><strong>汇编：gcc -c -main.s -o main.o   //经过汇编后为二进制的机器指令，  结果生成.o为二进制文件</strong></p>
+<p><strong>链接：gcc main.o -o main         //链接所用到的库，   结果生成main为可以执行文件。</strong></p>
+<p><a href="https://blog.csdn.net/qq_43648751/article/details/104182260" target="_blank" rel="noopener">从源文件到可执行文件经历了什么？点击进入详细博客说明</a></p>
+<h1 id="致敬大师"><a href="#致敬大师" class="headerlink" title="致敬大师"></a>致敬大师</h1><p><img src="https://img-blog.csdnimg.cn/20200427110018733.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="丹尼斯里奇和肯汤姆森"></p>
+<h1 id="Linux简单了解"><a href="#Linux简单了解" class="headerlink" title="Linux简单了解"></a>Linux简单了解</h1><p>学习linux 的原因：我们更加能够开到程序编译的本质。</p>
+<p>世界上90%服务器都是linu和unix， 很少有windows</p>
+<p>学习编程我过程我们需要了解不同平台的差异性。</p>
+<p>linux平台下面使用的是原汁原味的gcc</p>
+<p>世界上最大的开源软件：linux操作系统</p>
+<p>gccRithard Matthew Stallman  编写了gcc    发起组织了GNU</p>
+<p>软件行业最难写的就是编译器和操作系统</p>
+<p>centOS  和ubuntuOS  都采用了linux内核  属于不同的发行版  就像两款车使用了相同的发动机生产不同的车子。</p>
+<p>内核是不能直接运行在某个具体的机型上的，需要适配，就有了各种发行版本。</p>
+<p>linux查看内核版本号：name -r</p>
+<p>我安装linux操作系统 内核版本是：5.3.0 -42 generic</p>
+<p>主版本号.次版本号.末版本</p>
+<p>次版本号：奇数代表开发板，偶数代表稳定版。</p>
+<p>国产linux发行版本：红旗，深度，麒麟(ubuntu 的中文定制版)</p>
+<p>centOS 是免费的redhat   </p>
+<p>linux内核在服务器领域大显身手，但是桌面领域windows一统天下</p>
+<p>linux目录为：文件树。</p>
+<p>根目录–&gt;一级目录–&gt;二级目录–&gt;三级目录–&gt;……</p>
+<p>可以通过命令 tree / -L 2 查看目录结构</p>
+<p>linux分区与目录：</p>
+<p>Linux中有文件系统。</p>
+<p>linux把分区挂载在文件系统的目录下面。</p>
+<p>那么给文件系统的目录下面写入内容的时候实际上是写入了挂载在文件系统中对应的分区。</p>
+<p>相对路径：相对于当前所在的路径</p>
+<p>绝对路径：相对于根路径</p>
+<p>在拷贝目录文件的时候需要加上参数：</p>
+<p>cp -r dira dirb             (recursive递归)</p>
+<p>移动文件夹的时候正常操作：</p>
+<p>mv  dira dirb </p>
+<p>文件重命名：mv后面跟的不是文件夹，则为重命名的需求。</p>
+<p>mv aa.cc aa.c    </p>
+<p>目录文件重命名方式相同。</p>
+<p>cp命令的覆盖功能:</p>
+<p>如果a.c b.c  都存在</p>
+<p>那么 cp a.c b.c 则实现a.c覆盖b.c</p>
+<p>删除多个文件名相似的文件：</p>
+<p>rm * .c     rm dir *   等操作格式</p>
+<p>rm -f     强制删除  (force 强制)   </p>
+<p>rm -rf 递归删除</p>
+<p>rm -rf *  删除所有东西      一步操作回到解放前     毁灭性的操作</p>
+<p>smb服务实现windows窗口与虚拟机之间的数据拖动</p>
+<p>sshd服务实现远程登录</p>
+<p>使用vimtutor  -g zh  联系vim的使用</p>
+<p>在从root用户切换到普通用户的时候，再从普通用户切换到root用户的时候使用exit 不要使用su root<br>否则在删除的时候会提示占据终端而删除用户失败。</p>
+<p>删除用户的两种方式：</p>
+<p>userdel  user    删除用户但是保存用户文件</p>
+<p>rm -rf /home/user/    删除用户及用户文件</p>
+<p>userdel -r user    直接彻底删除user用户的所有信息</p>
+<p>vi编辑器中的代码格式调整  先按下gg    然后shift + v  然后shift  + g     然后按下=一键格式化。</p>
+<h1 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h1><p>最后我们要强调在linux环境下的一个文本编辑器：</p>
+<p>vim文本编辑器       —–神一样的编辑器</p>
+<p>学习成本有点高      学习路线有点陡峭</p>
+<p><strong>使用是否灵活当即可鉴别是否具备丰富的linux/unix的开发经验。</strong></p>
 
             </div>
             <hr/>
@@ -1164,7 +619,7 @@ Node* IsLoop(LinkList head)//判断单链表是否有环，找到入环的第一
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://www.teachermin.com/2020/03/16/%E5%AE%9E%E7%8E%B0%E5%B8%A6%E5%A4%B4%E7%BB%93%E7%82%B9%E7%9A%84%E5%8D%95%E9%93%BE%E8%A1%A8%E5%8F%8A%E5%B8%B8%E8%A7%81%E7%AE%97%E6%B3%95/">http://www.teachermin.com/2020/03/16/%E5%AE%9E%E7%8E%B0%E5%B8%A6%E5%A4%B4%E7%BB%93%E7%82%B9%E7%9A%84%E5%8D%95%E9%93%BE%E8%A1%A8%E5%8F%8A%E5%B8%B8%E8%A7%81%E7%AE%97%E6%B3%95/</a>
+                    <a href="http://www.teachermin.com/2020/04/27/C%EF%BC%9A%E7%AE%80%E5%8D%95%E4%BA%86%E8%A7%A3C%E8%AF%AD%E8%A8%80%E5%92%8Clinux/">http://www.teachermin.com/2020/04/27/C%EF%BC%9A%E7%AE%80%E5%8D%95%E4%BA%86%E8%A7%A3C%E8%AF%AD%E8%A8%80%E5%92%8Clinux/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -1201,11 +656,7 @@ Node* IsLoop(LinkList head)//判断单链表是否有环，找到入环的第一
                 <div class="post-meta__tag-list" style="display: inline-block;">
                     
                         <div class="article-tag">
-                            
-                                <a href="/tags/%E9%93%BE%E8%A1%A8/">
-                                    <span class="chip bg-color">链表</span>
-                                </a>
-                            
+                            <span class="chip bg-color">无标签</span>
                         </div>
                     
                 </div>
@@ -1369,55 +820,43 @@ Node* IsLoop(LinkList head)//判断单链表是否有环，找到入环的第一
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2020/03/17/C%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C%EF%BC%9A%E6%96%87%E4%BB%B6%E6%8C%87%E9%92%88%E5%81%8F%E7%A7%BB,%20rewind%E5%87%BD%E6%95%B0,ftell%E5%87%BD%E6%95%B0%20,%20fseek%E5%87%BD%E6%95%B0/">
+                <a href="/2020/04/27/C%EF%BC%9A%E7%AE%80%E5%8D%95%E4%BA%86%E8%A7%A3C%E8%AF%AD%E8%A8%80%E5%92%8Clinux/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/18.jpg" class="responsive-img" alt="C文件操作：文件指针偏移, rewind函数,ftell函数 , fseek函数">
+                        <img src="/medias/featureimages/11.jpg" class="responsive-img" alt="C：简单了解C语言和linux">
                         
-                        <span class="card-title">C文件操作：文件指针偏移, rewind函数,ftell函数 , fseek函数</span>
+                        <span class="card-title">C：简单了解C语言和linux</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            rewind 函数
-如果一个文件具有读写属性，当我们写完文件，需要读的时候，此时会遇到文件结尾现象。此时就需要 rewind。
-ftell 函数
-#include &lt;stdio.h&gt;
-int main()
-{
-    FILE*
+                            hello world这个世界，几乎每个程序员入门的第一段代码都是 Hello world。原因是当年 C 语言的作者，Dennis Ritchie（丹尼斯·里奇）在他的名著 《C 程序设计语言（The C ProgrammingLangu
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-03-17
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-04-27
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/C%E5%9F%BA%E7%A1%80/" class="post-category">
-                                    C基础
+                            <a href="/categories/C/" class="post-category">
+                                    C
                                 </a>
                             
                             
                         </span>
                     </div>
                 </div>
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/C%E6%96%87%E4%BB%B6/">
-                        <span class="chip bg-color">C文件</span>
-                    </a>
-                    
-                </div>
+
                 
             </div>
         </div>
@@ -1428,35 +867,33 @@ int main()
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/03/16/C++%E6%B4%BE%E7%94%9F%E7%B1%BB%E7%9A%84%E8%B5%8B%E5%80%BC%E8%BF%90%E7%AE%97%E7%AC%A6%E9%87%8D%E8%BD%BD/">
+                <a href="/2020/04/27/C%E4%BB%8E%E6%BA%90%E7%A8%8B%E5%BA%8F%E5%88%B0%E5%8F%AF%E6%89%A7%E8%A1%8C%E6%80%A7%E7%A8%8B%E5%BA%8F/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/17.jpg" class="responsive-img" alt="C++派生类的赋值运算符重载">
+                        <img src="/medias/featureimages/23.jpg" class="responsive-img" alt="C从源程序到可执行性程序，预处理--> 编译--> 汇编--> 链接">
                         
-                        <span class="card-title">C++派生类的赋值运算符重载</span>
+                        <span class="card-title">C从源程序到可执行性程序，预处理--> 编译--> 汇编--> 链接</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            派生类的赋值符重载赋值运算符函数,不是构造器，可以看作是一个普通的函数，所以可以继承，语法上就没有构造器那么严格。
-语法子类&amp; 子类::operator=(const 子类&amp; another)
-{
-...
-父类::opera
+                            从源程序到可执行性程序集成开发环境对于集成开发环境（IDE，Integrated Development Environment ）而言，减少了环境配置，合并了流程，使其便于快速开发。就 Qt 开发环境或者vs开发环境等只需一步即可。
+
+或
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-03-16
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-04-27
                             </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
                             <a href="/categories/C/" class="post-category">
-                                    C++
+                                    C
                                 </a>
                             
                             
@@ -1466,8 +903,8 @@ int main()
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/C-%E7%BB%A7%E6%89%BF/">
-                        <span class="chip bg-color">C++继承</span>
+                    <a href="/tags/%E6%BA%90%E6%96%87%E4%BB%B6-%E5%8F%AF%E6%89%A7%E8%A1%8C%E6%96%87%E4%BB%B6/">
+                        <span class="chip bg-color">源文件-&gt;可执行文件</span>
                     </a>
                     
                 </div>
@@ -1666,7 +1103,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">131.9k</span>&nbsp;字
+                class="white-color">139.5k</span>&nbsp;字
             
             
             

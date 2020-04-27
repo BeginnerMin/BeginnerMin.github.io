@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="本机IPC之消息队列详解, SkilledBeginner">
+    <meta name="keywords" content="C++文件流：myfstream，fstream，文件读写，随机文件读写, SkilledBeginner">
     <meta name="description" content="努力做一个很厉害的人">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>本机IPC之消息队列详解 | SkilledBeginner</title>
+    <title>C++文件流：myfstream，fstream，文件读写，随机文件读写 | SkilledBeginner</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -306,12 +306,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/7.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/20.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">本机IPC之消息队列详解</h1>
+                    <h1 class="description center-align post-title">C++文件流：myfstream，fstream，文件读写，随机文件读写</h1>
                 </div>
             </div>
         </div>
@@ -428,8 +428,8 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/linux-%E6%9C%AC%E6%9C%BAIPC/">
-                                <span class="chip bg-color">linux 本机IPC</span>
+                            <a href="/tags/C-%E6%B5%81/">
+                                <span class="chip bg-color">C++流</span>
                             </a>
                         
                     </div>
@@ -440,8 +440,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/Linux/" class="post-category">
-                                Linux
+                            <a href="/categories/C/" class="post-category">
+                                C++
                             </a>
                         
                     </div>
@@ -453,28 +453,28 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-03-11
+                    2020-04-12
                 </div>
                 
 
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2020-03-13
+                    2020-04-12
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    4.8k
+                    1.5k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    19 分
+                    7 分
                 </div>
                 
 
@@ -490,408 +490,195 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="消息队列的原理"><a href="#消息队列的原理" class="headerlink" title="消息队列的原理"></a>消息队列的原理</h2><p>消息队列的本质就是由内核创建的用于存放消息的<strong>双向链表</strong>，由于是存放消息的，所以我们就把这个链表称为了消息队列。</p>
-<p>通信的进程通过共享操作同一个消息队列，就能实现进程间通信。</p>
-<h2 id="消息是如何存放在消息队列中的呢？"><a href="#消息是如何存放在消息队列中的呢？" class="headerlink" title="消息是如何存放在消息队列中的呢？"></a>消息是如何存放在消息队列中的呢？</h2><p>消息队列这个链表有很多的节点，链表上的每一个节点就是一个消息。<br>    图示说明：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200311155130158.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="消息队列存储示意图"></p>
-<p>从图中可以看出，每个消息由两部分组成，分别是消息编号（消息类型）和消息正文。</p>
-<p><strong>1）消息编号：识别消息用</strong></p>
-<p><strong>2）消息正文：真正的信息内容</strong></p>
-<h1 id="收发数据的过程"><a href="#收发数据的过程" class="headerlink" title="收发数据的过程"></a>收发数据的过程</h1><h2 id="发送消息"><a href="#发送消息" class="headerlink" title="发送消息"></a>发送消息</h2><p><strong>1，进程先封装一个消息包</strong><br>这个消息包其实就是如下类型的一个结构体变量，封包时将消息编号和消息正文<br>写到结构体的成员中。</p>
-<pre><code>struct msgbuf
-{
-        long mtype; /* 放消息编号，必须&gt; 0 */
-        char mtext[msgsz];  /* 消息内容（消息正文） */
-};    </code></pre><p><strong>2，调用相应的API发送消息</strong></p>
-<p>调用API时通过“消息队列的标识符”找到对应的消息队列，然后将消息包发送给消息队列，消息包（存放消息的结构体变量）会被作为一个链表节点插入链表。</p>
-<h2 id="接收消息"><a href="#接收消息" class="headerlink" title="接收消息"></a>接收消息</h2><p>调用API接收消息时，必须传递两个重要的信息，</p>
-<p><strong>1，消息队列标识符</strong></p>
-<p><strong>2，你要接收消息的编号</strong></p>
-<p>有了这两个信息，API就可以找到对应的消息队列，然后从消息队列中取出你所要编号的消息，如此就收到了别人所发送的信息。</p>
-<p>“消息队列”有点像信息公告牌，发送信息的人把某编号的消息挂到公告牌上，接收消息的人自己到公告牌上去取对应编号的消息，如此，发送者和接受者之间就实现了通信。</p>
-<h2 id="使用消息队列实现网状交叉通信"><a href="#使用消息队列实现网状交叉通信" class="headerlink" title="使用消息队列实现网状交叉通信"></a>使用消息队列实现网状交叉通信</h2><p>对于前面讲的管道来说，很难实现网状交叉通信，但是使用消息队列确非常容易实现。<br>交叉网状通信：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200311155358955.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="网状交叉通信示意图"></p>
-<p>使用消息队列实现交叉网状通信：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200311155420962.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="实现交叉网状通信"></p>
-<p>其他进程通信过程类似。</p>
-<h1 id="消息队列的使用步骤"><a href="#消息队列的使用步骤" class="headerlink" title="消息队列的使用步骤"></a>消息队列的使用步骤</h1><p>（1）使用msgget函数创建新的消息队列、或者获取已存在的某个消息队列，并返回唯一标识消息队列的标识符（msqID），后续收发消息就是使用这个标识符来实现的。</p>
-<p>（2）收发消息<br>    发送消息：使用msgsnd函数，利用消息队列标识符发送某编号的消息<br>    接收消息：使用msgrcv函数，利用消息队列标识符接收某编号的消息</p>
-<p>(3) 使用msgctl函数，利用消息队列标识符删除消息队列。</p>
-<p>对于使用消息队列来通信的多个进程来说，只需要一个进程来创建消息队列就可以了，对于其它要参与通信的进程来说，直接使用这个创建好的消息队列即可。</p>
-<p>为了保证消息队列的创建，最好是让每一个进程都包含创建消息队列的代码，谁先运行就由谁创建，后运行的进程如果发现它想用的那个消息队列已经创建好了，就直接使用，当众多进程共享操作同一个消息队列时，即可实现进程间的通信。</p>
-<h1 id="消息队列API"><a href="#消息队列API" class="headerlink" title="消息队列API"></a>消息队列API</h1><h2 id="msgget函数"><a href="#msgget函数" class="headerlink" title="msgget函数"></a>msgget函数</h2><h3 id="函数原型"><a href="#函数原型" class="headerlink" title="函数原型"></a>函数原型</h3><pre><code>#include &lt;sys/types.h&gt;
-#include &lt;sys/ipc.h&gt;
-#include &lt;sys/msg.h&gt;
-int msgget(key_t key, int msgflg);</code></pre><h3 id="功能"><a href="#功能" class="headerlink" title="功能"></a>功能</h3><p>利用key值创建、或者获取一个消息队列。<br>如果key没有对应任何消息队列，那就创建一个新的消息队列，让key值与消息队列对应。<br>如果key已经对应了某个消息队列，说明你要的消息队列已经存在了，那就获取这个消息队列来使用。</p>
-<p><strong>key值也能够唯一的标识消息队列。</strong></p>
-<h3 id="返回值"><a href="#返回值" class="headerlink" title="返回值"></a>返回值</h3><p>成功：返回消息队列标识符（消息队列的ID）对于每一个创建好的消息队列来说，ID是固定的。<br>失败：失败返回-1，并设置errno。    </p>
-<h3 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h3><pre><code>int msgget(key_t key, int msgflg);</code></pre><h4 id="key值"><a href="#key值" class="headerlink" title="key值"></a>key值</h4><p>用于为消息队列生成（计算出）唯一的消息队列ID。</p>
-<p>我们可以指定三种形式的key值：</p>
-<p>第一种：<br>指定为IPC_PRIVATE宏，指定这个宏后，每次调用msgget时都会创建一个新的消息队列。如果你每次使用的必须是新消息队列的话，就可以指定这个，不过这个用的很少。<br>因为一般来说，只要有一个消息队列可以用来通信就可以了，并不需要每次都创建一个全新<br>的消息队列。</p>
-<p>第二种：<br>可以自己指定一个整形数，但是容易重复指定，本来我想创建一个新的消息队列，结果我所指定的这个整形数，之前就已经被用于创建某个消息队列了，当我的指定重复时，msgget就不会创建新消息队列，而是使用的是别人之前就创建好的消息队列。所以我们也不会使用。</p>
-<p>第三种：<br>使用ftok函数来生成key</p>
-<pre><code>#include &lt;sys/types.h&gt;
-#include &lt;sys/ipc.h&gt;
-key_t ftok(const char *pathname, int proj_id);</code></pre><p>ftok通过指定路径名和一个整形数，就可以计算并返回一个唯一对应的key值，<br>只要路径名和整形数不变，所对应的key值就唯一不变的。<br>路径名必须是真实有效的。</p>
-<p>由于ftok只会使用整形数（proj_id）的低8位，因此我们往往会指定为一个ASCII码值，因为ASCII码值刚好是8位的整形数。</p>
-<h4 id="msgflg"><a href="#msgflg" class="headerlink" title="msgflg"></a>msgflg</h4><pre><code>int msgget(key_t key, int msgflg);</code></pre><p><strong>msgflg</strong><br><strong>指定创建时的原始权限，比如0664</strong><br>原始权限至少要包括读和写，如果没有读和写那么就没有办法进行数据的收发。<br>创建一个新的消息队列时，除了原始权限，还需要指定IPC_CREAT选项。</p>
-<p>例如：</p>
-<pre><code>msgid = msgget(key, 0664|IPC_CREAT);</code></pre><p>如果key值没有对应任何消息队列，就会创建一个新的消息队列，此时就会用到msgflg参数，但是如果key已经对应了某个早已存在消息队列，就直接返回这个已存在消息队列的ID（标识符），此时不会用到msgflg参数。</p>
-<h1 id="多个进程是如何共享到同一个消息队列"><a href="#多个进程是如何共享到同一个消息队列" class="headerlink" title="多个进程是如何共享到同一个消息队列"></a>多个进程是如何共享到同一个消息队列</h1><h2 id="创建进程"><a href="#创建进程" class="headerlink" title="创建进程"></a>创建进程</h2><p>如果创建者使用”./file”, ‘a’生成一个key值，然后调用msgget创建了一个消息队列，比如：</p>
-<pre><code>key = ftok(&quot;./file&quot;, &apos;a&apos;);
-msgid = msgget(key, 0664|IPC_CREAT);</code></pre><p>当创建者得到msgid后，即可操作消息队列。</p>
-<h2 id="其它共享操作消息队列的进程"><a href="#其它共享操作消息队列的进程" class="headerlink" title="其它共享操作消息队列的进程"></a>其它共享操作消息队列的进程</h2><p>共享的方法很简单，只要你能拿到别人创建好的消息队列的ID，即可共享操作同一个消息队列<br>获取别人创建好的消息队列的ID，有两个方法：<br><strong>1,创建者把ID保存到某文件，共享进程读出ID即可这种情况下，共享进程根本不需要调用msgget函数来返回ID。</strong></p>
-<p><strong>2,调用msgget获取已在消息队列的ID</strong><br>使用ftok函数，利用与创建者相同的“路径名”和8位整形数，生成相同的key值<br>调用msgget函数，利用key找到别人创建好的消息队列，返回ID</p>
-<pre><code>key = ftok(&quot;./file&quot;, &apos;a&apos;);
-msgid = msgget(key, 0664|IPC_CREAT);</code></pre><p>拿到了消息队列的ID后就能共享操作了。<br>这种方法是最常用的方法，因为ftok所用到的“路径名”和“8位的整形数”比较好记忆，<br>所以，你只要记住别人生成key值时所用的“路径名”和“8位的整形数”，你就一定能共享操作别人创建好的消息队列。    </p>
-<h3 id="创建消息队列"><a href="#创建消息队列" class="headerlink" title="创建消息队列"></a>创建消息队列</h3><p>使用消息队列，编写一个多进程网状交叉通信的示例程序，我们先来成功创建一个消息队列。<br>代码演示：</p>
-<pre><code>#include &lt;stdio.h&gt;
-#include &lt;unistd.h&gt;
-#include &lt;stdlib.h&gt;
-#include &lt;sys/types.h&gt;
-#include &lt;sys/ipc.h&gt;
-#include &lt;sys/msg.h&gt;
-#include &lt;sys/stat.h&gt;
-#include &lt;fcntl.h&gt;
-#define MSG_FILE &quot;./msgfile&quot;
+                <h2 id="myfstream"><a href="#myfstream" class="headerlink" title="myfstream"></a>myfstream</h2><h3 id="fstream-Test"><a href="#fstream-Test" class="headerlink" title="fstream Test"></a>fstream Test</h3><pre><code>#include &lt;iostream&gt;
+#include &lt;fstream&gt;
+using namespace  std;
 
-void print_err(char *estr)
+int main()
 {
-perror(estr);
-exit(-1);
+fstream fs(&quot;bbb.txt&quot;, ios::in | ios::out | ios::trunc);
+if(!fs)
+cout &lt;&lt; &quot;open error&quot; &lt;&lt; endl;
+fs.put(&apos;a&apos;);
+fs.put(&apos;b&apos;);
+fs.put(&apos;c&apos;);
+fs.put(&apos;d&apos;);
+fs.seekp(0, ios::beg);
+char ch;
+while (fs.get(ch),!fs.eof())
+{
+cout &lt;&lt; ch;
 }
-
-int creat_or_get_msggque(void)
-{
-int msgid = -1;
-key_t key = -1;
-int fd = 0;
-//创建一个消息队列的专用文件，ftok函数会使用到文件路径名
-fd = open(MSG_FILE,O_RDWR|O_CREAT,0664);
-if(-1 == fd) print_err(&quot;open fail&quot;);
-//利用存在的文件路径名和8位的整型数计算出key的值
-key = ftok(MSG_FILE,&apos;c&apos;);
-if(-1 == key) print_err(&quot;ftok fail&quot;);
-//利用key创建或者获取消息队列
-msgid = msgget(key,0664|IPC_CREAT);
-if(-1 == msgid) print_err(&quot;msgget fail&quot;);
-return msgid;
-}
-
-int main(void)
-{
-int msgid = -1;
-int ret = -1;
-msgid =  creat_or_get_msggque();
-ret = fork();
-if(ret &gt; 0)//发送消息
-{
-
-}
-else if(0 == ret)//接收消息
-{
-
-}
-return 0;
-}</code></pre><p>运行结果通过验证进行查看。</p>
-<h3 id="如何验证消息队列是否被创建成功？"><a href="#如何验证消息队列是否被创建成功？" class="headerlink" title="如何验证消息队列是否被创建成功？"></a>如何验证消息队列是否被创建成功？</h3><p>使用ipcs命令即可查看，可跟接的选项有：</p>
-<ul>
-<li>a 或者 什么都不跟：消息队列、共享内存、信号量的信息都会显示出来</li>
-<li>m：只显示共享内存的信息    </li>
-<li>q：只显示消息队列的信息</li>
-<li>s：只显示信号量的信息<br>我们先来查看程序没有运行之前消息队列的情况：</li>
-</ul>
-<p><img src="https://img-blog.csdnimg.cn/2020031116015849.png" alt="查看消息队列"></p>
-<p>接下来我们查看创建消息队列之后的情况:</p>
-<p><img src="https://img-blog.csdnimg.cn/20200311160231962.png" alt="运行过程"><br><img src="https://img-blog.csdnimg.cn/20200311160244149.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="运行后创建新的消息队列"></p>
-<h3 id="消息队列数据的发送与接收"><a href="#消息队列数据的发送与接收" class="headerlink" title="消息队列数据的发送与接收"></a>消息队列数据的发送与接收</h3><p>消息队列已经创建成功了，接下来我们就开始进行消息的发送与接受。</p>
-<h4 id="发送函数：msgsnd"><a href="#发送函数：msgsnd" class="headerlink" title="发送函数：msgsnd"></a>发送函数：msgsnd</h4><h5 id="函数原型-1"><a href="#函数原型-1" class="headerlink" title="函数原型"></a>函数原型</h5><pre><code>#include &lt;sys/types.h&gt;
-#include &lt;sys/ipc.h&gt;
-#include &lt;sys/msg.h&gt;
-
-int msgsnd(int msqid, const void *msgp, size_t msgsz, int msgflg);</code></pre><h5 id="功能："><a href="#功能：" class="headerlink" title="功能："></a>功能：</h5><p>发送消息到消息队列上。就是将消息挂到消息队列上。</p>
-<h5 id="返回值-1"><a href="#返回值-1" class="headerlink" title="返回值"></a>返回值</h5><p>成功：返回0,<br>失败：返回-1，errno被设置</p>
-<h5 id="参数-1"><a href="#参数-1" class="headerlink" title="参数"></a>参数</h5><p><strong>msqid</strong>：<br>消息队列的标识符。</p>
-<p><strong>msgp</strong>：<br>存放消息的缓存的地址，类型struct msgbuf类型<br>这个缓存就是一个消息包（存放消息的结构体变量）。</p>
-<pre><code>struct msgbuf
-            {
-                long mtype; /* 放消息编号，必须 &gt; 0 */
-                char mtext[msgsz];  /* 消息内容（消息正文） */
-};        </code></pre><p><strong>msgsz</strong>：<br>消息正文大大小。</p>
-<p><strong>msgflg</strong>：<br>    - 0：阻塞发送消息<br>也就是说，如果没有发送成功的话，该函数会一直阻塞等，直到发送成功为止。</p>
-<p> IPC_NOWAIT：非阻塞方式发送消息，不管发送成功与否，函数都将返回<br>也就是说，发送不成功的的话，函数不会阻塞。</p>
-<h4 id="接收函数msgrcv"><a href="#接收函数msgrcv" class="headerlink" title="接收函数msgrcv"></a>接收函数msgrcv</h4><h5 id="函数原型-2"><a href="#函数原型-2" class="headerlink" title="函数原型"></a>函数原型</h5><pre><code>    #include &lt;sys/types.h&gt;
-    #include &lt;sys/ipc.h&gt;
-    #include &lt;sys/msg.h&gt;
-ssize_t msgrcv(int msqid, void *msgp, size_t msgsz, long msgtyp, int msgflg);            </code></pre><h5 id="功能-1"><a href="#功能-1" class="headerlink" title="功能"></a>功能</h5><p>接收消息，就是从消息队列中取出别人所放的某个编号的消息。</p>
-<h5 id="返回值-2"><a href="#返回值-2" class="headerlink" title="返回值"></a>返回值</h5><p>成功：返回消息正文的字节数<br>失败：返回-1，errno被设置</p>
-<h5 id="参数-2"><a href="#参数-2" class="headerlink" title="参数"></a>参数</h5><p> msqid：消息队列的标识符。<br>msgp：缓存地址，缓存用于存放所接收的消息</p>
-<p>类型还是struct msgbuf：</p>
-<pre><code>struct msgbuf
-    {
-    long mtype; /* 存放消息编号*/
-    char mtext[msgsz];  /*存放 消息正文内容 */
-    };                    </code></pre><p>· msgsz：消息正文的大小<br>· msgtyp：你要接收消息的编号<br>· int msgflg：<br>    - 0：阻塞接收消息<br>    也就是说如果没有消息时，接收回阻塞（休眠）。<br>     IPC_NOWAIT：非阻塞接收消息也就是说没有消息时，该函数不阻塞</p>
-<p>代码演示：</p>
-<pre><code>#include &lt;stdio.h&gt;
-#include &lt;unistd.h&gt;
-#include &lt;stdlib.h&gt;
-#include &lt;sys/types.h&gt;
-#include &lt;sys/ipc.h&gt;
-#include &lt;sys/msg.h&gt;
-#include &lt;sys/stat.h&gt;
-#include &lt;fcntl.h&gt;
-#include &lt;string.h&gt;
-#define MSG_FILE &quot;./msgfile&quot;
-#define MSGSIZE 1024
-struct msgbuf
-{
-long mtype; /* 放消息编号，必须 &gt; 0 */
-char mtext[MSGSIZE];  /* 消息内容（消息正文） */
-};
-
-
-void print_err(char *estr)
-{
-perror(estr);
-exit(-1);
-}
-
-int creat_or_get_msggque(void)
-{
-int msgid = -1;
-key_t key = -1;
-int fd = 0;
-//创建一个消息队列的专用文件，ftok函数会使用到文件路径名
-fd = open(MSG_FILE,O_RDWR|O_CREAT,0664);
-if(-1 == fd) print_err(&quot;open fail&quot;);
-//利用存在的文件路径名和8位的整型数计算出key的值
-key = ftok(MSG_FILE,&apos;c&apos;);
-if(-1 == key) print_err(&quot;ftok fail&quot;);
-//利用key创建或者获取消息队列
-msgid = msgget(key,0664|IPC_CREAT);
-if(-1 == msgid) print_err(&quot;msgget fail&quot;);
-return msgid;
-}
-
-int main(int argc,char **argv)
-{
-long recv_msgtype = 0;
-if(argc != 2)
-{
-printf(&quot;./a.out recv_msgtype\n&quot;);
-exit(-1);
-}
-recv_msgtype = atol(argv[1]);
-int msgid = -1;
-int ret = -1;
-msgid =  creat_or_get_msggque();
-ret = fork();
-if(ret &gt; 0)//发送消息
-{
-struct msgbuf msg_buf = {0};
-while(1)
-{
-bzero(&amp;msg_buf,sizeof(msg_buf));
-//封装消息包
-scanf(&quot;%s&quot;, msg_buf.mtext);
-printf(&quot;input snd_msgtype:\n&quot;);
-scanf(&quot;%ld&quot;, &amp;msg_buf.mtype);
-//发送消息
- msgsnd(msgid,&amp;msg_buf,MSGSIZE,0);
-}
-}
-else if(0 == ret)//接收消息
-{
-int ret = 0;
-struct msgbuf msg_buf = {0};
-while(1)
-{
-bzero(&amp;msg_buf,sizeof(msg_buf));
-ret = msgrcv(msgid,&amp;msg_buf,MSGSIZE,recv_msgtype,0);
-if(ret&gt;0)
-printf(&quot;%s\n&quot;,msg_buf.mtext);
-else if(ret == -1)
-{
-print_err(&quot;recv fail&quot;);
-}
-
-}
-}
+fs.close();
 return 0;
 }</code></pre><p>运行结果为：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200311160833557.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="消息队列交换数据的实现"><br><img src="https://img-blog.csdnimg.cn/20200311160836768.png" alt="消息队列交换数据的实现"></p>
-<h1 id="system-v-ipc的缺点"><a href="#system-v-ipc的缺点" class="headerlink" title="system v ipc的缺点"></a>system v ipc的缺点</h1><p>进程结束时，system v ipc不会自动删除，进程结束后，使用ipcs依然能够查看到。</p>
-<p>如何删除？<br>方法1：重启OS，很麻烦<br>方法2：进程结束时，调用相应的API来删除<br>方法3：使用ipcrm命令删除<br>删除共享内存</p>
-<ul>
-<li><p>M：按照key值删除<br>ipcrm -M key</p>
-</li>
-<li><p>m：按照标识符删除<br>ipcrm -m msgid</p>
-</li>
-</ul>
-<ul>
-<li>删除消息队列</li>
-</ul>
-<ul>
-<li>Q：按照key值删除</li>
-<li>q：按照标识符删除</li>
-</ul>
-<ul>
-<li>删除信号量</li>
-</ul>
-<ul>
-<li>S：按照key值删除</li>
-<li>s：按照标识符删除</li>
-</ul>
-<h1 id="进程结束时，自动删除消息队列"><a href="#进程结束时，自动删除消息队列" class="headerlink" title="进程结束时，自动删除消息队列"></a>进程结束时，自动删除消息队列</h1><p>我们需要调用msgctl函数来实现。</p>
-<h2 id="函数原型-3"><a href="#函数原型-3" class="headerlink" title="函数原型"></a>函数原型</h2><pre><code>    #include &lt;sys/types.h&gt;
-    #include &lt;sys/ipc.h&gt;
-    #include &lt;sys/msg.h&gt;
-int msgctl(int msqid, int cmd, struct msqid_ds *buf);</code></pre><h2 id="功能-2"><a href="#功能-2" class="headerlink" title="功能"></a>功能</h2><p>ctl就是控制contrl的意思，从这个名字我们就能猜出，这个函数的功能是根据cmd指定的要求，去控制消息队列，比如进行哪些控制呢？</p>
-<p>· 获取消息队列的属性信息<br>· 修改消息队列的属性信息<br>· 删除消息队列<br>· 等等</p>
-<p>我们调用msgctl函数的最常见目的就是删除消息队列，事实上，删除消息队列只是各种消息队列控制中的一种。</p>
-<h2 id="参数-3"><a href="#参数-3" class="headerlink" title="参数"></a>参数</h2><pre><code>int msgctl(int msqid, int cmd, struct msqid_ds *buf);</code></pre><p><strong>msqid</strong>：<br>消息队列标识符</p>
-<p><strong>cmd</strong>：<br>控制选项，其实cmd有很多选项，我这里只简单说明三个</p>
-<p><strong>IPC_STAT</strong>：<br>将msqid消息队列的属性信息，读到第三个参数所指定的缓存。</p>
-<p> <strong>IPC_SET</strong>：<br> 使用第三个参数中的新设置去修改消息队列的属性</p>
-<ul>
-<li>定义一个struct msqid_ds buf。</li>
-<li>将新的属性信息设置到buf中</li>
-<li>cmd指定为IPC_SET后，msgctl函数就会使用buf中的新属性去修改消息队列原有的属性。</li>
-</ul>
-<p> <strong>IPC_RMID</strong>：<br> 删除消息队列<br>删除消息队列时，用不到第三个参数，用不到时设置为NULL。</p>
-<p><strong>buf</strong>：<br>存放消息队列属性信息</p>
-<p>有的时候需要给第三个参数，有时不需要，取决于cmd的设置。</p>
-<p>buf的类型为struct msqid_ds，有关这个结构体类型，我们这里只进行简单了解。<br>结构体中的成员都是用来存放消息队列的属性信息的。</p>
-<pre><code>struct msqid_ds 
-{
-            struct ipc_perm  msg_perm; /* 消息队列的读写权限和所有者 */
-            time_t  msg_stime;/* 最后一次向队列发送消息的时间*/
-            time_t  msg_rtime;/* 最后一次从消息队列接收消息的时间 */
-            time_t  msg_ctime;/* 消息队列属性最后一次被修改的时间 */
-            unsigned  long __msg_cbytes; /* 队列中当前所有消息总的字节数 */
-            msgqnum_t  msg_qnum; /* 队列中当前消息的条数*/
-            msglen_t msg_qbytes;  /* 队列中允许的最大的总的字节数 */
-            pid_t  msg_lspid; /* 最后一次向队列发送消息的进程PID */
-            pid_t  msg_lrpid; /* 最后一次从队列接受消息的进程PID */
-};
+<p><img src="https://img-blog.csdnimg.cn/20200412135008209.png" alt="运行结果"></p>
+<p><img src="https://img-blog.csdnimg.cn/20200412135012305.png" alt="打开文件"></p>
+<h3 id="myfstream-1"><a href="#myfstream-1" class="headerlink" title="myfstream"></a>myfstream</h3><p>自实现对 FILE*fp 的包装，实现对象对文件的访问。实现成员函数 put/get 函数。</p>
+<p>自实现封装的时候最核心的是句柄，在这里核心句柄就是FILE * pf</p>
+<p>读者可以自行模仿上面代码进行实现。</p>
+<h2 id="fstream"><a href="#fstream" class="headerlink" title="fstream"></a>fstream</h2><p>对文件的操作是由文件流类完成的。文件流类在流与文件间建立连接。由于文件流分为三种：文件输入流、文件输出流、文件输入/输出流，所以相应的必须将文件流说明为ifstream、ofstream 和 fstream 类的对象，然后利用文件流的对象对文件进行操作。</p>
+<p><img src="https://img-blog.csdnimg.cn/2020041213510256.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="fstream"></p>
+<p>对文件的操作过程可按照以下四步进行：即定义文件流类的对象、打开文件、对文件进行读写操作、关闭文件，下面分别进行说明。</p>
+<h3 id="流对象的定义"><a href="#流对象的定义" class="headerlink" title="流对象的定义"></a>流对象的定义</h3><pre><code>//流类 流对象;
+ifstream ifile; //定义一个文件输入流对象
+ofstream ofile; //定义一个文件输出流对象
+fstream iofile; //定义一个文件输出/输入流对象</code></pre><p>一般情况下在定义对象的时候指定文件和权限，也有一种或情况不指定文件和权限：</p>
+<pre><code>#include &lt;iostream&gt;
+#include &lt;fstream&gt;
+using namespace  std;
 
 
-struct ipc_perm 
+int main()
 {
-key_t __key;   /* Key supplied to msgget(2)：消息队列的key值 */
-uid_t  uid; /* UID of owner ：当前这一刻正在使用消息队列的用户 */
-gid_t  gid; /* GID of owner ：正在使用的用户所在用户组 */
-uid_t  cuid;/* UID of creator ：创建消息队列的用户 */
-gid_t  cgid;/* GID of creator ：创建消息队列的用户所在用户组*/
-unsigned short mode;/* Permissions：读写权限（比如0664） */
-unsigned short __seq;   /* Sequence number ：序列号，保障消息队列ID不被立即
-};</code></pre><h2 id="代码演示"><a href="#代码演示" class="headerlink" title="代码演示"></a>代码演示</h2><h3 id="控制1：获取消息队列属性"><a href="#控制1：获取消息队列属性" class="headerlink" title="控制1：获取消息队列属性"></a>控制1：获取消息队列属性</h3><pre><code>int msgctl(int msqid, int cmd, struct msqid_ds *buf);</code></pre><p>当cmd被设置为IPC_STAT时，msgctl将获取消息队列的属性信息，并保存到buf中。<br>使用下面方法：</p>
-<pre><code>struct msqid_ds buf;
-msgctl(msgid, IPC_STAT, &amp;buf);</code></pre><p>读者可以自行演示查看。    </p>
-<h3 id="控制2：删除消息队列"><a href="#控制2：删除消息队列" class="headerlink" title="控制2：删除消息队列"></a>控制2：删除消息队列</h3><p><strong>msgctl(msgid, IPC_RMID, NULL);</strong>        </p>
-<pre><code>#include &lt;stdio.h&gt;
-#include &lt;unistd.h&gt;
-#include &lt;stdlib.h&gt;
-#include &lt;sys/types.h&gt;
-#include &lt;sys/ipc.h&gt;
-#include &lt;sys/msg.h&gt;
-#include &lt;sys/stat.h&gt;
-#include &lt;fcntl.h&gt;
-#include &lt;string.h&gt;
-#include &lt;signal.h&gt;
-#define MSG_FILE &quot;./msgfile&quot;
-#define MSGSIZE 1024
-
-int msgid = -1;
-
-struct msgbuf
-{
-long mtype; /* 放消息编号，必须 &gt; 0 */
-char mtext[MSGSIZE];  /* 消息内容（消息正文） */
-};
+fstream fs;
+fs.open(&quot;abc.txt&quot;, ios::in | ios::out | ios::trunc);
+if(!fs)
+cout &lt;&lt; &quot;open error&quot; &lt;&lt; endl;
+return 0;
+}</code></pre><p><strong>那么为什么不使用open函数的返回值呢？</strong></p>
+<h3 id="流对象关联文件"><a href="#流对象关联文件" class="headerlink" title="流对象关联文件"></a>流对象关联文件</h3><h4 id="open-函数"><a href="#open-函数" class="headerlink" title="open 函数"></a>open 函数</h4><p>定义了文件流对象后，就可以利用其成员函数 open（）打开需要操作的文件，该成员函数的函数原型为：</p>
+<pre><code>void open（const unsigned char *filename,int mode,int access=filebuf:openprot）；</code></pre><p>其中：filename 是一个字符型指针，指定了要打开的文件名；mode 指定了文件的打开方式，其值如下表所示；access 指定了文件的系统属性，取默认即可。并且open函数返回值为void类型，所以不能使用open函数的返回值进行判断。</p>
+<h4 id="打开方式"><a href="#打开方式" class="headerlink" title="打开方式"></a>打开方式</h4><p><img src="https://img-blog.csdnimg.cn/20200412135234365.png" alt="打开方式"></p>
+<p>几点说明：</p>
+<p><strong>① 在实际使用过程中，可以根据需要将以上打开文件的方式用”|” 组合起来。</strong></p>
+<p>如：</p>
+<p>ios::in|ios::out 表示以读/写方式打开文件</p>
+<p>ios::in|ios:: binary 表示以二进制读方式打开文件</p>
+<p>ios::out|ios:: binary 表示以二进制写方式打开文件</p>
+<p>ios::in|ios::out|ios::binary 表示以二进制读/写方式打开文件</p>
+<p><strong>② 如果未指明以二进制方式打开文件，则默认是以文本方式打开文件。</strong></p>
+<p><strong>③ 构造函数打开文件</strong></p>
+<p>对于 ifstream 流， mode 参数的默认值为 ios::in，</p>
+<p>对于 ofstream 流，mode 的默 认值为 ios::out|ios::trunc,</p>
+<p>对于 fstream 流， mode 的默认值为 ios::int|ios::out|ios::app</p>
+<p><strong>④ ios::int|ios::out 是什么?</strong></p>
+<p>是命名空间的 ios 中一堆枚举。</p>
+<h4 id="关闭流对象"><a href="#关闭流对象" class="headerlink" title="关闭流对象"></a>关闭流对象</h4><p>在文件操作结束（即读、写完毕）时应及时调用成员函数 close()来关闭文件。该函数比较简单，没有参数和返回值。</p>
+<pre><code>#include &lt;iostream&gt;
+#include &lt;fstream&gt;
+using namespace  std;
 
 
-void print_err(char *estr)
+int main()
 {
-perror(estr);
-exit(-1);
-}
+fstream fs;
+fs.open(&quot;abc.txt&quot;, ios::in | ios::out | ios::trunc);
+if(!fs)
+cout &lt;&lt; &quot;open error&quot; &lt;&lt; endl;
+fs.close();  //关闭流对象
+return 0;
+}</code></pre><h2 id="文件读写"><a href="#文件读写" class="headerlink" title="文件读写"></a>文件读写</h2><h3 id="读写文本文件"><a href="#读写文本文件" class="headerlink" title="读写文本文件"></a>读写文本文件</h3><h4 id="读写接口"><a href="#读写接口" class="headerlink" title="读写接口"></a>读写接口</h4><p><img src="https://img-blog.csdnimg.cn/20200412135409641.png" alt="读写文本文件接口"></p>
+<h3 id="读一字-行"><a href="#读一字-行" class="headerlink" title="读一字/行"></a>读一字/行</h3><h4 id="一次读取一个字符"><a href="#一次读取一个字符" class="headerlink" title="一次读取一个字符"></a>一次读取一个字符</h4><pre><code>#include &lt;iostream&gt;
+#include &lt;fstream&gt;
+using namespace  std;
 
-int creat_or_get_msggque(void)
-{
-key_t key = -1;
-int fd = 0;
-//创建一个消息队列的专用文件，ftok函数会使用到文件路径名
-fd = open(MSG_FILE,O_RDWR|O_CREAT,0664);
-if(-1 == fd) print_err(&quot;open fail&quot;);
-//利用存在的文件路径名和8位的整型数计算出key的值
-key = ftok(MSG_FILE,&apos;c&apos;);
-if(-1 == key) print_err(&quot;ftok fail&quot;);
-//利用key创建或者获取消息队列
-msgid = msgget(key,0664|IPC_CREAT);
-if(-1 == msgid) print_err(&quot;msgget fail&quot;);
-return msgid;
-}
 
-void signal_fun(int signo)
+int main()
 {
-msgctl(msgid, IPC_RMID, NULL);
-exit(-1);
-}
-
-int main(int argc,char **argv)
-{
-long recv_msgtype = 0;
-if(argc != 2)
-{
-printf(&quot;./a.out recv_msgtype\n&quot;);
-exit(-1);
-}
-recv_msgtype = atol(argv[1]);
-int msgid = -1;
-int ret = -1;
-msgid =  creat_or_get_msggque();
-ret = fork();
-if(ret &gt; 0)//发送消息
-{
-signal(SIGINT,signal_fun);
-struct msgbuf msg_buf = {0};
-while(1)
-{
-bzero(&amp;msg_buf,sizeof(msg_buf));
-//封装消息包
-scanf(&quot;%s&quot;, msg_buf.mtext);
-printf(&quot;input snd_msgtype:\n&quot;);
-scanf(&quot;%ld&quot;, &amp;msg_buf.mtype);
-//发送消息
- msgsnd(msgid,&amp;msg_buf,MSGSIZE,0);
-}
-}
-else if(0 == ret)//接收消息
-{
-int ret = 0;
-struct msgbuf msg_buf = {0};
-while(1)
-{
-bzero(&amp;msg_buf,sizeof(msg_buf));
-ret = msgrcv(msgid,&amp;msg_buf,MSGSIZE,recv_msgtype,0);
-if(ret&gt;0)
-printf(&quot;%s\n&quot;,msg_buf.mtext);
-else if(ret == -1)
-{
-print_err(&quot;recv fail&quot;);
-}
-
-}
-}
+fstream fs;
+fs.open(&quot;abc.txt&quot;, ios::in | ios::out | ios::trunc);
+if(!fs)
+cout &lt;&lt; &quot;open error&quot; &lt;&lt; endl;
+for (char i = &apos;a&apos;; i &lt; &apos;z&apos;; i++)
+fs.put(i);
+fs.seekp(0, ios::beg);
+char ch;
+while (fs.get(ch))
+cout &lt;&lt; ch &lt;&lt; endl;
+fs.close();
 return 0;
 }</code></pre><p>运行结果为：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200311161447969.png" alt="进程退出之后删除消息队列"></p>
-<p>我们可以看到当程序退出的时候默认删除消息队列。</p>
-<p>我们上面只是在父进程里面设置了消息队列的删除设置，所以在ctrl+c之后父子进程都会收到SINGINT信号，父进程删除消息队列退出，子进程直接退出。</p>
-<h2 id="什么时候合适使用消息队列"><a href="#什么时候合适使用消息队列" class="headerlink" title="什么时候合适使用消息队列"></a>什么时候合适使用消息队列</h2><p>实际上消息队列这种通信方式，使用起来还是蛮方便的，因为不管是两个进程之间的通信，还是n多个进程的网状交叉通信，消息队列都能搞定，完全可以替代前面讲的管道，<br>特别是当你的程序必须涉及到多进程网状交叉通信时，消息队列是上上之选。</p>
-<h2 id="消息队列的缺点"><a href="#消息队列的缺点" class="headerlink" title="消息队列的缺点"></a>消息队列的缺点</h2><p>与管道一样，不能实现大规模数据的通信，大规模数据的通信，必须使用“共享内存”来实现。</p>
+<p><img src="https://img-blog.csdnimg.cn/20200412135528965.png" alt="一次读取一个字符"></p>
+<pre><code>#include &lt;iostream&gt;
+#include &lt;fstream&gt;
+using namespace  std;
+
+
+int main()
+{
+fstream fs;
+fs.open(&quot;abc.txt&quot;, ios::in | ios::out | ios::trunc);
+if(!fs)
+cout &lt;&lt; &quot;open error&quot; &lt;&lt; endl;
+for (char i = &apos;a&apos;; i &lt; &apos;z&apos;; i++)
+fs &lt;&lt; i;
+fs.seekp(0, ios::beg);
+char ch;
+while (fs&gt;&gt;ch)
+cout &lt;&lt; ch &lt;&lt; endl;
+fs.close();
+return 0;
+}</code></pre><p>运行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200412135608871.png" alt="运行结果"></p>
+<h4 id="一次读写一行"><a href="#一次读写一行" class="headerlink" title="一次读写一行"></a>一次读写一行</h4><pre><code>#include &lt;iostream&gt;
+#include &lt;fstream&gt;
+using namespace  std;
+
+
+int main()
+{
+fstream fs;
+fs.open(&quot;abc.txt&quot;, ios::in | ios::out | ios::trunc);
+if(!fs)
+cout &lt;&lt; &quot;open error&quot; &lt;&lt; endl;
+fs &lt;&lt; &quot;aaaaaaaaaaa&quot; &lt;&lt; endl;
+fs &lt;&lt; &quot;bbbbbbbbbbb&quot; &lt;&lt; endl;
+fs &lt;&lt; &quot;ccccccccccc&quot; &lt;&lt; endl;
+fs.seekp(0, ios::beg);
+char buf[1024];
+while (fs&gt;&gt;buf)
+cout &lt;&lt; buf &lt;&lt; endl;
+fs.close();
+return 0;
+}</code></pre><p>运行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200412135637443.png" alt="一次读取一行字符"></p>
+<p><strong>上面一次读取一行的用法有缺陷，如果超过1024个，程序就会崩溃。</strong></p>
+<h3 id="读写二进制文件"><a href="#读写二进制文件" class="headerlink" title="读写二进制文件"></a>读写二进制文件</h3><h4 id="读写接口-1"><a href="#读写接口-1" class="headerlink" title="读写接口"></a>读写接口</h4><p><img src="https://img-blog.csdnimg.cn/20200412135710570.png" alt="读写二进制文件接口"></p>
+<h3 id="读写结构体"><a href="#读写结构体" class="headerlink" title="读写结构体"></a>读写结构体</h3><pre><code>#include &lt;iostream&gt;
+#include &lt;fstream&gt;
+using namespace std;
+struct Student
+{
+    char name[100];
+    int num;
+    int age;
+    char sex;
+};
+int main()
+{
+    fstream fs;
+    fs.open(&quot;add.txt&quot;, ios::in | ios::out | ios::trunc | ios::binary);
+    if (!fs)
+        cout &lt;&lt; &quot;open error&quot; &lt;&lt; endl;
+     Student s[3] = 
+     {
+     {&quot;li&quot;,1001,18,&apos;f&apos;},
+     {&quot;Fun&quot;,1002,19,&apos;m&apos;},
+     {&quot;Wang&quot;,1004,17,&apos;f&apos;}
+     };
+
+     fs.write((char*)&amp;s, sizeof(s));
+     fs.seekg(0, ios::beg);
+
+     Student ss;
+     while (fs.read((char*)&amp;ss, sizeof(Student)), !fs.eof())
+     {
+         cout &lt;&lt; &quot;Name &quot; &lt;&lt; ss.name &lt;&lt; endl;
+         cout &lt;&lt; &quot;Num &quot; &lt;&lt; ss.num &lt;&lt; endl;
+         cout &lt;&lt; &quot;Age &quot; &lt;&lt; ss.age &lt;&lt; endl;
+         cout &lt;&lt; &quot;Sex &quot; &lt;&lt; ss.sex &lt;&lt; endl;
+         cout &lt;&lt; &quot;---------------&quot; &lt;&lt; endl;
+     }
+    return 0;
+}</code></pre><p>运行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200412135742567.png" alt="读写结构体"></p>
+<h2 id="随机文件读写"><a href="#随机文件读写" class="headerlink" title="随机文件读写"></a>随机文件读写</h2><h3 id="与文件指针相关的函数"><a href="#与文件指针相关的函数" class="headerlink" title="与文件指针相关的函数"></a>与文件指针相关的函数</h3><p><img src="https://img-blog.csdnimg.cn/20200412135807244.png" alt="与文件指针相关的函数"></p>
+<p>g 代表 get 的意思用于输入的函数。p 代表 put 的意思，用于输出函数。如果既是可输入又是可输出的文件，则任意使用。</p>
+<h3 id="参照位置"><a href="#参照位置" class="headerlink" title="参照位置"></a>参照位置</h3><p><img src="https://img-blog.csdnimg.cn/20200412135826597.png" alt="参照位置"></p>
+<h3 id="代码示例"><a href="#代码示例" class="headerlink" title="代码示例"></a>代码示例</h3><p>infile.seekg(100); //输入文件中的指针向前移到 100 个字节的位置</p>
+<p>infile.seekg(-50,ios::cur); //输入文件中的指针从当前位置后移 50 个字节</p>
+<p>outfile.seekp(-75,iso::end); //输出文件中指针从文件尾后移 75 个字节</p>
 
             </div>
             <hr/>
@@ -917,7 +704,7 @@ return 0;
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://www.teachermin.com/2020/03/11/%E6%9C%AC%E6%9C%BAIPC%E4%B9%8B%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E8%AF%A6%E8%A7%A3/">http://www.teachermin.com/2020/03/11/%E6%9C%AC%E6%9C%BAIPC%E4%B9%8B%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E8%AF%A6%E8%A7%A3/</a>
+                    <a href="http://www.teachermin.com/2020/04/12/C++%E6%96%87%E4%BB%B6%E6%B5%81/">http://www.teachermin.com/2020/04/12/C++%E6%96%87%E4%BB%B6%E6%B5%81/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -955,8 +742,8 @@ return 0;
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/linux-%E6%9C%AC%E6%9C%BAIPC/">
-                                    <span class="chip bg-color">linux 本机IPC</span>
+                                <a href="/tags/C-%E6%B5%81/">
+                                    <span class="chip bg-color">C++流</span>
                                 </a>
                             
                         </div>
@@ -1126,26 +913,25 @@ return 0;
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2020/03/12/C++%E6%B4%BE%E7%94%9F%E7%B1%BB%E7%9A%84%E6%8B%B7%E8%B4%9D%E6%9E%84%E9%80%A0/">
+                <a href="/2020/04/12/C++%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="C++派生类的拷贝构造">
+                        <img src="/medias/featureimages/10.jpg" class="responsive-img" alt="C++异常处理：Error，C和C++ 解决容错，栈自旋，Standard Exception">
                         
-                        <span class="card-title">C++派生类的拷贝构造</span>
+                        <span class="card-title">C++异常处理：Error，C和C++ 解决容错，栈自旋，Standard Exception</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            派生类的拷贝构造拷贝构造，也是一种构造函数（不要拿拷贝构造不当构造，是己有对象构造新对象），也没有被继承下来。
-引例父类和子类的拷贝构造都是默认的情况#include &lt;iostream&gt;
-using namespace std
+                            异常处理ErrorError 译为错误，常见的 Error 有编译时 Error 和运行时 Error。运行时的 Error 又分为不可预料的逻辑错误和可以预料的运行异常。
+可以预料的运行异常，常见的有，I/0，文件打开失败，动态内存分配失
                         
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-03-12
+                            <i class="far fa-clock fa-fw icon-date"></i>2020-04-12
                         </span>
                         <span class="publish-author">
                             
@@ -1162,8 +948,8 @@ using namespace std
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/C-%E7%BB%A7%E6%89%BF/">
-                        <span class="chip bg-color">C++继承</span>
+                    <a href="/tags/C-%E5%BC%82%E5%B8%B8/">
+                        <span class="chip bg-color">C++异常</span>
                     </a>
                     
                 </div>
@@ -1177,25 +963,28 @@ using namespace std
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/03/09/C++%E8%BF%90%E7%AE%97%E7%AC%A6%E9%87%8D%E8%BD%BD%E5%BC%95%E5%85%A5%EF%BC%9A%E8%AF%AD%E6%B3%95%E6%A0%BC%E5%BC%8F%EF%BC%8C%E5%8F%8B%E5%85%83%E9%87%8D%E8%BD%BD%EF%BC%8C%E6%88%90%E5%91%98%E9%87%8D%E8%BD%BD%EF%BC%8C%E5%AF%B9%E6%AF%94%E8%B5%8B%E5%80%BC%E8%BF%90%E7%AE%97%E7%AC%A6%E9%87%8D%E8%BD%BD%EF%BC%8Cconst%20%E4%BF%AE%E9%A5%B0%E8%BF%94%E5%80%BC%EF%BC%882%EF%BC%89/">
+                <a href="/2020/04/11/C++%E6%A8%A1%E6%9D%BF%EF%BC%9A%E7%B1%BB%E6%A8%A1%E6%9D%BF%E5%92%8C%E7%B1%BB%E6%A8%A1%E6%9D%BF%E7%9A%84%E5%8F%8B%E5%85%83/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/4.jpg" class="responsive-img" alt="C++运算符重载引入：语法格式，友元重载，成员重载，对比赋值运算符重载，const 修饰返值（2）">
+                        <img src="/medias/featureimages/9.jpg" class="responsive-img" alt="C++模板：类模板和类模板的友元">
                         
-                        <span class="card-title">C++运算符重载引入：语法格式，友元重载，成员重载，对比赋值运算符重载，const 修饰返值（2）</span>
+                        <span class="card-title">C++模板：类模板和类模板的友元</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            运算符重载本质运算符重载的本质是函数重载，函数名是:operator x（后面的x表示重载运算符）
-说明对于基本数据类型，比如 int 类型，我们对其进行加、减、乘、除运算，是语言层面己经设置好的。但是对于结构类型，比如 struct Co
+                            类模板Stack 类我们先给出我们之前实现的栈结构：
+#include &lt;iostream&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;str
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-03-09
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-04-11
                             </span>
                         <span class="publish-author">
                             
@@ -1212,8 +1001,8 @@ using namespace std
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/%E8%BF%90%E7%AE%97%E7%AC%A6%E9%87%8D%E8%BD%BD/">
-                        <span class="chip bg-color">运算符重载</span>
+                    <a href="/tags/C-%E6%A8%A1%E6%9D%BF/">
+                        <span class="chip bg-color">C++模板</span>
                     </a>
                     
                 </div>
@@ -1412,7 +1201,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">131.9k</span>&nbsp;字
+                class="white-color">139.5k</span>&nbsp;字
             
             
             

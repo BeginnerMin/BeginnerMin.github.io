@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="线程的资源（数据）保护：简单说明, SkilledBeginner">
+    <meta name="keywords" content="C从源程序到可执行性程序，预处理--&gt; 编译--&gt; 汇编--&gt; 链接, SkilledBeginner">
     <meta name="description" content="努力做一个很厉害的人">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>线程的资源（数据）保护：简单说明 | SkilledBeginner</title>
+    <title>C从源程序到可执行性程序，预处理--&gt; 编译--&gt; 汇编--&gt; 链接 | SkilledBeginner</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -306,12 +306,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/3.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/23.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">线程的资源（数据）保护：简单说明</h1>
+                    <h1 class="description center-align post-title">C从源程序到可执行性程序，预处理--&gt; 编译--&gt; 汇编--&gt; 链接</h1>
                 </div>
             </div>
         </div>
@@ -428,8 +428,8 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/LinuxC%E7%BA%BF%E7%A8%8B/">
-                                <span class="chip bg-color">LinuxC线程</span>
+                            <a href="/tags/%E6%BA%90%E6%96%87%E4%BB%B6-%E5%8F%AF%E6%89%A7%E8%A1%8C%E6%96%87%E4%BB%B6/">
+                                <span class="chip bg-color">源文件-&gt;可执行文件</span>
                             </a>
                         
                     </div>
@@ -440,8 +440,8 @@
                     <div class="post-cate">
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/Linux/" class="post-category">
-                                Linux
+                            <a href="/categories/C/" class="post-category">
+                                C
                             </a>
                         
                     </div>
@@ -453,28 +453,28 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-03-30
+                    2020-04-27
                 </div>
                 
 
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2020-03-30
+                    2020-04-27
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    734
+                    1.2k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    2 分
+                    4 分
                 </div>
                 
 
@@ -490,23 +490,77 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="线程的资源（数据）保护"><a href="#线程的资源（数据）保护" class="headerlink" title="线程的资源（数据）保护"></a>线程的资源（数据）保护</h2><p>线程的资源，进程的资源表示数据资源，是软件层面的资源。</p>
-<h2 id="进程的资源保护"><a href="#进程的资源保护" class="headerlink" title="进程的资源保护"></a>进程的资源保护</h2><p>对于进程来说，由于每个进程空间是完全独立的，相互间不可能篡改对方进程空间的数据，所以进程空间内部的数据（资源）保护的非常到位，不需要加什么额外的保护机制。</p>
-<p>只有当它们共享操作第三方资源时才会涉及到资源保护问题，比如共享操作第三方文件（或者共享内存）的数据时，才会使用到进程信号量这样的资源保护机制。</p>
-<p>我们说明进程IPC的时候就说过，虽然进程信号量被划到“IPC”中，但是进程信号量的作用实际上是借助通信来实现资源（数据）保护。</p>
-<p>对于进程来说，因为进程空间的独立性，因此进程资源的保护很到位，反倒是进程间共享数据很困难，因此OS提供了管道、消息队列等进程间通信机制。</p>
-<p>这就好比两人闹矛盾，老死不相往来，相互间完全隔绝，各自的私人秘密保护的很好，但是相互间通信反倒成了难事。</p>
-<h2 id="线程的资源保护"><a href="#线程的资源保护" class="headerlink" title="线程的资源保护"></a>线程的资源保护</h2><p>对于线程来说，由于进程内部的所有线程共享进程空间，因此线程间使用全局变量即可实现数据共享，数据通信的实现非常容易，不过数据共享越是容易，数据相互篡改的危险性就越高，因此对于线程来说，需要重点考虑如何保护资源（数据），防止相互篡改。</p>
-<p>这就好比两个人关系非常好，好到穿一条裤子，好到什么秘密都分享，相互间共享秘密不是问题了，但是各自秘密的保护反倒成了问题。</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p><strong>（1）进程：进程空间天然是独立的，因此进程间资源的保护是天然的（现成的），需要重点关心的进程间的通信。</strong></p>
-<p><strong>（2）线程：多线程天然的共享进程空间，因此线程数据共享是天然的（现成的），需要重点关心的是资源的保护，防止数据被线程相互篡改。</strong></p>
-<p>线程的资源保护机制</p>
-<p>C线程的资源保护机制有</p>
-<p>· 互斥锁</p>
-<p>· 信号量</p>
-<p>· 条件变量<br>等</p>
-<p>我们这里重点说明的是互斥锁、信号量、条件变量。</p>
-<p>这三种资源保护机制，不仅在C线程里面有，在c++、java等的线程里面同样有，它们的实现原理和工作目的都是类似的，所以学习c线程的资源保护机制，非常有利于读者理解c++/java等线程的资源保护机制。</p>
+                <h2 id="从源程序到可执行性程序"><a href="#从源程序到可执行性程序" class="headerlink" title="从源程序到可执行性程序"></a>从源程序到可执行性程序</h2><h3 id="集成开发环境"><a href="#集成开发环境" class="headerlink" title="集成开发环境"></a>集成开发环境</h3><p>对于集成开发环境（IDE，Integrated Development Environment ）而言，减少了环境配置，合并了流程，使其便于快速开发。就 Qt 开发环境或者vs开发环境等只需一步即可。</p>
+<p><img src="https://img-blog.csdnimg.cn/20200205140929925.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="Qt集成开发环境的合并流程操作"></p>
+<p>或者在vs环境下我们直接运行即可。</p>
+<p><img src="https://img-blog.csdnimg.cn/20200205140940968.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="VS集成开发环境的合并流程操作"></p>
+<p>源程序就是一个.txt 的普通文本文件，但是实际是经历了哪些过程，变为可执行性文件的呢? </p>
+<p>大体上分为四个步骤：</p>
+<p> <strong>预处理 -&gt; 编译 -&gt; 汇编 -&gt; 链接</strong></p>
+<p>我们前面提到在windows环境的集成开发环境里面这些步骤编译器直接执行了。所以我们在linux平台没有IDE的环境下进行演示。</p>
+<p>unix /linux 环境下，通常没有界面，所以少有集成开发环境。所有的开发均是在命令行模试下开发的。我们以 vim 为编辑器，以 gcc 为编译器为例演示。</p>
+<p>我们先给出完成过程然后进行分步演示： </p>
+<p><strong>① vim hello.c</strong></p>
+<p><strong>② gcc -E hello.c -o hello.i //处理文件包含，宏和注释</strong></p>
+<p><strong>③ gcc -S hello.i -o hello.s //编译为汇编文件</strong></p>
+<p><strong>④ gcc -c hello.s -o hello.o //经汇编后为二进制的机器指令</strong></p>
+<p><strong>⑤ gcc hello.o -o hello //链接所用的到库</strong></p>
+<p>我们先通过文本编译器编写代码：</p>
+<p>我们通过vi hello.c 编写文本格式的代码：</p>
+<pre><code>#include&lt;stdio.h&gt;
+int main()
+{
+printf(&quot;hello world\n&quot;);
+return 0;
+}</code></pre><h2 id="预处理"><a href="#预处理" class="headerlink" title="预处理"></a>预处理</h2><p><strong>gcc -E hello.c -o hello.i     E是编译型参数    -o   表述output 输出 为hello.i</strong></p>
+<p><strong>经过gcc -E命令可生成预处理后的源文件</strong></p>
+<p>执行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200205141159900.png" alt="预处理"></p>
+<p>我们来查看一下hello.i文件里面的内容。</p>
+<p>这个文件很长，我们只截取最后一部分：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200205141228427.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="查看hello.i文件"></p>
+<p>“预处理”过程：</p>
+<p><strong>1.处理所有条件编译指令，如：#ifndef、#ifdef、或者#if等。</strong></p>
+<p><strong>2.处理所有文件包含指令，如：#include &lt;stdio.h&gt;，预处理器会将stdio.h文件内容插入到该指令位置。</strong></p>
+<p><strong>3.删除所有注释代码，如”//“和”/ * … * /“。</strong></p>
+<p><strong>4.添加文件标识和行号，以便后续代码编译或调试时错误或警告信息提供行号或文件标识。</strong></p>
+<p>我们发现我们源程序中所在的int main（）之后的内容都在，但是上面include 没有了。那么上面的所有内容都是由#include &lt;stdio.h&gt; 所替换，#include是包含，这里上面的所有内容其实就是对于stdio.h的一次展开。</p>
+<h2 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h2><p><strong>gcc -S hello.i -o hello.s  S是参数</strong>  </p>
+<p><strong>生成编译之后的hello.s汇编文件。</strong></p>
+<p>执行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200205141304410.png" alt="编译"></p>
+<p>我们打开main.s文件</p>
+<p><img src="https://img-blog.csdnimg.cn/20200205141644914.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="打开main.s文件"></p>
+<p>我们可以看到最起码会感觉认识一些，如果学习过汇编的读者就知道上面就是汇编语言代码。</p>
+<h2 id="汇编"><a href="#汇编" class="headerlink" title="汇编"></a>汇编</h2><p><strong>gcc -c hello.s  -o hello.o</strong></p>
+<p>执行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200205141715726.png" alt="汇编"></p>
+<p>我们来查看一下生成的hello.o文件：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200205141732919.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="查看的hello.o文件"></p>
+<p>我们可以看到这个是后已经是二进制文件。但是能不能执行呢？我们先来测试一下</p>
+<p><img src="https://img-blog.csdnimg.cn/2020020514174241.png" alt="运行hello.o文件"></p>
+<p>我们可以看到没有权限，因为他不是一个可执行性文件，（关于文件的权限读者在linux博客查看，这里不做过多说明。）那么我们现在给hellio.o 加一个可执行权限。</p>
+<p><img src="https://img-blog.csdnimg.cn/20200205141745220.png" alt="给hello.o加上可执行权限"></p>
+<p>执行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200205141759258.png" alt="提示：不能执行的二进制文件"></p>
+<p><strong>我们可以看到hello.o是一个不可执行的二进制文件。</strong></p>
+<h2 id="链接"><a href="#链接" class="headerlink" title="链接"></a>链接</h2><p><strong>gcc hello.o -o hello</strong></p>
+<p><img src="https://img-blog.csdnimg.cn/20200205141826453.png" alt="链接"></p>
+<p>当然我们也可以直接使用</p>
+<p><strong>gcc hello.o</strong>  </p>
+<p>会自动生成a.out可执行性文件。</p>
+<p>接下来我们执行可执行性程序：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200205141851273.png" alt="运行结果"></p>
+<p>我们来查看一下hello可执行文件的内容：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200205141900590.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="查看hello可执行文件的内容"></p>
+<p>我们可以明显看到比hello.o 里面的内容多。</p>
+<p>所以链接会链接标准库所需要的函数，例如我们这里用到的printf函数并不是我们自己实现的，是通过链接库来实现的，所以链接之后最终的可执行性文件内容会变多。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p><strong>① 预处理:预处理相当于根据预处理命令组装成新的 C 程序，不过常以 i 为扩展名。</strong> </p>
+<p><strong>② 编 译:将得到的 i 文件翻译成汇编代码 .s 文件。</strong></p>
+<p><strong>③ 汇 编:将汇编文件翻译成机器指令，并打包成可重定位目标程序的 O 文件。 该文件是二进制文件，字节编码是机器指令。</strong></p>
+<p><strong>④ 链 接:将引用的其他 .o 文件并入到我们程序所在的 .o 文件中，处理得到最终 的可执行文件。</strong></p>
+<p><img src="https://img-blog.csdnimg.cn/20200205141939486.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="从源文件到可执行文件"></p>
+<p><img src="https://img-blog.csdnimg.cn/20200205141958414.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="从源文件到可执行文件"></p>
 
             </div>
             <hr/>
@@ -532,7 +586,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://www.teachermin.com/2020/03/30/%E7%BA%BF%E7%A8%8B%E7%9A%84%E8%B5%84%E6%BA%90%EF%BC%88%E6%95%B0%E6%8D%AE%EF%BC%89%E4%BF%9D%E6%8A%A4%EF%BC%9A%E7%AE%80%E5%8D%95%E8%AF%B4%E6%98%8E/">http://www.teachermin.com/2020/03/30/%E7%BA%BF%E7%A8%8B%E7%9A%84%E8%B5%84%E6%BA%90%EF%BC%88%E6%95%B0%E6%8D%AE%EF%BC%89%E4%BF%9D%E6%8A%A4%EF%BC%9A%E7%AE%80%E5%8D%95%E8%AF%B4%E6%98%8E/</a>
+                    <a href="http://www.teachermin.com/2020/04/27/C%E4%BB%8E%E6%BA%90%E7%A8%8B%E5%BA%8F%E5%88%B0%E5%8F%AF%E6%89%A7%E8%A1%8C%E6%80%A7%E7%A8%8B%E5%BA%8F/">http://www.teachermin.com/2020/04/27/C%E4%BB%8E%E6%BA%90%E7%A8%8B%E5%BA%8F%E5%88%B0%E5%8F%AF%E6%89%A7%E8%A1%8C%E6%80%A7%E7%A8%8B%E5%BA%8F/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -570,8 +624,8 @@
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/LinuxC%E7%BA%BF%E7%A8%8B/">
-                                    <span class="chip bg-color">LinuxC线程</span>
+                                <a href="/tags/%E6%BA%90%E6%96%87%E4%BB%B6-%E5%8F%AF%E6%89%A7%E8%A1%8C%E6%96%87%E4%BB%B6/">
+                                    <span class="chip bg-color">源文件-&gt;可执行文件</span>
                                 </a>
                             
                         </div>
@@ -741,45 +795,36 @@
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2020/03/31/LinuxC%E7%BA%BF%E7%A8%8B%E8%B5%84%E6%BA%90%E4%BF%9D%E6%8A%A4%EF%BC%9A%E4%BF%A1%E5%8F%B7%E9%87%8F/">
+                <a href="/2020/04/27/C%EF%BC%9A%E7%AE%80%E5%8D%95%E4%BA%86%E8%A7%A3C%E8%AF%AD%E8%A8%80%E5%92%8Clinux/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/21.jpg" class="responsive-img" alt="LinuxC线程资源保护：信号量">
+                        <img src="/medias/featureimages/11.jpg" class="responsive-img" alt="C：简单了解C语言和linux">
                         
-                        <span class="card-title">LinuxC线程资源保护：信号量</span>
+                        <span class="card-title">C：简单了解C语言和linux</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            线程信号量进程信号量与线程信号量线程的信号量与进程的信号量几乎完全相同，只不过一个是给进程用的，另一个是给线程用的。
-我们使用进程信号量时，我们自己往往还需要二次封装，线程的信号量函数则不需要，直接就可以使用，所以线程的信号量使用起来更加容
+                            hello world这个世界，几乎每个程序员入门的第一段代码都是 Hello world。原因是当年 C 语言的作者，Dennis Ritchie（丹尼斯·里奇）在他的名著 《C 程序设计语言（The C ProgrammingLangu
                         
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-03-31
+                            <i class="far fa-clock fa-fw icon-date"></i>2020-04-27
                         </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/Linux/" class="post-category">
-                                    Linux
+                            <a href="/categories/C/" class="post-category">
+                                    C
                                 </a>
                             
                             
                         </span>
                     </div>
-                </div>
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/LinuxC%E7%BA%BF%E7%A8%8B/">
-                        <span class="chip bg-color">LinuxC线程</span>
-                    </a>
-                    
                 </div>
                 
             </div>
@@ -791,26 +836,25 @@
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/03/29/C++%E5%A4%9A%E6%80%81%EF%BC%9A%E4%BE%9D%E8%B5%96%E5%80%92%E7%BD%AE(5)/">
+                <a href="/2020/04/12/C++%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/23.jpg" class="responsive-img" alt="C++多态：依赖倒置(5)">
+                        <img src="/medias/featureimages/10.jpg" class="responsive-img" alt="C++异常处理：Error，C和C++ 解决容错，栈自旋，Standard Exception">
                         
-                        <span class="card-title">C++多态：依赖倒置(5)</span>
+                        <span class="card-title">C++异常处理：Error，C和C++ 解决容错，栈自旋，Standard Exception</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            设计模式之依赖倒置原则计模式中有一种很重要的原则之一，叫依赖倒置(Dependency Inversion Principle),简称 DIP。也是基于多态的。
-
-依赖倒置原则基于这样一个事实：相对于细节的多变性，抽象的东西要稳定的多。以抽
+                            异常处理ErrorError 译为错误，常见的 Error 有编译时 Error 和运行时 Error。运行时的 Error 又分为不可预料的逻辑错误和可以预料的运行异常。
+可以预料的运行异常，常见的有，I/0，文件打开失败，动态内存分配失
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-03-29
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-04-12
                             </span>
                         <span class="publish-author">
                             
@@ -827,8 +871,8 @@
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/C-%E5%A4%9A%E6%80%81/">
-                        <span class="chip bg-color">C++多态</span>
+                    <a href="/tags/C-%E5%BC%82%E5%B8%B8/">
+                        <span class="chip bg-color">C++异常</span>
                     </a>
                     
                 </div>
@@ -1027,7 +1071,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">131.9k</span>&nbsp;字
+                class="white-color">139.5k</span>&nbsp;字
             
             
             
