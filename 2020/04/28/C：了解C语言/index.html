@@ -538,7 +538,7 @@ int main() //程序的入口，表示计算机从哪里开始执行此程序，�
 <p>IDE一般引入工程概念，那么其实工程也可以不要，就是在linux平台无任何IDE环境下进行编码。</p>
 <p>从源文件到可执行文件经历了什么？我们在详细说明里面就在linux平台进行编码。</p>
 <p><strong>linux    main.c–&gt;a.out</strong><br><strong>windows  main.c –&gt;xx.exe</strong></p>
-<p><img src="https://img-blog.csdnimg.cn/20200428091350206.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="从源文件到可执行文件的过程"></p>
+<p><img src="https://img-blog.csdnimg.cn/20200428095022470.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="从源文件到可执行文件的过程"></p>
 <p><strong>预处理：gcc- E main.c -o main.i   //处理文件包含，宏和注释等，     结果生成文本文件</strong></p>
 <p><strong>编译：gcc - S -main.i -o main.s  //编译为汇编文件，               结果生成.s为汇编语言</strong></p>
 <p><strong>汇编：gcc -c -main.s -o main.o   //经过汇编后为二进制的机器指令，  结果生成.o为二进制文件</strong></p>
