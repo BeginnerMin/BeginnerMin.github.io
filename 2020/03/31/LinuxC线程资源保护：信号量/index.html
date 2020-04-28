@@ -1012,32 +1012,33 @@ int main(void)
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2020/04/02/C++%E5%A4%9A%E6%80%81%EF%BC%9A%E8%BF%90%E8%A1%8C%E6%97%B6%E7%B1%BB%E5%9E%8B%E4%BF%A1%E6%81%AF(RTTI)(6)/">
+                <a href="/2020/03/31/LinuxC%E7%BA%BF%E7%A8%8B%EF%BC%9A%E6%9C%89%E5%85%B3%E5%A4%9A%E7%BA%BF%E7%A8%8B%E6%97%B6%E7%9A%84%E4%BF%A1%E5%8F%B7%E9%97%AE%E9%A2%98%EF%BC%8C%E8%BF%9B%E7%A8%8B%E4%B8%8E%E8%BF%9B%E7%A8%8B%E4%B9%8B%E9%97%B4%E7%9A%84%E6%AF%94%E8%BE%83/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/23.jpg" class="responsive-img" alt="C++多态：运行时类型信息(RTTI)(6)">
+                        <img src="/medias/featureimages/11.jpg" class="responsive-img" alt="LinuxC线程：有关多线程时的信号问题，进程与进程之间的比较">
                         
-                        <span class="card-title">C++多态：运行时类型信息(RTTI)(6)</span>
+                        <span class="card-title">LinuxC线程：有关多线程时的信号问题，进程与进程之间的比较</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            运行时类型信息(RTTI)语义RTTI(run time type identificaiton)，允许程序员在运行时进行对象信息识别。typeid/dynamic_cast 是 C++ 运行时类型信息重要组成部分。
-运行时信息，来自于多态
+                            有关多线程时的信号问题所有的线程共享相同的信号处理方式主线程将SIGINT信号的处理方式设置为了捕获，那么所有的次线程共享这一处理方式，
+如果其中某个次线程改变了该信号的处理方式，那么所有的线程将共享这一改变。
+“信号屏蔽字”和“未决信号字
                         
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-04-02
+                            <i class="far fa-clock fa-fw icon-date"></i>2020-03-31
                         </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/C/" class="post-category">
-                                    C++
+                            <a href="/categories/Linux/" class="post-category">
+                                    Linux
                                 </a>
                             
                             
@@ -1047,8 +1048,8 @@ int main(void)
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/C-%E5%A4%9A%E6%80%81/">
-                        <span class="chip bg-color">C++多态</span>
+                    <a href="/tags/LinuxC%E7%BA%BF%E7%A8%8B/">
+                        <span class="chip bg-color">LinuxC线程</span>
                     </a>
                     
                 </div>
@@ -1062,25 +1063,25 @@ int main(void)
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/03/31/LinuxC%E7%BA%BF%E7%A8%8B%E6%9D%A1%E4%BB%B6%E5%8F%98%E9%87%8F/">
+                <a href="/2020/03/30/Linux%E7%BA%BF%E7%A8%8B%E7%9A%84%E8%B5%84%E6%BA%90%EF%BC%88%E6%95%B0%E6%8D%AE%EF%BC%89%E4%BF%9D%E6%8A%A4%EF%BC%9A%E7%AE%80%E5%8D%95%E8%AF%B4%E6%98%8E/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/17.jpg" class="responsive-img" alt="LinuxC线程条件变量">
+                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="Linux线程的资源（数据）保护：简单说明">
                         
-                        <span class="card-title">LinuxC线程条件变量</span>
+                        <span class="card-title">Linux线程的资源（数据）保护：简单说明</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            条件变量线程配合工作的例子例子：主线程对va变量循环+1，次线程发现va==5时，打印va的值并将va清0，如果va的值!=5就什么都不做。
-像这种多线程通过共享数据然后配合工作的例子很多，虽然举的例子很简单，但是足以说明多线程相互配合的情
+                            线程的资源（数据）保护线程的资源，进程的资源表示数据资源，是软件层面的资源。
+进程的资源保护对于进程来说，由于每个进程空间是完全独立的，相互间不可能篡改对方进程空间的数据，所以进程空间内部的数据（资源）保护的非常到位，不需要加什么额外的保护
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-03-31
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-03-30
                             </span>
                         <span class="publish-author">
                             
