@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="C++引用的本质，大小，初始化， 汇编代码进行验证(4), SkilledBeginner">
+    <meta name="keywords" content="C语言数基本数据类型, SkilledBeginner">
     <meta name="description" content="努力做一个很厉害的人">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>C++引用的本质，大小，初始化， 汇编代码进行验证(4) | SkilledBeginner</title>
+    <title>C语言数基本数据类型 | SkilledBeginner</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -306,12 +306,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/0.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/22.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">C++引用的本质，大小，初始化， 汇编代码进行验证(4)</h1>
+                    <h1 class="description center-align post-title">C语言数基本数据类型</h1>
                 </div>
             </div>
         </div>
@@ -428,8 +428,8 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/C-%E5%BC%95%E7%94%A8/">
-                                <span class="chip bg-color">C++引用</span>
+                            <a href="/tags/DataType/">
+                                <span class="chip bg-color">DataType</span>
                             </a>
                         
                     </div>
@@ -441,7 +441,7 @@
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
                             <a href="/categories/C/" class="post-category">
-                                C++
+                                C
                             </a>
                         
                     </div>
@@ -453,28 +453,28 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-03-27
+                    2020-04-28
                 </div>
                 
 
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2020-03-27
+                    2020-04-28
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    476
+                    2.8k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    2 分
+                    10 分
                 </div>
                 
 
@@ -490,81 +490,209 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="引用的本质"><a href="#引用的本质" class="headerlink" title="引用的本质"></a>引用的本质</h2><p><strong>引用的本质是，C++对指针的包装，即引用即指针。</strong></p>
-<p>为引我们开始如下的探寻。先从引用的大小入手，然后再能通过编译的角度来剖析。</p>
-<h2 id="大小"><a href="#大小" class="headerlink" title="大小"></a>大小</h2><p>那么我们如果来证明引用即指针呢？</p>
-<p>我们设计下面代码进行证明：</p>
-<pre><code>#include &lt;iostream&gt;
-using namespace std;
-
-struct TypeP 
-{ 
-char* pc; 
-}; 
-struct TypeC 
-{ 
-char c; 
-}; 
-struct TypeR
-{
-char&amp; pr; //把引用单列出来，不与具体的对象发生关系
-};
+                <h2 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h2><p>数据类型，打个比方的话，就类似于部队中，前面我们己经给部队中人的起了名字，现在赋予这个权力和管辖范围，那就是军衔。或是通俗的讲，类型相当于模子，变量的定义，就相当于在内存中用模子框出的一块空间。</p>
+<h3 id="数据类型说明"><a href="#数据类型说明" class="headerlink" title="数据类型说明"></a>数据类型说明</h3><p>我们先给出C语言中数据类型的框架，这篇博客主要来说明C语言基本类型。</p>
+<p><img src="https://img-blog.csdnimg.cn/20191008000154825.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="C语言数据类型"></p>
+<p>我们先来回顾一下变量：</p>
+<p>变量的定义格式是：  </p>
+<p><strong>类型  变量名；</strong></p>
+<p><strong>类型决定了变量所占字节的大小</strong></p>
+<p><strong>变量名是一段内存取别名</strong></p>
+<p><strong>类型+变量名——-&gt;生成变量</strong></p>
+<p><strong>类型决定变量的大小</strong></p>
+<h2 id="数值类型"><a href="#数值类型" class="headerlink" title="数值类型"></a>数值类型</h2><h3 id="整型"><a href="#整型" class="headerlink" title="整型"></a>整型</h3><p><strong>内存编址的最小单元是字节，不同的数据类型决定变量占据不同大小的字节。</strong></p>
+<p>我们在这里给出整型的表示范围:</p>
+<p><img src="https://img-blog.csdnimg.cn/20200224023416420.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="C语言不同数据类型的取值范围"></p>
+<h3 id="不同整型的大小"><a href="#不同整型的大小" class="headerlink" title="不同整型的大小"></a>不同整型的大小</h3><pre><code>#include &lt;stdio.h&gt;
 int main()
 {
-
-cout &lt;&lt; &quot;sizeof(TypeC)&quot; &lt;&lt; sizeof(TypeC) &lt;&lt; endl;
-cout &lt;&lt; &quot;sizeof(TypeP)&quot; &lt;&lt; sizeof(TypeP) &lt;&lt; endl;
-cout &lt;&lt; &quot;sizeof(TypeR)&quot; &lt;&lt; sizeof(TypeR) &lt;&lt; endl;
-return 0;
-}</code></pre><p>执行结果为：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200213230040723.png" alt="引用的大小"></p>
-<p>我们可以看到引用类型和指针类型大小相等，说明其地位的等价。</p>
-<h2 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h2><p>C++中只有 const 类型的数据，要求必须初始化。而引用也必须要初始化，所以引用是指针，还应该是 const 修饰的指针。 一经声明不可改变。</p>
-<p><strong>所以int类型变量的引用是一个   int * const p  类型的指针</strong></p>
-<h2 id="汇编代码进行验证"><a href="#汇编代码进行验证" class="headerlink" title="汇编代码进行验证"></a>汇编代码进行验证</h2><pre><code>//void mySwap(int* pa, int* pb)
-//{
- //   int  t = *pa; 
-  //  *pa = *pb;
-   // *pb = t;
-//}
-void mySwap(int&amp; ra, int&amp; rb)
-{
-int t = ra;
-ra = rb;
-rb = t; 
-}   
+printf(&quot;sizeof(char) = %d\n&quot;,sizeof(char));
+printf(&quot;sizeof(short) = %d\n&quot;,sizeof(short));
+printf(&quot;sizeof(int) = %d\n&quot;,sizeof(int));
+printf(&quot;sizeof(long) = %d\n&quot;,sizeof(long));
+printf(&quot;sizeof(long long) = %d\n&quot;,sizeof(long long));
+printf(&quot;sizeof(float) = %d\n&quot;,sizeof(float));
+printf(&quot;sizeof(double) = %d\n&quot;,sizeof(double));
+printf(&quot;sizeof(long double) = %d\n&quot;,sizeof(long double));
+return 0
+}</code></pre><p>运行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200224101758981.png" alt="不同类型所占的字节数大小"></p>
+<p>上面类型的大小不同的平台会有所差异</p>
+<h4 id="不同整型定义变量的大小"><a href="#不同整型定义变量的大小" class="headerlink" title="不同整型定义变量的大小"></a>不同整型定义变量的大小</h4><pre><code>#include &lt;stdio.h&gt;
 int main()
-{   
-int a = 3;
-int b = 5;
-   // mySwap(&amp;a, &amp;b);
-mySwap(a, b);
-return 0;
-}</code></pre><p>代码二：</p>
-<pre><code>void mySwap(int* pa, int* pb)
 {
-int  t = *pa; 
-*pa = *pb;
-*pb = t;
-}
-//void mySwap(int&amp; ra, int&amp; rb)
-//{
- //   int t = ra;
-  //  ra = rb;
-  //  rb = t; 
-//}   
+char ch;
+short sh;
+int i;
+long l;
+long long ll;
+float e;
+double dou;
+long double ldou;
+printf(&quot;sizeof(ch) = %d\n&quot;,sizeof(ch));
+printf(&quot;sizeof(sh) = %d\n&quot;,sizeof(sh));
+printf(&quot;sizeof(i) = %d\n&quot;,sizeof(i));
+printf(&quot;sizeof(l) = %d\n&quot;,sizeof(l));
+printf(&quot;sizeof(ll) = %d\n&quot;,sizeof(ll));
+printf(&quot;sizeof(e) = %d\n&quot;,sizeof(e));
+printf(&quot;sizeof(dou) = %d\n&quot;,sizeof(dou));
+printf(&quot;sizeof(ldou) = %d\n&quot;,sizeof(ldou));
+}</code></pre><p>运行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200428172010617.png" alt="不同数值类型定义变量所占字节的大小"></p>
+<p><strong>我们得到类型和变量的大小是一样的，上面的方式我们求证出来的是类型和变量所占的字节数。</strong></p>
+<h4 id="char-类型（短短整型）"><a href="#char-类型（短短整型）" class="headerlink" title="char 类型（短短整型）"></a>char 类型（短短整型）</h4><p><strong>char类型在学习字符类型之后char类型数字与ASCII建立一一对应关系之后，我们才称之为字符类型</strong></p>
+<p>所以我们在这里没有介绍字符类型之前，char表示短短整型。</p>
+<p>表示范围我们在上面表格进行总结。</p>
+<h4 id="short-（短整型）"><a href="#short-（短整型）" class="headerlink" title="short （短整型）"></a>short （短整型）</h4><p>占据2个字节的数值类型</p>
+<p>表示范围我们在上面表格进行总结</p>
+<h4 id="int-整型"><a href="#int-整型" class="headerlink" title="int (整型)"></a>int (整型)</h4><p>占据4个字节的数值类型</p>
+<p>表示范围我们在上面表格进行总结</p>
+<p>我们来看一下int类型表示数值的大小</p>
+<p><img src="https://img-blog.csdnimg.cn/20200428172902515.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="int类型表示最大的数字"></p>
+<p>上面int类型所能表示的数值是42亿+。</p>
+<p><strong>我们把int类型称为基本整型。</strong></p>
+<p>之前说过理想的32位机，地址总线和数据总线都是32位。</p>
+<p>那么放出一个地址就可以获得32位及就是4个字节数据。所有比int类型短的一次就能够读写。</p>
+<p><strong>把int类型说明为基本整型，那么对用short就是短整型，char就是短短整型，longlong就是长整型。</strong></p>
+<h4 id="long和long-long-长整型"><a href="#long和long-long-长整型" class="headerlink" title="long和long long(长整型)"></a>long和long long(长整型)</h4><p>上面int类型所能表示的数值是42亿+，已经是一个很大的数值，所以没有对于long类型进行扩展，C语言只是说明long类型所占字节数不小于int，long long类型所占字节数不小于long。</p>
+<h3 id="浮点型"><a href="#浮点型" class="headerlink" title="浮点型"></a>浮点型</h3><p>那么我们表示了整型之后，我们还需要表示浮点型：</p>
+<p>一个浮点型由三部分组成：符号，阶码，尾数。接下来我们进行解释和表示</p>
+<p><img src="https://img-blog.csdnimg.cn/20191008002143274.png" alt="浮点类型组成"></p>
+<p>其中 S 是符号位，P 是阶码，M 是尾数。 </p>
+<p>对于 32/64 位的单/双精度浮点型如下：</p>
+<p><img src="https://img-blog.csdnimg.cn/20191008002209977.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="浮点类型"></p>
+<h4 id="float（单精度浮点类型）"><a href="#float（单精度浮点类型）" class="headerlink" title="float（单精度浮点类型）"></a>float（单精度浮点类型）</h4><p>float类型占用4个字节   第一个字节表示符号位</p>
+<p>后面的8位表示阶数位   及就是10^阶数次方</p>
+<p>最后的尾数代表实际数字的大小    决定有效数字</p>
+<p>表示数字的时候为：尾数  ×  10 ^阶数      首位代表符号</p>
+<p>那么接下来我们解释有效数字：</p>
+<p>我们在之前学习到的有效数字指的是从第一个不为0的数字算起的位数有几位，有效数字就是几。</p>
+<p><strong>float 类型有效数字 6-7位</strong></p>
+<h4 id="double（双精度浮点类型）"><a href="#double（双精度浮点类型）" class="headerlink" title="double（双精度浮点类型）"></a>double（双精度浮点类型）</h4><p>double 类型有效数字 15 -16位</p>
+<pre><code>float num1 = 1.1234567898765;
+double num2 = 1.1234567898765;
+printf(&quot;%.13f\n&quot;, num1);
+printf(&quot;%.13f\n&quot;, num2);</code></pre><p>打印结果：</p>
+<p><img src="https://img-blog.csdnimg.cn/20191008002328195.png" alt="浮点类型精度"></p>
+<p><strong>在这里我们只能说后精度后面的表示不准确</strong> </p>
+<p><strong>但是不能说是四舍五入</strong></p>
+<p>可以看出 ：</p>
+<p><strong>float  在有效位第七位之后出现和原来定义不一样的结果</strong></p>
+<p><strong>double类型的有效位数更高，能够显示变量的精度更高。</strong></p>
+<h2 id="字符类型"><a href="#字符类型" class="headerlink" title="字符类型"></a>字符类型</h2><h3 id="基本字符类型"><a href="#基本字符类型" class="headerlink" title="基本字符类型"></a>基本字符类型</h3><p><img src="https://img-blog.csdnimg.cn/20200428181400194.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="数据存储"></p>
+<p>在上面的保险单中存储在计算机内存中，年龄是整型数，保险金额是浮点数。</p>
+<p>但是计算机内存中不能存储字符M。</p>
+<p>我们通过计算机显示能看到M，但是实际上在内存中存放的不是M，存放的是一个数值。</p>
+<p>我们先给出字符M对应的数值是char类型的77，当变量是char类型并且77的时候如果要显示，那么就显示为M。</p>
+<p><strong>计算机内存中不能存储字符，存放的是字符对应的数值，只能在显示的时候进行转化，遵循ASCII码转化。这种转化需要一张表，表里记载了转换规则，这张表，就是 ASCII 编码表。该表的本质就是一种字符类型和char类型建立起来的一一对应关系。</strong></p>
+<p>字符类型实际是一个char类型，所能表示的无符号是0 ~ 255，ASCII只用到0~127的范围。</p>
+<p><strong>基本的 ASCII 字符集共有 128 个字符，其中有 96 个可打印字符，包括常用的字母、数字、标点符号等，另外还有 32 个控制字符。</strong></p>
+<p>我们下面说明ASCII表：</p>
+<p><img src="https://img-blog.csdnimg.cn/20191008002444309.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="ASCII表"></p>
+<p>我们来通过ASCII表的转化关系打印出来所有的char类型对应的字符类型：</p>
+<pre><code>#include &lt;stdio.h&gt;
 int main()
-{   
-int a = 3;
-int b = 5;
-mySwap(&amp;a, &amp;b);
-//mySwap(a, b);
-return 0;
-}</code></pre><p>我们使用两种方法来实现数据交换一组使用指针一组使用引用。</p>
-<p>我们在linux平台下把两个文件分别编译为汇编文件之后打开汇编文件。</p>
-<p><img src="https://img-blog.csdnimg.cn/20200213230142987.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="汇编代码分析"></p>
-<p><img src="https://img-blog.csdnimg.cn/20200213230149521.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="汇编代码分析"></p>
-<p>我们可以看到两个文件在会汇编文件里面代码完全相同。从而也证明了引用的本质即指针。</p>
+{
+    for (unsigned char ch = 1; ch &lt;= 128; ch++)
+    {
+        printf(&quot;%3d --&gt;%c\t&quot;, ch, ch);
+        if (ch % 8 == 0)
+            printf(&quot;\n&quot;);
+    }
+}</code></pre><p>运行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200428182946504.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="char类型和字符类型的对应关系"></p>
+<p><strong>当把char类型和ASCII码建立一一对应关系之后，我们把char类型也叫字符类型。</strong></p>
+<p><strong>内存本质存储的是整型，只不过我们需要转化的时候通过%c向屏幕上打印字符。</strong></p>
+<p>计算机在内存中只能存储数值，要么是整数，要么是小数。但是如果要在屏幕上显示，我们知道屏幕最终来自于显卡的渲染，字符类型存储的时候本质上存储的是char类型数值，那么当我们要显示字符的时候，把存储的char类型数值交给printf函数，printf函数通过参数%c把内部的char类型数值对应ASCII字符显示出来。</p>
+<p>所有图片，音频，视频等多媒体的类型都是通过显卡预定的规则而转化渲染而来的。</p>
+<p>所以本质上所有的信息都是以二进制存储在计算机内部。</p>
+<p>我们在这里强调  <strong>字符0和数字0是不一样的</strong>：</p>
+<pre><code>printf(&quot;%d\n&quot;,0);  //数字0
+printf(&quot;%d\n&quot;,&apos;0&apos;);  //字符0</code></pre><p>运行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200224025055249.png" alt="数字0和字符0的区别"></p>
+<p>那么我们直接来打印字符0到9和数字0到9:</p>
+<pre><code>#include &lt;stdio.h&gt;
+int main()
+{
+       for(unsigned char ch = 48;ch&lt;=48+9;ch++)
+  {
+  printf(&quot;%c&quot;,ch);
+  }
+  printf(&quot;\n\n&quot;);
+  for(int num = 0;num&lt;=9;num++)
+  {
+  printf(&quot;%d&quot;,num);
+  }
+  return 0;
+}</code></pre><p>运行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200224101422186.png" alt="打印字符0~9和数字0~9"></p>
+<p>我们可以到虽然显示是一样的，但是内部编译本质是不一样的。</p>
+<p>大小写字母转化</p>
+<pre><code>#include &lt;stdio.h&gt;
+int main()
+{
+    for(unsigned char letter= &apos;a&apos;; letter &lt;= &apos;z&apos;;letter++)
+    {
+     printf(&quot;char = %d  lowercase = %c\n&quot;,letter,letter);
+            printf(&quot;char = %d  captial   = %c\n&quot;,letter-32,letter-32);
+    }
+    return 0;
+}</code></pre><p>运行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200224100947599.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="大小写字母转换"></p>
+<h3 id="转义字符"><a href="#转义字符" class="headerlink" title="转义字符"></a>转义字符</h3><h4 id="为什么需要转义字符？"><a href="#为什么需要转义字符？" class="headerlink" title="为什么需要转义字符？"></a>为什么需要转义字符？</h4><pre><code>#include &lt;stdio.h&gt;
+int main()
+{
+        printf(&quot;I like &quot;football&quot;&quot;);
+        return 0;
+}</code></pre><p>上面代码会出现编译问题，不能直接在字符串里面打印”    “</p>
+<p>C语言中”    “ 表示字符串和打印的字符串发生冲突，但是我们又想要使用，那么就把原先C语言的意义脱去，及就是使用转义。</p>
+<p>转义的前提就是说在这地方已经被用作其他用途，现在上来要使用不同于之前的用途就需要转义。</p>
+<p>还有一种例如：</p>
+<p>n本身就是字符，但是C语言想实现一个换行的功能就把n转义为\n。</p>
+<h4 id="转义字符及其意义"><a href="#转义字符及其意义" class="headerlink" title="转义字符及其意义"></a>转义字符及其意义</h4><p>我们来介绍转义字符表示方法和功能：</p>
+<p><strong>转义字符就是本身己有一个字符的意义，我们给它另外一个别的意义。</strong></p>
+<p><strong>转意字符常起到控制的作用。</strong></p>
+<p>字符语义被征用，有新的需求，通过转义实现新的功能。</p>
+<p><img src="https://img-blog.csdnimg.cn/2020022402523027.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="转义字符及其意义"><strong>上面的每一种写法都表示一个字符</strong></p>
+<h4 id="转义字符的粘连问题"><a href="#转义字符的粘连问题" class="headerlink" title="转义字符的粘连问题"></a>转义字符的粘连问题</h4><p>我们这这里说明一下\ddd和\xhh所出现的粘连问题：</p>
+<p>如果我们进行下面打印：</p>
+<pre><code>printf(&quot;I like \n football&quot;);</code></pre><p>打印结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200224104327438.png" alt="运行结果"></p>
+<p>那么我们可以换一种表达形式：</p>
+<p>（使用上面的1到3位八进制所代表的任意字符）</p>
+<p>我们上面已经知道\n所对应的转义字符为10对应八进制就是12</p>
+<pre><code>printf(&quot;I like \12 football&quot;);</code></pre><p><img src="https://img-blog.csdnimg.cn/20200224104624998.png" alt="运行结果"></p>
+<p>也可以实现同样的效果。</p>
+<p>上面代码中的12和football粘连在一起也不会有问题：</p>
+<pre><code>printf(&quot;I like \12football&quot;);</code></pre><p><img src="https://img-blog.csdnimg.cn/202002241049441.png" alt="运行结果"></p>
+<p>但是在粘连之后中间有其他不是八进制的数字就出现了问题：</p>
+<p>例如我们紧跟在12后面有一个6</p>
+<p>按照我们的理解应该打印为：</p>
+<p>I like </p>
+<p>6football</p>
+<pre><code>printf(&quot;I like \126football&quot;);</code></pre><p>实际打印结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/2020022410553122.png" alt="运行结果"></p>
+<p>由于6在八进制数范围内，所以直接进行转义。</p>
+<p>所以要在12和6之间加上空格来避免粘连：</p>
+<pre><code>printf(&quot;I like \12 6football&quot;);</code></pre><p>运行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/2020022410574620.png" alt="运行结果"></p>
+<p>但是如果12后面跟的数字超过了8进制数的范围，那么也不会出现问题。</p>
+<p>例如我们在12后面加上e 并且进行粘连：</p>
+<pre><code>printf(&quot;I like \12e football&quot;);</code></pre><p>运行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200224105928865.png" alt="运行结果"></p>
+<p>我们可以看到数字超过八进制范围就不会出现问题。</p>
+<p>还可以表示1-2位16进制：</p>
+<p>那么和上面八进制的注意点是一样的。我们先不进行粘连</p>
+<p>代码如下：</p>
+<pre><code>printf(&quot;I like \xa f football&quot;);</code></pre><p>运行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200224110324321.png" alt="运行结果"></p>
+<p>如果我们粘连并且粘连的是十六进制数字那么就会出现问题，例如上面的xaf</p>
+<pre><code>printf(&quot;I like \xaf football&quot;);</code></pre><p>运行结果如下：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200224110505514.png" alt="运行结果"></p>
+<p>后面xa后面紧跟的f就会被当作十六进制数字进行转义。</p>
+<p>但是如果粘连但是后面跟的不是十六进制数字也不会问题：</p>
+<pre><code>printf(&quot;I like \xam football&quot;);</code></pre><p>运行结果：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200224110701229.png" alt="运行结果"></p>
 
             </div>
             <hr/>
@@ -590,7 +718,7 @@ return 0;
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://www.teachermin.com/2020/03/27/C++%E5%BC%95%E7%94%A8%E7%9A%84%E6%9C%AC%E8%B4%A8%EF%BC%8C%E5%A4%A7%E5%B0%8F%EF%BC%8C%E5%88%9D%E5%A7%8B%E5%8C%96%EF%BC%8C%20%E6%B1%87%E7%BC%96%E4%BB%A3%E7%A0%81%E8%BF%9B%E8%A1%8C%E9%AA%8C%E8%AF%81(4)/">http://www.teachermin.com/2020/03/27/C++%E5%BC%95%E7%94%A8%E7%9A%84%E6%9C%AC%E8%B4%A8%EF%BC%8C%E5%A4%A7%E5%B0%8F%EF%BC%8C%E5%88%9D%E5%A7%8B%E5%8C%96%EF%BC%8C%20%E6%B1%87%E7%BC%96%E4%BB%A3%E7%A0%81%E8%BF%9B%E8%A1%8C%E9%AA%8C%E8%AF%81(4)/</a>
+                    <a href="http://www.teachermin.com/2020/04/28/C%E8%AF%AD%E8%A8%80%E6%95%B0%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/">http://www.teachermin.com/2020/04/28/C%E8%AF%AD%E8%A8%80%E6%95%B0%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -628,8 +756,8 @@ return 0;
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/C-%E5%BC%95%E7%94%A8/">
-                                    <span class="chip bg-color">C++引用</span>
+                                <a href="/tags/DataType/">
+                                    <span class="chip bg-color">DataType</span>
                                 </a>
                             
                         </div>
@@ -795,47 +923,49 @@ return 0;
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2020/03/27/C++%E5%A4%9A%E6%80%81%E7%9A%84%E5%BC%95%E5%85%A5%E5%8F%8A%E7%AE%80%E5%8D%95%E7%90%86%E8%A7%A3(1)/">
+                <a href="/2020/04/28/C%E8%AF%AD%E8%A8%80%E6%95%B0%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/2.jpg" class="responsive-img" alt="C++多态的引入及简单理解(1)">
+                        <img src="/medias/featureimages/22.jpg" class="responsive-img" alt="C语言数基本数据类型">
                         
-                        <span class="card-title">C++多态的引入及简单理解(1)</span>
+                        <span class="card-title">C语言数基本数据类型</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            多态什么算是多态生活中的多态如果有几个相似而不完全相同的对象，有时人们要求在向它们发出同一个消息时，它们的反应各不相同，分别执行不同的操作。这种情况就是多态现象。
-例如，甲乙丙3个班都是高二年级，他们有基本相同的属性和行为，在同时听到上课铃
+                            数据类型数据类型，打个比方的话，就类似于部队中，前面我们己经给部队中人的起了名字，现在赋予这个权力和管辖范围，那就是军衔。或是通俗的讲，类型相当于模子，变量的定义，就相当于在内存中用模子框出的一块空间。
+数据类型说明我们先给出C语言中数据类
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-03-27
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-04-28
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
                             <a href="/categories/C/" class="post-category">
-                                    C++
+                                    C
                                 </a>
                             
                             
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/C-%E5%A4%9A%E6%80%81/">
-                        <span class="chip bg-color">C++多态</span>
+                    <a href="/tags/DataType/">
+                        <span class="chip bg-color">DataType</span>
                     </a>
                     
                 </div>
@@ -849,31 +979,31 @@ return 0;
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/03/27/C++%E5%B8%B8%E5%BC%95%E7%94%A8%EF%BC%9A%E5%B8%B8%E5%BC%95%E7%94%A8%E7%9A%84%E7%89%B9%E6%80%A7%EF%BC%8C%E4%B8%B4%E6%97%B6%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%B8%B8%E5%BC%95%E7%94%A8%20%EF%BC%8C%E5%B8%B8%E5%BC%95%E7%94%A8%E7%9A%84%E6%9C%AC%E8%B4%A8%EF%BC%8CUse%20Const%20Whatever%20Possible(3)/">
+                <a href="/2020/04/28/C%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B%E5%92%8C%E7%BC%96%E7%A0%81%E8%A7%84%E5%88%99/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/4.jpg" class="responsive-img" alt="C++常引用：常引用的特性，临时对象的常引用 ，常引用的本质，Use Const Whatever Possible(3)">
+                        <img src="/medias/featureimages/4.jpg" class="responsive-img" alt="C内存模型和编码规则">
                         
-                        <span class="card-title">C++常引用：常引用的特性，临时对象的常引用 ，常引用的本质，Use Const Whatever Possible(3)</span>
+                        <span class="card-title">C内存模型和编码规则</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            常引用const 的本意，即不可修改。所以，const 对象，只能声明为 const 引用，使其语义保持一致性。 non-const 对象，既可以声明为 const 引用，也可以声明为 no-const 引用。声明为 const 引用，则不
+                            内存模型和计算机编码规则将持续在我们整个计算机的学习之中学习补码的必要性在说明了C语言变量命名规则之后，这篇博客应该C语言说明变量的类型，但是我们首先要先说明内存模型和计算机编码规则因为内存模型和编码规则将持续在我们整个计算机的学习之中，并
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-03-27
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-04-28
                             </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
                             <a href="/categories/C/" class="post-category">
-                                    C++
+                                    C
                                 </a>
                             
                             
@@ -883,8 +1013,8 @@ return 0;
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/C-%E5%BC%95%E7%94%A8/">
-                        <span class="chip bg-color">C++引用</span>
+                    <a href="/tags/DataType/">
+                        <span class="chip bg-color">DataType</span>
                     </a>
                     
                 </div>
