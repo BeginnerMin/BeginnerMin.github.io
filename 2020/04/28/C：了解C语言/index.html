@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="C：简单了解C语言和linux, SkilledBeginner">
+    <meta name="keywords" content="C：了解C语言, SkilledBeginner">
     <meta name="description" content="努力做一个很厉害的人">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>C：简单了解C语言和linux | SkilledBeginner</title>
+    <title>C：了解C语言 | SkilledBeginner</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -306,12 +306,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/11.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/14.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">C：简单了解C语言和linux</h1>
+                    <h1 class="description center-align post-title">C：了解C语言</h1>
                 </div>
             </div>
         </div>
@@ -426,9 +426,13 @@
             <div class="row tag-cate">
                 <div class="col s7">
                     
-                          <div class="article-tag">
-                            <span class="chip bg-color">无标签</span>
-                          </div>
+                    <div class="article-tag">
+                        
+                            <a href="/tags/%E4%BA%86%E8%A7%A3C%E8%AF%AD%E8%A8%80/">
+                                <span class="chip bg-color">了解C语言</span>
+                            </a>
+                        
+                    </div>
                     
                 </div>
                 <div class="col s5 right-align">
@@ -449,28 +453,28 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-04-27
+                    2020-04-28
                 </div>
                 
 
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2020-04-27
+                    2020-04-28
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    1.8k
+                    1.2k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    6 分
+                    4 分
                 </div>
                 
 
@@ -486,114 +490,62 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h1 id="hello-world"><a href="#hello-world" class="headerlink" title="hello world"></a>hello world</h1><p>这个世界，几乎每个程序员入门的第一段代码都是 Hello world。原因是当年 C 语言的作者，Dennis Ritchie（丹尼斯·里奇）在他的名著 《C 程序设计语言（The C ProgrammingLanguage）》中第一次引入，传为后世经典，其它语言亦争相效仿，以示致敬。</p>
+                <p>#本博客作为C语言开始总结的第一篇，主要说明对于C语言的一些简单了解</p>
+<h2 id="hello-world"><a href="#hello-world" class="headerlink" title="hello world"></a>hello world</h2><p>这个世界，几乎每个程序员入门的第一段代码都是 Hello world。原因是当年 C 语言的作者，Dennis Ritchie（丹尼斯·里奇）在他的名著 《C 程序设计语言（The C ProgrammingLanguage）》中第一次引入，在这本书中他向全世界介绍C语言的时候写了第一个程序叫hello world，这本书的面世传为后世经典，其它语言亦争相效仿，以示致敬。</p>
 <p><img src="https://img-blog.csdnimg.cn/20200427105123384.png" alt="C语言作者及其名著"></p>
-<p>需要这本书的读者可留言，互相分享。</p>
-<h1 id="打印helloworld的源程序"><a href="#打印helloworld的源程序" class="headerlink" title="打印helloworld的源程序"></a>打印helloworld的源程序</h1><p>我们先给出C语言和C++语言编写打印的第一个程序“打印hello world</p>
-<h2 id="C-语言版"><a href="#C-语言版" class="headerlink" title="C 语言版"></a>C 语言版</h2><pre><code>#include &lt;stdio.h&gt; //程序中因为用到了 printf 库函数，所以要包含 printf 所在的头文件
+<p><strong>需要这本书的读者可留言，互相分享。</strong></p>
+<h2 id="打印helloworld的源程序"><a href="#打印helloworld的源程序" class="headerlink" title="打印helloworld的源程序"></a>打印helloworld的源程序</h2><p>我们先给出C语言和C++语言编写打印的第一个程序“打印hello world</p>
+<h3 id="C-语言版"><a href="#C-语言版" class="headerlink" title="C 语言版"></a>C 语言版</h3><pre><code>#include &lt;stdio.h&gt; //程序中因为用到了 printf 库函数，所以要包含 printf 所在的头文件
 int main() //程序的入口，表示计算机从哪里开始执行此程序，有且，只有一个
 {
     printf(&quot;Hello World!\n&quot;); //调用库函数，向屏幕打印 Hello World!
     return 0; // main 函数的返回值
-}</code></pre><h2 id="C-版"><a href="#C-版" class="headerlink" title="C++ 版"></a>C++ 版</h2><pre><code>#include &lt;iostream&gt; //程序中因为用到了 cout 库函数，所以要包含 cout 所在的头文件
+}</code></pre><h3 id="C-版"><a href="#C-版" class="headerlink" title="C++ 版"></a>C++ 版</h3><pre><code>#include &lt;iostream&gt; //程序中因为用到了 cout 库函数，所以要包含 cout 所在的头文件
 using namespace std; //用到的命名空间
 int main() //程序的入口，表示计算机从哪里开始执行此程序，有且，只有一个
 {
     cout &lt;&lt; &quot;Hello World!&quot; &lt;&lt; endl; //通过类对象 cout 向屏幕输出 Hello World!
     return 0; //main 函数的返回值
-}</code></pre><p><a href="http://helloworldcollection.de/" target="_blank" rel="noopener"> 链接里面有几乎所有语言语言版本的hello world</a></p>
-<p>丹尼斯里奇和肯汤姆森并称C语言和unix作者。</p>
+}</code></pre><p><a href="http://helloworldcollection.de/" target="_blank" rel="noopener"> 点击此处查看几乎所有语言语言版本的hello world</a></p>
 <p>C语言是第一门具备现代性质的高级语言。</p>
 <p>unix是现代操作系统的始祖。</p>
-<p>最早写操作系统是为了写一款《星际旅行》的游戏</p>
+<p>当年因为KenThompsen要写操作系统，所以DennisRitchie发明了C语言。</p>
+<p><strong>丹尼斯里奇和肯汤姆森并称C语言和unix作者。</strong></p>
+<p>最早写操作系统是为了写一款《star travel》的游戏。</p>
 <p>一个程序中有多个函数，并且所有函数之间是平行关系。</p>
-<p>main函数必须要有,<br>源文件编译为可执行程序之后在操作系统上运行时，会找到入口函数，就是main函数。</p>
-<p>文件名设置为main.c能够帮助我们更快的找到main函数的位置。没有必然内在联系。</p>
-<p><strong>强调：写代码的过程中解决掉所有的错误和警告。</strong>   </p>
+<p>main函数必须要有，并且有且仅有一个。</p>
+<p>源文件编译为可执行程序之后在操作系统上运行时，会找到入口函数，就是main函数。</p>
+<p>文件名设置为main.c只是能够帮助我们在多个文件中更快的找到main函数所在的文件，并且我们查看别人的代码一定是从main函数开始。所以只是方便查找main函数的位置，没有必然内在联系。<br>所以通常将main函数所在的文件命名为main.c。</p>
+<p><strong>强调：警告在某些情况下可以被忽略，但是一般情况下写代码的过程中解决掉所有的错误和警告。</strong>   </p>
 <p>C语言当中  所有的函数要求先声明，后使用。所以通过#include 包含头文件，就是包含函数的声明。</p>
-<h1 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h1><p>上面的两个C和C++写的hello world 代码中，//后面的语句，表示程序的注释，用来注解的作用，不参于编译，以便后期的维护和管理。</p>
-<p>注释是给开发者看的</p>
-<h2 id="单行注释"><a href="#单行注释" class="headerlink" title="单行注释"></a>单行注释</h2><pre><code>//单行注释   </code></pre><h2 id="多行注释"><a href="#多行注释" class="headerlink" title="多行注释"></a>多行注释</h2><h3 id="方法一"><a href="#方法一" class="headerlink" title="方法一"></a>方法一</h3><p>注释多个单行实现注释多行</p>
-<pre><code>//单行注释  
-
-//单行注释  
-
-//单行注释   </code></pre><h3 id="方法二"><a href="#方法二" class="headerlink" title="方法二"></a>方法二</h3><p>使用/ * * / 注释的时候有效范围是第一个/ * 到 第一个 * /  </p>
+<h2 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h2><p>上面的两个C和C++写的hello world 代码中，//后面的语句，表示程序的注释，用来注解的作用，不参于编译，注释是给开发者看的，以便后期的维护和管理。</p>
+<h3 id="单行注释"><a href="#单行注释" class="headerlink" title="单行注释"></a>单行注释</h3><p><code>单行注释：//单行注释</code> </p>
+<h3 id="多行注释"><a href="#多行注释" class="headerlink" title="多行注释"></a>多行注释</h3><h4 id="方法一"><a href="#方法一" class="headerlink" title="方法一"></a>方法一</h4><p>注释多个单行实现注释多行</p>
+<pre><code>单行注释：//单行注释
+单行注释：//单行注释
+单行注释：//单行注释    </code></pre><h4 id="方法二"><a href="#方法二" class="headerlink" title="方法二"></a>方法二</h4><p>使用/ * * / 注释的时候有效范围是第一个/ * 到 第一个 * /  </p>
 <pre><code>/*
 
-被注释的内容
+==被注释的内容==
 
 */</code></pre><p><strong>不支持嵌套</strong></p>
-<h3 id="方法三"><a href="#方法三" class="headerlink" title="方法三"></a>方法三</h3><p>使用条件编译，通过条件编译的方法实现多行注释</p>
+<h4 id="方法三"><a href="#方法三" class="headerlink" title="方法三"></a>方法三</h4><p>使用条件编译，通过条件编译的方法实现多行注释</p>
 <pre><code>#if 0
 
-被注释的内容
+==被注释的内容==
 
-#endif</code></pre><h1 id="从源文件到可执行文件经历了什么？"><a href="#从源文件到可执行文件经历了什么？" class="headerlink" title="从源文件到可执行文件经历了什么？"></a>从源文件到可执行文件经历了什么？</h1><p>IDE继承开发环境：Qt  vs   </p>
-<p>IDE一般引入工程概念</p>
-<p>从源文件到可执行文件经历了什么？</p>
-<p>linux    main.c–&gt;a.out</p>
-<p>windows  main.c –&gt;xx.exe</p>
-<p>源文件(文本文件)–&gt; 预处理（文本文件） –&gt; 编译（汇编程序） –&gt;汇编（二进制程序）–&gt;链接（可执行目标程序） –&gt; 可执行文件</p>
+#endif</code></pre><h2 id="从源文件到可执行文件经历了什么？"><a href="#从源文件到可执行文件经历了什么？" class="headerlink" title="从源文件到可执行文件经历了什么？"></a>从源文件到可执行文件经历了什么？</h2><p>IDE集成开发环境：Qt  vs   </p>
+<p>IDE一般引入工程概念，那么其实工程也可以不要，就是在linux平台无任何IDE环境下进行编码。</p>
+<p>从源文件到可执行文件经历了什么？我们在详细说明里面就在linux平台进行编码。</p>
+<p><strong>linux    main.c–&gt;a.out</strong><br><strong>windows  main.c –&gt;xx.exe</strong></p>
+<p><img src="https://img-blog.csdnimg.cn/20200428091350206.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="从源文件到可执行文件的过程"></p>
 <p><strong>预处理：gcc- E main.c -o main.i   //处理文件包含，宏和注释等，     结果生成文本文件</strong></p>
 <p><strong>编译：gcc - S -main.i -o main.s  //编译为汇编文件，               结果生成.s为汇编语言</strong></p>
 <p><strong>汇编：gcc -c -main.s -o main.o   //经过汇编后为二进制的机器指令，  结果生成.o为二进制文件</strong></p>
 <p><strong>链接：gcc main.o -o main         //链接所用到的库，   结果生成main为可以执行文件。</strong></p>
-<p><a href="https://blog.csdn.net/qq_43648751/article/details/104182260" target="_blank" rel="noopener">从源文件到可执行文件经历了什么？点击进入详细博客说明</a></p>
-<h1 id="致敬大师"><a href="#致敬大师" class="headerlink" title="致敬大师"></a>致敬大师</h1><p><img src="https://img-blog.csdnimg.cn/20200427110018733.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="丹尼斯里奇和肯汤姆森"></p>
-<h1 id="Linux简单了解"><a href="#Linux简单了解" class="headerlink" title="Linux简单了解"></a>Linux简单了解</h1><p>学习linux 的原因：我们更加能够开到程序编译的本质。</p>
-<p>世界上90%服务器都是linu和unix， 很少有windows</p>
-<p>学习编程我过程我们需要了解不同平台的差异性。</p>
-<p>linux平台下面使用的是原汁原味的gcc</p>
-<p>世界上最大的开源软件：linux操作系统</p>
-<p>gccRithard Matthew Stallman  编写了gcc    发起组织了GNU</p>
-<p>软件行业最难写的就是编译器和操作系统</p>
-<p>centOS  和ubuntuOS  都采用了linux内核  属于不同的发行版  就像两款车使用了相同的发动机生产不同的车子。</p>
-<p>内核是不能直接运行在某个具体的机型上的，需要适配，就有了各种发行版本。</p>
-<p>linux查看内核版本号：name -r</p>
-<p>我安装linux操作系统 内核版本是：5.3.0 -42 generic</p>
-<p>主版本号.次版本号.末版本</p>
-<p>次版本号：奇数代表开发板，偶数代表稳定版。</p>
-<p>国产linux发行版本：红旗，深度，麒麟(ubuntu 的中文定制版)</p>
-<p>centOS 是免费的redhat   </p>
-<p>linux内核在服务器领域大显身手，但是桌面领域windows一统天下</p>
-<p>linux目录为：文件树。</p>
-<p>根目录–&gt;一级目录–&gt;二级目录–&gt;三级目录–&gt;……</p>
-<p>可以通过命令 tree / -L 2 查看目录结构</p>
-<p>linux分区与目录：</p>
-<p>Linux中有文件系统。</p>
-<p>linux把分区挂载在文件系统的目录下面。</p>
-<p>那么给文件系统的目录下面写入内容的时候实际上是写入了挂载在文件系统中对应的分区。</p>
-<p>相对路径：相对于当前所在的路径</p>
-<p>绝对路径：相对于根路径</p>
-<p>在拷贝目录文件的时候需要加上参数：</p>
-<p>cp -r dira dirb             (recursive递归)</p>
-<p>移动文件夹的时候正常操作：</p>
-<p>mv  dira dirb </p>
-<p>文件重命名：mv后面跟的不是文件夹，则为重命名的需求。</p>
-<p>mv aa.cc aa.c    </p>
-<p>目录文件重命名方式相同。</p>
-<p>cp命令的覆盖功能:</p>
-<p>如果a.c b.c  都存在</p>
-<p>那么 cp a.c b.c 则实现a.c覆盖b.c</p>
-<p>删除多个文件名相似的文件：</p>
-<p>rm * .c     rm dir *   等操作格式</p>
-<p>rm -f     强制删除  (force 强制)   </p>
-<p>rm -rf 递归删除</p>
-<p>rm -rf *  删除所有东西      一步操作回到解放前     毁灭性的操作</p>
-<p>smb服务实现windows窗口与虚拟机之间的数据拖动</p>
-<p>sshd服务实现远程登录</p>
-<p>使用vimtutor  -g zh  联系vim的使用</p>
-<p>在从root用户切换到普通用户的时候，再从普通用户切换到root用户的时候使用exit 不要使用su root<br>否则在删除的时候会提示占据终端而删除用户失败。</p>
-<p>删除用户的两种方式：</p>
-<p>userdel  user    删除用户但是保存用户文件</p>
-<p>rm -rf /home/user/    删除用户及用户文件</p>
-<p>userdel -r user    直接彻底删除user用户的所有信息</p>
-<p>vi编辑器中的代码格式调整  先按下gg    然后shift + v  然后shift  + g     然后按下=一键格式化。</p>
-<h1 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h1><p>最后我们要强调在linux环境下的一个文本编辑器：</p>
-<p>vim文本编辑器       —–神一样的编辑器</p>
-<p>学习成本有点高      学习路线有点陡峭</p>
-<p><strong>使用是否灵活当即可鉴别是否具备丰富的linux/unix的开发经验。</strong></p>
+<p>下面我整理出来了从源文件到可执行文件的详细过程：</p>
+<p><a href="https://blog.csdn.net/qq_43648751/article/details/104182260" target="_blank" rel="noopener">点击此处进入详细说明：从源文件到可执行文件经历了什么？</a></p>
+<h2 id="致敬大师"><a href="#致敬大师" class="headerlink" title="致敬大师"></a>致敬大师</h2><p><img src="https://img-blog.csdnimg.cn/20200427110018733.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="丹尼斯里奇和肯汤姆森"></p>
 
             </div>
             <hr/>
@@ -619,7 +571,7 @@ int main() //程序的入口，表示计算机从哪里开始执行此程序，�
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://www.teachermin.com/2020/04/27/C%EF%BC%9A%E7%AE%80%E5%8D%95%E4%BA%86%E8%A7%A3C%E8%AF%AD%E8%A8%80%E5%92%8Clinux/">http://www.teachermin.com/2020/04/27/C%EF%BC%9A%E7%AE%80%E5%8D%95%E4%BA%86%E8%A7%A3C%E8%AF%AD%E8%A8%80%E5%92%8Clinux/</a>
+                    <a href="http://www.teachermin.com/2020/04/28/C%EF%BC%9A%E4%BA%86%E8%A7%A3C%E8%AF%AD%E8%A8%80/">http://www.teachermin.com/2020/04/28/C%EF%BC%9A%E4%BA%86%E8%A7%A3C%E8%AF%AD%E8%A8%80/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -656,7 +608,11 @@ int main() //程序的入口，表示计算机从哪里开始执行此程序，�
                 <div class="post-meta__tag-list" style="display: inline-block;">
                     
                         <div class="article-tag">
-                            <span class="chip bg-color">无标签</span>
+                            
+                                <a href="/tags/%E4%BA%86%E8%A7%A3C%E8%AF%AD%E8%A8%80/">
+                                    <span class="chip bg-color">了解C语言</span>
+                                </a>
+                            
                         </div>
                     
                 </div>
@@ -825,24 +781,25 @@ int main() //程序的入口，表示计算机从哪里开始执行此程序，�
                 <i class="far fa-dot-circle"></i>&nbsp;本篇
             </div>
             <div class="card">
-                <a href="/2020/04/27/C%EF%BC%9A%E7%AE%80%E5%8D%95%E4%BA%86%E8%A7%A3C%E8%AF%AD%E8%A8%80%E5%92%8Clinux/">
+                <a href="/2020/04/28/C%EF%BC%9A%E4%BA%86%E8%A7%A3C%E8%AF%AD%E8%A8%80/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/11.jpg" class="responsive-img" alt="C：简单了解C语言和linux">
+                        <img src="/medias/featureimages/14.jpg" class="responsive-img" alt="C：了解C语言">
                         
-                        <span class="card-title">C：简单了解C语言和linux</span>
+                        <span class="card-title">C：了解C语言</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            hello world这个世界，几乎每个程序员入门的第一段代码都是 Hello world。原因是当年 C 语言的作者，Dennis Ritchie（丹尼斯·里奇）在他的名著 《C 程序设计语言（The C ProgrammingLangu
+                            #本博客作为C语言开始总结的第一篇，主要说明对于C语言的一些简单了解
+hello world这个世界，几乎每个程序员入门的第一段代码都是 Hello world。原因是当年 C 语言的作者，Dennis Ritchie（丹尼斯·里奇）在他的
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-04-27
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-04-28
                             </span>
                         <span class="publish-author">
                             
@@ -857,6 +814,14 @@ int main() //程序的入口，表示计算机从哪里开始执行此程序，�
                     </div>
                 </div>
 
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/%E4%BA%86%E8%A7%A3C%E8%AF%AD%E8%A8%80/">
+                        <span class="chip bg-color">了解C语言</span>
+                    </a>
+                    
+                </div>
                 
             </div>
         </div>
@@ -1103,7 +1068,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">139.5k</span>&nbsp;字
+                class="white-color">138.8k</span>&nbsp;字
             
             
             
