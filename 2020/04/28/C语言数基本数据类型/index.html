@@ -460,21 +460,21 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2020-04-28
+                    2020-04-29
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    2.8k
+                    2.9k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    10 分
+                    11 分
                 </div>
                 
 
@@ -606,6 +606,13 @@ int main()
 <p>计算机在内存中只能存储数值，要么是整数，要么是小数。但是如果要在屏幕上显示，我们知道屏幕最终来自于显卡的渲染，字符类型存储的时候本质上存储的是char类型数值，那么当我们要显示字符的时候，把存储的char类型数值交给printf函数，printf函数通过参数%c把内部的char类型数值对应ASCII字符显示出来。</p>
 <p>所有图片，音频，视频等多媒体的类型都是通过显卡预定的规则而转化渲染而来的。</p>
 <p>所以本质上所有的信息都是以二进制存储在计算机内部。</p>
+<p>我们用UE打开图片文件：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200429080735137.png" alt="使用UE打开jpg图片格式文件"></p>
+<p><img src="https://img-blog.csdnimg.cn/20200429080909737.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="使用UE打开jpg图片文件所显示的十六进制形式"></p>
+<p><img src="https://img-blog.csdnimg.cn/20200429081052539.png" alt="使用UE打开mp4视频格式文件"></p>
+<p><img src="https://img-blog.csdnimg.cn/20200429081158628.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="使用UE打开mp4视频文件所显示的十六进制形式"></p>
+<p>上面存储的十六进制本质上就是存储二进制。</p>
+<p>在计算机中，所有数据的存储形式都是以01的二进制形式存储的，我们能通过显示器看到图片是因为把数据发送到显卡，显卡通过预先预定的规则，把二进制数据渲染成图片，视频等其他形式进行显示。</p>
 <p>我们在这里强调  <strong>字符0和数字0是不一样的</strong>：</p>
 <pre><code>printf(&quot;%d\n&quot;,0);  //数字0
 printf(&quot;%d\n&quot;,&apos;0&apos;);  //字符0</code></pre><p>运行结果为：</p>
@@ -923,31 +930,34 @@ int main()
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="far fa-dot-circle"></i>&nbsp;本篇
-            </div>
+                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2020/04/28/C%E8%AF%AD%E8%A8%80%E6%95%B0%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/">
+                <a href="/2020/04/29/C%E5%B8%B8%E9%87%8F/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/22.jpg" class="responsive-img" alt="C语言数基本数据类型">
+                        <img src="/medias/featureimages/2.jpg" class="responsive-img" alt="C常量">
                         
-                        <span class="card-title">C语言数基本数据类型</span>
+                        <span class="card-title">C常量</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            数据类型数据类型，打个比方的话，就类似于部队中，前面我们己经给部队中人的起了名字，现在赋予这个权力和管辖范围，那就是军衔。或是通俗的讲，类型相当于模子，变量的定义，就相当于在内存中用模子框出的一块空间。
-数据类型说明我们先给出C语言中数据类
+                            常量常量的表现形式常量是程序中不可改变的量
+常量以字面量，或者宏的方式出现。
+ 常量主要用于赋值或参与计算,并且常量也是有类型的。
+字面量形式我们先简单来理解常量和变量
+#include &lt;stdio.h&gt;
+int main()
                         
                     </div>
                     <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-04-28
-                            </span>
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2020-04-29
+                        </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
@@ -960,7 +970,6 @@ int main()
                         </span>
                     </div>
                 </div>
-
                 
                 <div class="card-action article-tags">
                     
@@ -1213,7 +1222,7 @@ code[class*="language-"], pre[class*="language-"] { white-space: pre !important;
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">147.2k</span>&nbsp;字
+                class="white-color">148.9k</span>&nbsp;字
             
             
             

@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="C++引用的本质，大小，初始化， 汇编代码进行验证(4), SkilledBeginner">
+    <meta name="keywords" content="C常量, SkilledBeginner">
     <meta name="description" content="努力做一个很厉害的人">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>C++引用的本质，大小，初始化， 汇编代码进行验证(4) | SkilledBeginner</title>
+    <title>C常量 | SkilledBeginner</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -306,12 +306,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/0.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/2.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">C++引用的本质，大小，初始化， 汇编代码进行验证(4)</h1>
+                    <h1 class="description center-align post-title">C常量</h1>
                 </div>
             </div>
         </div>
@@ -428,8 +428,8 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/C-%E5%BC%95%E7%94%A8/">
-                                <span class="chip bg-color">C++引用</span>
+                            <a href="/tags/DataType/">
+                                <span class="chip bg-color">DataType</span>
                             </a>
                         
                     </div>
@@ -441,7 +441,7 @@
                         <i class="fas fa-bookmark fa-fw icon-category"></i>
                         
                             <a href="/categories/C/" class="post-category">
-                                C++
+                                C
                             </a>
                         
                     </div>
@@ -453,28 +453,28 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2020-03-27
+                    2020-04-29
                 </div>
                 
 
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-check fa-fw"></i>更新日期:&nbsp;&nbsp;
-                    2020-03-27
+                    2020-04-29
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    476
+                    1.6k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="far fa-clock fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    2 分
+                    6 分
                 </div>
                 
 
@@ -490,81 +490,148 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="引用的本质"><a href="#引用的本质" class="headerlink" title="引用的本质"></a>引用的本质</h2><p><strong>引用的本质是，C++对指针的包装，即引用即指针。</strong></p>
-<p>为引我们开始如下的探寻。先从引用的大小入手，然后再能通过编译的角度来剖析。</p>
-<h2 id="大小"><a href="#大小" class="headerlink" title="大小"></a>大小</h2><p>那么我们如果来证明引用即指针呢？</p>
-<p>我们设计下面代码进行证明：</p>
-<pre><code>#include &lt;iostream&gt;
-using namespace std;
+                <h2 id="常量"><a href="#常量" class="headerlink" title="常量"></a>常量</h2><h3 id="常量的表现形式"><a href="#常量的表现形式" class="headerlink" title="常量的表现形式"></a>常量的表现形式</h3><p><strong>常量是程序中不可改变的量</strong></p>
+<p><strong>常量以字面量，或者宏的方式出现。</strong></p>
+<p> <strong>常量主要用于赋值或参与计算,并且常量也是有类型的。</strong></p>
+<h4 id="字面量形式"><a href="#字面量形式" class="headerlink" title="字面量形式"></a>字面量形式</h4><p>我们先简单来理解常量和变量</p>
+<pre><code>#include &lt;stdio.h&gt;
+int main()
+{
+   int age = 30;
+   age = age + 10;
+    return 0;
+}</code></pre><p>上面代码中，age是变量，30或者10是字面常量。</p>
+<h4 id="宏定义形式"><a href="#宏定义形式" class="headerlink" title="宏定义形式"></a>宏定义形式</h4><pre><code>#include&lt;stdio.h&gt;
+#define PI 3.1415926
+int main()
+{
+    int radius = 2;
+    printf(&quot;area = %f&quot;, radius * radius * PI);
+    return 0;
+}</code></pre><p>运行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200428231421584.png" alt="使用宏定义的PI求圆的面积"></p>
+<p>上面代码中，PI是宏定义常量。</p>
+<p><strong>宏定义在预处理阶段替换。</strong></p>
+<p>我们在linux平台进行演示：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200428231915390.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="linux平台演示宏定义的处理过程"></p>
+<p>接下来我们进行预处理操作：</p>
+<p>gcc -E main.c -o main.i</p>
+<p>打开mian.i文件</p>
+<p><img src="https://img-blog.csdnimg.cn/20200428232145993.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="我们可以看到宏定义在预处理阶段被替换"></p>
+<p><strong>使用预处理定义常量，在之后所有出现宏明的地方都会被替换，修改代码中的宏明对应的值的时候只需要在宏定义的时候进行修改即可。</strong></p>
+<h3 id="常量的类型"><a href="#常量的类型" class="headerlink" title="常量的类型"></a>常量的类型</h3><p>我们进行类型说明：</p>
+<pre><code>#include &lt;stdio.h&gt;
+int main()
+{
+        int number = 60;
+    float salary = 1234.56;
+    char sex = &apos;m&apos;;
+    char name[] = &quot;xiaoming&quot;;
+        return 0;
+}</code></pre><p>上面的 60 是整型常量</p>
+<p>上面的 1234.56 是实型常量</p>
+<p>上面的 m 是字符常量</p>
+<p>上面的 xiaoming 是字符串常量</p>
+<p>那么常量到底是整型中的哪一种类型？实型又是具体的哪一种类型？我们下面进行说明。</p>
+<p>我们说0是一个整型常量，但是能不能具体到某种类型的呢？</p>
+<p>我们可以通过计算大小来进行解决：</p>
+<pre><code>printf(&quot;sizeof (0) = %d&quot;,sizeof(0));
+printf(&quot;sizeof (0.0) = %d&quot;,sizeof(0.0));</code></pre><p>运行结果如下：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200224115033766.png" alt="0和0.0的字节大小"></p>
+<p>上面两个都是常量0</p>
+<p>我们通过代码验证：</p>
+<p><strong>上面的0是int类型</strong></p>
+<p><strong>上面的0.0是double类型</strong></p>
+<p><strong>默认的整型常量是 int 类型，默认的实型是 double 类型。</strong></p>
+<p>我们也可以通过下面操作进行修改：</p>
+<p>出现在数据后面的字母是直接对于数据类型及就是所占字节数大小进行限制。</p>
+<pre><code>printf(&quot;const sizeof(0.0) = %d\n&quot;,sizeof(0.0)); //double
+printf(&quot;const sizeof(0.0f) = %d\n&quot;,sizeof(0.0f));//0.0F float
+printf(&quot;const sizeof(0.0L) = %d\n&quot;,sizeof(0.0L));//0.0l long double
+printf(&quot;const sizeof(0) = %d\n&quot;,sizeof(0)); //int
+printf(&quot;const sizeof(0l) = %d\n&quot;,sizeof(0l));//long
+printf(&quot;const sizeof(0ll) = %d\n&quot;,sizeof(0ll));//long long</code></pre><p>在vs2019平台运行结果如下：</p>
+<p><img src="https://img-blog.csdnimg.cn/2020022412001332.png" alt="vs2019平台下不同常量类型所占字节数"></p>
+<p>在Qt运行结果如下：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200224120115593.png" alt="Qt平台下不同常量类型所占字节数"></p>
+<p>在这里我们要强调：</p>
+<p><strong>不同的平台打印出来不同的结果</strong></p>
+<p>接下来我们介绍一种情况：</p>
+<pre><code>char ch = -1;
+short sh = -1;
+int in = -1;
+printf(&quot;%x\n&quot;, ch);
+printf(&quot;%x\n&quot;, sh);
+printf(&quot;%x\n&quot;, in);</code></pre><p>运行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20191008002816405.png" alt="运行结果"></p>
+<p>那么为什么会出现这样的结果呢？</p>
+<p>第一个char类型一个字节，是八位二进制数 ，用十六进制表示应该是 FF  </p>
+<p>一个F表示4位二进制数字。</p>
+<p>第二个short  占用两个字节  所占16位二进制数字  那么应该打印FF FF 。</p>
+<p>第三个 int类型4个字节，所以占32位  应该是FF FF FF FF。</p>
+<p>那么结果应该是：</p>
+<p> <strong>ff</strong></p>
+<p><strong>ffff</strong></p>
+<p><strong>ffffffff</strong></p>
+<p><strong>实际的结果本应该是这样  只不过这里进行了整型提升</strong></p>
+<p><strong>意思就是char类型在运算的时候会转换为int</strong></p>
+<p><strong>short类型在运算的时候会转换为int</strong></p>
+<p>所以我们正常打印应该是这样打印：</p>
+<pre><code>char ch = -1;
+short sh = -1;
+int in = -1;
+printf(&quot;%hhx\n&quot;, ch);   //这里我们给出%hhx 表示只打印一个字节
+printf(&quot;%hx\n&quot;, sh);    //这里我们给出%hx 表示只打印两个字节
+printf(&quot;%x\n&quot;, in);        //这里我们给出%x 表示只打印四个字节</code></pre><p>在linux平台结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200224125212845.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="linux平台不同字节范围-1的运行结果"></p>
+<p>在Qt编译器运行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200224124505963.png" alt="Qt编译器不同字节范围-1的运行结果"></p>
+<p>在vs2019编译器下面运行结果为：</p>
+<p><img src="https://img-blog.csdnimg.cn/20200224124657571.png" alt="vs2019编译器不同字节范围-1的运行结果"></p>
+<p><strong>上面打印结果不同平台会有差异</strong></p>
+<p>那么char 类型-1     在内存中表示也就是1111 1111  就是FF</p>
+<p>short  类型 -1    在内存中表示也就是1111 1111  1111 1111就是FFFF</p>
+<p>int 类型-1   在内存中也就是  1111 1111 1111 1111 1111 1111 1111 1111  </p>
+<p>就是 FFFFFFFF</p>
+<p>一定要注意：<br>**   内存中保存数据时保存的是补码，而不是我们直接计算的对应的二进制表示，应该是取补码之后的二进制表示为-1。**</p>
+<p>例如 char类型 -1</p>
+<p><strong>机器码为 1111 1111</strong></p>
+<p><strong>取反为   0000 0000</strong></p>
+<p><strong>+1为    0000 0001</strong> </p>
+<p><strong>最开始的符号位为 1 所以为负数</strong></p>
+<p><strong>补码之后的结果是1  所以表示 -1</strong></p>
+<p><strong>所以的物理内存如何存储并不重要，重要的在于我们如何去解释这段物理存储。</strong></p>
+<p>例如  <strong>1111 1111   char 类型就代表 -1   无符号类型就代表 255</strong></p>
+<h3 id="常量类型"><a href="#常量类型" class="headerlink" title="常量类型"></a>常量类型</h3><h4 id="整型常量"><a href="#整型常量" class="headerlink" title="整型常量"></a>整型常量</h4><p>整型常量通常有三种表现形式</p>
+<h5 id="十进制常量"><a href="#十进制常量" class="headerlink" title="十进制常量"></a>十进制常量</h5><p><strong>198   0   -23   216L    213u  213LU</strong></p>
+<p><strong>L或者l 表示长整型</strong></p>
+<p><strong>除了表示0以外不以0开头，避免和八进制混淆</strong></p>
+<p><strong>U或者u表示无符号数</strong></p>
+<h5 id="八进制常量"><a href="#八进制常量" class="headerlink" title="八进制常量"></a>八进制常量</h5><p> 以0开头的连续数字序列  序列中只能有 0~7这8个数字</p>
+<p>例如： 045   -076    034212l   028711u</p>
+<h5 id="十六进制常量"><a href="#十六进制常量" class="headerlink" title="十六进制常量"></a>十六进制常量</h5><p>以0x  或者0X开头  序列中只有 0<del>9  A</del>F  a ~ f 这些数字和字母</p>
+<p>字母a,b,c,d,e,f分别对应10，11，12，13，14，15 大小写都可以。</p>
+<h4 id="实型常量"><a href="#实型常量" class="headerlink" title="实型常量"></a>实型常量</h4><h5 id="小数形式"><a href="#小数形式" class="headerlink" title="小数形式"></a>小数形式</h5><pre><code>float salary = 1234.56;
+double number = 6.54321;</code></pre><p>上面直接出现的字面浮点数表示实型常量。</p>
+<p>我们在这里说明一点：</p>
+<pre><code>printf(“.0”);
+printf(“0.”);
+printf(“0.0”);   //三者等价
 
-struct TypeP 
-{ 
-char* pc; 
-}; 
-struct TypeC 
-{ 
-char c; 
-}; 
-struct TypeR
-{
-char&amp; pr; //把引用单列出来，不与具体的对象发生关系
-};
-int main()
-{
-
-cout &lt;&lt; &quot;sizeof(TypeC)&quot; &lt;&lt; sizeof(TypeC) &lt;&lt; endl;
-cout &lt;&lt; &quot;sizeof(TypeP)&quot; &lt;&lt; sizeof(TypeP) &lt;&lt; endl;
-cout &lt;&lt; &quot;sizeof(TypeR)&quot; &lt;&lt; sizeof(TypeR) &lt;&lt; endl;
-return 0;
-}</code></pre><p>执行结果为：</p>
-<p><img src="https://img-blog.csdnimg.cn/20200213230040723.png" alt="引用的大小"></p>
-<p>我们可以看到引用类型和指针类型大小相等，说明其地位的等价。</p>
-<h2 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h2><p>C++中只有 const 类型的数据，要求必须初始化。而引用也必须要初始化，所以引用是指针，还应该是 const 修饰的指针。 一经声明不可改变。</p>
-<p><strong>所以int类型变量的引用是一个   int * const p  类型的指针</strong></p>
-<h2 id="汇编代码进行验证"><a href="#汇编代码进行验证" class="headerlink" title="汇编代码进行验证"></a>汇编代码进行验证</h2><pre><code>//void mySwap(int* pa, int* pb)
-//{
- //   int  t = *pa; 
-  //  *pa = *pb;
-   // *pb = t;
-//}
-void mySwap(int&amp; ra, int&amp; rb)
-{
-int t = ra;
-ra = rb;
-rb = t; 
-}   
-int main()
-{   
-int a = 3;
-int b = 5;
-   // mySwap(&amp;a, &amp;b);
-mySwap(a, b);
-return 0;
-}</code></pre><p>代码二：</p>
-<pre><code>void mySwap(int* pa, int* pb)
-{
-int  t = *pa; 
-*pa = *pb;
-*pb = t;
-}
-//void mySwap(int&amp; ra, int&amp; rb)
-//{
- //   int t = ra;
-  //  ra = rb;
-  //  rb = t; 
-//}   
-int main()
-{   
-int a = 3;
-int b = 5;
-mySwap(&amp;a, &amp;b);
-//mySwap(a, b);
-return 0;
-}</code></pre><p>我们使用两种方法来实现数据交换一组使用指针一组使用引用。</p>
-<p>我们在linux平台下把两个文件分别编译为汇编文件之后打开汇编文件。</p>
-<p><img src="https://img-blog.csdnimg.cn/20200213230142987.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="汇编代码分析"></p>
-<p><img src="https://img-blog.csdnimg.cn/20200213230149521.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQzNjQ4NzUx,size_16,color_FFFFFF,t_70" alt="汇编代码分析"></p>
-<p>我们可以看到两个文件在会汇编文件里面代码完全相同。从而也证明了引用的本质即指针。</p>
+printf(“.5”);   printf(“0.5”);   //意义相同
+printf(“5.”);  printf(“5.0”);    //意义相同</code></pre><h5 id="指数形式"><a href="#指数形式" class="headerlink" title="指数形式"></a>指数形式</h5><p>指数形式及就是科学计数形式：以10为底的幂数</p>
+<p>要求：</p>
+<p><strong>①：字母e或者E之前必须要有数字</strong></p>
+<p><strong>②：字母e或者E后面的指数必须为整数</strong></p>
+<p><strong>字母e或E的前后及数字之间不允许有空格</strong></p>
+<p><strong>默认是double类型占8个字节</strong></p>
+<p><strong>后缀为f  或F 表示float类型</strong></p>
+<p> <strong>后缀l或者L表示为long  double类型。</strong></p>
+<p> 例如：34.2f     .5E3    4.5e0   34.2f   2.5E3L</p>
+<h4 id="字符常量"><a href="#字符常量" class="headerlink" title="字符常量"></a>字符常量</h4><p>‘a’   ‘b’  ‘c’</p>
+<h4 id="字符串常量"><a href="#字符串常量" class="headerlink" title="字符串常量"></a>字符串常量</h4><p>例如”a”    “abcdefg”</p>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>最后我们强调一点：</p>
+<p><strong>常量和变量在内存所保存的位置是不一样的，在后续博客我们进行详细说明</strong></p>
 
             </div>
             <hr/>
@@ -590,7 +657,7 @@ return 0;
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="http://www.teachermin.com/2020/03/27/C++%E5%BC%95%E7%94%A8%E7%9A%84%E6%9C%AC%E8%B4%A8%EF%BC%8C%E5%A4%A7%E5%B0%8F%EF%BC%8C%E5%88%9D%E5%A7%8B%E5%8C%96%EF%BC%8C%20%E6%B1%87%E7%BC%96%E4%BB%A3%E7%A0%81%E8%BF%9B%E8%A1%8C%E9%AA%8C%E8%AF%81(4)/">http://www.teachermin.com/2020/03/27/C++%E5%BC%95%E7%94%A8%E7%9A%84%E6%9C%AC%E8%B4%A8%EF%BC%8C%E5%A4%A7%E5%B0%8F%EF%BC%8C%E5%88%9D%E5%A7%8B%E5%8C%96%EF%BC%8C%20%E6%B1%87%E7%BC%96%E4%BB%A3%E7%A0%81%E8%BF%9B%E8%A1%8C%E9%AA%8C%E8%AF%81(4)/</a>
+                    <a href="http://www.teachermin.com/2020/04/29/C%E5%B8%B8%E9%87%8F/">http://www.teachermin.com/2020/04/29/C%E5%B8%B8%E9%87%8F/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -628,8 +695,8 @@ return 0;
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/C-%E5%BC%95%E7%94%A8/">
-                                    <span class="chip bg-color">C++引用</span>
+                                <a href="/tags/DataType/">
+                                    <span class="chip bg-color">DataType</span>
                                 </a>
                             
                         </div>
@@ -795,47 +862,53 @@ return 0;
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="far fa-dot-circle"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2020/03/27/C++%E5%A4%9A%E6%80%81%E7%9A%84%E5%BC%95%E5%85%A5%E5%8F%8A%E7%AE%80%E5%8D%95%E7%90%86%E8%A7%A3(1)/">
+                <a href="/2020/04/29/C%E5%B8%B8%E9%87%8F/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/2.jpg" class="responsive-img" alt="C++多态的引入及简单理解(1)">
+                        <img src="/medias/featureimages/2.jpg" class="responsive-img" alt="C常量">
                         
-                        <span class="card-title">C++多态的引入及简单理解(1)</span>
+                        <span class="card-title">C常量</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            多态什么算是多态生活中的多态如果有几个相似而不完全相同的对象，有时人们要求在向它们发出同一个消息时，它们的反应各不相同，分别执行不同的操作。这种情况就是多态现象。
-例如，甲乙丙3个班都是高二年级，他们有基本相同的属性和行为，在同时听到上课铃
+                            常量常量的表现形式常量是程序中不可改变的量
+常量以字面量，或者宏的方式出现。
+ 常量主要用于赋值或参与计算,并且常量也是有类型的。
+字面量形式我们先简单来理解常量和变量
+#include &lt;stdio.h&gt;
+int main()
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2020-03-27
-                        </span>
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-04-29
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
                             <a href="/categories/C/" class="post-category">
-                                    C++
+                                    C
                                 </a>
                             
                             
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/C-%E5%A4%9A%E6%80%81/">
-                        <span class="chip bg-color">C++多态</span>
+                    <a href="/tags/DataType/">
+                        <span class="chip bg-color">DataType</span>
                     </a>
                     
                 </div>
@@ -849,31 +922,32 @@ return 0;
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2020/03/27/C++%E5%B8%B8%E5%BC%95%E7%94%A8%EF%BC%9A%E5%B8%B8%E5%BC%95%E7%94%A8%E7%9A%84%E7%89%B9%E6%80%A7%EF%BC%8C%E4%B8%B4%E6%97%B6%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%B8%B8%E5%BC%95%E7%94%A8%20%EF%BC%8C%E5%B8%B8%E5%BC%95%E7%94%A8%E7%9A%84%E6%9C%AC%E8%B4%A8%EF%BC%8CUse%20Const%20Whatever%20Possible(3)/">
+                <a href="/2020/04/28/C%E8%AF%AD%E8%A8%80%E6%95%B0%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/4.jpg" class="responsive-img" alt="C++常引用：常引用的特性，临时对象的常引用 ，常引用的本质，Use Const Whatever Possible(3)">
+                        <img src="/medias/featureimages/22.jpg" class="responsive-img" alt="C语言数基本数据类型">
                         
-                        <span class="card-title">C++常引用：常引用的特性，临时对象的常引用 ，常引用的本质，Use Const Whatever Possible(3)</span>
+                        <span class="card-title">C语言数基本数据类型</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            常引用const 的本意，即不可修改。所以，const 对象，只能声明为 const 引用，使其语义保持一致性。 non-const 对象，既可以声明为 const 引用，也可以声明为 no-const 引用。声明为 const 引用，则不
+                            数据类型数据类型，打个比方的话，就类似于部队中，前面我们己经给部队中人的起了名字，现在赋予这个权力和管辖范围，那就是军衔。或是通俗的讲，类型相当于模子，变量的定义，就相当于在内存中用模子框出的一块空间。
+数据类型说明我们先给出C语言中数据类
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2020-03-27
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-04-28
                             </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-bookmark fa-fw icon-category"></i>
                             
                             <a href="/categories/C/" class="post-category">
-                                    C++
+                                    C
                                 </a>
                             
                             
@@ -883,8 +957,8 @@ return 0;
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/C-%E5%BC%95%E7%94%A8/">
-                        <span class="chip bg-color">C++引用</span>
+                    <a href="/tags/DataType/">
+                        <span class="chip bg-color">DataType</span>
                     </a>
                     
                 </div>
